@@ -1,0 +1,39 @@
+[build]
+  publish = "."
+
+# Redirect deadrankings.com to phoenixmethodseo.com (301 permanent)
+[[redirects]]
+  from = "https://deadrankings.com/*"
+  to = "https://phoenixmethodseo.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.deadrankings.com/*"
+  to = "https://phoenixmethodseo.com/:splat"
+  status = 301
+  force = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
