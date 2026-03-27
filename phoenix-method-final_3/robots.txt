@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://phoenixmethodseo.com/sitemap.xml

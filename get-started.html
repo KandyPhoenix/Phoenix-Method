@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Started | Phoenix Method SEO</title>
+    <meta name="description" content="Start your SEO engagement with Phoenix Method. Choose your plan, provide your info, and we'll begin your initial audit.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="canonical" href="https://phoenixmethodseo.com/get-started.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-display: 'Cinzel', serif;
+            --font-accent: 'Rajdhani', sans-serif;
+            --font-body: 'Outfit', sans-serif;
+            --bg-deep: #07070D;
+            --bg-surface: #0E0E18;
+            --bg-card: #131320;
+            --bg-card-hover: #1A1A2E;
+            --fire-start: #FF4D00;
+            --fire-mid: #FF8C00;
+            --fire-end: #FFB800;
+            --text-primary: #F0EDE6;
+            --text-secondary: #A8A49C;
+            --text-muted: #6B6860;
+            --border: rgba(255,255,255,0.08);
+            --border-subtle: rgba(255,255,255,0.04);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-body); background: var(--bg-deep); color: var(--text-primary); min-height: 100vh; }
+
+        /* Nav */
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(7,7,13,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 16px 0; }
+        .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo img { height: 60px; }
+        .nav-back { font-family: var(--font-accent); font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fire-mid); text-decoration: none; transition: color 0.3s; }
+        .nav-back:hover { color: var(--fire-end); }
+
+        /* Page layout */
+        .page-content { padding: 140px 20px 80px; max-width: 780px; margin: 0 auto; }
+        .page-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(1.8rem, 4vw, 2.8rem); text-align: center; margin-bottom: 12px; }
+        .fire-text { background: linear-gradient(135deg, var(--fire-start), var(--fire-mid), var(--fire-end)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .page-subtitle { text-align: center; color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 60px; line-height: 1.7; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+        /* Step sections */
+        .step-section {
+            margin-bottom: 60px;
+        }
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+        .step-number {
+            font-family: var(--font-display);
+            font-weight: 900;
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, var(--fire-start), var(--fire-mid), var(--fire-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+        .step-info {
+            flex: 1;
+        }
+        .step-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        .step-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Divider between sections */
+        .step-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--fire-start), var(--fire-mid), var(--fire-end), transparent);
+            margin: 60px 0;
+            opacity: 0.3;
+        }
+
+        /* Plan cards */
+        .plan-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .plan-option {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 28px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .plan-option:hover { border-color: var(--fire-mid); background: var(--bg-card-hover); }
+        .plan-option.selected { border-color: var(--fire-start); background: var(--bg-card-hover); box-shadow: 0 0 24px rgba(255, 77, 0, 0.15); }
+        .plan-option input { display: none; }
+        .plan-name {
+            font-family: var(--font-accent);
+            font-weight: 600;
+            font-size: 1.05rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+        .plan-price {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--fire-mid);
+        }
+        .plan-type {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .plan-option.popular { position: relative; }
+        .plan-option.popular::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -11px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--fire-start), var(--fire-mid));
+            color: #fff;
+            font-family: var(--font-accent);
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            padding: 4px 14px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+        .inferno-wrap { grid-column: 1 / -1; display: flex; justify-content: center; }
+        .inferno-wrap .plan-option { width: 50%; }
+
+        /* Form card */
+        .intake-form {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 40px;
+        }
+        .form-section-label {
+            font-family: var(--font-accent);
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--fire-mid);
+            margin-bottom: 20px;
+        }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group.full-width { grid-column: 1 / -1; }
+        .form-group label {
+            display: block;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-weight: 400;
+        }
+        .form-group label .required { color: var(--fire-start); }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 14px 18px;
+            background: var(--bg-deep);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--fire-mid);
+        }
+        .form-group textarea { min-height: 120px; resize: vertical; }
+        .form-group select option { background: var(--bg-deep); color: var(--text-primary); }
+        .form-group input::placeholder, .form-group textarea::placeholder { color: var(--text-muted); }
+
+        .optional-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 32px 0;
+        }
+        .optional-label {
+            font-family: var(--font-accent);
+            font-weight: 500;
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .optional-tagline {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+            font-style: italic;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            margin-top: 32px;
+            font-family: var(--font-accent);
+            font-weight: 700;
+            font-size: 1.05rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #fff;
+            background: linear-gradient(135deg, var(--fire-start), var(--fire-mid));
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255, 77, 0, 0.3); }
+        .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+        .form-note { text-align: center; color: var(--text-muted); font-size: 0.8rem; margin-top: 20px; line-height: 1.6; }
+        .error-msg { color: var(--fire-start); font-size: 0.85rem; margin-top: 12px; display: none; text-align: center; font-weight: 500; }
+
+        @media (max-width: 600px) {
+            .plan-selector { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .intake-form { padding: 28px 20px; }
+            .inferno-wrap .plan-option { width: 100%; }
+            .step-header { flex-direction: column; text-align: center; gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="https://phoenixmethodseo.com/" class="nav-logo">
+                <img src="https://phoenixmethodseo.com/assets/phoenix-full-logo.png" alt="Phoenix Method">
+            </a>
+            <a href="https://phoenixmethodseo.com/" class="nav-back">&larr; Back to Site</a>
+        </div>
+    </nav>
+
+    <div class="page-content">
+        <h1 class="page-title">Let's <span class="fire-text">Get Started</span></h1>
+        <p class="page-subtitle">Two steps between you and search domination. Choose your weapon, tell us where to aim, and we'll handle the rest.</p>
+
+        <!-- ==================== STEP 1: CHOOSE YOUR PLAN ==================== -->
+        <div class="step-section">
+            <div class="step-header">
+                <div class="step-number">01</div>
+                <div class="step-info">
+                    <div class="step-title">Choose Your Plan</div>
+                    <div class="step-desc">Select the engagement level that fits your goals. Every plan includes your initial SEO audit.</div>
+                </div>
+            </div>
+
+            <div class="plan-selector" id="planSelector">
+                <div class="plan-option" data-plan="seo-setup" data-url="https://square.link/u/oytenSfM" onclick="selectPlan(this)">
+                    <input type="radio" name="plan" value="seo-setup">
+                    <div class="plan-name">SEO Foundation Setup</div>
+                    <div class="plan-price">$1,200</div>
+                    <div class="plan-type">One-Time</div>
+                </div>
+                <div class="plan-option" data-plan="local-seo" data-url="https://square.link/u/Pxl2Rz9x" onclick="selectPlan(this)">
+                    <input type="radio" name="plan" value="local-seo">
+                    <div class="plan-name">Local SEO Setup</div>
+                    <div class="plan-price">$800</div>
+                    <div class="plan-type">One-Time</div>
+                </div>
+                <div class="plan-option" data-plan="spark" data-url="https://square.link/u/68zS0Q9E" onclick="selectPlan(this)">
+                    <input type="radio" name="plan" value="spark">
+                    <div class="plan-name">Spark</div>
+                    <div class="plan-price">$500/mo</div>
+                    <div class="plan-type">Monthly Retainer</div>
+                </div>
+                <div class="plan-option popular" data-plan="blaze" data-url="https://square.link/u/1RKO0v3h" onclick="selectPlan(this)">
+                    <input type="radio" name="plan" value="blaze">
+                    <div class="plan-name">Blaze</div>
+                    <div class="plan-price">$900/mo</div>
+                    <div class="plan-type">Monthly Retainer</div>
+                </div>
+                <div class="inferno-wrap">
+                    <div class="plan-option" data-plan="inferno" data-url="https://square.link/u/FnguDG9R" onclick="selectPlan(this)">
+                        <input type="radio" name="plan" value="inferno">
+                        <div class="plan-name">Inferno</div>
+                        <div class="plan-price">$1,500/mo</div>
+                        <div class="plan-type">Monthly Retainer</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== DIVIDER ==================== -->
+        <div class="step-divider"></div>
+
+        <!-- ==================== STEP 2: TELL US ABOUT YOUR BUSINESS ==================== -->
+        <div class="step-section">
+            <div class="step-header">
+                <div class="step-number">02</div>
+                <div class="step-info">
+                    <div class="step-title">Point Us at Your Target</div>
+                    <div class="step-desc">Give us your URL and we'll start the recon. Everything else is optional — but the more intel you share, the faster we strike.</div>
+                </div>
+            </div>
+
+            <div class="intake-form" id="intakeForm">
+
+                <p class="form-section-label">Required — Where do we send the audit?</p>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Your Name <span class="required">*</span></label>
+                        <input type="text" id="clientName" name="name" required placeholder="Jane Smith">
+                    </div>
+                    <div class="form-group">
+                        <label>Email <span class="required">*</span></label>
+                        <input type="email" id="clientEmail" name="email" required placeholder="jane@business.com">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Phone <span class="required">*</span></label>
+                        <input type="tel" id="clientPhone" name="phone" required placeholder="(555) 123-4567">
+                    </div>
+                    <div class="form-group">
+                        <label>Website URL <span class="required">*</span></label>
+                        <input type="url" id="clientUrl" name="website" required placeholder="https://yourbusiness.com">
+                    </div>
+                </div>
+
+                <div class="optional-divider"></div>
+
+                <p class="optional-label">Optional</p>
+                <p class="optional-tagline">The more we know before the first call, the more dangerous your audit becomes.</p>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Business Name</label>
+                        <input type="text" name="business_name" placeholder="Your Business LLC">
+                    </div>
+                    <div class="form-group">
+                        <label>Industry</label>
+                        <select name="industry">
+                            <option value="">Select your industry...</option>
+                            <option value="healthcare">Healthcare / Medical</option>
+                            <option value="dental">Dental Practice</option>
+                            <option value="mental-health">Mental Health / Therapy</option>
+                            <option value="rehab">Rehab / Addiction Treatment</option>
+                            <option value="oil-gas">Oil & Gas</option>
+                            <option value="agriculture">Agriculture / Farming</option>
+                            <option value="creative">Creative / Artist / Photographer</option>
+                            <option value="goods">Goods / Product Supplier</option>
+                            <option value="legal">Legal</option>
+                            <option value="real-estate">Real Estate</option>
+                            <option value="restaurant">Restaurant / Food Service</option>
+                            <option value="ecommerce">E-Commerce</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label>Top Competitors (websites you're competing against)</label>
+                        <input type="text" name="competitors" placeholder="competitor1.com, competitor2.com, competitor3.com">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label>Current Marketing Efforts</label>
+                        <select name="current_marketing">
+                            <option value="">What are you doing now?</option>
+                            <option value="nothing">Nothing — starting from scratch</option>
+                            <option value="diy-seo">DIY SEO (doing it myself)</option>
+                            <option value="other-agency">Working with another agency</option>
+                            <option value="social-only">Social media only</option>
+                            <option value="paid-ads">Paid ads (Google, Facebook, etc.)</option>
+                            <option value="mix">A mix of things</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group full-width">
+                        <label>Anything else you'd like us to know?</label>
+                        <textarea name="other_info" placeholder="Goals, pain points, specific issues, timeline, anything at all..."></textarea>
+                    </div>
+                </div>
+
+                <p class="error-msg" id="errorMsg"></p>
+
+                <button type="button" class="submit-btn" id="submitBtn" onclick="handleSubmit()">
+                    Continue to Secure Payment →
+                </button>
+
+                <p class="form-note">
+                    Your info is submitted securely to Phoenix Method.<br>
+                    You'll be redirected to Square for secure payment processing.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    var selectedPlanUrl = null;
+    var selectedPlanName = null;
+
+    var urlParams = new URLSearchParams(window.location.search);
+    var preselect = urlParams.get('plan');
+    if (preselect) {
+        var el = document.querySelector('[data-plan="' + preselect + '"]');
+        if (el) selectPlan(el);
+    }
+
+    function selectPlan(el) {
+        document.querySelectorAll('.plan-option').forEach(function(p) { p.classList.remove('selected'); });
+        el.classList.add('selected');
+        el.querySelector('input').checked = true;
+        selectedPlanUrl = el.dataset.url;
+        selectedPlanName = el.querySelector('.plan-name').textContent;
+    }
+
+    function handleSubmit() {
+        var errorMsg = document.getElementById('errorMsg');
+        errorMsg.style.display = 'none';
+
+        if (!selectedPlanUrl) {
+            errorMsg.textContent = 'Please select a plan in Step 1 above.';
+            errorMsg.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
+
+        var name = document.getElementById('clientName').value.trim();
+        var email = document.getElementById('clientEmail').value.trim();
+        var phone = document.getElementById('clientPhone').value.trim();
+        var url = document.getElementById('clientUrl').value.trim();
+
+        if (!name || !email || !phone || !url) {
+            errorMsg.textContent = 'Please fill in all required fields (name, email, phone, website URL).';
+            errorMsg.style.display = 'block';
+            return;
+        }
+
+        var btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.textContent = 'Submitting...';
+
+        var formData = new FormData();
+        formData.append('form-name', 'client-intake');
+        formData.append('plan', selectedPlanName);
+        var fields = document.querySelectorAll('#intakeForm input[name], #intakeForm select[name], #intakeForm textarea[name]');
+        fields.forEach(function(field) {
+            if (field.name !== 'form-name' && field.type !== 'radio') {
+                formData.append(field.name, field.value);
+            }
+        });
+
+        fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(formData).toString()
+        })
+        .then(function() { window.location.href = selectedPlanUrl; })
+        .catch(function() { window.location.href = selectedPlanUrl; });
+    }
+    </script>
+</body>
+</html>

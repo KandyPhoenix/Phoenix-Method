@@ -655,13 +655,13 @@
     .about::after {
         content: '';
         position: absolute;
-        bottom: -170px;
-        right: calc((100% - var(--container-max)) / 2 + 250px);
-        width: 600px;
-        height: 600px;
-        background: url('assets/phoenix-bird-transparent.png') no-repeat bottom center;
+        bottom: -250px;
+        right: calc((100% - var(--container-max)) / 2 + 50px);
+        width: 650px;
+        height: 650px;
+        background: url('https://phoenixmethodseo.com/assets/phoenix-bird-transparent.png') no-repeat bottom center;
         background-size: contain;
-        opacity: 0.07;
+        opacity: 0.045;
         pointer-events: none;
     }
     .about-layout {
@@ -827,9 +827,10 @@
     .footer { padding: 60px 0 30px; border-top: 1px solid var(--border-subtle); }
     .footer-inner {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1.2fr 1fr 1fr 1fr;
         gap: 40px;
         margin-bottom: 40px;
+        align-items: start;
     }
     .footer-brand { display: flex; flex-direction: column; gap: 12px; }
     
@@ -842,7 +843,7 @@
         color: var(--text-muted);
     }
     .footer-tagline { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
-    .footer-links { display: flex; gap: 60px; justify-content: flex-end; }
+    .footer-links { display: contents; }
     .footer-col { display: flex; flex-direction: column; gap: 10px; }
     .footer-col h4 {
         font-family: var(--font-accent);
@@ -1211,7 +1212,7 @@
     <nav class="nav" id="nav">
         <div class="nav-inner">
             <a href="https://phoenixmethodseo.com/" class="nav-logo" aria-label="Phoenix Home">
-                <img src="assets/phoenix-full-logo.png" alt="Phoenix Method - Search. Rise. Dominate." class="nav-logo-img">
+                <img src="https://phoenixmethodseo.com/assets/phoenix-full-logo.png" alt="Phoenix Method - Search. Rise. Dominate." class="nav-logo-img">
             </a>
             <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
                 <span></span><span></span><span></span>
@@ -1440,12 +1441,14 @@
                     <h3>SEO Foundation Setup</h3>
                     <div class="setup-price">$1,200</div>
                     <p>Complete technical SEO audit and fixes, on-page optimization for up to 10 pages, GA4 and Search Console setup, sitemap, robots.txt, baseline schema markup, and performance baseline report.</p>
+                    <a href="https://phoenixmethodseo.com/get-started.html?plan=seo-setup" class="btn btn-ghost btn-sm" style="margin-top: 16px;">Get Started</a>
                 </div>
                 <div class="setup-card">
                     <span class="setup-label">One-Time</span>
                     <h3>Local SEO Setup</h3>
                     <div class="setup-price">$800</div>
                     <p>Google Business Profile optimization, NAP consistency audit, 10 local citations, local schema markup, 3 GBP posts, and review generation templates.</p>
+                    <a href="https://phoenixmethodseo.com/get-started.html?plan=local-seo" class="btn btn-ghost btn-sm" style="margin-top: 16px;">Get Started</a>
                 </div>
             </div>
 
@@ -1465,7 +1468,7 @@
                         <li>Keyword Rank Tracking (Wincher)</li>
                         <li>Monthly Performance Report</li>
                     </ul>
-                    <a href="#contact" class="btn btn-ghost btn-sm">Get Started</a>
+                    <a href="https://phoenixmethodseo.com/get-started.html?plan=spark" class="btn btn-ghost btn-sm">Get Started</a>
                 </div>
                 <div class="price-card featured">
                     <div class="price-badge">Most Popular</div>
@@ -1478,7 +1481,7 @@
                         <li>Competitor Surveillance & Analysis</li>
                         <li>Link Building & Backlink Domination</li>
                     </ul>
-                    <a href="#contact" class="btn btn-primary btn-sm">Get Started</a>
+                    <a href="https://phoenixmethodseo.com/get-started.html?plan=blaze" class="btn btn-primary btn-sm">Get Started</a>
                 </div>
                 <div class="price-card">
                     <div class="price-tier">Inferno</div>
@@ -1491,7 +1494,7 @@
                         <li>Citation Blitz & Local Authority Domination</li>
                         <li>AI Overview Conquest</li>
                     </ul>
-                    <a href="#contact" class="btn btn-ghost btn-sm">Get Started</a>
+                    <a href="https://phoenixmethodseo.com/get-started.html?plan=inferno" class="btn btn-ghost btn-sm">Get Started</a>
                 </div>
             </div>
         </div>
@@ -1565,7 +1568,7 @@
             </div>
             <!-- ★★★ BLOG ARTICLE TEASERS ★★★ -->
             <div class="insights-grid">
-                <a href="google-core-update-march-2026-seo-guide.html" class="insight-card-link">
+                <a href="https://phoenixmethodseo.com/google-core-update-march-2026-seo-guide.html" class="insight-card-link">
                 <article class="insight-card">
                     <span class="insight-category">Algorithm Updates</span>
                     <h3>Google's March 2026 Core Update: What Changed and What to Do</h3>
@@ -1634,7 +1637,6 @@
         <div class="container">
             <div class="footer-inner">
                 <div class="footer-brand">
-                    <img src="assets/phoenix-footer-logo.png" alt="Phoenix Method SEO Consulting" class="footer-logo-img" style="height: 50px; margin-bottom: 12px;">
                     <p class="footer-tagline">Data-driven SEO & SEM consulting.<br>Your rankings. Our fire.</p>
                 </div>
                 <div class="footer-links">
@@ -1653,7 +1655,12 @@
                         <a href="#pricing">Pricing</a>
                         <a href="#faq">FAQ</a>
                         <a href="#insights">Blog</a>
-                        <a href="#contact">Contact</a>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Contact</h4>
+                        <a href="mailto:hello@phoenixmethodseo.com">hello@phoenixmethodseo.com</a>
+                        <a href="https://phoenixmethodseo.com">phoenixmethodseo.com</a>
+                        <a href="#contact">Free SEO Audit</a>
                     </div>
                 </div>
             </div>
