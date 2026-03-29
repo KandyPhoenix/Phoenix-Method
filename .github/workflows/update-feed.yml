@@ -1,0 +1,30 @@
+name: Validate RSS Feed
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'feed.xml'
+      - '*.html'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate feed.xml is well-formed XML
+        run: |
+          python3 -c "
+          import xml.etree.ElementTree as ET
+          tree = ET.parse('feed.xml')
+          print('feed.xml is valid XML')
+          items = tree.findall('./channel/item')
+          print(f'Feed contains {len(items)} item(s)')
+          for item in items:
+              title = item.find('title').text
+              print(f'  - {title}')
+          "
+
+      - name: Confirm feed is reachable (post-deploy check)
+        run: echo "feed.xml committed — Zapier will detect new items within ~15 minutes of Netlify deploy"

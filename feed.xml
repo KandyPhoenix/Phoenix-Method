@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Phoenix Method — SEO Blog</title>
+    <link>https://phoenixmethodseo.com</link>
+    <description>SEO strategies, algorithm updates, and digital marketing insights from Phoenix Method.</description>
+    <language>en-us</language>
+    <copyright>Phoenix Method</copyright>
+    <atom:link href="https://phoenixmethodseo.com/feed.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>AI Overviews and Your Rankings: How to Optimize for Google's New Search</title>
+      <link>https://phoenixmethodseo.com/ai-overviews-seo-optimization-guide.html</link>
+      <guid>https://phoenixmethodseo.com/ai-overviews-seo-optimization-guide.html</guid>
+      <pubDate>Sun, 28 Mar 2026 12:00:00 +0000</pubDate>
+      <description>Google's AI Overviews are reshaping search. Learn exactly how to structure content, earn citations, and protect your rankings as AI-generated summaries dominate the top of the SERP.</description>
+    </item>
+
+    <item>
+      <title>Google's March 2026 Core Update: What Changed and What to Do</title>
+      <link>https://phoenixmethodseo.com/google-core-update-march-2026-seo-guide.html</link>
+      <guid>https://phoenixmethodseo.com/google-core-update-march-2026-seo-guide.html</guid>
+      <pubDate>Thu, 26 Mar 2026 12:00:00 +0000</pubDate>
+      <description>The March 2026 Core Update hit 55% of sites. E-E-A-T tightened for healthcare. AI content under scrutiny. Here's what changed and your 6-step response plan from Phoenix Method.</description>
+    </item>
+
+  </channel>
+</rss>
