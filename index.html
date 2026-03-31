@@ -836,15 +836,41 @@
         font-weight: 700;
         font-size: clamp(1.1rem, 2.5vw, 1.5rem);
         color: var(--text-primary);
-        margin-bottom: 10px;
+        margin-bottom: 20px;
     }
-    .package-benefit-text span {
-        font-size: 1rem;
+    .benefit-stats {
+        display: flex;
+        gap: 0;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 18px;
+    }
+    .benefit-stat {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        padding: 0 36px;
+    }
+    .benefit-stat:first-child { border-right: 1px solid var(--border); }
+    .benefit-pct {
+        font-family: var(--font-display);
+        font-weight: 900;
+        font-size: clamp(1.6rem, 3vw, 2.2rem);
+        color: var(--fire-mid);
+        line-height: 1;
+    }
+    .benefit-detail {
+        font-size: 0.88rem;
         color: var(--text-secondary);
-        line-height: 1.6;
+        text-align: center;
+        max-width: 180px;
+        line-height: 1.5;
+    }
+    .benefit-tagline {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
         display: block;
-        max-width: 640px;
-        margin: 0 auto;
     }
 
     /* ========== À LA CARTE SECTION ========== */
@@ -1826,7 +1852,17 @@
                 <div class="package-benefit-icon">&#9670;</div>
                 <div class="package-benefit-text">
                     <strong>Package Client Advantage</strong>
-                    <span>Active package clients receive a <strong style="color:var(--fire-mid)">25% reduced hourly rate</strong> on any work outside their plan inclusions, plus <strong style="color:var(--fire-mid)">25% off all à la carte services</strong> below. You're a partner — you get partner pricing.</span>
+                    <div class="benefit-stats">
+                        <div class="benefit-stat">
+                            <span class="benefit-pct">25% off</span>
+                            <span class="benefit-detail">your hourly rate on any work outside your plan inclusions</span>
+                        </div>
+                        <div class="benefit-stat">
+                            <span class="benefit-pct">25% off</span>
+                            <span class="benefit-detail">all à la carte services</span>
+                        </div>
+                    </div>
+                    <span class="benefit-tagline">You're a partner — you get partner pricing.</span>
                 </div>
             </div>
 
