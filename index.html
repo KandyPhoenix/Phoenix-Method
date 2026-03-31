@@ -822,29 +822,30 @@
 
     /* ========== PACKAGE DISCOUNT BADGE ========== */
     .package-benefit {
-        background: linear-gradient(135deg, rgba(255,77,0,0.08) 0%, rgba(255,140,0,0.05) 100%);
-        border: 1px solid rgba(255,140,0,0.25);
-        border-radius: 10px;
-        padding: 20px 28px;
-        margin-top: 32px;
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        flex-wrap: wrap;
+        background: linear-gradient(135deg, rgba(255,77,0,0.12) 0%, rgba(255,140,0,0.07) 100%);
+        border: 1px solid var(--fire-mid);
+        border-radius: 12px;
+        padding: 32px 40px;
+        margin: 48px 0;
+        text-align: center;
     }
-    .package-benefit-icon { font-size: 1.4rem; flex-shrink: 0; }
-    .package-benefit-text { flex: 1; min-width: 200px; }
+    .package-benefit-icon { font-size: 1.6rem; color: var(--fire-mid); margin-bottom: 12px; }
     .package-benefit-text strong {
         display: block;
-        font-family: var(--font-accent);
-        font-weight: 600;
-        font-size: 0.85rem;
-        letter-spacing: 0.08em;
-        color: var(--fire-mid);
-        text-transform: uppercase;
-        margin-bottom: 4px;
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+        color: var(--text-primary);
+        margin-bottom: 10px;
     }
-    .package-benefit-text span { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; }
+    .package-benefit-text span {
+        font-size: 1rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+        display: block;
+        max-width: 640px;
+        margin: 0 auto;
+    }
 
     /* ========== À LA CARTE SECTION ========== */
     .alacarte { margin-top: 72px; }
@@ -967,21 +968,21 @@
         margin-bottom: 6px;
     }
     .bundle-per-post {
-        font-size: 0.78rem;
-        color: var(--text-muted);
+        font-size: 0.85rem;
+        color: var(--text-secondary);
         margin-bottom: 16px;
     }
     .bundle-validity {
         font-family: var(--font-accent);
-        font-size: 0.75rem;
-        letter-spacing: 0.08em;
-        color: var(--text-muted);
+        font-size: 0.8rem;
+        letter-spacing: 0.06em;
+        color: var(--fire-mid);
         text-transform: uppercase;
-        border-top: 1px solid var(--border-subtle);
+        border-top: 1px solid var(--border);
         padding-top: 14px;
         margin-bottom: 14px;
     }
-    .bundle-desc { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; flex: 1; margin-bottom: 20px; }
+    .bundle-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; flex: 1; margin-bottom: 20px; }
     .bundle-types {
         display: flex;
         gap: 8px;
@@ -989,12 +990,13 @@
         margin-bottom: 20px;
     }
     .bundle-tag {
-        font-size: 0.72rem;
+        font-size: 0.75rem;
         font-family: var(--font-accent);
-        color: var(--text-muted);
-        border: 1px solid var(--border-subtle);
+        font-weight: 500;
+        color: var(--text-secondary);
+        border: 1px solid var(--border);
         border-radius: 4px;
-        padding: 3px 10px;
+        padding: 4px 12px;
     }
 
     /* ========== CONTACT ========== */
@@ -1819,6 +1821,15 @@
                 </div>
             </div>
 
+            <!-- Package Benefit Callout -->
+            <div class="package-benefit">
+                <div class="package-benefit-icon">&#9670;</div>
+                <div class="package-benefit-text">
+                    <strong>Package Client Advantage</strong>
+                    <span>Active package clients receive a <strong style="color:var(--fire-mid)">25% reduced hourly rate</strong> on any work outside their plan inclusions, plus <strong style="color:var(--fire-mid)">25% off all à la carte services</strong> below. You're a partner — you get partner pricing.</span>
+                </div>
+            </div>
+
             <!-- ========== POST BUNDLE PACKS ========== -->
             <div class="post-bundles">
                 <div class="post-bundles-header">
@@ -1870,15 +1881,6 @@
                         <div class="bundle-desc">A full year of content at the lowest per-post rate available. Ideal for businesses that want to stay dominant on Google and social without thinking about it month to month.</div>
                         <a href="https://phoenixmethodseo.com/get-started.html?plan=authority-pack" class="btn btn-ghost btn-sm">Get Started</a>
                     </div>
-                </div>
-            </div>
-
-            <!-- Package Benefit Callout -->
-            <div class="package-benefit">
-                <div class="package-benefit-icon">&#9670;</div>
-                <div class="package-benefit-text">
-                    <strong>Package Client Advantage</strong>
-                    <span>Active package clients receive a <strong style="color:var(--fire-mid)">25% reduced hourly rate</strong> on any work outside their plan inclusions, plus <strong style="color:var(--fire-mid)">25% off all à la carte services</strong> below. You're a partner — you get partner pricing.</span>
                 </div>
             </div>
 
