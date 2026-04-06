@@ -35,7 +35,7 @@
         /* Nav */
         .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(7,7,13,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 16px 0; }
         .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); display: flex; align-items: center; justify-content: space-between; }
-        .nav-logo img { height: 60px; }
+        .nav-logo img { height: 100px; width: auto; object-fit: contain; }
         .nav-back { font-family: var(--font-accent); font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fire-mid); text-decoration: none; transition: color 0.3s; }
         .nav-back:hover { color: var(--fire-end); }
 
@@ -92,6 +92,7 @@
 
         /* Plan cards */
         .plan-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .plan-selector-monthly { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 16px; }
         .plan-option {
             background: var(--bg-card);
             border: 2px solid var(--border);
@@ -124,6 +125,29 @@
             color: var(--text-muted);
             margin-top: 4px;
         }
+        .plan-features {
+            text-align: left;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+        }
+        .plan-features li {
+            list-style: none;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            padding: 3px 0;
+            line-height: 1.5;
+        }
+        .plan-features li::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: var(--fire-mid);
+            border-radius: 50%;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
         .plan-option.popular { position: relative; }
         .plan-option.popular::before {
             content: 'MOST POPULAR';
@@ -141,8 +165,56 @@
             border-radius: 20px;
             white-space: nowrap;
         }
-        .inferno-wrap { grid-column: 1 / -1; display: flex; justify-content: center; }
-        .inferno-wrap .plan-option { width: 50%; }
+        .plan-label {
+            font-family: var(--font-accent);
+            font-weight: 600;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            margin-top: 24px;
+        }
+        .next-steps {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 36px 40px;
+            margin-top: 48px;
+        }
+        .next-steps h3 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+        }
+        .next-step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .next-step-num {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--fire-start), var(--fire-mid));
+            color: #fff;
+            font-family: var(--font-accent);
+            font-weight: 700;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .next-step-text {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .next-step-text strong { color: var(--text-primary); }
 
         /* Form card */
         .intake-form {
@@ -233,11 +305,15 @@
         .form-note { text-align: center; color: var(--text-muted); font-size: 0.8rem; margin-top: 20px; line-height: 1.6; }
         .error-msg { color: var(--fire-start); font-size: 0.85rem; margin-top: 12px; display: none; text-align: center; font-weight: 500; }
 
+        @media (max-width: 768px) {
+            .plan-selector-monthly { grid-template-columns: 1fr; }
+        }
         @media (max-width: 600px) {
             .plan-selector { grid-template-columns: 1fr; }
+            .plan-selector-monthly { grid-template-columns: 1fr; }
             .form-row { grid-template-columns: 1fr; }
             .intake-form { padding: 28px 20px; }
-            .inferno-wrap .plan-option { width: 100%; }
+            .next-steps { padding: 28px 20px; }
             .step-header { flex-direction: column; text-align: center; gap: 12px; }
         }
     </style>
@@ -275,38 +351,75 @@
                 </div>
             </div>
 
+            <p class="plan-label">One-Time Setup</p>
             <div class="plan-selector" id="planSelector">
                 <div class="plan-option" data-plan="seo-setup" data-url="https://square.link/u/oytenSfM" onclick="selectPlan(this)">
                     <input type="radio" name="plan" value="seo-setup">
                     <div class="plan-name">SEO Foundation Setup</div>
                     <div class="plan-price">$1,200</div>
                     <div class="plan-type">One-Time</div>
+                    <ul class="plan-features">
+                        <li>Complete technical SEO audit and fixes</li>
+                        <li>On-page optimization for up to 10 pages</li>
+                        <li>GA4 and Search Console setup</li>
+                        <li>Sitemap, robots.txt, baseline schema markup</li>
+                        <li>Performance baseline report</li>
+                    </ul>
                 </div>
                 <div class="plan-option" data-plan="local-seo" data-url="https://square.link/u/Pxl2Rz9x" onclick="selectPlan(this)">
                     <input type="radio" name="plan" value="local-seo">
                     <div class="plan-name">Local SEO Setup</div>
                     <div class="plan-price">$800</div>
                     <div class="plan-type">One-Time</div>
+                    <ul class="plan-features">
+                        <li>Google Business Profile optimization</li>
+                        <li>NAP consistency audit</li>
+                        <li>10 local citations</li>
+                        <li>Local schema markup</li>
+                        <li>3 GBP posts + review generation templates</li>
+                    </ul>
                 </div>
+            </div>
+
+            <p class="plan-label">Monthly Retainers</p>
+            <div class="plan-selector-monthly">
                 <div class="plan-option" data-plan="spark" data-url="https://square.link/u/68zS0Q9E" onclick="selectPlan(this)">
                     <input type="radio" name="plan" value="spark">
                     <div class="plan-name">Spark</div>
                     <div class="plan-price">$500/mo</div>
-                    <div class="plan-type">Monthly Retainer</div>
+                    <div class="plan-type">6 Hours / Month</div>
+                    <ul class="plan-features">
+                        <li>Monthly technical SEO audit</li>
+                        <li>Keyword rank tracking</li>
+                        <li>Weekly Google Business Profile check</li>
+                        <li>Monthly performance report</li>
+                        <li>2 hours content & site work</li>
+                    </ul>
                 </div>
                 <div class="plan-option popular" data-plan="blaze" data-url="https://square.link/u/1RKO0v3h" onclick="selectPlan(this)">
                     <input type="radio" name="plan" value="blaze">
                     <div class="plan-name">Blaze</div>
                     <div class="plan-price">$900/mo</div>
-                    <div class="plan-type">Monthly Retainer</div>
+                    <div class="plan-type">12 Hours / Month</div>
+                    <ul class="plan-features">
+                        <li>Everything in Spark</li>
+                        <li>8 hours content & site work</li>
+                        <li>Competitor surveillance & analysis</li>
+                        <li>Client portal dashboard</li>
+                    </ul>
                 </div>
-                <div class="inferno-wrap">
-                    <div class="plan-option" data-plan="inferno" data-url="https://square.link/u/FnguDG9R" onclick="selectPlan(this)">
-                        <input type="radio" name="plan" value="inferno">
-                        <div class="plan-name">Inferno</div>
-                        <div class="plan-price">$1,500/mo</div>
-                        <div class="plan-type">Monthly Retainer</div>
-                    </div>
+                <div class="plan-option" data-plan="inferno" data-url="https://square.link/u/FnguDG9R" onclick="selectPlan(this)">
+                    <input type="radio" name="plan" value="inferno">
+                    <div class="plan-name">Inferno</div>
+                    <div class="plan-price">$1,500/mo</div>
+                    <div class="plan-type">20 Hours / Month</div>
+                    <ul class="plan-features">
+                        <li>Everything in Blaze</li>
+                        <li>16 hours content & site work</li>
+                        <li>Advanced schema & rich result domination</li>
+                        <li>Priority support & turnaround</li>
+                        <li>AI Overview conquest</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -415,6 +528,23 @@
                     Your info is submitted securely to Phoenix Method.<br>
                     You'll be redirected to Square for secure payment processing.
                 </p>
+            </div>
+        </div>
+
+        <!-- ==================== WHAT HAPPENS NEXT ==================== -->
+        <div class="next-steps">
+            <h3>What Happens After You Submit</h3>
+            <div class="next-step-item">
+                <div class="next-step-num">1</div>
+                <div class="next-step-text"><strong>Secure payment via Square.</strong> You'll be redirected to complete payment. All transactions are encrypted and processed by Square.</div>
+            </div>
+            <div class="next-step-item">
+                <div class="next-step-num">2</div>
+                <div class="next-step-text"><strong>Your audit begins within 24 hours.</strong> We start analyzing your site immediately. No waiting weeks to get started.</div>
+            </div>
+            <div class="next-step-item">
+                <div class="next-step-num">3</div>
+                <div class="next-step-text"><strong>Portal + first report within 7 days.</strong> You'll get access to your personalized dashboard with your full SEO audit, rank tracking, and action plan.</div>
             </div>
         </div>
     </div>
