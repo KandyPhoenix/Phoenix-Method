@@ -785,6 +785,246 @@
     .price-features li:last-child { border-bottom: none; }
     .price-features li::before { content: '→'; position: absolute; left: 0; color: var(--fire-mid); font-weight: 600; }
 
+    /* ========== FEATURE EXPANDABLE DROPDOWNS ========== */
+    .feature-detail { margin: 0; }
+    .feature-detail > summary {
+        list-style: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        user-select: none;
+        line-height: 1.4;
+    }
+    .feature-detail > summary::-webkit-details-marker { display: none; }
+    .feature-detail > summary::after {
+        content: '›';
+        font-size: 1.3rem;
+        color: var(--fire-mid);
+        transition: transform 0.25s ease;
+        flex-shrink: 0;
+        line-height: 1;
+        font-weight: 700;
+    }
+    .feature-detail[open] > summary::after { transform: rotate(90deg); }
+    .feature-detail > summary:hover { color: var(--text-primary); }
+    .feature-explain {
+        font-size: 0.82rem;
+        color: var(--text-muted);
+        line-height: 1.65;
+        padding: 8px 4px 2px 0;
+        margin-top: 6px;
+        border-top: 1px solid var(--border-subtle);
+    }
+
+    /* ========== PACKAGE DISCOUNT BADGE ========== */
+    .package-benefit {
+        background: linear-gradient(135deg, rgba(255,77,0,0.12) 0%, rgba(255,140,0,0.07) 100%);
+        border: 1px solid var(--fire-mid);
+        border-radius: 12px;
+        padding: 32px 40px;
+        margin: 48px 0;
+        text-align: center;
+    }
+    .package-benefit-icon { margin-bottom: 16px; }
+    .package-benefit-text strong {
+        display: block;
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+        color: var(--text-primary);
+        margin-bottom: 20px;
+    }
+    .benefit-stats {
+        display: flex;
+        gap: 0;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 18px;
+    }
+    .benefit-stat {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        padding: 0 36px;
+    }
+    .benefit-stat:first-child { border-right: 1px solid var(--border); }
+    .benefit-pct {
+        font-family: var(--font-display);
+        font-weight: 900;
+        font-size: clamp(1.6rem, 3vw, 2.2rem);
+        color: var(--fire-mid);
+        line-height: 1;
+    }
+    .benefit-detail {
+        font-size: 0.88rem;
+        color: var(--text-secondary);
+        text-align: center;
+        max-width: 180px;
+        line-height: 1.5;
+    }
+    .benefit-tagline {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        display: block;
+    }
+
+    /* ========== À LA CARTE SECTION ========== */
+    .alacarte { margin-top: 72px; }
+    .alacarte-header { text-align: center; margin-bottom: 36px; }
+    .alacarte-header h3 {
+        font-family: var(--font-display);
+        font-size: clamp(1.5rem, 3vw, 2.2rem);
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+    .alacarte-header p { color: var(--text-secondary); font-size: 0.95rem; max-width: 560px; margin: 0 auto; }
+    .alacarte-discount {
+        background: linear-gradient(135deg, rgba(255,77,0,0.08) 0%, rgba(255,140,0,0.05) 100%);
+        border: 1px solid rgba(255,140,0,0.3);
+        border-radius: 8px;
+        padding: 14px 24px;
+        text-align: center;
+        margin: 0 auto 40px;
+        max-width: 680px;
+        font-size: 0.88rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+    }
+    .alacarte-discount strong { color: var(--fire-mid); }
+    .alacarte-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 16px;
+    }
+    .alacarte-item {
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: 8px;
+        padding: 20px 22px;
+        transition: border-color 0.3s, transform 0.3s;
+    }
+    .alacarte-item:hover { border-color: var(--border); transform: translateY(-2px); }
+    .alacarte-name {
+        font-family: var(--font-accent);
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: var(--text-primary);
+        margin-bottom: 6px;
+        line-height: 1.3;
+    }
+    .alacarte-price {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 1.25rem;
+        color: var(--fire-mid);
+        margin-bottom: 8px;
+    }
+    .alacarte-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.55; }
+
+    /* ========== POST BUNDLE PACKS ========== */
+    .post-bundles { margin-top: 64px; }
+    .post-bundles-header { text-align: center; margin-bottom: 12px; }
+    .post-bundles-header h3 {
+        font-family: var(--font-display);
+        font-size: clamp(1.4rem, 3vw, 2rem);
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+    .post-bundles-header p { color: var(--text-secondary); font-size: 0.95rem; max-width: 560px; margin: 0 auto 32px; }
+    .post-bundle-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: var(--card-gap);
+    }
+    .post-bundle-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: 10px;
+        padding: 28px 26px;
+        position: relative;
+        transition: all 0.3s;
+        display: flex;
+        flex-direction: column;
+    }
+    .post-bundle-card:hover { transform: translateY(-3px); border-color: var(--border); }
+    .post-bundle-card.featured-bundle {
+        border-color: var(--fire-start);
+        box-shadow: 0 0 40px rgba(255,77,0,0.08);
+    }
+    .bundle-save-badge {
+        position: absolute;
+        top: -11px; right: 18px;
+        background: linear-gradient(135deg, var(--fire-start), var(--fire-mid));
+        color: #fff;
+        font-family: var(--font-accent);
+        font-weight: 700;
+        font-size: 0.68rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 5px 14px;
+        border-radius: 20px;
+    }
+    .bundle-name {
+        font-family: var(--font-accent);
+        font-weight: 600;
+        font-size: 0.8rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--fire-mid);
+        margin-bottom: 10px;
+    }
+    .bundle-post-count {
+        font-family: var(--font-display);
+        font-weight: 900;
+        font-size: 2.6rem;
+        line-height: 1;
+        margin-bottom: 4px;
+    }
+    .bundle-post-count span { font-size: 1rem; font-weight: 400; color: var(--text-muted); font-family: var(--font-body); }
+    .bundle-price {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: var(--fire-mid);
+        margin-bottom: 6px;
+    }
+    .bundle-per-post {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        margin-bottom: 16px;
+    }
+    .bundle-validity {
+        font-family: var(--font-accent);
+        font-size: 0.8rem;
+        letter-spacing: 0.06em;
+        color: var(--fire-mid);
+        text-transform: uppercase;
+        border-top: 1px solid var(--border);
+        padding-top: 14px;
+        margin-bottom: 14px;
+    }
+    .bundle-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; flex: 1; margin-bottom: 20px; }
+    .bundle-types {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+    .bundle-tag {
+        font-size: 0.75rem;
+        font-family: var(--font-accent);
+        font-weight: 500;
+        color: var(--text-secondary);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 4px 12px;
+    }
+
     /* ========== CONTACT ========== */
     .contact { padding: var(--section-padding) 0; background: var(--bg-surface); }
     .contact-layout {
@@ -1260,6 +1500,7 @@
                 <li><a href="#process">Process</a></li>
                 <li><a href="#results">Results</a></li>
                 <li><a href="#about">About</a></li>
+                <li><a href="#pricing">Investment</a></li>
                 <li><a href="#insights">Blog</a></li>
                 <li><a href="#faq">FAQ</a></li>
                 <li><a href="#contact" class="nav-cta">Free SEO Audit</a></li>
@@ -1500,11 +1741,36 @@
                     <div class="price-amount">$500<span>/mo</span></div>
                     <p class="price-desc">Essential monthly maintenance for businesses ready to hold their ground and build momentum.</p>
                     <ul class="price-features">
-                        <li>Weekly Google Business Profile Check</li>
-                        <li>Monthly Technical SEO Audit</li>
-                        <li>1 Page Optimization Per Month</li>
-                        <li>Keyword Rank Tracking (Wincher)</li>
-                        <li>Monthly Performance Report</li>
+                        <li>
+                            <details class="feature-detail">
+                                <summary>Weekly Google Business Profile Check</summary>
+                                <p class="feature-explain">We review your GBP listing every week to catch unauthorized edits, respond to reviews, and verify your info is current. A single bad edit to your address or hours can quietly drop your local rankings before you ever notice it.</p>
+                            </details>
+                        </li>
+                        <li>
+                            <details class="feature-detail">
+                                <summary>Monthly Technical SEO Audit</summary>
+                                <p class="feature-explain">Every month we crawl your site and check for broken links, indexing errors, slow pages, missing meta tags, duplicate content, and schema problems. We document every issue found — technical errors silently kill rankings and this catches them before they compound. Fixes are scoped separately so you only pay for what you need.</p>
+                            </details>
+                        </li>
+                        <li>
+                            <details class="feature-detail">
+                                <summary>1 Page Optimization Per Month</summary>
+                                <p class="feature-explain">One page gets a complete overhaul: title tag, meta description, headers, body content, internal links, image alt text, and schema where applicable. We target the keyword with the highest potential to move your business that month.</p>
+                            </details>
+                        </li>
+                        <li>
+                            <details class="feature-detail">
+                                <summary>Keyword Rank Tracking</summary>
+                                <p class="feature-explain">Your target keywords are tracked weekly so you always know exactly where you rank, what's climbing, and what's slipping. Every strategy decision is backed by real data — not gut feeling.</p>
+                            </details>
+                        </li>
+                        <li>
+                            <details class="feature-detail">
+                                <summary>Monthly Performance Report</summary>
+                                <p class="feature-explain">A clear end-of-month summary covering ranking movement, traffic trends, GBP insights, completed work, and what's planned next. You always know what you're paying for — and whether it's working.</p>
+                            </details>
+                        </li>
                     </ul>
                     <a href="https://phoenixmethodseo.com/get-started.html?plan=spark" class="btn btn-ghost btn-sm">Get Started</a>
                 </div>
@@ -1514,10 +1780,30 @@
                     <div class="price-amount">$900<span>/mo</span></div>
                     <p class="price-desc">For businesses serious about growing organic traffic with active content and competitive strategy.</p>
                     <ul class="price-features">
-                        <li>Everything in Spark</li>
-                        <li>2 New SEO Content Pieces Monthly</li>
-                        <li>Competitor Surveillance & Analysis</li>
-                        <li>Link Building & Backlink Domination</li>
+                        <li>
+                            <details class="feature-detail">
+                                <summary>Everything in Spark</summary>
+                                <p class="feature-explain">All five Spark deliverables run every month as your foundation: weekly GBP monitoring, monthly technical audit, one page optimization, keyword rank tracking, and your performance report.</p>
+                            </details>
+                        </li>
+                        <li>
+                            <details class="feature-detail">
+                                <summary>2 New SEO Content Pieces Monthly</summary>
+                                <p class="feature-explain">Two research-backed, keyword-targeted content pieces per month — blog posts, service pages, or landing pages — built to capture real search demand. Content is the highest-leverage SEO activity over time and the engine that compounds your rankings month after month.</p>
+                            </details>
+                        </li>
+                        <li>
+                            <details class="feature-detail">
+                                <summary>Competitor Surveillance & Analysis</summary>
+                                <p class="feature-explain">We monitor what your top competitors are publishing, which keywords they're gaining ground on, and where they're building links. When they make a move, you know about it first — and your strategy adapts before they earn the advantage.</p>
+                            </details>
+                        </li>
+                        <li>
+                            <details class="feature-detail">
+                                <summary>Link Building & Backlink Domination</summary>
+                                <p class="feature-explain">High-authority backlinks remain one of Google's top ranking factors. We build real, relevant links to your site every month through editorial outreach, directory placements, and content partnerships — safely and sustainably, with zero black-hat risk to your domain.</p>
+                            </details>
+                        </li>
                     </ul>
                     <a href="https://phoenixmethodseo.com/get-started.html?plan=blaze" class="btn btn-primary btn-sm">Get Started</a>
                 </div>
@@ -1526,15 +1812,213 @@
                     <div class="price-amount">$1,500<span>/mo</span></div>
                     <p class="price-desc">Total search domination. Content warfare, technical supremacy, and a strategic partnership built to crush everything in your path.</p>
                     <ul class="price-features">
-                        <li>Everything in Blaze</li>
-                        <li>4 SEO Content Pieces Monthly</li>
-                        <li>Advanced Schema & Rich Result Domination</li>
-                        <li>Citation Blitz & Local Authority Domination</li>
-                        <li>AI Overview Conquest</li>
+                        <li>
+                            <details class="feature-detail">
+                                <summary>Everything in Blaze</summary>
+                                <p class="feature-explain">All Blaze deliverables included: every Spark service, two content pieces, competitor surveillance, and link building every month. This is your complete strategic foundation before Inferno-level escalation.</p>
+                            </details>
+                        </li>
+                        <li>
+                            <details class="feature-detail">
+                                <summary>4 SEO Content Pieces Monthly</summary>
+                                <p class="feature-explain">Double the content output — four keyword-optimized pieces per month. More indexed pages means more keywords ranking, more organic entry points into your site, and faster topical authority that becomes nearly impossible for competitors to reverse.</p>
+                            </details>
+                        </li>
+                        <li>
+                            <details class="feature-detail">
+                                <summary>Advanced Schema & Rich Result Domination</summary>
+                                <p class="feature-explain">We implement and maintain complex schema markup — FAQ, HowTo, Review, MedicalCondition, LocalBusiness, and more — to earn rich results in Google and position your content for AI Overview citations. Most competitors never touch this level of technical optimization, which is exactly why it works.</p>
+                            </details>
+                        </li>
+                        <li>
+                            <details class="feature-detail">
+                                <summary>Citation Blitz & Local Authority Domination</summary>
+                                <p class="feature-explain">We build and clean local directory citations across high-authority platforms every month, strengthening your NAP consistency and local search authority. Critical for any business competing in a local market or operating across multiple locations.</p>
+                            </details>
+                        </li>
+                        <li>
+                            <details class="feature-detail">
+                                <summary>AI Overview Conquest</summary>
+                                <p class="feature-explain">We optimize your content specifically to be cited in Google's AI Overviews — the AI-generated summaries that now appear above traditional search results. This is the new frontier of search visibility and where the next wave of organic traffic is being won or lost.</p>
+                            </details>
+                        </li>
                     </ul>
                     <a href="https://phoenixmethodseo.com/get-started.html?plan=inferno" class="btn btn-ghost btn-sm">Get Started</a>
                 </div>
             </div>
+
+            <!-- Package Benefit Callout -->
+            <div class="package-benefit">
+                <div class="package-benefit-icon"><img src="https://phoenixmethodseo.com/assets/phoenix-bird-transparent.png" alt="Phoenix Method" style="height:64px;width:auto;display:block;margin:0 auto;"></div>
+                <div class="package-benefit-text">
+                    <strong>Package Client Advantage</strong>
+                    <div class="benefit-stats">
+                        <div class="benefit-stat">
+                            <span class="benefit-pct">25% off</span>
+                            <span class="benefit-detail">your hourly rate on any work outside your plan inclusions</span>
+                        </div>
+                        <div class="benefit-stat">
+                            <span class="benefit-pct">25% off</span>
+                            <span class="benefit-detail">all à la carte services</span>
+                        </div>
+                    </div>
+                    <span class="benefit-tagline">You're a partner — you get partner pricing.</span>
+                </div>
+            </div>
+
+            <!-- ========== POST BUNDLE PACKS ========== -->
+            <div class="post-bundles">
+                <div class="post-bundles-header">
+                    <span class="section-tag">Content Packs</span>
+                    <h3>Post Bundles — <span class="accent">Buy in Bulk, Save More</span></h3>
+                    <p>Pre-purchase posts at a lower rate and use them on your timeline. Mix GBP posts, social media posts, or both — your call every month.</p>
+                </div>
+                <div class="post-bundle-grid">
+                    <div class="post-bundle-card">
+                        <div class="bundle-name">Starter Pack</div>
+                        <div class="bundle-post-count">5 <span>posts</span></div>
+                        <div class="bundle-price">$165</div>
+                        <div class="bundle-per-post">$33/post avg &mdash; standalone rates up to $45</div>
+                        <div class="bundle-validity">&#9670; Valid for 3 months</div>
+                        <div class="bundle-types">
+                            <span class="bundle-tag">GBP Posts</span>
+                            <span class="bundle-tag">Social Posts</span>
+                            <span class="bundle-tag">Any Mix</span>
+                        </div>
+                        <div class="bundle-desc">Perfect for maintaining a consistent posting cadence without committing to a monthly plan. Use however you need them — one platform or spread across all.</div>
+                        <a href="https://phoenixmethodseo.com/get-started.html?plan=starter-pack" class="btn btn-ghost btn-sm">Get Started</a>
+                    </div>
+                    <div class="post-bundle-card featured-bundle">
+                        <div class="bundle-save-badge">Best Value</div>
+                        <div class="bundle-name">Growth Pack</div>
+                        <div class="bundle-post-count">10 <span>posts</span></div>
+                        <div class="bundle-price">$295</div>
+                        <div class="bundle-per-post">$29.50/post avg &mdash; save up to $105 vs standalone</div>
+                        <div class="bundle-validity">&#9670; Valid for 6 months</div>
+                        <div class="bundle-types">
+                            <span class="bundle-tag">GBP Posts</span>
+                            <span class="bundle-tag">Social Posts</span>
+                            <span class="bundle-tag">Any Mix</span>
+                        </div>
+                        <div class="bundle-desc">Enough content to stay active on Google and social every month for half a year. Most clients use 1–2 posts per week — this covers that comfortably without overpaying.</div>
+                        <a href="https://phoenixmethodseo.com/get-started.html?plan=growth-pack" class="btn btn-primary btn-sm">Get Started</a>
+                    </div>
+                    <div class="post-bundle-card">
+                        <div class="bundle-name">Authority Pack</div>
+                        <div class="bundle-post-count">20 <span>posts</span></div>
+                        <div class="bundle-price">$520</div>
+                        <div class="bundle-per-post">$26/post avg &mdash; save up to $380 vs standalone</div>
+                        <div class="bundle-validity">&#9670; Valid for 12 months</div>
+                        <div class="bundle-types">
+                            <span class="bundle-tag">GBP Posts</span>
+                            <span class="bundle-tag">Social Posts</span>
+                            <span class="bundle-tag">Any Mix</span>
+                        </div>
+                        <div class="bundle-desc">A full year of content at the lowest per-post rate available. Ideal for businesses that want to stay dominant on Google and social without thinking about it month to month.</div>
+                        <a href="https://phoenixmethodseo.com/get-started.html?plan=authority-pack" class="btn btn-ghost btn-sm">Get Started</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== À LA CARTE SECTION ========== -->
+            <div class="alacarte">
+                <div class="alacarte-header">
+                    <span class="section-tag">À La Carte</span>
+                    <h3>Only Pay for <span class="accent">What You Need</span></h3>
+                    <p>No retainer required. Pick individual services to fill specific gaps or support a one-time project.</p>
+                </div>
+                <div class="alacarte-discount">
+                    <strong>Package clients save 25% on everything below.</strong> Discount applied when you reach out — just mention your active plan.
+                </div>
+                <div class="alacarte-grid">
+                    <div class="alacarte-item">
+                        <div class="alacarte-name">Content Update / Copywriting</div>
+                        <div class="alacarte-price">$100/hr</div>
+                        <div class="alacarte-desc">Refreshing existing page copy, rewriting service descriptions, or updating outdated content to align with current SEO best practices.</div>
+                    </div>
+                    <div class="alacarte-item">
+                        <div class="alacarte-name">SEO Blog Post</div>
+                        <div class="alacarte-price">$150 – $200</div>
+                        <div class="alacarte-desc">Fully researched, keyword-targeted blog post written to rank. Includes on-page optimization, internal linking, and meta data. Price varies by length and complexity.</div>
+                    </div>
+                    <div class="alacarte-item">
+                        <div class="alacarte-name">New Service or Landing Page</div>
+                        <div class="alacarte-price">$250</div>
+                        <div class="alacarte-desc">A complete, optimized page built from scratch — keyword research, copy, headers, schema, meta tags, and internal link structure. Ready to rank on day one.</div>
+                    </div>
+                    <div class="alacarte-item">
+                        <div class="alacarte-name">Schema Markup Implementation</div>
+                        <div class="alacarte-price">$100 per type</div>
+                        <div class="alacarte-desc">Adding or fixing a specific schema type (FAQ, LocalBusiness, Review, HowTo, etc.) to improve rich result eligibility and AI Overview visibility.</div>
+                    </div>
+                    <div class="alacarte-item">
+                        <div class="alacarte-name">Google Business Profile Setup</div>
+                        <div class="alacarte-price">$300</div>
+                        <div class="alacarte-desc">Full GBP build-out or optimization: category selection, service areas, photos, Q&A, posts, products, and verification support. Sets the foundation for local rankings.</div>
+                    </div>
+                    <div class="alacarte-item">
+                        <div class="alacarte-name">Quick Technical SEO Audit</div>
+                        <div class="alacarte-price">$150</div>
+                        <div class="alacarte-desc">A focused site crawl and audit report covering the most critical technical issues holding your rankings back. Includes a prioritized action list.</div>
+                    </div>
+                    <div class="alacarte-item">
+                        <div class="alacarte-name">Keyword Research Report</div>
+                        <div class="alacarte-price">$150</div>
+                        <div class="alacarte-desc">In-depth keyword analysis for your niche — search volume, difficulty, intent, competitor gaps, and a prioritized target list your content strategy can build from.</div>
+                    </div>
+                    <div class="alacarte-item">
+                        <div class="alacarte-name">Competitor Analysis Report</div>
+                        <div class="alacarte-price">$200</div>
+                        <div class="alacarte-desc">A deep look at your top 3–5 competitors: where they rank, what content drives their traffic, their backlink profile, and exactly where you can take ground from them.</div>
+                    </div>
+                    <div class="alacarte-item">
+                        <div class="alacarte-name">Meta Tag Optimization</div>
+                        <div class="alacarte-price">$65 per page</div>
+                        <div class="alacarte-desc">Rewriting title tags and meta descriptions to improve click-through rates from Google. Small change — often one of the fastest ways to gain traffic from existing rankings.</div>
+                    </div>
+                    <div class="alacarte-item">
+                        <div class="alacarte-name">Site Speed / Core Web Vitals Fix</div>
+                        <div class="alacarte-price">From $200</div>
+                        <div class="alacarte-desc">Diagnosing and resolving the specific issues causing your Core Web Vitals to fail — image optimization, render-blocking scripts, layout shift, and more. Scoped after audit.</div>
+                    </div>
+                    <div class="alacarte-item">
+                        <div class="alacarte-name">GA4 & Search Console Setup</div>
+                        <div class="alacarte-price">$150</div>
+                        <div class="alacarte-desc">Full configuration of Google Analytics 4 and Search Console — property setup, goal tracking, Search Console linking, and baseline reporting so you can actually measure results.</div>
+                    </div>
+                    <div class="alacarte-item">
+                        <div class="alacarte-name">Backlink Audit</div>
+                        <div class="alacarte-price">$150</div>
+                        <div class="alacarte-desc">A full review of your existing backlink profile to identify toxic links, missed opportunities, and a clean baseline before starting any link building campaign.</div>
+                    </div>
+                    <div class="alacarte-item">
+                        <div class="alacarte-name">GBP Post (per post)</div>
+                        <div class="alacarte-price">$35</div>
+                        <div class="alacarte-desc">A professionally written and optimized Google Business Profile post — offer, update, or event — designed to keep your profile active and your local relevance signals strong.</div>
+                    </div>
+                    <div class="alacarte-item">
+                        <div class="alacarte-name">Social Media Post (per post)</div>
+                        <div class="alacarte-price">$45</div>
+                        <div class="alacarte-desc">One platform-optimized post written for Facebook, Instagram, or LinkedIn — on-brand copy, hashtags, and a clear call to action. Buying multiple? See the Content Packs above for bulk savings.</div>
+                    </div>
+                    <div class="alacarte-item">
+                        <div class="alacarte-name">Citation Building (per listing)</div>
+                        <div class="alacarte-price">$20</div>
+                        <div class="alacarte-desc">Adding your business to a high-authority local directory with consistent NAP data. Each listing strengthens your local authority and trust signals with Google.</div>
+                    </div>
+                    <div class="alacarte-item">
+                        <div class="alacarte-name">Review Response Templates</div>
+                        <div class="alacarte-price">$75</div>
+                        <div class="alacarte-desc">A custom set of 5 branded response templates for Google reviews — positive, negative, and neutral — written in your brand voice so you always respond professionally without thinking twice.</div>
+                    </div>
+                    <div class="alacarte-item">
+                        <div class="alacarte-name">AI Overview Content Optimization</div>
+                        <div class="alacarte-price">$125 per page</div>
+                        <div class="alacarte-desc">Restructuring and rewriting a page specifically to increase its chances of being cited in Google's AI Overviews — including E-E-A-T signals, structured answers, and schema alignment.</div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
