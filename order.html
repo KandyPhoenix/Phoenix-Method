@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Services | Phoenix Method SEO</title>
+    <meta name="description" content="Purchase individual SEO services, post bundles, and à la carte work from Phoenix Method. No retainer required.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="canonical" href="https://phoenixmethodseo.com/order.html">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Outfit:wght@200;300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Outfit:wght@200;300;400;500;600&display=swap"></noscript>
+
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3RCCP637GV"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-3RCCP637GV');
+    </script>
+
+    <style>
+        :root {
+            --font-display: 'Cinzel', serif;
+            --font-accent: 'Rajdhani', sans-serif;
+            --font-body: 'Outfit', sans-serif;
+            --bg-deep: #07070D;
+            --bg-surface: #0E0E18;
+            --bg-card: #131320;
+            --bg-card-hover: #1A1A2E;
+            --fire-start: #FF4D00;
+            --fire-mid: #FF8C00;
+            --fire-end: #FFB800;
+            --text-primary: #F0EDE6;
+            --text-secondary: #A8A49C;
+            --text-muted: #6B6860;
+            --border: rgba(255,255,255,0.08);
+            --border-subtle: rgba(255,255,255,0.04);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-body); background: var(--bg-deep); color: var(--text-primary); min-height: 100vh; }
+
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(7,7,13,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 16px 0; }
+        .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo img { height: 100px; width: auto; object-fit: contain; }
+        .nav-back { font-family: var(--font-accent); font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fire-mid); text-decoration: none; transition: color 0.3s; }
+        .nav-back:hover { color: var(--fire-end); }
+
+        .page-content { padding: 140px 20px 100px; max-width: 1000px; margin: 0 auto; }
+        .page-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(1.8rem, 4vw, 2.8rem); text-align: center; margin-bottom: 12px; }
+        .fire-text { background: linear-gradient(135deg, var(--fire-start), var(--fire-mid), var(--fire-end)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .page-subtitle { text-align: center; color: var(--text-secondary); font-size: 1.05rem; margin-bottom: 16px; line-height: 1.7; max-width: 640px; margin-left: auto; margin-right: auto; }
+        .page-note { text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 64px; }
+        .page-note a { color: var(--fire-mid); text-decoration: none; }
+        .page-note a:hover { color: var(--fire-end); }
+
+        /* Section headers */
+        .section-label { font-family: var(--font-accent); font-weight: 600; font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fire-mid); margin-bottom: 10px; }
+        .section-title { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.2rem, 2.5vw, 1.6rem); color: var(--text-primary); margin-bottom: 8px; }
+        .section-desc { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 32px; line-height: 1.6; }
+        .section-block { margin-bottom: 72px; }
+
+        /* Divider */
+        .fire-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--fire-start), var(--fire-mid), var(--fire-end), transparent); margin: 64px 0; opacity: 0.25; }
+
+        /* --- POST BUNDLE CARDS --- */
+        .bundle-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .bundle-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 32px 24px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: border-color 0.3s, background 0.3s;
+        }
+        .bundle-card:hover { border-color: rgba(255,140,0,0.3); background: var(--bg-card-hover); }
+        .bundle-card.featured { border-color: rgba(255,140,0,0.4); }
+        .best-value-badge {
+            position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--fire-start), var(--fire-mid));
+            color: #fff; font-family: var(--font-accent); font-size: 0.65rem; font-weight: 600;
+            letter-spacing: 0.15em; padding: 4px 14px; border-radius: 20px; white-space: nowrap;
+        }
+        .bundle-name { font-family: var(--font-accent); font-weight: 600; font-size: 1rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 4px; }
+        .bundle-count { font-family: var(--font-display); font-weight: 700; font-size: 2rem; color: var(--fire-mid); line-height: 1; margin-bottom: 2px; }
+        .bundle-count span { font-size: 1rem; font-weight: 400; color: var(--text-muted); }
+        .bundle-price-line { font-family: var(--font-display); font-weight: 700; font-size: 1.4rem; color: var(--text-primary); margin-bottom: 4px; }
+        .bundle-per { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px; }
+        .bundle-validity { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 14px; }
+        .bundle-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+        .bundle-tag { font-size: 0.72rem; font-family: var(--font-accent); letter-spacing: 0.06em; color: var(--fire-mid); border: 1px solid rgba(255,140,0,0.3); border-radius: 4px; padding: 3px 8px; }
+        .bundle-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; flex: 1; margin-bottom: 24px; }
+        .btn-buy { display: block; width: 100%; padding: 14px; text-align: center; font-family: var(--font-accent); font-weight: 700; font-size: 0.95rem; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 8px; text-decoration: none; transition: all 0.3s; }
+        .btn-fire { background: linear-gradient(135deg, var(--fire-start), var(--fire-mid)); color: #fff; }
+        .btn-fire:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,77,0,0.3); }
+        .btn-ghost-fire { background: transparent; color: var(--fire-mid); border: 1px solid rgba(255,140,0,0.4); }
+        .btn-ghost-fire:hover { background: rgba(255,140,0,0.08); border-color: var(--fire-mid); transform: translateY(-2px); }
+        .btn-outline { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); }
+        .btn-outline:hover { border-color: rgba(255,140,0,0.3); color: var(--text-primary); }
+
+        /* --- TIER 1 GRID --- */
+        .alacarte-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.3s, background 0.3s;
+        }
+        .service-card:hover { border-color: rgba(255,140,0,0.25); background: var(--bg-card-hover); }
+        .service-name { font-family: var(--font-accent); font-weight: 600; font-size: 1rem; letter-spacing: 0.04em; color: var(--text-primary); margin-bottom: 4px; }
+        .service-price { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; color: var(--fire-mid); margin-bottom: 10px; }
+        .service-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; flex: 1; margin-bottom: 18px; }
+        .service-after { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 18px; font-style: italic; }
+
+        /* --- TIER 2 REQUEST CARDS --- */
+        .request-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .request-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+        .request-price { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 10px; }
+        .request-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; flex: 1; margin-bottom: 18px; }
+
+        /* --- REQUEST FORM MODAL --- */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0; background: rgba(7,7,13,0.85);
+            backdrop-filter: blur(8px); z-index: 1000; align-items: center; justify-content: center; padding: 20px;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
+            padding: 40px; max-width: 560px; width: 100%; position: relative; max-height: 90vh; overflow-y: auto;
+        }
+        .modal-close {
+            position: absolute; top: 16px; right: 20px; background: none; border: none;
+            color: var(--text-muted); font-size: 1.4rem; cursor: pointer; line-height: 1;
+            transition: color 0.2s;
+        }
+        .modal-close:hover { color: var(--text-primary); }
+        .modal-title { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; margin-bottom: 6px; }
+        .modal-service-name { color: var(--fire-mid); font-family: var(--font-accent); font-size: 0.9rem; letter-spacing: 0.06em; margin-bottom: 24px; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 7px; }
+        .form-group label .req { color: var(--fire-start); }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 12px 16px; background: var(--bg-deep); border: 1px solid var(--border);
+            border-radius: 8px; color: var(--text-primary); font-family: var(--font-body); font-size: 0.93rem;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--fire-mid); }
+        .form-group textarea { min-height: 110px; resize: vertical; }
+        .form-group input::placeholder, .form-group textarea::placeholder { color: var(--text-muted); }
+        .form-group select option { background: var(--bg-deep); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .submit-btn {
+            display: block; width: 100%; padding: 15px; margin-top: 8px;
+            font-family: var(--font-accent); font-weight: 700; font-size: 1rem; letter-spacing: 0.1em;
+            text-transform: uppercase; color: #fff;
+            background: linear-gradient(135deg, var(--fire-start), var(--fire-mid));
+            border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s;
+        }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,77,0,0.3); }
+        .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+        .form-success { display: none; text-align: center; padding: 20px 0; }
+        .form-success-icon { font-size: 2.5rem; margin-bottom: 12px; }
+        .form-success h3 { font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 8px; }
+        .form-success p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
+
+        /* Retainer CTA */
+        .retainer-cta {
+            background: var(--bg-card); border: 1px solid rgba(255,140,0,0.2);
+            border-radius: 14px; padding: 36px 40px; text-align: center; margin-top: 16px;
+        }
+        .retainer-cta h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; margin-bottom: 10px; }
+        .retainer-cta p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 24px; line-height: 1.6; max-width: 520px; margin-left: auto; margin-right: auto; }
+        .retainer-cta a { display: inline-block; padding: 14px 36px; font-family: var(--font-accent); font-weight: 700; font-size: 0.95rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fire-mid); border: 1px solid rgba(255,140,0,0.4); border-radius: 8px; text-decoration: none; transition: all 0.3s; }
+        .retainer-cta a:hover { background: rgba(255,140,0,0.08); transform: translateY(-2px); }
+
+        @media (max-width: 768px) {
+            .bundle-grid { grid-template-columns: 1fr; }
+            .alacarte-grid { grid-template-columns: 1fr; }
+            .request-grid { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .modal { padding: 28px 20px; }
+            .retainer-cta { padding: 28px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hidden Netlify form for request submissions -->
+<form name="service-request" netlify netlify-honeypot="bot-field" hidden>
+    <input type="text" name="name">
+    <input type="email" name="email">
+    <input type="tel" name="phone">
+    <input type="url" name="website">
+    <input type="text" name="service">
+    <textarea name="details"></textarea>
+    <input type="text" name="bot-field">
+</form>
+
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="https://phoenixmethodseo.com/" class="nav-logo">
+            <img src="https://phoenixmethodseo.com/assets/phoenix-full-logo.png" alt="Phoenix Method" width="1077" height="502" fetchpriority="high">
+        </a>
+        <a href="https://phoenixmethodseo.com/" class="nav-back">&larr; Back to Site</a>
+    </div>
+</nav>
+
+<div class="page-content">
+
+    <h1 class="page-title">Order <span class="fire-text">À La Carte</span></h1>
+    <p class="page-subtitle">Pick exactly what you need. No retainer required. Fixed-price services purchase instantly — scoped services get a quote within 24 hours.</p>
+    <p class="page-note">Looking for a monthly retainer or one-time setup? <a href="https://phoenixmethodseo.com/get-started.html">See full plans &rarr;</a></p>
+
+    <!-- ==================== POST BUNDLES ==================== -->
+    <div class="section-block">
+        <p class="section-label">Content Packs</p>
+        <h2 class="section-title">Post Bundles — Buy in Bulk, Save More</h2>
+        <p class="section-desc">Pre-purchase GBP posts, social posts, or any mix. Use them on your timeline. After checkout you'll get a short brief form to tell us topics, platforms, and tone.</p>
+
+        <div class="bundle-grid">
+
+            <div class="bundle-card">
+                <div class="bundle-name">Starter Pack</div>
+                <div class="bundle-count">5 <span>posts</span></div>
+                <div class="bundle-price-line">$165</div>
+                <div class="bundle-per">$33/post avg &mdash; standalone up to $45</div>
+                <div class="bundle-validity">&#9670; Valid for 3 months</div>
+                <div class="bundle-tags">
+                    <span class="bundle-tag">GBP Posts</span>
+                    <span class="bundle-tag">Social Posts</span>
+                    <span class="bundle-tag">Any Mix</span>
+                </div>
+                <p class="bundle-desc">Perfect for maintaining a consistent posting cadence without committing to a monthly plan. Use however you need them.</p>
+                <a href="https://square.link/u/R1WxsySd" class="btn-buy btn-ghost-fire" target="_blank" rel="noopener">Buy Now &rarr;</a>
+            </div>
+
+            <div class="bundle-card featured">
+                <div class="best-value-badge">BEST VALUE</div>
+                <div class="bundle-name">Growth Pack</div>
+                <div class="bundle-count">10 <span>posts</span></div>
+                <div class="bundle-price-line">$295</div>
+                <div class="bundle-per">$29.50/post avg &mdash; save up to $105</div>
+                <div class="bundle-validity">&#9670; Valid for 6 months</div>
+                <div class="bundle-tags">
+                    <span class="bundle-tag">GBP Posts</span>
+                    <span class="bundle-tag">Social Posts</span>
+                    <span class="bundle-tag">Any Mix</span>
+                </div>
+                <p class="bundle-desc">Enough content to stay active on Google and social every month for half a year. Most clients use 1–2 posts per week — this covers that comfortably.</p>
+                <a href="https://square.link/u/X3yNgGME" class="btn-buy btn-fire" target="_blank" rel="noopener">Buy Now &rarr;</a>
+            </div>
+
+            <div class="bundle-card">
+                <div class="bundle-name">Authority Pack</div>
+                <div class="bundle-count">20 <span>posts</span></div>
+                <div class="bundle-price-line">$520</div>
+                <div class="bundle-per">$26/post avg &mdash; save up to $380</div>
+                <div class="bundle-validity">&#9670; Valid for 12 months</div>
+                <div class="bundle-tags">
+                    <span class="bundle-tag">GBP Posts</span>
+                    <span class="bundle-tag">Social Posts</span>
+                    <span class="bundle-tag">Any Mix</span>
+                </div>
+                <p class="bundle-desc">A full year of content at the lowest per-post rate available. Ideal for businesses that want to stay dominant without thinking about it month to month.</p>
+                <a href="https://square.link/u/FqHB12Gz" class="btn-buy btn-ghost-fire" target="_blank" rel="noopener">Buy Now &rarr;</a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="fire-divider"></div>
+
+    <!-- ==================== TIER 1: BUY NOW ==================== -->
+    <div class="section-block">
+        <p class="section-label">Fixed-Price Services</p>
+        <h2 class="section-title">Buy Now — Instant Checkout</h2>
+        <p class="section-desc">Fixed scope, fixed price. Purchase securely via Square and you'll immediately receive a short brief form so we have everything we need to get started.</p>
+
+        <div class="alacarte-grid">
+
+            <div class="service-card">
+                <div class="service-name">GBP Post (Single)</div>
+                <div class="service-price">$35</div>
+                <p class="service-desc">One professionally written and optimized Google Business Profile post — offer, update, or event format — designed to keep your listing active and your local relevance signals strong.</p>
+                <p class="service-after">After checkout: brief form for topic, promotion, or event details.</p>
+                <a href="https://square.link/u/hfxwkiKf" class="btn-buy btn-ghost-fire" target="_blank" rel="noopener">Buy Now &rarr;</a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-name">Social Media Post (Single)</div>
+                <div class="service-price">$45</div>
+                <p class="service-desc">One platform-optimized post for Facebook, Instagram, or LinkedIn — on-brand copy, hashtags, and a clear call to action. Need several? See the Content Packs above.</p>
+                <p class="service-after">After checkout: brief form for platform, topic, and brand voice.</p>
+                <a href="https://square.link/u/s226xv0O" class="btn-buy btn-ghost-fire" target="_blank" rel="noopener">Buy Now &rarr;</a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-name">Citation Building (per listing)</div>
+                <div class="service-price">$20</div>
+                <p class="service-desc">Your business added to one high-authority local directory with consistent NAP data. Each listing strengthens your local authority and trust signals with Google.</p>
+                <p class="service-after">After checkout: brief form to confirm your business details and preferred directories.</p>
+                <a href="https://square.link/u/jj8Rd6Jq" class="btn-buy btn-ghost-fire" target="_blank" rel="noopener">Buy Now &rarr;</a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-name">Review Response Templates</div>
+                <div class="service-price">$75</div>
+                <p class="service-desc">5 custom-written response scripts in your brand voice — one for a glowing 5-star, one for a neutral 3-star, one for a complaint review, one for a vague negative, and one for no-text ratings. Copy, tweak, post. Never freeze on a bad review again.</p>
+                <p class="service-after">After checkout: brief form for your brand voice and business type.</p>
+                <a href="https://square.link/u/kORWPsAO" class="btn-buy btn-ghost-fire" target="_blank" rel="noopener">Buy Now &rarr;</a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-name">Backlink Audit</div>
+                <div class="service-price">$150</div>
+                <p class="service-desc">A full review of your existing backlink profile to identify toxic links, missed opportunities, and a clean baseline before starting any link building campaign. Delivered as a prioritized report within 5 business days.</p>
+                <p class="service-after">After checkout: we'll ask for your website URL.</p>
+                <a href="https://square.link/u/DxQGpSVB" class="btn-buy btn-ghost-fire" target="_blank" rel="noopener">Buy Now &rarr;</a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-name">Quick Technical SEO Audit</div>
+                <div class="service-price">$150</div>
+                <p class="service-desc">A focused site crawl covering the most critical technical issues holding your rankings back — broken links, indexing errors, slow pages, missing meta tags, duplicate content, and schema problems. Delivered as a prioritized action list within 3 business days.</p>
+                <p class="service-after">After checkout: we'll ask for your website URL.</p>
+                <a href="https://square.link/u/XYEsrpLz" class="btn-buy btn-ghost-fire" target="_blank" rel="noopener">Buy Now &rarr;</a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-name">GA4 &amp; Search Console Setup</div>
+                <div class="service-price">$150</div>
+                <p class="service-desc">Full configuration of Google Analytics 4 and Search Console — property setup, goal tracking, Search Console linking, and baseline reporting so you can actually measure results.</p>
+                <p class="service-after">After checkout: instructions for granting temporary access to your Google account.</p>
+                <a href="https://square.link/u/WqcoXI4h" class="btn-buy btn-ghost-fire" target="_blank" rel="noopener">Buy Now &rarr;</a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-name">Keyword Research Report</div>
+                <div class="service-price">$150</div>
+                <p class="service-desc">In-depth keyword analysis for your niche — search volume, difficulty, intent, competitor gaps, and a prioritized target list your content strategy can build from. Delivered within 5 business days.</p>
+                <p class="service-after">After checkout: brief form for your website, industry, and top 3 competitors.</p>
+                <a href="https://square.link/u/31pGi8ZF" class="btn-buy btn-ghost-fire" target="_blank" rel="noopener">Buy Now &rarr;</a>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="fire-divider"></div>
+
+    <!-- ==================== TIER 2: REQUEST FLOW ==================== -->
+    <div class="section-block">
+        <p class="section-label">Scoped Services</p>
+        <h2 class="section-title">Request a Quote — We Scope It First</h2>
+        <p class="section-desc">These services vary by scope — page count, word count, or what we find during review. Submit a request and we'll confirm your exact investment within 24 hours before any payment is taken.</p>
+
+        <div class="request-grid">
+
+            <div class="request-card">
+                <div class="service-name">Content Update / Copywriting</div>
+                <div class="request-price">$100/hr</div>
+                <p class="request-desc">Refreshing existing page copy, rewriting service descriptions, or updating outdated content to align with current SEO best practices and your current brand voice.</p>
+                <button class="btn-buy btn-outline" style="margin-top:auto;" onclick="openRequest('Content Update / Copywriting', 'Which pages need updating? What needs to change, and why?')">Request This Service</button>
+            </div>
+
+            <div class="request-card">
+                <div class="service-name">SEO Blog Post</div>
+                <div class="request-price">$150 – $200</div>
+                <p class="request-desc">Fully researched, keyword-targeted blog post written to rank. Includes on-page optimization, internal linking, and meta data. Price varies by length and complexity.</p>
+                <button class="btn-buy btn-outline" style="margin-top:auto;" onclick="openRequest('SEO Blog Post', 'What topic or keyword do you want to target? Any specific audience or angle in mind?')">Request This Service</button>
+            </div>
+
+            <div class="request-card">
+                <div class="service-name">New Service or Landing Page</div>
+                <div class="request-price">$250</div>
+                <p class="request-desc">A complete, optimized page built from scratch — keyword research, copy, headers, schema, meta tags, and internal link structure. Ready to rank on day one.</p>
+                <button class="btn-buy btn-outline" style="margin-top:auto;" onclick="openRequest('New Service or Landing Page', 'What service or topic is the page for? Who is the target audience?')">Request This Service</button>
+            </div>
+
+            <div class="request-card">
+                <div class="service-name">Schema Markup Implementation</div>
+                <div class="request-price">$100 per type</div>
+                <p class="request-desc">Adding or fixing a specific schema type (FAQ, LocalBusiness, Review, HowTo, etc.) to improve rich result eligibility and AI Overview visibility.</p>
+                <button class="btn-buy btn-outline" style="margin-top:auto;" onclick="openRequest('Schema Markup Implementation', 'Which pages need schema? Do you know which schema types (FAQ, LocalBusiness, etc.) or would you like a recommendation?')">Request This Service</button>
+            </div>
+
+            <div class="request-card">
+                <div class="service-name">Google Business Profile Setup</div>
+                <div class="request-price">$300</div>
+                <p class="request-desc">Full GBP build-out or optimization: category selection, service areas, photos, Q&amp;A, posts, products, and verification support. Sets the foundation for local rankings.</p>
+                <button class="btn-buy btn-outline" style="margin-top:auto;" onclick="openRequest('Google Business Profile Setup', 'Is your GBP already claimed? What is your business name, address, and primary service?')">Request This Service</button>
+            </div>
+
+            <div class="request-card">
+                <div class="service-name">Competitor Analysis Report</div>
+                <div class="request-price">$200</div>
+                <p class="request-desc">A deep look at your top 3–5 competitors: where they rank, what content drives their traffic, their backlink profile, and exactly where you can take ground from them.</p>
+                <button class="btn-buy btn-outline" style="margin-top:auto;" onclick="openRequest('Competitor Analysis Report', 'Who are your top 3–5 competitors? What market or keyword area do you want to win?')">Request This Service</button>
+            </div>
+
+            <div class="request-card">
+                <div class="service-name">Meta Tag Optimization</div>
+                <div class="request-price">$65 per page</div>
+                <p class="request-desc">Rewriting title tags and meta descriptions to improve click-through rates. Small change — often one of the fastest ways to gain traffic from existing rankings.</p>
+                <button class="btn-buy btn-outline" style="margin-top:auto;" onclick="openRequest('Meta Tag Optimization', 'How many pages need meta tag rewrites? Do you have a list, or should we audit and recommend?')">Request This Service</button>
+            </div>
+
+            <div class="request-card">
+                <div class="service-name">Site Speed / Core Web Vitals Fix</div>
+                <div class="request-price">From $200</div>
+                <p class="request-desc">Diagnosing and resolving the specific issues causing your Core Web Vitals to fail — image optimization, render-blocking scripts, layout shift, and more. Scoped after a quick audit.</p>
+                <button class="btn-buy btn-outline" style="margin-top:auto;" onclick="openRequest('Site Speed / Core Web Vitals Fix', 'What is your website URL? Do you know your current PageSpeed score or which Core Web Vitals are failing?')">Request This Service</button>
+            </div>
+
+            <div class="request-card">
+                <div class="service-name">AI Overview Content Optimization</div>
+                <div class="request-price">$125 per page</div>
+                <p class="request-desc">Restructuring and rewriting a page to increase its chances of being cited in Google's AI Overviews — including E-E-A-T signals, structured answers, and schema alignment.</p>
+                <button class="btn-buy btn-outline" style="margin-top:auto;" onclick="openRequest('AI Overview Content Optimization', 'Which page(s) do you want optimized for AI Overview citations? What is the target search query?')">Request This Service</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Retainer CTA -->
+    <div class="retainer-cta">
+        <h3>Buying More Than One or Two Things?</h3>
+        <p>Package clients get <strong>25% off all à la carte services</strong> and post bundles — plus dedicated hours, rank tracking, and a client portal. The math usually works out in the first month.</p>
+        <a href="https://phoenixmethodseo.com/get-started.html">See Monthly Plans &rarr;</a>
+    </div>
+
+</div>
+
+<!-- ==================== REQUEST MODAL ==================== -->
+<div class="modal-overlay" id="requestModal" onclick="handleOverlayClick(event)">
+    <div class="modal">
+        <button class="modal-close" onclick="closeRequest()">&times;</button>
+        <div id="modalForm">
+            <p class="modal-title">Request This Service</p>
+            <p class="modal-service-name" id="modalServiceName"></p>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Your Name <span class="req">*</span></label>
+                    <input type="text" id="reqName" placeholder="Jane Smith">
+                </div>
+                <div class="form-group">
+                    <label>Email <span class="req">*</span></label>
+                    <input type="email" id="reqEmail" placeholder="jane@business.com">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" id="reqPhone" placeholder="(555) 123-4567">
+                </div>
+                <div class="form-group">
+                    <label>Website URL <span class="req">*</span></label>
+                    <input type="url" id="reqWebsite" placeholder="https://yourbusiness.com">
+                </div>
+            </div>
+            <div class="form-group">
+                <label id="reqDetailsLabel">Details <span class="req">*</span></label>
+                <textarea id="reqDetails" rows="4" placeholder="Tell us more..."></textarea>
+            </div>
+            <p id="reqError" style="color: var(--fire-start); font-size: 0.85rem; margin-top: -8px; margin-bottom: 12px; display: none;"></p>
+            <button class="submit-btn" id="reqSubmitBtn" onclick="submitRequest()">Send Request &rarr;</button>
+            <p style="text-align:center; color: var(--text-muted); font-size: 0.78rem; margin-top: 14px;">We'll confirm your scope and investment within 24 hours. No payment until you approve.</p>
+        </div>
+        <div class="form-success" id="modalSuccess">
+            <div class="form-success-icon">&#128293;</div>
+            <h3>Request Received</h3>
+            <p>We'll review your details and get back to you within 24 hours with a confirmed scope and price. No payment until you approve.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+var currentService = '';
+
+function openRequest(serviceName, detailsPrompt) {
+    currentService = serviceName;
+    document.getElementById('modalServiceName').textContent = serviceName;
+    document.getElementById('reqDetailsLabel').innerHTML = detailsPrompt + ' <span class="req">*</span>';
+    document.getElementById('reqDetails').placeholder = '';
+    document.getElementById('requestModal').classList.add('open');
+    document.getElementById('modalForm').style.display = 'block';
+    document.getElementById('modalSuccess').style.display = 'none';
+    document.getElementById('reqError').style.display = 'none';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeRequest() {
+    document.getElementById('requestModal').classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+function handleOverlayClick(e) {
+    if (e.target === document.getElementById('requestModal')) closeRequest();
+}
+
+function submitRequest() {
+    var name = document.getElementById('reqName').value.trim();
+    var email = document.getElementById('reqEmail').value.trim();
+    var website = document.getElementById('reqWebsite').value.trim();
+    var details = document.getElementById('reqDetails').value.trim();
+    var errEl = document.getElementById('reqError');
+
+    if (!name || !email || !website || !details) {
+        errEl.textContent = 'Please fill in all required fields.';
+        errEl.style.display = 'block';
+        return;
+    }
+
+    var btn = document.getElementById('reqSubmitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    errEl.style.display = 'none';
+
+    var body = new URLSearchParams({
+        'form-name': 'service-request',
+        'name': name,
+        'email': email,
+        'phone': document.getElementById('reqPhone').value.trim(),
+        'website': website,
+        'service': currentService,
+        'details': details
+    });
+
+    fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() })
+        .then(function() { showSuccess(); })
+        .catch(function() { showSuccess(); });
+}
+
+function showSuccess() {
+    document.getElementById('modalForm').style.display = 'none';
+    document.getElementById('modalSuccess').style.display = 'block';
+}
+
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeRequest(); });
+</script>
+
+</body>
+</html>

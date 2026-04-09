@@ -101,7 +101,11 @@
             cursor: pointer;
             transition: all 0.3s;
             text-align: center;
+            display: flex;
+            flex-direction: column;
         }
+        .plan-option .plan-features { flex: 1; }
+        .plan-selector, .plan-selector-monthly { align-items: stretch; }
         .plan-option:hover { border-color: var(--fire-mid); background: var(--bg-card-hover); }
         .plan-option.selected { border-color: var(--fire-start); background: var(--bg-card-hover); box-shadow: 0 0 24px rgba(255, 77, 0, 0.15); }
         .plan-option input { display: none; }
@@ -353,7 +357,7 @@
 
             <p class="plan-label">One-Time Setup</p>
             <div class="plan-selector" id="planSelector">
-                <div class="plan-option" data-plan="seo-setup" data-url="https://square.link/u/oytenSfM" onclick="selectPlan(this)">
+                <div class="plan-option" data-plan="seo-setup" data-url="https://square.link/u/ZOVWzi2p" onclick="selectPlan(this)">
                     <input type="radio" name="plan" value="seo-setup">
                     <div class="plan-name">SEO Foundation Setup</div>
                     <div class="plan-price">$1,200</div>
@@ -366,7 +370,7 @@
                         <li>Performance baseline report</li>
                     </ul>
                 </div>
-                <div class="plan-option" data-plan="local-seo" data-url="https://square.link/u/Pxl2Rz9x" onclick="selectPlan(this)">
+                <div class="plan-option" data-plan="local-seo" data-url="https://square.link/u/QrhGBiyG" onclick="selectPlan(this)">
                     <input type="radio" name="plan" value="local-seo">
                     <div class="plan-name">Local SEO Setup</div>
                     <div class="plan-price">$800</div>
@@ -383,7 +387,7 @@
 
             <p class="plan-label">Monthly Retainers</p>
             <div class="plan-selector-monthly">
-                <div class="plan-option" data-plan="spark" data-url="https://square.link/u/68zS0Q9E" onclick="selectPlan(this)">
+                <div class="plan-option" data-plan="spark" data-url="https://square.link/u/eWALuj2S" onclick="selectPlan(this)">
                     <input type="radio" name="plan" value="spark">
                     <div class="plan-name">Spark</div>
                     <div class="plan-price">$500/mo</div>
@@ -392,11 +396,11 @@
                         <li>Monthly technical SEO audit</li>
                         <li>Keyword rank tracking</li>
                         <li>Weekly Google Business Profile check</li>
-                        <li>Monthly performance report</li>
+                        <li>Quarterly performance report</li>
                         <li>2 hours content & site work</li>
                     </ul>
                 </div>
-                <div class="plan-option popular" data-plan="blaze" data-url="https://square.link/u/1RKO0v3h" onclick="selectPlan(this)">
+                <div class="plan-option popular" data-plan="blaze" data-url="https://square.link/u/LDSg7Eo0" onclick="selectPlan(this)">
                     <input type="radio" name="plan" value="blaze">
                     <div class="plan-name">Blaze</div>
                     <div class="plan-price">$900/mo</div>
@@ -408,7 +412,7 @@
                         <li>Client portal dashboard</li>
                     </ul>
                 </div>
-                <div class="plan-option" data-plan="inferno" data-url="https://square.link/u/FnguDG9R" onclick="selectPlan(this)">
+                <div class="plan-option" data-plan="inferno" data-url="https://square.link/u/YipZDcIN" onclick="selectPlan(this)">
                     <input type="radio" name="plan" value="inferno">
                     <div class="plan-name">Inferno</div>
                     <div class="plan-price">$1,500/mo</div>
