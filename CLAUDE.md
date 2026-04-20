@@ -2,7 +2,7 @@
 
 ## CRITICAL: All Changes Must Go Through a Pull Request
 
-This repo's `main` branch is protected. **Direct pushes to main will be rejected.**
+This repo's `main` branch is protected against force-pushes and deletions. Direct pushes to main are technically allowed for admins but should still go through a PR for review/rollback clarity.
 
 ### Every time you make changes here, you MUST:
 
@@ -46,12 +46,13 @@ This repo's `main` branch is protected. **Direct pushes to main will be rejected
        print('PR created:', data['html_url'])
    ```
 
-6. **Tell Kandy the PR is ready** — she reviews and merges. Nothing goes live until she approves.
+6. **Tell Kandy the PR is ready.** She reviews. Claude may merge the PR **only when Kandy explicitly instructs** (e.g., "merge PR-X", "merge all open PRs", "merge them in order"). **Never auto-merge.** When merging, close the associated Jira ticket and delete the remote feature branch afterward.
 
 ---
 
 ## Repo Details
 - **Remote:** https://github.com/KandyAngel27/Phoenix-Method
-- **Protected branch:** main (requires 1 approval to merge)
+- **Protected branch:** main (force-push + deletion blocked; no review requirement)
 - **Jira project:** PM
 - **Owner/reviewer:** Kandy (KandyAngel27)
+- **Merge authority:** Kandy only, or Claude when explicitly instructed
