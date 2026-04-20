@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Portal | Phoenix Method — Your SEO Command Center</title>
+    <meta name="description" content="See your SEO rankings, deliverables, content calendar, and reports in one dashboard. Phoenix Method client portal — full transparency, updated monthly.">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Phoenix Method">
+    <meta name="theme-color" content="#07070D">
+    <link rel="canonical" href="https://phoenixmethodseo.com/client-portal.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Client Portal | Phoenix Method — Your SEO Command Center">
+    <meta property="og:description" content="See your SEO rankings, deliverables, content calendar, and reports in one dashboard. Phoenix Method client portal — full transparency, updated monthly.">
+    <meta property="og:url" content="https://phoenixmethodseo.com/client-portal.html">
+    <meta property="og:site_name" content="Phoenix Method">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:image" content="https://phoenixmethodseo.com/assets/phoenix-full-logo.png">
+
+    <!-- WebPage Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Client Portal | Phoenix Method",
+        "description": "See your SEO rankings, deliverables, content calendar, and reports in one dashboard. Phoenix Method client portal — full transparency, updated monthly.",
+        "url": "https://phoenixmethodseo.com/client-portal.html",
+        "publisher": {
+            "@type": "Organization",
+            "name": "Phoenix Method",
+            "url": "https://phoenixmethodseo.com"
+        }
+    }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================
+           RESET & BASE
+           ============================================ */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #07070D;
+            color: #F0ECE6;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        a { text-decoration: none; color: inherit; }
+        img { max-width: 100%; height: auto; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+        /* ============================================
+           FIRE GRADIENT UTILITIES
+           ============================================ */
+        .fire-gradient-text {
+            background: linear-gradient(135deg, #FF4D00, #FF8C00, #FFB800);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ============================================
+           SECTION TAG
+           ============================================ */
+        .section-tag {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #FF4D00, #FF8C00, #FFB800);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+
+        /* ============================================
+           BUTTONS
+           ============================================ */
+        .btn-primary {
+            display: inline-block;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 14px 36px;
+            background: linear-gradient(135deg, #FF4D00, #FF8C00);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(255, 77, 0, 0.35);
+        }
+        .btn-ghost {
+            display: inline-block;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 14px 36px;
+            background: transparent;
+            color: #FF8C00;
+            border: 1px solid #FF4D00;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .btn-ghost:hover {
+            background: #FF4D00;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(255, 77, 0, 0.25);
+        }
+
+        /* ============================================
+           NAV
+           ============================================ */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 16px 0;
+            transition: all 0.4s ease;
+        }
+        .nav.scrolled {
+            background: rgba(7, 7, 13, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 77, 0, 0.12);
+            padding: 10px 0;
+        }
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-logo { display: flex; align-items: center; }
+        .nav-logo-img { height: 40px; width: auto; }
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+        }
+        .nav-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: #F0ECE6;
+            transition: all 0.3s ease;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+        .nav-links a {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 500;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #9A95A8;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover { color: #FF8C00; }
+        .nav-cta {
+            border: 1px solid #FF4D00 !important;
+            color: #FF8C00 !important;
+            padding: 8px 20px;
+            border-radius: 6px;
+            transition: all 0.3s ease !important;
+        }
+        .nav-cta:hover {
+            background: #FF4D00 !important;
+            color: #fff !important;
+        }
+
+        /* ============================================
+           HERO — SECTION 1
+           ============================================ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 180px 24px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-content { position: relative; z-index: 2; max-width: 800px; }
+        .hero h1 {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            line-height: 1.15;
+            margin-bottom: 24px;
+            color: #F0ECE6;
+        }
+        .hero p {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: #9A95A8;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+        .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+        /* Ember particles */
+        .ember {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #FF4D00;
+            box-shadow: 0 0 8px rgba(255, 77, 0, 0.6), 0 0 16px rgba(255, 140, 0, 0.3);
+            animation: ember-float linear infinite;
+            opacity: 0;
+        }
+        .ember:nth-child(1) { left: 15%; animation-duration: 8s; animation-delay: 0s; }
+        .ember:nth-child(2) { left: 45%; animation-duration: 10s; animation-delay: 2s; width: 3px; height: 3px; }
+        .ember:nth-child(3) { left: 70%; animation-duration: 9s; animation-delay: 4s; }
+        .ember:nth-child(4) { left: 85%; animation-duration: 11s; animation-delay: 1s; width: 3px; height: 3px; }
+        @keyframes ember-float {
+            0% { transform: translateY(0); opacity: 0; }
+            10% { opacity: 0.8; }
+            80% { opacity: 0.3; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+
+        /* ============================================
+           GENERAL SECTION STYLING
+           ============================================ */
+        .section {
+            padding: 100px 0;
+            position: relative;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .section-header h2 {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            color: #F0ECE6;
+            margin-bottom: 16px;
+        }
+        .section-header p {
+            font-family: 'Outfit', sans-serif;
+            color: #9A95A8;
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================
+           SECTION 2 — DASHBOARD MOCKUP
+           ============================================ */
+        .mockup-wrapper {
+            max-width: 760px;
+            margin: 0 auto;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+        }
+        .mockup-label {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 500;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #5E5A6B;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        /* ============================================
+           PORTAL WIDGET STYLES (scoped to .pw)
+           ============================================ */
+        .pw {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #131320;
+            border-radius: 12px;
+            overflow: hidden;
+            font-size: 14px;
+            color: #F0ECE6;
+            line-height: 1.5;
+            box-shadow: none;
+            border: 1px solid rgba(255, 77, 0, 0.12);
+        }
+        .pw .ph {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .pw .ph > div { display: flex; align-items: center; gap: 10px; }
+        .pw .plm {
+            width: 28px; height: 28px; border-radius: 6px;
+            background: linear-gradient(135deg, #FF4D00, #FF8C00);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .pw .plt { color: #F0ECE6; font-weight: 600; font-size: 14px; }
+        .pw .pct { color: #9A95A8; font-size: 12px; }
+        .pw .pg { padding: 24px 24px 16px; }
+        .pw .pgn { font-size: 18px; font-weight: 600; color: #F0ECE6; }
+        .pw .pbadge {
+            background: rgba(255, 140, 0, 0.15);
+            color: #E87B2F;
+            font-size: 11px; padding: 2px 10px; border-radius: 99px;
+            margin-left: 8px; font-weight: 500;
+        }
+        .pw .pgs { color: #9A95A8; font-size: 13px; margin-top: 4px; }
+        .pw .sr { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 0 24px 20px; }
+        .pw .sc {
+            background: #0E0E18;
+            border-radius: 10px; padding: 16px;
+            border: 0.5px solid rgba(255, 255, 255, 0.06);
+        }
+        .pw .sl { font-size: 11px; color: #9A95A8; text-transform: uppercase; letter-spacing: 0.5px; }
+        .pw .sv { font-size: 26px; font-weight: 700; margin-top: 4px; color: #F0ECE6; }
+        .pw .sd { font-size: 12px; margin-top: 2px; }
+        .pw .sd.up { color: #27ae60; }
+        .pw .sd.nt { color: #9A95A8; }
+        .pw .sec { padding: 0 24px 20px; }
+        .pw .sh {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 12px; padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .pw .st { font-weight: 600; font-size: 15px; color: #F0ECE6; }
+        .pw .sl2 { font-size: 12px; color: #E87B2F; cursor: pointer; }
+        .pw .dl { display: flex; flex-direction: column; gap: 8px; }
+        .pw .di {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 12px; background: #0E0E18;
+            border-radius: 8px; border: 0.5px solid rgba(255, 255, 255, 0.06);
+        }
+        .pw .cb {
+            width: 18px; height: 18px; border-radius: 4px;
+            border: 1.5px solid rgba(255, 255, 255, 0.06);
+            flex-shrink: 0;
+        }
+        .pw .cb.done {
+            background: #27ae60;
+            border-color: #27ae60;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.5 6L5 8.5L9.5 3.5' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .pw .cb.prog {
+            border-color: #FF8C00;
+            background: rgba(255, 140, 0, 0.15);
+        }
+        .pw .dt { flex: 1; font-size: 13px; color: #F0ECE6; }
+        .pw .sp {
+            font-size: 11px; padding: 2px 10px; border-radius: 99px;
+            white-space: nowrap; font-weight: 500;
+        }
+        .pw .s-done { background: rgba(39, 174, 96, 0.15); color: #27ae60; border: 0.5px solid rgba(39, 174, 96, 0.4); }
+        .pw .s-prog { background: rgba(255, 140, 0, 0.15); color: #C9922A; border: 0.5px solid rgba(255, 140, 0, 0.4); }
+        .pw .s-todo { background: rgba(52, 152, 219, 0.15); color: #3498db; border: 0.5px solid rgba(52, 152, 219, 0.4); }
+        .pw .kg { display: flex; flex-direction: column; gap: 6px; }
+        .pw .kr {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 12px; background: #0E0E18;
+            border-radius: 8px; border: 0.5px solid rgba(255, 255, 255, 0.06);
+        }
+        .pw .kt { flex: 1; font-size: 13px; color: #F0ECE6; }
+        .pw .kp {
+            font-size: 13px; font-weight: 600; width: 40px; text-align: center;
+        }
+        .pw .kp.pg2 { color: #27ae60; }
+        .pw .kp.pm { color: #C9922A; }
+        .pw .kp.pl { color: #c0392b; }
+        .pw .kc { font-size: 11px; width: 32px; text-align: right; }
+        .pw .kc.up { color: #27ae60; }
+        .pw .kc.nt { color: #5E5A6B; }
+        .pw .ccg { display: flex; flex-direction: column; gap: 6px; }
+        .pw .cci {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 12px; background: #0E0E18;
+            border-radius: 8px; border: 0.5px solid rgba(255, 255, 255, 0.06);
+        }
+        .pw .ccd { font-size: 12px; color: #9A95A8; width: 50px; flex-shrink: 0; }
+        .pw .cct { flex: 1; font-size: 13px; color: #F0ECE6; }
+        .pw .ctype {
+            font-size: 10px; padding: 2px 8px; border-radius: 99px;
+            white-space: nowrap; font-weight: 500;
+        }
+        .pw .ctype.tb { background: rgba(52, 152, 219, 0.15); color: #3498db; }
+        .pw .ctype.gb { background: rgba(39, 174, 96, 0.15); color: #27ae60; }
+        .pw .ctype.ob { background: rgba(255, 140, 0, 0.15); color: #C9922A; }
+        .pw .bg2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        .pw .bc {
+            background: #0E0E18; border-radius: 10px; padding: 16px;
+            border: 0.5px solid rgba(255, 255, 255, 0.06);
+        }
+        .pw .bl2 { font-size: 11px; color: #9A95A8; text-transform: uppercase; letter-spacing: 0.5px; }
+        .pw .ba { font-size: 22px; font-weight: 700; margin-top: 4px; color: #F0ECE6; }
+        .pw .bs { font-size: 12px; color: #9A95A8; margin-top: 2px; }
+        .pw .ub {
+            background: #0E0E18; border-radius: 10px; padding: 20px;
+            border: 0.5px solid rgba(255, 255, 255, 0.06);
+        }
+        .pw .ut { font-weight: 600; font-size: 14px; color: #F0ECE6; }
+        .pw .ud { font-size: 13px; color: #9A95A8; margin: 8px 0 16px; line-height: 1.5; }
+        .pw .up2 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .pw .pb {
+            text-align: center; padding: 14px;
+            background: #0E0E18;
+            border-radius: 8px;
+            border: 0.5px solid rgba(255, 255, 255, 0.06);
+        }
+        .pw .pb.feat {
+            border-color: #E87B2F;
+            background: rgba(255, 140, 0, 0.15);
+        }
+        .pw .pbn { font-weight: 600; font-size: 14px; color: #F0ECE6; }
+        .pw .pbp { font-size: 12px; color: #9A95A8; margin-top: 2px; }
+        .pw .dg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .pw .dc {
+            background: #0E0E18; border-radius: 10px; padding: 16px;
+            text-align: center;
+            border: 0.5px solid rgba(255, 255, 255, 0.06);
+        }
+        .pw .di2 { font-size: 24px; margin-bottom: 8px; }
+        .pw .dn2 { font-weight: 600; font-size: 13px; color: #F0ECE6; }
+        .pw .dd { font-size: 11px; color: #9A95A8; margin-top: 4px; }
+        .pw .na { display: flex; flex-direction: column; gap: 10px; }
+        .pw .ni {
+            padding: 14px 16px; background: #0E0E18;
+            border-radius: 8px;
+            border-left: 3px solid rgba(255, 255, 255, 0.06);
+            border-top: 0.5px solid rgba(255, 255, 255, 0.06);
+            border-right: 0.5px solid rgba(255, 255, 255, 0.06);
+            border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+        }
+        .pw .ni.fpm { border-left-color: #E87B2F; }
+        .pw .nm { font-size: 11px; color: #9A95A8; margin-bottom: 6px; font-weight: 500; }
+        .pw .ntx { font-size: 13px; color: #F0ECE6; line-height: 1.5; }
+        .pw .pf {
+            text-align: center; padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            margin-top: 8px;
+        }
+        .pw .fb {
+            display: block; font-size: 10px; letter-spacing: 0.15em;
+            color: #5E5A6B; text-transform: uppercase;
+        }
+        .pw .ft {
+            display: block; font-size: 11px; color: #9A95A8; margin-top: 4px;
+            font-style: italic;
+        }
+
+        /* ============================================
+           SECTION 3 — FEATURES GRID
+           ============================================ */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .feature-card {
+            background: #131320;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            border-color: rgba(255, 77, 0, 0.2);
+            transform: translateY(-2px);
+        }
+        .feature-card-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 20px;
+        }
+        .feature-card-icon svg {
+            width: 48px;
+            height: 48px;
+        }
+        .feature-card h3 {
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #F0ECE6;
+            margin-bottom: 12px;
+        }
+        .feature-card p {
+            font-family: 'Outfit', sans-serif;
+            color: #9A95A8;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* ============================================
+           SECTION 4 — PRICING
+           ============================================ */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            align-items: start;
+        }
+        .pricing-card {
+            background: #131320;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 40px 32px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .pricing-card:hover {
+            transform: translateY(-4px);
+        }
+        .pricing-card.featured {
+            border: 2px solid transparent;
+            background-image: linear-gradient(#131320, #131320), linear-gradient(135deg, #FF4D00, #FF8C00, #FFB800);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            box-shadow: 0 8px 40px rgba(255, 77, 0, 0.15);
+            transform: scale(1.03);
+        }
+        .pricing-card.featured:hover {
+            transform: scale(1.03) translateY(-4px);
+        }
+        .pricing-badge {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #FF4D00, #FF8C00);
+            color: #fff;
+            padding: 4px 20px;
+            border-radius: 99px;
+            white-space: nowrap;
+        }
+        .pricing-card h3 {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #F0ECE6;
+            margin-bottom: 8px;
+        }
+        .pricing-price {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #F0ECE6;
+            margin-bottom: 4px;
+        }
+        .pricing-price span {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #9A95A8;
+        }
+        .pricing-portal {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 500;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            display: block;
+        }
+        .pricing-portal.included { color: #27ae60; }
+        .pricing-portal.addon { color: #C9922A; }
+        .pricing-list {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 32px;
+        }
+        .pricing-list li {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            color: #9A95A8;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .pricing-list li::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF4D00, #FF8C00);
+            flex-shrink: 0;
+        }
+        .pricing-card .btn-primary,
+        .pricing-card .btn-ghost {
+            width: 100%;
+            text-align: center;
+        }
+        .pricing-card-fire-border {
+            border-color: rgba(255, 77, 0, 0.2);
+        }
+
+        /* ============================================
+           SECTION 5 — HOW IT WORKS
+           ============================================ */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            position: relative;
+        }
+        .steps-grid::before {
+            content: '';
+            position: absolute;
+            top: 32px;
+            left: calc(16.67% + 32px);
+            right: calc(16.67% + 32px);
+            height: 2px;
+            background: linear-gradient(90deg, #FF4D00, #FF8C00, #FFB800);
+            opacity: 0.3;
+        }
+        .step-card {
+            text-align: center;
+            position: relative;
+        }
+        .step-number {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF4D00, #FF8C00);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 1.4rem;
+            color: #fff;
+            position: relative;
+            z-index: 2;
+        }
+        .step-card h3 {
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            font-size: 1.15rem;
+            color: #F0ECE6;
+            margin-bottom: 12px;
+        }
+        .step-card p {
+            font-family: 'Outfit', sans-serif;
+            color: #9A95A8;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        /* ============================================
+           SECTION 6 — CTA
+           ============================================ */
+        .cta-section {
+            padding: 100px 0;
+            text-align: center;
+            border-top: 2px solid transparent;
+            border-image: linear-gradient(90deg, transparent, #FF4D00, #FF8C00, #FFB800, transparent) 1;
+        }
+        .cta-section h2 {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: clamp(1.6rem, 4vw, 2.5rem);
+            color: #F0ECE6;
+            margin-bottom: 16px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .cta-section p {
+            font-family: 'Outfit', sans-serif;
+            color: #9A95A8;
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        /* ============================================
+           RESPONSIVE — 768px
+           ============================================ */
+        @media (max-width: 768px) {
+            .nav-toggle { display: flex; }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: rgba(7, 7, 13, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 80px 32px 32px;
+                gap: 20px;
+                transition: right 0.3s ease;
+                border-left: 1px solid rgba(255, 77, 0, 0.12);
+            }
+            .nav-links.open { right: 0; }
+            .features-grid { grid-template-columns: 1fr; }
+            .pricing-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+            .pricing-card.featured { transform: none; }
+            .pricing-card.featured:hover { transform: translateY(-4px); }
+            .steps-grid { grid-template-columns: 1fr; gap: 48px; }
+            .steps-grid::before { display: none; }
+            .pw .sr { grid-template-columns: repeat(2, 1fr); }
+            .pw .bg2 { grid-template-columns: 1fr; }
+            .pw .up2 { grid-template-columns: 1fr; }
+            .pw .dg { grid-template-columns: 1fr; }
+            .mockup-wrapper { overflow-x: auto; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* ============================================
+           RESPONSIVE — 480px
+           ============================================ */
+        @media (max-width: 480px) {
+            .hero { padding: 140px 16px 60px; }
+            .hero h1 { font-size: 2rem; }
+            .hero p { font-size: 0.95rem; }
+            .hero-buttons { flex-direction: column; align-items: center; }
+            .section { padding: 60px 0; }
+            .features-grid { gap: 16px; }
+            .feature-card { padding: 24px; }
+            .pricing-grid { max-width: 100%; }
+            .pw .sr { grid-template-columns: 1fr 1fr; }
+            .pw .cci { flex-wrap: wrap; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================
+         NAV
+         ============================================ -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="https://phoenixmethodseo.com/" class="nav-logo">
+                <img src="https://phoenixmethodseo.com/assets/phoenix-full-logo.png" alt="Phoenix Method" class="nav-logo-img" width="1077" height="502">
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="https://phoenixmethodseo.com/#services">Services</a></li>
+                <li><a href="https://phoenixmethodseo.com/#process">Process</a></li>
+                <li><a href="https://phoenixmethodseo.com/#results">Results</a></li>
+                <li><a href="https://phoenixmethodseo.com/#about">About</a></li>
+                <li><a href="https://phoenixmethodseo.com/#pricing">Investment</a></li>
+                <li><a href="client-portal.html" style="color:#FF8C00 !important">Client Portal</a></li>
+                <li><a href="https://phoenixmethodseo.com/get-started.html" class="nav-cta">Free Audit</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ============================================
+         SECTION 1 — HERO
+         ============================================ -->
+    <section class="hero">
+        <div class="ember"></div>
+        <div class="ember"></div>
+        <div class="ember"></div>
+        <div class="ember"></div>
+        <div class="hero-content reveal">
+            <span class="section-tag">CLIENT PORTAL</span>
+            <h1>Your SEO Command Center</h1>
+            <p>See exactly what we're doing, how it's working, and what's coming next. Updated monthly. No guesswork.</p>
+            <div class="hero-buttons">
+                <a href="get-started.html" class="btn-primary">Get Started</a>
+                <a href="#mockup" class="btn-ghost">See the Dashboard</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         WHAT'S INSIDE YOUR PORTAL (moved above preview)
+         ============================================ -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">EVERYTHING IN ONE PLACE</span>
+                <h2>What's Inside Your Portal</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card reveal">
+                    <div class="feature-card-icon">
+                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 36L16 20L24 28L32 16L42 24" stroke="url(#fg1)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <defs><linearGradient id="fg1" x1="6" y1="24" x2="42" y2="24" gradientUnits="userSpaceOnUse"><stop stop-color="#FF4D00"/><stop offset="1" stop-color="#FFB800"/></linearGradient></defs>
+                        </svg>
+                    </div>
+                    <h3>Real-Time Rankings</h3>
+                    <p>See exactly where you rank for every keyword, updated monthly with change tracking.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-card-icon">
+                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="8" y="6" width="32" height="36" rx="3" stroke="url(#fg2)" stroke-width="2.5"/>
+                            <path d="M16 16H32M16 24H28M16 32H24" stroke="url(#fg2b)" stroke-width="2" stroke-linecap="round"/>
+                            <defs><linearGradient id="fg2" x1="8" y1="24" x2="40" y2="24" gradientUnits="userSpaceOnUse"><stop stop-color="#FF4D00"/><stop offset="1" stop-color="#FFB800"/></linearGradient><linearGradient id="fg2b" x1="16" y1="24" x2="32" y2="24" gradientUnits="userSpaceOnUse"><stop stop-color="#FF4D00"/><stop offset="1" stop-color="#FFB800"/></linearGradient></defs>
+                        </svg>
+                    </div>
+                    <h3>Monthly Reports</h3>
+                    <p>Every audit, rank report, and deliverable summary in one place. No more digging through emails.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-card-icon">
+                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="6" y="10" width="36" height="30" rx="3" stroke="url(#fg3)" stroke-width="2.5"/>
+                            <path d="M6 18H42" stroke="url(#fg3b)" stroke-width="2"/>
+                            <circle cx="14" cy="28" r="2" fill="#FF4D00"/><circle cx="24" cy="28" r="2" fill="#FF8C00"/><circle cx="34" cy="28" r="2" fill="#FFB800"/>
+                            <defs><linearGradient id="fg3" x1="6" y1="25" x2="42" y2="25" gradientUnits="userSpaceOnUse"><stop stop-color="#FF4D00"/><stop offset="1" stop-color="#FFB800"/></linearGradient><linearGradient id="fg3b" x1="6" y1="18" x2="42" y2="18" gradientUnits="userSpaceOnUse"><stop stop-color="#FF4D00"/><stop offset="1" stop-color="#FFB800"/></linearGradient></defs>
+                        </svg>
+                    </div>
+                    <h3>Content Calendar</h3>
+                    <p>Your content pipeline — what's planned, in progress, and published.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-card-icon">
+                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 24L20 32L36 16" stroke="url(#fg4)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="24" cy="24" r="20" stroke="url(#fg4b)" stroke-width="2.5"/>
+                            <defs><linearGradient id="fg4" x1="12" y1="24" x2="36" y2="24" gradientUnits="userSpaceOnUse"><stop stop-color="#FF4D00"/><stop offset="1" stop-color="#FFB800"/></linearGradient><linearGradient id="fg4b" x1="4" y1="24" x2="44" y2="24" gradientUnits="userSpaceOnUse"><stop stop-color="#FF4D00"/><stop offset="1" stop-color="#FFB800"/></linearGradient></defs>
+                        </svg>
+                    </div>
+                    <h3>Deliverable Tracking</h3>
+                    <p>Watch every task from "to do" to "complete." Full transparency.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-card-icon">
+                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="10" y="8" width="28" height="32" rx="3" stroke="url(#fg5)" stroke-width="2.5"/>
+                            <path d="M18 20H30M18 28H26" stroke="url(#fg5b)" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M24 40V44" stroke="url(#fg5c)" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="24" cy="14" r="2" fill="#FF8C00"/>
+                            <defs><linearGradient id="fg5" x1="10" y1="24" x2="38" y2="24" gradientUnits="userSpaceOnUse"><stop stop-color="#FF4D00"/><stop offset="1" stop-color="#FFB800"/></linearGradient><linearGradient id="fg5b" x1="18" y1="24" x2="30" y2="24" gradientUnits="userSpaceOnUse"><stop stop-color="#FF4D00"/><stop offset="1" stop-color="#FFB800"/></linearGradient><linearGradient id="fg5c" x1="24" y1="40" x2="24" y2="44" gradientUnits="userSpaceOnUse"><stop stop-color="#FF4D00"/><stop offset="1" stop-color="#FFB800"/></linearGradient></defs>
+                        </svg>
+                    </div>
+                    <h3>Billing & Plans</h3>
+                    <p>Your plan details, invoices, and upgrade options. Pay securely via Square.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-card-icon">
+                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 36V12C8 10.3431 9.34315 9 11 9H37C38.6569 9 40 10.3431 40 12V30C40 31.6569 38.6569 33 37 33H16L8 36Z" stroke="url(#fg6)" stroke-width="2.5" stroke-linejoin="round"/>
+                            <path d="M17 18H31M17 24H27" stroke="url(#fg6b)" stroke-width="2" stroke-linecap="round"/>
+                            <defs><linearGradient id="fg6" x1="8" y1="22" x2="40" y2="22" gradientUnits="userSpaceOnUse"><stop stop-color="#FF4D00"/><stop offset="1" stop-color="#FFB800"/></linearGradient><linearGradient id="fg6b" x1="17" y1="21" x2="31" y2="21" gradientUnits="userSpaceOnUse"><stop stop-color="#FF4D00"/><stop offset="1" stop-color="#FFB800"/></linearGradient></defs>
+                        </svg>
+                    </div>
+                    <h3>Direct Messaging</h3>
+                    <p>Leave notes, ask questions. Kandy responds within 1 business day.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         DASHBOARD PREVIEW
+         ============================================ -->
+    <section class="section" id="mockup">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">LIVE PREVIEW</span>
+                <h2>Watch Your Rankings Rise in Real Time</h2>
+                <p>Your dedicated SEO dashboard. Every metric, every move, every result — updated monthly.</p>
+            </div>
+            <div class="reveal">
+                <div class="mockup-label">Live Preview &mdash; PHW Care Dashboard</div>
+                <div class="mockup-wrapper">
+                    <div class="pw">
+                        <div class="ph">
+                            <div>
+                                <span class="plm"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1.5L10 6H14.5L11 9L12.5 14L8 11.5L3.5 14L5 9L1.5 6H6L8 1.5Z" fill="white"/></svg></span>
+                                <span class="plt">Phoenix Method</span>
+                            </div>
+                            <span class="pct">PHW Care &mdash; Client Portal</span>
+                        </div>
+                        <div class="pg">
+                            <div class="pgn">Welcome back, PHW Care <span class="pbadge">April 2026</span></div>
+                            <div class="pgs">Your SEO portal &mdash; updated monthly by Kandy at Phoenix Method</div>
+                        </div>
+                        <div class="sr">
+                            <div class="sc"><div class="sl">Organic Sessions</div><div class="sv">1,284</div><div class="sd up">+18% this month</div></div>
+                            <div class="sc"><div class="sl">Keywords Ranking</div><div class="sv">47</div><div class="sd up">+6 new</div></div>
+                            <div class="sc"><div class="sl">Avg. Position</div><div class="sv">14.2</div><div class="sd up">+2.1 pts</div></div>
+                            <div class="sc"><div class="sl">Current Plan</div><div class="sv" style="font-size:15px;margin-top:3px">Blaze</div><div class="sd nt">$900/mo</div></div>
+                        </div>
+                        <div class="sec">
+                            <div class="sh"><span class="st">Monthly Deliverables</span><span class="sl2">view all</span></div>
+                            <div class="dl">
+                                <div class="di"><div class="cb done"></div><span class="dt">Full technical SEO audit + recommendations</span><span class="sp s-done">Complete</span></div>
+                                <div class="di"><div class="cb done"></div><span class="dt">3 blog posts published (mental health keywords)</span><span class="sp s-done">Complete</span></div>
+                                <div class="di"><div class="cb prog"></div><span class="dt">Google Business Profile optimization</span><span class="sp s-prog">In progress</span></div>
+                                <div class="di"><div class="cb"></div><span class="dt">Monthly rank tracking report</span><span class="sp s-todo">Due Apr 30</span></div>
+                            </div>
+                        </div>
+                        <div class="pf">
+                            <span class="fb">PHOENIX METHOD &middot; CLIENT PORTAL</span>
+                            <span class="ft">Search. Rise. Dominate.</span>
+                        </div>
+                    </div>
+                </div>
+                <p style="text-align:center;color:#9A95A8;font-size:0.9rem;margin-top:20px;font-style:italic;line-height:1.6">
+                    Your full portal includes rank tracking, content calendar, billing, reports, documents, and direct messaging with your strategist.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 3 — HOW IT WORKS (moved up)
+         ============================================ -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">HOW IT WORKS</span>
+                <h2>Three Steps to Full Visibility</h2>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card reveal">
+                    <div class="step-number">1</div>
+                    <h3>We Build Your Portal</h3>
+                    <p>Personalized dashboard set up within 24 hours of signing.</p>
+                </div>
+                <div class="step-card reveal">
+                    <div class="step-number">2</div>
+                    <h3>We Update Monthly</h3>
+                    <p>Fresh data, rank changes, deliverables, and strategy notes.</p>
+                </div>
+                <div class="step-card reveal">
+                    <div class="step-number">3</div>
+                    <h3>You Check Anytime</h3>
+                    <p>Open from any device. Always know where your SEO stands.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         PRICING
+         ============================================ -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">PLANS &amp; PORTAL ACCESS</span>
+                <h2>Simple, Transparent Pricing</h2>
+            </div>
+            <div class="pricing-grid">
+                <!-- Spark -->
+                <div class="pricing-card reveal">
+                    <h3>Spark</h3>
+                    <div class="pricing-price">$500<span>/mo</span></div>
+                    <span class="pricing-portal addon">6 Hours / Month</span>
+                    <ul class="pricing-list">
+                        <li>Monthly technical SEO audit</li>
+                        <li>Keyword rank tracking</li>
+                        <li>Weekly Google Business Profile check</li>
+                        <li>Quarterly performance report</li>
+                        <li>2 hours content & site work</li>
+                    </ul>
+                    <a href="get-started.html?plan=spark" class="btn-ghost">Get Started</a>
+                </div>
+                <!-- Blaze (Featured) -->
+                <div class="pricing-card featured reveal">
+                    <div class="pricing-badge">MOST POPULAR</div>
+                    <h3>Blaze</h3>
+                    <div class="pricing-price">$900<span>/mo</span></div>
+                    <span class="pricing-portal included">12 Hours / Month + Portal</span>
+                    <ul class="pricing-list">
+                        <li>Everything in Spark</li>
+                        <li>8 hours content & site work</li>
+                        <li>Competitor surveillance & analysis</li>
+                        <li>Client portal dashboard</li>
+                    </ul>
+                    <a href="get-started.html?plan=blaze" class="btn-primary">Get Started</a>
+                </div>
+                <!-- Inferno -->
+                <div class="pricing-card pricing-card-fire-border reveal">
+                    <h3>Inferno</h3>
+                    <div class="pricing-price">$1,500<span>/mo</span></div>
+                    <span class="pricing-portal included">20 Hours / Month + Portal + Priority</span>
+                    <ul class="pricing-list">
+                        <li>Everything in Blaze</li>
+                        <li>16 hours content & site work</li>
+                        <li>Advanced schema & rich result domination</li>
+                        <li>Priority support & turnaround</li>
+                        <li>AI Overview conquest</li>
+                    </ul>
+                    <a href="get-started.html?plan=inferno" class="btn-ghost">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 6 — CTA
+         ============================================ -->
+    <section class="cta-section">
+        <div class="container reveal">
+            <span class="section-tag">READY?</span>
+            <h2>Stop wondering. Start seeing results.</h2>
+            <p>Pick a plan and get your personalized SEO dashboard within 24 hours. Rankings, content, deliverables, billing &mdash; all in one place.</p>
+            <a href="#pricing" class="btn-primary">Choose Your Plan</a>
+        </div>
+    </section>
+
+    <!-- ============================================
+         FOOTER
+         ============================================ -->
+    <footer style="border-top:1px solid rgba(255,77,0,0.12);padding:60px 0 40px;background:#07070D">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <p style="color:#9A95A8;font-size:0.9rem;line-height:1.7">Data-driven SEO &amp; SEM consulting.<br>Your rankings. Our fire.</p>
+                </div>
+                <div>
+                    <h4 style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;color:#F0ECE6;margin-bottom:16px">Services</h4>
+                    <a href="https://phoenixmethodseo.com/#services" style="display:block;color:#9A95A8;font-size:0.9rem;margin-bottom:8px;text-decoration:none">Technical SEO</a>
+                    <a href="https://phoenixmethodseo.com/#services" style="display:block;color:#9A95A8;font-size:0.9rem;margin-bottom:8px;text-decoration:none">Content Strategy</a>
+                    <a href="https://phoenixmethodseo.com/#services" style="display:block;color:#9A95A8;font-size:0.9rem;margin-bottom:8px;text-decoration:none">Local SEO</a>
+                    <a href="https://phoenixmethodseo.com/#services" style="display:block;color:#9A95A8;font-size:0.9rem;margin-bottom:8px;text-decoration:none">Healthcare SEO</a>
+                </div>
+                <div>
+                    <h4 style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;color:#F0ECE6;margin-bottom:16px">Company</h4>
+                    <a href="https://phoenixmethodseo.com/#about" style="display:block;color:#9A95A8;font-size:0.9rem;margin-bottom:8px;text-decoration:none">About</a>
+                    <a href="https://phoenixmethodseo.com/#process" style="display:block;color:#9A95A8;font-size:0.9rem;margin-bottom:8px;text-decoration:none">Our Process</a>
+                    <a href="https://phoenixmethodseo.com/#pricing" style="display:block;color:#9A95A8;font-size:0.9rem;margin-bottom:8px;text-decoration:none">Pricing</a>
+                    <a href="client-portal.html" style="display:block;color:#FF8C00;font-size:0.9rem;margin-bottom:8px;text-decoration:none">Client Portal</a>
+                </div>
+                <div>
+                    <h4 style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;color:#F0ECE6;margin-bottom:16px">Contact</h4>
+                    <a href="mailto:hello@phoenixmethodseo.com" style="display:block;color:#9A95A8;font-size:0.9rem;margin-bottom:8px;text-decoration:none">hello@phoenixmethodseo.com</a>
+                    <a href="https://phoenixmethodseo.com" style="display:block;color:#9A95A8;font-size:0.9rem;margin-bottom:8px;text-decoration:none">phoenixmethodseo.com</a>
+                    <a href="https://phoenixmethodseo.com/get-started.html" style="display:block;color:#9A95A8;font-size:0.9rem;margin-bottom:8px;text-decoration:none">Free SEO Audit</a>
+                </div>
+            </div>
+            <div style="border-top:1px solid rgba(255,255,255,0.06);padding-top:24px;text-align:center">
+                <p style="color:#5E5A6B;font-size:0.8rem">&copy; 2026 Phoenix Method. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================
+         JAVASCRIPT
+         ============================================ -->
+    <script>
+        // Nav scroll effect
+        (function() {
+            var nav = document.getElementById('nav');
+            var scrolled = false;
+            function onScroll() {
+                if (window.scrollY > 80) {
+                    if (!scrolled) { nav.classList.add('scrolled'); scrolled = true; }
+                } else {
+                    if (scrolled) { nav.classList.remove('scrolled'); scrolled = false; }
+                }
+            }
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+        })();
+
+        // Mobile hamburger toggle
+        (function() {
+            var toggle = document.getElementById('navToggle');
+            var links = document.getElementById('navLinks');
+            toggle.addEventListener('click', function() {
+                links.classList.toggle('open');
+            });
+            // Close menu when a link is clicked
+            var navAnchors = links.querySelectorAll('a');
+            for (var i = 0; i < navAnchors.length; i++) {
+                navAnchors[i].addEventListener('click', function() {
+                    links.classList.remove('open');
+                });
+            }
+        })();
+
+        // Smooth scrolling for anchor links
+        (function() {
+            var anchors = document.querySelectorAll('a[href^="#"]');
+            for (var i = 0; i < anchors.length; i++) {
+                anchors[i].addEventListener('click', function(e) {
+                    var target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            }
+        })();
+
+        // Scroll reveal
+        (function() {
+            var reveals = document.querySelectorAll('.reveal');
+            function checkReveal() {
+                var windowHeight = window.innerHeight;
+                for (var i = 0; i < reveals.length; i++) {
+                    var el = reveals[i];
+                    var top = el.getBoundingClientRect().top;
+                    if (top < windowHeight - 80) {
+                        el.classList.add('visible');
+                    }
+                }
+            }
+            window.addEventListener('scroll', checkReveal, { passive: true });
+            checkReveal();
+        })();
+    </script>
+
+</body>
+</html>
