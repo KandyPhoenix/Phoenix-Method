@@ -7,6 +7,10 @@
   "plan_hours": 10,
   "hours_used": 3,
   "updated": "2026-04-21",
+  "next_invoice": {
+    "date": "May 1, 2026",
+    "amount": "$900.00"
+  },
   "stats": {
     "sessions": 135,
     "sessions_change": "Baseline",
@@ -17,9 +21,10 @@
     "position": 36.9,
     "position_change": "Baseline",
     "position_trend": "neutral",
-    "gbp_views": null,
-    "gbp_change": "Check GBP",
-    "gbp_trend": "neutral"
+    "impressions": 42834,
+    "impressions_change": "Baseline",
+    "impressions_trend": "neutral",
+    "ctr": 0.32
   },
   "deliverables": [
     { "text": "Full technical SEO audit", "status": "done" },
@@ -48,12 +53,22 @@
   ],
   "content_calendar": [
     { "date": "May 5", "title": "5 Signs You Need Online Therapy", "type": "blog" },
-    { "date": "May 12", "title": "GBP post — Mental Health Awareness Month", "type": "gbp" },
+    { "date": "May 12", "title": "GBP Post — Mental Health Awareness Month", "type": "gbp" },
     { "date": "May 20", "title": "Affordable Therapy in California — Service Page", "type": "page" }
   ],
-  "message": {
-    "from": "Kandy",
-    "date": "April 21, 2026",
-    "text": "Welcome to your Phoenix Method client portal! This is your first month and we've established your baseline SEO data. Parish Health and Wellness received 135 organic clicks from 42,834 impressions in Google Search this month. Your top keyword \"parish health and wellness\" is ranking at #1. We're actively working to improve rankings for your therapy and counseling keywords. Check back monthly for updated stats and progress reports."
-  }
+  "blog_topics": [
+    { "title": "5 Signs You Need Online Therapy", "status": "planned" },
+    { "title": "What to Expect in Your First Therapy Session", "status": "planned" },
+    { "title": "Affordable Mental Health Care — What Your Insurance Covers", "status": "planned" },
+    { "title": "Online Therapy vs. In-Person: Which Is Right for You?", "status": "planned" },
+    { "title": "How to Find a Therapist That Accepts Your Insurance", "status": "planned" }
+  ],
+  "reports": [],
+  "messages": [
+    {
+      "from": "Kandy",
+      "date": "April 21, 2026",
+      "text": "Welcome to your Phoenix Method client portal! This is your first month and we've established your baseline SEO data. Parish Health and Wellness received 135 organic clicks from 42,834 impressions in Google Search this month. Your top keyword \"parish health and wellness\" is ranking at #1. We're actively working to improve rankings for your therapy and counseling keywords. Check back monthly for updated stats and progress reports."
+    }
+  ]
 }

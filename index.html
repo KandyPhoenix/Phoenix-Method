@@ -822,7 +822,8 @@
     }
     .price-amount span { font-size: 1rem; font-weight: 400; color: var(--text-muted); }
     .price-desc { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 28px; line-height: 1.6; }
-    .price-features { list-style: none; margin-bottom: 32px; flex: 1; }
+    .price-features { list-style: none; margin-bottom: 20px; flex: 1; }
+    .price-card > .btn { width: 100%; margin-top: auto; text-align: center; justify-content: center; }
     .price-features li {
         padding: 8px 0;
         font-size: 0.9rem;
@@ -1823,24 +1824,83 @@
                 <div class="price-card">
                     <div class="price-tier">Spark</div>
                     <div class="price-amount">$500<span>/mo</span></div>
-                    <p class="price-desc">Essential monthly maintenance. Technical audit, rank tracking, weekly GBP check, quarterly report, and 2 hrs content/site work (≈ 1 blog post).</p>
-                    <p class="price-desc" style="font-size: 0.9rem; color: var(--text-muted); margin-top: 12px;">Hold your ground. Build momentum.</p>
-                    <a href="/plans/spark/" class="btn btn-ghost btn-sm" style="margin-top: 20px;">See Spark Details &rarr;</a>
+                    <p class="price-desc" style="font-size:0.9rem;color:var(--text-muted);margin-bottom:20px">Hold your ground. Build momentum.</p>
+                    <ul class="price-features">
+                        <li><details class="feature-detail">
+                            <summary>Monthly rank tracking</summary>
+                            <div class="feature-explain">We monitor your keywords every month and show you exactly where you rank — so you always know what's moving.</div>
+                        </details></li>
+                        <li><details class="feature-detail">
+                            <summary>Technical SEO audit</summary>
+                            <div class="feature-explain">Monthly scan for crawl errors, broken links, slow pages, and any technical issues holding back your rankings.</div>
+                        </details></li>
+                        <li><details class="feature-detail">
+                            <summary>Weekly GBP check</summary>
+                            <div class="feature-explain">We review your Google Business Profile weekly for flagged content, spam Q&amp;A, or missed updates that could cost you visibility.</div>
+                        </details></li>
+                        <li><details class="feature-detail">
+                            <summary>Quarterly performance report</summary>
+                            <div class="feature-explain">A full written summary every three months covering ranking movement, site health, wins, and what's next.</div>
+                        </details></li>
+                        <li><details class="feature-detail">
+                            <summary>2 hrs content/site work</summary>
+                            <div class="feature-explain">Roughly one blog post or a set of smaller on-page updates — content that builds and compounds over time.</div>
+                        </details></li>
+                    </ul>
+                    <a href="/plans/spark/" class="btn btn-ghost btn-sm">See Spark Details &rarr;</a>
                 </div>
                 <div class="price-card featured">
                     <div class="price-badge">Most Popular</div>
                     <div class="price-tier">Blaze</div>
                     <div class="price-amount">$900<span>/mo</span></div>
-                    <p class="price-desc">Active growth. Everything in Spark + 6 hrs content/site work (≈ 2 content pieces), competitor surveillance, and your client portal.</p>
-                    <p class="price-desc" style="font-size: 0.9rem; color: var(--text-muted); margin-top: 12px;">Where most small businesses see real movement.</p>
-                    <a href="/plans/blaze/" class="btn btn-primary btn-sm" style="margin-top: 20px;">See Blaze Details &rarr;</a>
+                    <p class="price-desc" style="font-size:0.9rem;color:var(--text-muted);margin-bottom:20px">Where most small businesses see real movement.</p>
+                    <ul class="price-features">
+                        <li><details class="feature-detail">
+                            <summary>Everything in Spark</summary>
+                            <div class="feature-explain">All Spark deliverables included — rank tracking, technical audits, GBP monitoring, and quarterly reports.</div>
+                        </details></li>
+                        <li><details class="feature-detail">
+                            <summary>6 hrs content/site work</summary>
+                            <div class="feature-explain">Around two content pieces per month — blog posts, page rewrites, or structural improvements that drive rankings.</div>
+                        </details></li>
+                        <li><details class="feature-detail">
+                            <summary>Competitor surveillance</summary>
+                            <div class="feature-explain">We track what your top competitors rank for and use it to find your fastest path to the front page.</div>
+                        </details></li>
+                        <li><details class="feature-detail">
+                            <summary>Private client portal</summary>
+                            <div class="feature-explain">A dedicated dashboard updated monthly with your keyword rankings, deliverables, content calendar, billing, and direct messaging. <a href="/client-portal.html" style="color:var(--fire-mid)">See what's inside &rarr;</a></div>
+                        </details></li>
+                    </ul>
+                    <a href="/plans/blaze/" class="btn btn-primary btn-sm">See Blaze Details &rarr;</a>
                 </div>
                 <div class="price-card">
                     <div class="price-tier">Inferno</div>
                     <div class="price-amount">$1,500<span>/mo</span></div>
-                    <p class="price-desc">Total domination. Everything in Blaze + 12 hrs content/site work (≈ 3–4 pieces), advanced schema, AI Overview conquest, priority support.</p>
-                    <p class="price-desc" style="font-size: 0.9rem; color: var(--text-muted); margin-top: 12px;">For competitive markets and multi-location.</p>
-                    <a href="/plans/inferno/" class="btn btn-ghost btn-sm" style="margin-top: 20px;">See Inferno Details &rarr;</a>
+                    <p class="price-desc" style="font-size:0.9rem;color:var(--text-muted);margin-bottom:20px">For competitive markets and multi-location businesses.</p>
+                    <ul class="price-features">
+                        <li><details class="feature-detail">
+                            <summary>Everything in Blaze</summary>
+                            <div class="feature-explain">All Blaze deliverables included — client portal, competitor tracking, content, and increased monthly hours.</div>
+                        </details></li>
+                        <li><details class="feature-detail">
+                            <summary>12 hrs content/site work</summary>
+                            <div class="feature-explain">Three to four content pieces per month — blog posts, service pages, landing pages, or any mix that serves your goals.</div>
+                        </details></li>
+                        <li><details class="feature-detail">
+                            <summary>Advanced schema markup</summary>
+                            <div class="feature-explain">Structured data that helps Google understand exactly what you offer — richer search results and more visibility.</div>
+                        </details></li>
+                        <li><details class="feature-detail">
+                            <summary>AI Overview optimization</summary>
+                            <div class="feature-explain">We structure your content to appear in Google's AI Overview responses — the new front line of search visibility in 2026.</div>
+                        </details></li>
+                        <li><details class="feature-detail">
+                            <summary>Priority support</summary>
+                            <div class="feature-explain">Same-day response time and direct access to your strategist for time-sensitive questions or urgent changes.</div>
+                        </details></li>
+                    </ul>
+                    <a href="/plans/inferno/" class="btn btn-ghost btn-sm">See Inferno Details &rarr;</a>
                 </div>
             </div>
             <div style="text-align: center; margin-top: 32px;">
@@ -2088,6 +2148,7 @@
                         <a href="#about">About</a>
                         <a href="#process">Our Process</a>
                         <a href="#pricing">Pricing</a>
+                        <a href="/client-portal.html">Client Portal</a>
                         <a href="#faq">FAQ</a>
                         <a href="#insights">Blog</a>
                     </div>

@@ -125,6 +125,7 @@ def update_client(client_key, push=False):
     prev_sessions = existing.get('stats', {}).get('sessions')
     prev_position = existing.get('stats', {}).get('position')
     prev_keywords = existing.get('stats', {}).get('keywords')
+    prev_impressions = existing.get('stats', {}).get('impressions')
 
     def pct_change(current, prev):
         if prev is None or prev == 0: return 'Baseline'
@@ -148,6 +149,7 @@ def update_client(client_key, push=False):
     sessions_trend = 'neutral' if prev_sessions is None else ('up' if gsc['clicks'] >= prev_sessions else 'down')
     pos_trend = 'neutral' if prev_position is None else ('up' if gsc['position'] <= prev_position else 'down')
     kw_trend = 'neutral' if prev_keywords is None else ('up' if len(gsc['keywords']) >= prev_keywords else 'down')
+    imp_trend = 'neutral' if prev_impressions is None else ('up' if gsc['impressions'] >= prev_impressions else 'down')
 
     # Build updated data
     data = {
@@ -169,18 +171,22 @@ def update_client(client_key, push=False):
             'position': gsc['position'],
             'position_change': pos_change(gsc['position'], prev_position),
             'position_trend': pos_trend,
-            'gbp_views': existing.get('stats', {}).get('gbp_views'),
-            'gbp_change': existing.get('stats', {}).get('gbp_change', 'Update manually'),
-            'gbp_trend': 'neutral',
+            'impressions': gsc['impressions'],
+            'impressions_change': pct_change(gsc['impressions'], prev_impressions),
+            'impressions_trend': imp_trend,
+            'ctr': gsc['ctr'],
         },
         'deliverables': existing.get('deliverables', []),
         'keywords': new_keywords,
         'content_calendar': existing.get('content_calendar', []),
-        'message': existing.get('message', {
+        'messages': existing.get('messages', [existing.get('message', {
             'from': 'Kandy',
             'date': today.strftime('%B %d, %Y'),
             'text': f'Portal updated for {month_label}.',
-        }),
+        })]),
+        'blog_topics': existing.get('blog_topics', []),
+        'reports': existing.get('reports', []),
+        'next_invoice': existing.get('next_invoice'),
     }
 
     with open(data_path, 'w') as f:
