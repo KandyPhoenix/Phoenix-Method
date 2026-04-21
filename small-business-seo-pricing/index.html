@@ -49,13 +49,15 @@
         th { font-family: var(--font-accent); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fire-mid); background: rgba(255,140,0,0.05); }
         td { color: var(--text-secondary); font-size: 0.95rem; }
         td strong { color: var(--text-primary); }
-        .plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 28px; }
-        .plan-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 28px; text-align: center; }
+        .plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 28px; align-items: stretch; }
+        .plan-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 28px; text-align: center; display: flex; flex-direction: column; position: relative; }
         .plan-card.featured { border-color: var(--fire-mid); box-shadow: 0 0 32px rgba(255,140,0,0.15); }
+        .plan-card.featured::before { content: 'MOST POPULAR'; position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--fire-start), var(--fire-mid)); color: #fff; font-family: var(--font-accent); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; padding: 4px 14px; border-radius: 20px; white-space: nowrap; }
         .plan-card h3 { color: var(--text-primary); font-family: var(--font-display); font-weight: 700; font-size: 1.4rem; margin: 0 0 4px; }
         .plan-card .plan-price { font-family: var(--font-display); font-weight: 900; font-size: 2rem; color: var(--fire-mid); margin-bottom: 16px; }
         .plan-card .plan-price span { font-size: 0.9rem; color: var(--text-muted); font-weight: 400; }
-        .plan-card p { font-size: 0.95rem; margin: 0 0 20px; text-align: left; }
+        .plan-card p { font-size: 0.95rem; margin: 0 0 20px; text-align: left; flex: 1; }
+        .plan-card .btn { margin-top: auto; align-self: stretch; padding: 12px 20px; font-size: 0.82rem; }
         .callout { background: linear-gradient(135deg, rgba(255,77,0,0.08), rgba(255,184,0,0.04)); border-left: 3px solid var(--fire-mid); padding: 20px 24px; border-radius: 8px; margin: 28px 0; }
         .callout p { margin: 0; color: var(--text-primary); }
         .callout strong { color: var(--fire-mid); }
@@ -121,7 +123,7 @@
                 <a href="/plans/spark/" class="btn btn-ghost btn-sm">Plan Details</a>
             </div>
             <div class="plan-card featured">
-                <h3>Blaze ⭐</h3>
+                <h3>Blaze</h3>
                 <div class="plan-price">$900<span>/mo</span></div>
                 <p>Most popular tier. Everything in Spark plus 6 hrs content/site work (≈ 2 content pieces), competitor surveillance, and your personalized client portal. The plan where most small businesses see measurable growth.</p>
                 <a href="/plans/blaze/" class="btn btn-primary btn-sm">Plan Details</a>
