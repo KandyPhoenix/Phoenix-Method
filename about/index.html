@@ -216,7 +216,7 @@
         background: var(--bg-surface);
         position: relative;
         overflow: hidden;
-        text-align: left;
+        text-align: center;
     }
     .page-hero::before {
         content: '';
@@ -239,7 +239,7 @@
         font-size: 1.1rem;
         color: var(--text-secondary);
         max-width: 640px;
-        margin: 0;
+        margin: 0 auto;
         line-height: 1.75;
     }
     .breadcrumbs {
@@ -254,43 +254,42 @@
     .breadcrumbs a:hover { text-decoration: underline; }
 
     /* ========== ABOUT CONTENT ========== */
-    .about-page { padding: var(--section-padding) 0; background: var(--bg-surface); }
+    .about-page { padding: clamp(40px, 5vw, 64px) 0 var(--section-padding); background: var(--bg-deep); }
     .about-body { max-width: 760px; }
     .about-opener {
-        font-size: clamp(1.15rem, 2vw, 1.35rem);
-        line-height: 1.75;
+        font-size: clamp(1.1rem, 2vw, 1.3rem);
+        line-height: 1.8;
         color: var(--text-primary);
-        margin-bottom: 32px;
+        margin-bottom: 28px;
         font-weight: 300;
     }
     .about-body p {
         font-size: 1rem;
         line-height: 1.85;
         color: var(--text-secondary);
-        margin-bottom: 20px;
+        margin-bottom: 18px;
     }
     .about-body p:last-of-type { margin-bottom: 0; }
     .about-creds {
         display: flex;
         flex-wrap: wrap;
-        gap: 0;
+        gap: 10px;
         margin-top: 40px;
-        border-top: 1px solid var(--border-subtle);
-        border-left: 1px solid var(--border-subtle);
     }
     .cred {
-        display: flex;
+        display: inline-flex;
         align-items: center;
-        gap: 10px;
-        padding: 16px 24px;
-        font-size: 0.9rem;
+        gap: 8px;
+        padding: 8px 16px;
+        font-size: 0.875rem;
         color: var(--text-secondary);
-        border-right: 1px solid var(--border-subtle);
-        border-bottom: 1px solid var(--border-subtle);
-        width: 50%;
+        background: rgba(255, 140, 0, 0.06);
+        border: 1px solid rgba(255, 140, 0, 0.2);
+        border-radius: 40px;
+        transition: all 0.25s;
     }
-    .cred-icon { font-size: 1.1rem; flex-shrink: 0; }
-    @media (max-width: 600px) { .cred { width: 100%; } }
+    .cred:hover { background: rgba(255, 140, 0, 0.12); border-color: rgba(255, 140, 0, 0.4); color: var(--text-primary); }
+    .cred-icon { font-size: 1rem; flex-shrink: 0; }
 
     /* Values cards */
     .values-grid {
