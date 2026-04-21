@@ -17,9 +17,9 @@
     "position": 36.9,
     "position_change": "Baseline",
     "position_trend": "neutral",
-    "gbp_views": null,
-    "gbp_change": "Check GBP",
-    "gbp_trend": "neutral"
+    "impressions": 42834,
+    "impressions_change": "Baseline",
+    "impressions_trend": "neutral"
   },
   "deliverables": [
     { "text": "Full technical SEO audit", "status": "done" },
@@ -50,6 +50,26 @@
     { "date": "May 5", "title": "5 Signs You Need Online Therapy", "type": "blog" },
     { "date": "May 12", "title": "GBP post — Mental Health Awareness Month", "type": "gbp" },
     { "date": "May 20", "title": "Affordable Therapy in California — Service Page", "type": "page" }
+  ],
+  "blog_topics": [
+    {
+      "title": "5 Signs You Need Online Therapy (And How to Get Started)",
+      "keyword": "online therapy california",
+      "angle": "Addresses hesitation around starting therapy — targets people researching but not yet committed.",
+      "status": "suggested"
+    },
+    {
+      "title": "What Is an ACSW Therapist and Can They Help Me?",
+      "keyword": "acsw therapist",
+      "angle": "Explains the credential clearly — targets the keyword we're already ranking at #5 for.",
+      "status": "suggested"
+    },
+    {
+      "title": "Affordable Mental Health Care in California: What to Know",
+      "keyword": "affordable online mental health care with insurance",
+      "angle": "Covers insurance options, sliding scale, and Medicaid — high-intent keyword at position #19.",
+      "status": "suggested"
+    }
   ],
   "message": {
     "from": "Kandy",

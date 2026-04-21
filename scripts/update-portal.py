@@ -75,12 +75,17 @@ def pull_gsc(sc_property):
         if q.replace(' ', '').replace('-', '').isdigit(): continue
         clean_keywords.append(kw)
 
+    # Top keyword = highest clicks; fallback to best position
+    top_kw = max(clean_keywords, key=lambda k: k['clicks']) if clean_keywords else None
+
     return {
         'clicks': int(totals.get('clicks', 0)),
         'impressions': int(totals.get('impressions', 0)),
         'ctr': round(totals.get('ctr', 0) * 100, 2),
         'position': round(totals.get('position', 0), 1),
         'keywords': clean_keywords,
+        'top_keyword': top_kw['keys'][0] if top_kw else '—',
+        'top_keyword_position': round(top_kw['position'], 0) if top_kw else None,
     }
 
 def update_client(client_key, push=False):
@@ -169,9 +174,9 @@ def update_client(client_key, push=False):
             'position': gsc['position'],
             'position_change': pos_change(gsc['position'], prev_position),
             'position_trend': pos_trend,
-            'gbp_views': existing.get('stats', {}).get('gbp_views'),
-            'gbp_change': existing.get('stats', {}).get('gbp_change', 'Update manually'),
-            'gbp_trend': 'neutral',
+            'impressions': gsc['impressions'],
+            'impressions_change': pct_change(gsc['impressions'], existing.get('stats', {}).get('impressions')),
+            'impressions_trend': 'neutral' if existing.get('stats', {}).get('impressions') is None else ('up' if gsc['impressions'] >= existing['stats']['impressions'] else 'down'),
         },
         'deliverables': existing.get('deliverables', []),
         'keywords': new_keywords,
