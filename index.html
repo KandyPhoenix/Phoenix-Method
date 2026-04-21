@@ -2216,12 +2216,29 @@
                         <input type="hidden" name="_template" value="table">
                         <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
                         <div class="form-group">
-                            <label for="website">Your Website</label>
-                            <input type="url" id="website" name="website" required placeholder="https://yourbusiness.com">
+                            <label for="name">Name <span style="color: var(--text-muted); font-weight: 400;">(optional)</span></label>
+                            <input type="text" id="name" name="name" placeholder="Jane Smith">
                         </div>
                         <div class="form-group">
-                            <label for="email">Email Address</label>
+                            <label for="email">Email <span style="color: var(--fire-mid);">*</span></label>
                             <input type="email" id="email" name="email" required placeholder="jane@business.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone <span style="color: var(--text-muted); font-weight: 400;">(optional)</span></label>
+                            <input type="tel" id="phone" name="phone" placeholder="555-123-4567">
+                        </div>
+                        <div class="form-group">
+                            <label for="business_name">Business Name <span style="color: var(--text-muted); font-weight: 400;">(optional)</span></label>
+                            <input type="text" id="business_name" name="business_name" placeholder="Your Business, LLC">
+                        </div>
+                        <div class="form-group">
+                            <label for="website">Website <span style="color: var(--fire-mid);">*</span></label>
+                            <input type="text" id="website" name="website" required placeholder="yourbusiness.com">
+                            <span style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-top: 6px;">Just the domain is fine — no need to type <code style="color: var(--text-secondary);">https://</code> or <code style="color: var(--text-secondary);">www.</code></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">What's on your mind? <span style="color: var(--text-muted); font-weight: 400;">(optional)</span></label>
+                            <textarea id="message" name="message" placeholder="Ranking issues, competitor concerns, specific goals, or just &quot;I want an audit&quot; — whatever you want us to know."></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary btn-full">Send My Free Audit Request</button>
                     </form>
