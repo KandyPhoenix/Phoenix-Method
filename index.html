@@ -356,6 +356,40 @@
         transition: color 0.3s;
     }
     .nav-links a:hover { color: var(--fire-mid); }
+    .nav-dropdown { position: relative; }
+    .nav-dropdown > a::after { content: ' ▾'; font-size: 0.7em; opacity: 0.6; }
+    .nav-dropdown-menu {
+        position: absolute;
+        top: calc(100% + 12px);
+        left: -16px;
+        min-width: 240px;
+        background: rgba(14,14,24,0.98);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 8px 0;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-4px);
+        transition: opacity .2s, transform .2s, visibility .2s;
+        backdrop-filter: blur(12px);
+        list-style: none;
+    }
+    .nav-dropdown:hover .nav-dropdown-menu,
+    .nav-dropdown:focus-within .nav-dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    .nav-dropdown-menu li { display: block; }
+    .nav-dropdown-menu a {
+        display: block;
+        padding: 10px 20px;
+        font-size: 0.82rem;
+        color: var(--text-secondary);
+        text-transform: none;
+        letter-spacing: 0.04em;
+    }
+    .nav-dropdown-menu a:hover { color: var(--fire-mid); background: rgba(255,140,0,0.05); }
     .nav-cta {
         padding: 10px 24px !important;
         border: 1px solid var(--fire-start) !important;
@@ -1503,8 +1537,19 @@
                 <span></span><span></span><span></span>
             </button>
             <ul class="nav-links" id="navLinks">
-                <li><a href="#services">Services</a></li>
-                <li><a href="#process">Process</a></li>
+                <li class="nav-dropdown">
+                    <a href="#services">Services</a>
+                    <ul class="nav-dropdown-menu">
+                        <li><a href="/services/local-seo/">Local SEO</a></li>
+                        <li><a href="#services">All Services Overview</a></li>
+                    </ul>
+                </li>
+                <li class="nav-dropdown">
+                    <a href="#services">Industries</a>
+                    <ul class="nav-dropdown-menu">
+                        <li><a href="/industries/healthcare-seo/">Healthcare SEO</a></li>
+                    </ul>
+                </li>
                 <li><a href="#why-phoenix-method">About</a></li>
                 <li><a href="#pricing">Investment</a></li>
                 <li><a href="/order.html">Shop</a></li>
