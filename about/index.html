@@ -272,24 +272,45 @@
     .about-body p:last-of-type { margin-bottom: 0; }
     .about-creds {
         display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 40px;
-    }
-    .cred {
-        display: inline-flex;
+        justify-content: center;
         align-items: center;
-        gap: 8px;
-        padding: 8px 16px;
-        font-size: 0.875rem;
-        color: var(--text-secondary);
-        background: rgba(255, 140, 0, 0.06);
-        border: 1px solid rgba(255, 140, 0, 0.2);
-        border-radius: 40px;
-        transition: all 0.25s;
+        gap: clamp(16px, 3vw, 40px);
+        flex-wrap: nowrap;
+        margin-top: 48px;
+        padding: 40px 0;
+        border-top: 1px solid var(--border-subtle);
+        border-bottom: 1px solid var(--border-subtle);
     }
-    .cred:hover { background: rgba(255, 140, 0, 0.12); border-color: rgba(255, 140, 0, 0.4); color: var(--text-primary); }
-    .cred-icon { font-size: 1rem; flex-shrink: 0; }
+    .cred { text-align: center; flex: 0 1 auto; }
+    .cred-icon {
+        display: block;
+        font-size: 1.6rem;
+        margin-bottom: 10px;
+    }
+    .cred-title {
+        display: block;
+        font-family: var(--font-accent);
+        font-weight: 600;
+        font-size: 0.78rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--text-primary);
+        margin-bottom: 4px;
+    }
+    .cred-sub {
+        display: block;
+        font-family: var(--font-accent);
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+    }
+    .cred-divider { width: 1px; height: 40px; background: var(--border); flex-shrink: 0; }
+    @media (max-width: 700px) {
+        .about-creds { flex-wrap: wrap; gap: 24px; justify-content: flex-start; }
+        .cred-divider { display: none; }
+        .cred { text-align: left; }
+    }
 
     /* Values cards */
     .values-grid {
@@ -443,10 +464,29 @@
                 <p>We've worked with dental practices, mental health providers, addiction treatment centers, medical offices, oil and gas companies, agriculture and farming equipment suppliers, creative professionals, and more. Whether it's a therapy practice written with care for YMYL requirements, an equipment catalog that needs to rank nationally, or an artist portfolio that needs local visibility — we've done it.</p>
                 <p>Every campaign is custom-built from scratch. No recycled playbooks, no templates, no promises we can't back with data. The Phoenix Method is simple: learn your industry, audit your competition, build a strategy that dominates, and prove it with numbers every single month.</p>
                 <div class="about-creds">
-                    <div class="cred"><span class="cred-icon">🏥</span><span>Healthcare, Dental &amp; Mental Health SEO</span></div>
-                    <div class="cred"><span class="cred-icon">🛢</span><span>Oil &amp; Gas, Agriculture &amp; Equipment Suppliers</span></div>
-                    <div class="cred"><span class="cred-icon">🎨</span><span>Creative Professionals &amp; Artist Portfolios</span></div>
-                    <div class="cred"><span class="cred-icon">📈</span><span>Multi-Industry Experience Across 10+ Sectors</span></div>
+                    <div class="cred">
+                        <span class="cred-icon">🏥</span>
+                        <span class="cred-title">Healthcare &amp; Mental Health</span>
+                        <span class="cred-sub">Dental &bull; Therapy &bull; Medical</span>
+                    </div>
+                    <div class="cred-divider"></div>
+                    <div class="cred">
+                        <span class="cred-icon">🛢</span>
+                        <span class="cred-title">Oil, Gas &amp; Agriculture</span>
+                        <span class="cred-sub">Equipment &bull; Suppliers &bull; Industrial</span>
+                    </div>
+                    <div class="cred-divider"></div>
+                    <div class="cred">
+                        <span class="cred-icon">🎨</span>
+                        <span class="cred-title">Creative Professionals</span>
+                        <span class="cred-sub">Portfolios &bull; Photographers &bull; Designers</span>
+                    </div>
+                    <div class="cred-divider"></div>
+                    <div class="cred">
+                        <span class="cred-icon">📈</span>
+                        <span class="cred-title">10+ Industries Served</span>
+                        <span class="cred-sub">Local &bull; Regional &bull; National</span>
+                    </div>
                 </div>
             </div>
         </div>
