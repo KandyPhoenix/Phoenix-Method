@@ -838,23 +838,37 @@
     /* ========== INDUSTRY STRIP ========== */
     .industry-strip {
         display: flex; align-items: center; justify-content: center;
-        flex-wrap: wrap; gap: 8px 24px;
-        padding: 18px 32px; margin-top: 40px;
-        background: rgba(255,255,255,0.03);
-        border: 1px solid rgba(255,255,255,0.06);
-        border-radius: 8px;
-        font-size: 0.85rem;
+        flex-wrap: wrap; gap: 10px 20px;
+        padding: 20px 32px; margin-top: 40px;
+        background: linear-gradient(135deg, rgba(255,77,0,0.08), rgba(255,184,0,0.04));
+        border: 1px solid rgba(255,140,0,0.3);
+        border-radius: 10px;
+        font-size: 0.9rem;
     }
-    .industry-strip-label { color: var(--text-muted); letter-spacing: 0.05em; }
+    .industry-strip-label {
+        color: var(--fire-mid);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-family: var(--font-accent);
+        font-weight: 700;
+        font-size: 0.78rem;
+    }
     .industry-strip a {
-        color: var(--text-secondary); text-decoration: none;
-        padding: 4px 12px; border-radius: 99px;
-        border: 1px solid rgba(255,255,255,0.1);
-        transition: color 0.2s, border-color 0.2s;
-        font-family: var(--font-accent); font-size: 0.8rem;
-        letter-spacing: 0.06em; text-transform: uppercase;
+        color: var(--text-primary); text-decoration: none;
+        padding: 6px 16px; border-radius: 99px;
+        border: 1px solid rgba(255,140,0,0.5);
+        background: rgba(255,77,0,0.08);
+        transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.15s;
+        font-family: var(--font-accent); font-size: 0.82rem;
+        letter-spacing: 0.08em; text-transform: uppercase;
+        font-weight: 600;
     }
-    .industry-strip a:hover { color: var(--fire-mid); border-color: rgba(255,140,0,0.4); }
+    .industry-strip a:hover {
+        color: #fff;
+        border-color: var(--fire-mid);
+        background: linear-gradient(135deg, var(--fire-start), var(--fire-mid));
+        transform: translateY(-1px);
+    }
 
     /* ========== FEATURE EXPANDABLE DROPDOWNS ========== */
     .feature-detail { margin: 0; }
