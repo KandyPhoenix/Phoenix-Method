@@ -37,7 +37,7 @@ This repo's `main` branch is protected against force-pushes and deletions. Direc
    }).encode()
 
    req = urllib.request.Request(
-       'https://api.github.com/repos/KandyAngel27/Phoenix-Method/pulls',
+       'https://api.github.com/repos/KandyPhoenix/Phoenix-Method/pulls',
        data=payload, headers=headers, method='POST'
    )
    ctx = ssl.create_default_context()
@@ -51,8 +51,8 @@ This repo's `main` branch is protected against force-pushes and deletions. Direc
 ---
 
 ## Repo Details
-- **Remote:** https://github.com/KandyAngel27/Phoenix-Method
+- **Remote:** https://github.com/KandyPhoenix/Phoenix-Method
 - **Protected branch:** main (force-push + deletion blocked; no review requirement)
 - **Jira project:** PM
-- **Owner/reviewer:** Kandy (KandyAngel27)
+- **Owner/reviewer:** Kandy (KandyPhoenix)
 - **Merge authority:** Kandy only, or Claude when explicitly instructed
