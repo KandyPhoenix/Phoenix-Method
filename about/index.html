@@ -267,29 +267,46 @@
         opacity: 0.045;
         pointer-events: none;
     }
-    .about-layout {
-        max-width: 900px;
-        margin: 0 auto;
+    .about-split {
+        display: grid;
+        grid-template-columns: 1fr 1.6fr;
+        gap: 80px;
+        align-items: start;
         position: relative;
         z-index: 2;
     }
-    .about-layout p {
+    @media (max-width: 860px) {
+        .about-split { grid-template-columns: 1fr; gap: 40px; }
+    }
+    .about-left { position: sticky; top: 120px; }
+    .about-pull {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+        line-height: 1.3;
+        color: var(--text-primary);
+        margin-bottom: 32px;
+        padding-left: 20px;
+        border-left: 3px solid var(--fire-start);
+    }
+    .about-right p {
         color: var(--text-secondary);
         font-size: 1.05rem;
-        line-height: 1.8;
-        margin-bottom: 20px;
-        max-width: 800px;
+        line-height: 1.85;
+        margin-bottom: 22px;
     }
-    .about-creds { display: flex; flex-wrap: wrap; gap: 20px 40px; margin-top: 32px; margin-bottom: 48px; }
+    .about-right p:last-child { margin-bottom: 0; }
+    .about-creds { display: flex; flex-wrap: wrap; gap: 16px 36px; margin-top: 36px; }
     .cred {
         display: flex;
         align-items: center;
         gap: 12px;
         font-family: var(--font-accent);
         font-weight: 500;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
     }
-    .cred-icon { font-size: 1.3rem; }
+    .cred-icon { font-size: 1.2rem; }
 
     /* Values cards */
     .values-grid {
@@ -437,15 +454,21 @@
 
     <section class="about-page">
         <div class="container">
-            <div class="about-layout">
-                <p>Phoenix Method was built from real-world experience — not a marketing textbook. With a background in healthcare operations, we bring an insider's understanding of how practices actually run to every client engagement. We've been in the trenches, and we know what small businesses actually need to grow. We also know where our lane ends — SEO is our retainer work. Compliance, billing, and clinical questions stay outside our scope. Paid media, Shopify or custom-platform builds, and deeper engineering work are all available as separately scoped custom engagements.</p>
-                <p>We've built and maintained websites across a wide range of industries — dental practices, mental health providers, addiction treatment centers, medical offices, oil and gas companies, agriculture and farming equipment suppliers, goods and product suppliers, creative professionals, and more. Whether it's a therapy practice site written with care for YMYL requirements, an equipment catalog that needs to rank nationally, or an artist portfolio that needs local visibility — we've done it.</p>
-                <p>Every campaign we touch is custom-built from scratch. We don't recycle playbooks, we don't use templates, and we don't make promises we can't back with data. The Phoenix Method is simple: learn your industry, audit your competition, build a strategy that dominates, and prove it with numbers every single month.</p>
-                <div class="about-creds">
-                    <div class="cred"><span class="cred-icon">🏥</span><span>Healthcare, Dental &amp; Mental Health SEO</span></div>
-                    <div class="cred"><span class="cred-icon">🛢</span><span>Oil &amp; Gas, Agriculture &amp; Equipment Suppliers</span></div>
-                    <div class="cred"><span class="cred-icon">🎨</span><span>Creative Professionals &amp; Artist Portfolios</span></div>
-                    <div class="cred"><span class="cred-icon">📈</span><span>Multi-Industry Experience Across 10+ Sectors</span></div>
+            <div class="about-split">
+                <div class="about-left">
+                    <span class="section-tag">Our Background</span>
+                    <p class="about-pull">We've been in the trenches. We know what small businesses actually need — and what just burns budget.</p>
+                    <div class="about-creds">
+                        <div class="cred"><span class="cred-icon">🏥</span><span>Healthcare, Dental &amp; Mental Health</span></div>
+                        <div class="cred"><span class="cred-icon">🛢</span><span>Oil &amp; Gas, Agriculture &amp; Equipment</span></div>
+                        <div class="cred"><span class="cred-icon">🎨</span><span>Creative Professionals &amp; Portfolios</span></div>
+                        <div class="cred"><span class="cred-icon">📈</span><span>10+ Industries Served</span></div>
+                    </div>
+                </div>
+                <div class="about-right">
+                    <p>Phoenix Method was built from real-world experience — not a marketing textbook. With a background in healthcare operations, we bring an insider's understanding of how practices actually run to every client engagement. We know what small businesses need to grow. We also know where our lane ends — SEO is our retainer work. Compliance, billing, and clinical questions stay outside our scope. Paid media, Shopify or custom-platform builds, and deeper engineering work are all available as separately scoped custom engagements.</p>
+                    <p>We've built and maintained websites across a wide range of industries — dental practices, mental health providers, addiction treatment centers, medical offices, oil and gas companies, agriculture and farming equipment suppliers, goods and product suppliers, creative professionals, and more. Whether it's a therapy practice written with care for YMYL requirements, an equipment catalog that needs to rank nationally, or an artist portfolio that needs local visibility — we've done it.</p>
+                    <p>Every campaign we touch is custom-built from scratch. We don't recycle playbooks, we don't use templates, and we don't make promises we can't back with data. The Phoenix Method is simple: learn your industry, audit your competition, build a strategy that dominates, and prove it with numbers every single month.</p>
                 </div>
             </div>
         </div>
@@ -458,21 +481,16 @@
             <div class="values-grid">
                 <div class="value-card">
                     <span class="value-num">01</span>
-                    <h3>One Point of Contact</h3>
-                    <p>You talk to the same person every time — not a rotation of account managers. A dedicated team handles execution behind the scenes, but your communication stays consistent and direct.</p>
-                </div>
-                <div class="value-card">
-                    <span class="value-num">02</span>
                     <h3>No Templates</h3>
                     <p>Every strategy is built from a real audit of your specific business, market, and competition. We've never copy-pasted a content plan and we're not starting now.</p>
                 </div>
                 <div class="value-card">
-                    <span class="value-num">03</span>
+                    <span class="value-num">02</span>
                     <h3>No Promises Without Data</h3>
                     <p>We don't sell results we can't back up. We sell a process: audit, build, track, report, improve. The results follow from the work. We prove it every month.</p>
                 </div>
                 <div class="value-card">
-                    <span class="value-num">04</span>
+                    <span class="value-num">03</span>
                     <h3>No Long-Term Lock-Ins</h3>
                     <p>All retainers are month-to-month. If we're not earning our keep, you shouldn't be stuck. In practice, clients stay because compounding SEO makes switching expensive — not because we trap them.</p>
                 </div>
