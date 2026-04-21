@@ -343,14 +343,16 @@
     .nav-links {
         display: flex;
         align-items: center;
-        gap: 36px;
+        gap: 22px;
         list-style: none;
+        flex-wrap: nowrap;
     }
+    .nav-links > li { white-space: nowrap; }
     .nav-links a {
         font-family: var(--font-accent);
         font-weight: 500;
-        font-size: 0.85rem;
-        letter-spacing: 0.1em;
+        font-size: 0.82rem;
+        letter-spacing: 0.08em;
         text-transform: uppercase;
         color: var(--text-secondary);
         transition: color 0.3s;
@@ -373,6 +375,12 @@
         transition: opacity .2s, transform .2s, visibility .2s;
         backdrop-filter: blur(12px);
         list-style: none;
+    }
+    /* Right-align the rightmost dropdown so it doesn't overflow the viewport edge */
+    .nav-dropdown.dropdown-right .nav-dropdown-menu { left: auto; right: -16px; }
+    @media (max-width: 1100px) {
+        .nav-links { gap: 16px; }
+        .nav-links a { font-size: 0.78rem; }
     }
     .nav-dropdown:hover .nav-dropdown-menu,
     .nav-dropdown:focus-within .nav-dropdown-menu {
@@ -1557,7 +1565,7 @@
                     </ul>
                 </li>
                 <li><a href="#why-phoenix-method">About</a></li>
-                <li class="nav-dropdown">
+                <li class="nav-dropdown dropdown-right">
                     <a href="/small-business-seo-pricing/">Investment</a>
                     <ul class="nav-dropdown-menu">
                         <li><a href="/small-business-seo-pricing/"><strong>Pricing Overview</strong></a></li>
@@ -1570,7 +1578,6 @@
                 <li><a href="#insights">Blog</a></li>
                 <li><a href="#faq">FAQ</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li><a href="#contact" class="nav-cta">Free SEO Audit</a></li>
             </ul>
         </div>
     </nav>
