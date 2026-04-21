@@ -182,136 +182,6 @@
     .btn-sm { padding: 12px 28px; font-size: 0.85rem; }
     .btn-full { width: 100%; }
 
-    /* ========== NAV ========== */
-    .nav {
-        position: fixed;
-        top: 0; left: 0; right: 0;
-        z-index: 1000;
-        padding: 28px 0;
-        transition: all 0.4s ease;
-    }
-    .nav.scrolled {
-        background: rgba(7, 7, 13, 0.92);
-        backdrop-filter: blur(20px);
-        padding: 14px 0;
-        border-bottom: 1px solid var(--border);
-    }
-    .nav-inner {
-        max-width: var(--container-max);
-        margin: 0 auto;
-        padding: 0 var(--side-padding);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    .nav-logo {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-    }
-    .nav-logo-img {
-        height: var(--nav-logo-height);
-        width: auto;
-        object-fit: contain;
-    }
-    
-    .nav-logo-group { display: flex; flex-direction: column; line-height: 1; }
-    .logo-word {
-        display: flex;
-        justify-content: space-between;
-        line-height: 1.05;
-    }
-    .logo-word span {
-        font-family: var(--font-display);
-        font-weight: 900;
-    }
-    .phoenix-word {
-        width: 130px;
-    }
-    .phoenix-word span {
-        font-size: 1.2rem;
-        background: linear-gradient(135deg, var(--fire-start), var(--fire-mid), var(--fire-end));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-    .method-word {
-        width: 130px;
-    }
-    .method-word span {
-        font-size: 1.2rem;
-        font-weight: 900;
-        color: var(--text-primary);
-    }
-    .footer-phoenix-word {
-        width: 105px;
-    }
-    .footer-phoenix-word span {
-        font-size: 0.95rem;
-        background: linear-gradient(135deg, var(--fire-start), var(--fire-end));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-    .footer-method-word {
-        width: 105px;
-    }
-    .footer-method-word span {
-        font-size: 0.95rem;
-        font-weight: 900;
-        color: var(--text-primary);
-    }
-    .nav-logo-sub {
-        font-family: var(--font-accent);
-        font-weight: 400;
-        font-size: 0.55rem;
-        letter-spacing: 0.35em;
-        text-transform: uppercase;
-        color: var(--text-muted);
-        margin-top: 2px;
-    }
-    .nav-links {
-        display: flex;
-        align-items: center;
-        gap: 36px;
-        list-style: none;
-    }
-    .nav-links a {
-        font-family: var(--font-accent);
-        font-weight: 500;
-        font-size: 0.85rem;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--text-secondary);
-        transition: color 0.3s;
-    }
-    .nav-links a:hover { color: var(--fire-mid); }
-    .nav-cta {
-        padding: 10px 24px !important;
-        border: 1px solid var(--fire-start) !important;
-        border-radius: 4px;
-        color: var(--fire-mid) !important;
-    }
-    .nav-cta:hover {
-        background: var(--fire-start) !important;
-        color: #fff !important;
-    }
-    .nav-toggle {
-        display: none;
-        flex-direction: column;
-        gap: 5px;
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 8px;
-    }
-    .nav-toggle span {
-        width: 24px; height: 2px;
-        background: var(--text-primary);
-        border-radius: 2px;
-        transition: all 0.3s;
-    }
-
     /* ========== HERO ========== */
     .hero {
         position: relative;
@@ -780,41 +650,6 @@
     .form-group textarea::placeholder { color: var(--text-muted); }
     .form-group textarea { resize: vertical; min-height: 100px; }
 
-    /* ========== FOOTER ========== */
-    .footer { padding: 60px 0 30px; border-top: 1px solid var(--border-subtle); }
-    .footer-inner {
-        display: grid;
-        grid-template-columns: 1.2fr 1fr 1fr 1fr;
-        gap: 40px;
-        margin-bottom: 40px;
-        align-items: start;
-    }
-    .footer-brand { display: flex; flex-direction: column; gap: 12px; }
-    
-    /* footer uses .logo-word styles */
-    .footer-sub-name {
-        font-family: var(--font-accent);
-        font-size: 0.65rem;
-        letter-spacing: 0.3em;
-        text-transform: uppercase;
-        color: var(--text-muted);
-    }
-    .footer-tagline { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
-    .footer-links { display: contents; }
-    .footer-col { display: flex; flex-direction: column; gap: 10px; }
-    .footer-col h4 {
-        font-family: var(--font-accent);
-        font-weight: 600;
-        font-size: 0.8rem;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        margin-bottom: 8px;
-    }
-    .footer-col a { color: var(--text-muted); font-size: 0.9rem; transition: color 0.3s; }
-    .footer-col a:hover { color: var(--fire-mid); }
-    .footer-bottom { border-top: 1px solid var(--border-subtle); padding-top: 24px; text-align: center; }
-    .footer-bottom p { color: var(--text-muted); font-size: 0.8rem; }
-
 
 
     /* ========== SETUP CARDS ========== */
@@ -995,8 +830,6 @@
         .hero-logo { max-width: 90%; }
         .pricing-grid { grid-template-columns: 1fr; }
         .contact-layout { grid-template-columns: 1fr; }
-        .footer-inner { grid-template-columns: 1fr; text-align: center; }
-        .footer-links { justify-content: center; }
         .hero-proof { gap: 20px; flex-wrap: wrap; }
         .proof-divider { display: none; }
     }
@@ -1009,6 +842,51 @@
     /* Scroll reveal */
     .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
+    
+    /* ========== NAV ========== */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 20px 0; background: rgba(7,7,13,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); transition: all 0.4s ease; }
+    .nav-inner { max-width: var(--container-max, 1200px); margin: 0 auto; padding: 0 var(--side-padding, 24px); display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { display: flex; align-items: center; }
+    .nav-logo-img { height: 60px; width: auto; object-fit: contain; }
+    .nav-links { display: flex; align-items: center; gap: 22px; list-style: none; flex-wrap: nowrap; }
+    .nav-links > li { white-space: nowrap; }
+    .nav-links a { font-family: var(--font-accent, 'Rajdhani', sans-serif); font-weight: 500; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; color: #C8C5D4; transition: color 0.3s; }
+    .nav-links a:hover { color: var(--fire-mid, #FF8C00); }
+    .nav-dropdown { position: relative; }
+    .nav-dropdown > a::after { content: ' ▾'; font-size: 0.7em; opacity: 0.6; }
+    .nav-dropdown-menu { position: absolute; top: calc(100% + 12px); left: -16px; min-width: 240px; background: rgba(14,14,24,0.98); border: 1px solid var(--border, rgba(255,77,0,0.12)); border-radius: 10px; padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity .2s, transform .2s, visibility .2s; backdrop-filter: blur(12px); list-style: none; }
+    .nav-dropdown.dropdown-right .nav-dropdown-menu { left: auto; right: -16px; }
+    .nav-dropdown:hover .nav-dropdown-menu, .nav-dropdown:focus-within .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+    .nav-dropdown-menu li { display: block; }
+    .nav-dropdown-menu a { display: block; padding: 10px 20px; font-size: 0.82rem; color: #C8C5D4; text-transform: none; letter-spacing: 0.04em; }
+    .nav-dropdown-menu a:hover { color: var(--fire-mid, #FF8C00); background: rgba(255,140,0,0.05); }
+    .nav-cta { padding: 10px 24px !important; border: 1px solid var(--fire-start, #FF4D00) !important; border-radius: 4px; color: var(--fire-mid, #FF8C00) !important; }
+    .nav-cta:hover { background: var(--fire-start, #FF4D00) !important; color: #fff !important; }
+    .nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; }
+    .nav-toggle span { width: 24px; height: 2px; background: #F0ECE6; border-radius: 2px; }
+    @media (max-width: 900px) {
+        .nav-links { display: none; flex-direction: column; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(7,7,13,0.98); padding: 100px 40px 40px; gap: 8px; z-index: 999; overflow-y: auto; }
+        .nav-links.open { display: flex; }
+        .nav-links > li { width: 100%; }
+        .nav-links a { font-size: 1.1rem; padding: 12px 0; display: block; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .nav-dropdown-menu { position: static; opacity: 1; visibility: visible; transform: none; background: transparent; border: none; padding: 0 0 0 16px; }
+        .nav-dropdown > a::after { content: none; }
+        .nav-toggle { display: flex; z-index: 1000; }
+    }
+
+    /* ========== FOOTER ========== */
+    .footer { padding: 60px 0 30px; border-top: 1px solid rgba(255,255,255,0.06); }
+    .footer-inner { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; align-items: start; }
+    .footer-brand { display: flex; flex-direction: column; gap: 12px; }
+    .footer-tagline { color: var(--text-muted, #5E5A6B); font-size: 0.9rem; line-height: 1.6; }
+    .footer-links { display: contents; }
+    .footer-col { display: flex; flex-direction: column; gap: 10px; }
+    .footer-col h4 { font-family: var(--font-accent, 'Rajdhani', sans-serif); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
+    .footer-col a { color: var(--text-muted, #5E5A6B); font-size: 0.9rem; transition: color 0.3s; }
+    .footer-col a:hover { color: var(--fire-mid, #FF8C00); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding-top: 24px; text-align: center; }
+    .footer-bottom p { color: var(--text-muted, #5E5A6B); font-size: 0.8rem; }
+    @media (max-width: 900px) { .footer-inner { grid-template-columns: 1fr; text-align: center; } }
     </style>
     <style>
     .confirm-page {
@@ -1097,23 +975,49 @@
 </head>
 <body>
 
-    <nav class="nav scrolled" id="nav">
+        <nav class="nav" id="nav">
         <div class="nav-inner">
-            <a href="https://phoenixmethodseo.com/" class="nav-logo" aria-label="Phoenix Home">
-                <img src="https://phoenixmethodseo.com/assets/phoenix-full-logo.png" alt="Phoenix Method" class="nav-logo-img" width="1077" height="502" fetchpriority="high">
+            <a href="https://phoenixmethodseo.com/" class="nav-logo" aria-label="Phoenix Method Home">
+                <img src="https://phoenixmethodseo.com/assets/phoenix-full-logo.png" alt="Phoenix Method" class="nav-logo-img" width="1077" height="502">
             </a>
             <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
                 <span></span><span></span><span></span>
             </button>
             <ul class="nav-links" id="navLinks">
-                <li><a href="https://phoenixmethodseo.com/#services">Services</a></li>
-                <li><a href="https://phoenixmethodseo.com/#process">Process</a></li>
-                <li><a href="https://phoenixmethodseo.com/#results">Results</a></li>
-                <li><a href="https://phoenixmethodseo.com/#about">About</a></li>
-                <li><a href="https://phoenixmethodseo.com/#pricing">Investment</a></li>
-                <li><a href="https://phoenixmethodseo.com/#insights">Blog</a></li>
-                <li><a href="https://phoenixmethodseo.com/#faq">FAQ</a></li>
-                <li><a href="https://phoenixmethodseo.com/#contact" class="nav-cta">Free SEO Audit</a></li>
+                <li class="nav-dropdown">
+                    <a href="/small-business-seo/">Services</a>
+                    <ul class="nav-dropdown-menu">
+                        <li><a href="/small-business-seo/"><strong>Small Business SEO</strong></a></li>
+                        <li><a href="/services/local-seo/">Local SEO</a></li>
+                        <li><a href="/services/technical-seo/">Technical SEO</a></li>
+                        <li><a href="/services/content-seo/">Content SEO</a></li>
+                        <li><a href="/services/gbp-optimization/">GBP Optimization</a></li>
+                        <li><a href="/services/ai-overview-optimization/">AI Overview Optimization</a></li>
+                        <li><a href="/services/seo-development/">SEO Development</a></li>
+                    </ul>
+                </li>
+                <li class="nav-dropdown">
+                    <a href="/small-business-seo/">Industries</a>
+                    <ul class="nav-dropdown-menu">
+                        <li><a href="/industries/healthcare-seo/">Healthcare SEO</a></li>
+                        <li><a href="/industries/mental-health-seo/">Mental Health SEO</a></li>
+                        <li><a href="/industries/dental-seo/">Dental SEO</a></li>
+                    </ul>
+                </li>
+                <li><a href="/about/">About</a></li>
+                <li class="nav-dropdown dropdown-right">
+                    <a href="/small-business-seo-pricing/">Investment</a>
+                    <ul class="nav-dropdown-menu">
+                        <li><a href="/small-business-seo-pricing/"><strong>Pricing Overview</strong></a></li>
+                        <li><a href="/plans/spark/">Spark &mdash; $500/mo</a></li>
+                        <li><a href="/plans/blaze/">Blaze &mdash; $900/mo</a></li>
+                        <li><a href="/plans/inferno/">Inferno &mdash; $1,500/mo</a></li>
+                    </ul>
+                </li>
+                <li><a href="/order.html">Shop</a></li>
+                <li><a href="/#insights">Blog</a></li>
+                <li><a href="/#faq">FAQ</a></li>
+                <li><a href="/#contact" class="nav-cta">Contact</a></li>
             </ul>
         </div>
     </nav>

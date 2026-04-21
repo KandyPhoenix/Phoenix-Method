@@ -30,7 +30,6 @@
         .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(7,7,13,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 16px 0; }
         .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); display: flex; align-items: center; justify-content: space-between; }
         .nav-logo img { height: 72px; width: auto; object-fit: contain; }
-        .nav-back { font-family: var(--font-accent); font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fire-mid); text-decoration: none; }
         .page-hero { padding: 160px 0 72px; border-bottom: 1px solid var(--border); }
         .breadcrumbs { font-family: var(--font-accent); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px; }
         .breadcrumbs a { color: var(--text-secondary); }
@@ -73,15 +72,105 @@
         .related .tag { font-family: var(--font-accent); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fire-mid); display: block; margin-bottom: 6px; }
         .related .title { font-weight: 600; }
         footer { background: var(--bg-surface); border-top: 1px solid var(--border); padding: 48px 0 32px; margin-top: 48px; }
-        footer .footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 24px; font-size: 0.9rem; color: var(--text-muted); }
+        footer
         footer a { color: var(--text-secondary); }
+    
+    /* ========== NAV ========== */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 20px 0; background: rgba(7,7,13,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); transition: all 0.4s ease; }
+    .nav-inner { max-width: var(--container-max, 1200px); margin: 0 auto; padding: 0 var(--side-padding, 24px); display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { display: flex; align-items: center; }
+    .nav-logo-img { height: 60px; width: auto; object-fit: contain; }
+    .nav-links { display: flex; align-items: center; gap: 22px; list-style: none; flex-wrap: nowrap; }
+    .nav-links > li { white-space: nowrap; }
+    .nav-links a { font-family: var(--font-accent, 'Rajdhani', sans-serif); font-weight: 500; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; color: #C8C5D4; transition: color 0.3s; }
+    .nav-links a:hover { color: var(--fire-mid, #FF8C00); }
+    .nav-dropdown { position: relative; }
+    .nav-dropdown > a::after { content: ' ▾'; font-size: 0.7em; opacity: 0.6; }
+    .nav-dropdown-menu { position: absolute; top: calc(100% + 12px); left: -16px; min-width: 240px; background: rgba(14,14,24,0.98); border: 1px solid var(--border, rgba(255,77,0,0.12)); border-radius: 10px; padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: opacity .2s, transform .2s, visibility .2s; backdrop-filter: blur(12px); list-style: none; }
+    .nav-dropdown.dropdown-right .nav-dropdown-menu { left: auto; right: -16px; }
+    .nav-dropdown:hover .nav-dropdown-menu, .nav-dropdown:focus-within .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+    .nav-dropdown-menu li { display: block; }
+    .nav-dropdown-menu a { display: block; padding: 10px 20px; font-size: 0.82rem; color: #C8C5D4; text-transform: none; letter-spacing: 0.04em; }
+    .nav-dropdown-menu a:hover { color: var(--fire-mid, #FF8C00); background: rgba(255,140,0,0.05); }
+    .nav-cta { padding: 10px 24px !important; border: 1px solid var(--fire-start, #FF4D00) !important; border-radius: 4px; color: var(--fire-mid, #FF8C00) !important; }
+    .nav-cta:hover { background: var(--fire-start, #FF4D00) !important; color: #fff !important; }
+    .nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 8px; }
+    .nav-toggle span { width: 24px; height: 2px; background: #F0ECE6; border-radius: 2px; }
+    @media (max-width: 900px) {
+        .nav-links { display: none; flex-direction: column; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(7,7,13,0.98); padding: 100px 40px 40px; gap: 8px; z-index: 999; overflow-y: auto; }
+        .nav-links.open { display: flex; }
+        .nav-links > li { width: 100%; }
+        .nav-links a { font-size: 1.1rem; padding: 12px 0; display: block; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .nav-dropdown-menu { position: static; opacity: 1; visibility: visible; transform: none; background: transparent; border: none; padding: 0 0 0 16px; }
+        .nav-dropdown > a::after { content: none; }
+        .nav-toggle { display: flex; z-index: 1000; }
+    }
+
+    /* ========== FOOTER ========== */
+    .footer { padding: 60px 0 30px; border-top: 1px solid rgba(255,255,255,0.06); }
+    .footer-inner { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; align-items: start; }
+    .footer-brand { display: flex; flex-direction: column; gap: 12px; }
+    .footer-tagline { color: var(--text-muted, #5E5A6B); font-size: 0.9rem; line-height: 1.6; }
+    .footer-links { display: contents; }
+    .footer-col { display: flex; flex-direction: column; gap: 10px; }
+    .footer-col h4 { font-family: var(--font-accent, 'Rajdhani', sans-serif); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
+    .footer-col a { color: var(--text-muted, #5E5A6B); font-size: 0.9rem; transition: color 0.3s; }
+    .footer-col a:hover { color: var(--fire-mid, #FF8C00); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding-top: 24px; text-align: center; }
+    .footer-bottom p { color: var(--text-muted, #5E5A6B); font-size: 0.8rem; }
+    @media (max-width: 900px) { .footer-inner { grid-template-columns: 1fr; text-align: center; } }
     </style>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Mental Health SEO Services","serviceType":"Search Engine Optimization for Mental Health Practices","provider":{"@type":"ProfessionalService","name":"Phoenix Method","url":"https://phoenixmethodseo.com/","priceRange":"$$"},"audience":{"@type":"BusinessAudience","audienceType":"Therapists, counselors, psychologists, psychiatrists, group practices, and mental health clinics"},"description":"SEO for mental health practices. Modality-specific positioning (IFS, CBT, EMDR, DBT), insurance and private-pay content, and YMYL-grade E-E-A-T authority signals."}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://phoenixmethodseo.com/"},{"@type":"ListItem","position":2,"name":"Industries","item":"https://phoenixmethodseo.com/industries/"},{"@type":"ListItem","position":3,"name":"Mental Health SEO","item":"https://phoenixmethodseo.com/industries/mental-health-seo/"}]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does SEO for therapists differ from regular SEO?","acceptedAnswer":{"@type":"Answer","text":"Therapy practice SEO sits at the intersection of YMYL healthcare content and hyper-local search. Patients search by modality (IFS, CBT, EMDR), by specific concern (anxiety, trauma, OCD), by insurance status, and by location — often all at once. Content must be clinically accurate, written carefully for YMYL, and targeted at the specific patient searching for a specific kind of help."}},{"@type":"Question","name":"How should patient testimonials be handled on my site?","acceptedAnswer":{"@type":"Answer","text":"Testimonial handling in healthcare is a regulatory matter, not an SEO one. On our side, we default to external review platforms (Google, Psychology Today, TherapyDen) and don't advise on on-site testimonial decisions."}},{"@type":"Question","name":"Should I rank for my specific modality (IFS, CBT, EMDR, etc.)?","acceptedAnswer":{"@type":"Answer","text":"Yes — absolutely. Modality-specific searches are high-intent and convert. 'IFS therapy [city],' 'EMDR for trauma,' 'DBT for BPD' are queries where a dedicated page with clinically accurate content outranks generic 'therapist near me' pages. Your specializations are your differentiation."}},{"@type":"Question","name":"Do I need separate content for sliding-scale or private-pay?","acceptedAnswer":{"@type":"Answer","text":"Yes. 'Sliding scale therapist [city],' 'Medicaid therapist,' 'private pay therapy,' and 'therapist that takes [insurance]' are all distinct searches with distinct patients. A clear page on fees, insurance, and sliding scale captures all of them and eliminates friction for fit-matching patients."}}]}</script>
 </head>
 <body>
-    <nav class="nav"><div class="nav-inner"><a href="/" class="nav-logo" aria-label="Phoenix Method Home"><img src="/assets/phoenix-full-logo.png" alt="Phoenix Method" width="1077" height="502"></a><a href="/" class="nav-back">&larr; Home</a></div></nav>
+        <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="https://phoenixmethodseo.com/" class="nav-logo" aria-label="Phoenix Method Home">
+                <img src="https://phoenixmethodseo.com/assets/phoenix-full-logo.png" alt="Phoenix Method" class="nav-logo-img" width="1077" height="502">
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li class="nav-dropdown">
+                    <a href="/small-business-seo/">Services</a>
+                    <ul class="nav-dropdown-menu">
+                        <li><a href="/small-business-seo/"><strong>Small Business SEO</strong></a></li>
+                        <li><a href="/services/local-seo/">Local SEO</a></li>
+                        <li><a href="/services/technical-seo/">Technical SEO</a></li>
+                        <li><a href="/services/content-seo/">Content SEO</a></li>
+                        <li><a href="/services/gbp-optimization/">GBP Optimization</a></li>
+                        <li><a href="/services/ai-overview-optimization/">AI Overview Optimization</a></li>
+                        <li><a href="/services/seo-development/">SEO Development</a></li>
+                    </ul>
+                </li>
+                <li class="nav-dropdown">
+                    <a href="/small-business-seo/">Industries</a>
+                    <ul class="nav-dropdown-menu">
+                        <li><a href="/industries/healthcare-seo/">Healthcare SEO</a></li>
+                        <li><a href="/industries/mental-health-seo/">Mental Health SEO</a></li>
+                        <li><a href="/industries/dental-seo/">Dental SEO</a></li>
+                    </ul>
+                </li>
+                <li><a href="/about/">About</a></li>
+                <li class="nav-dropdown dropdown-right">
+                    <a href="/small-business-seo-pricing/">Investment</a>
+                    <ul class="nav-dropdown-menu">
+                        <li><a href="/small-business-seo-pricing/"><strong>Pricing Overview</strong></a></li>
+                        <li><a href="/plans/spark/">Spark &mdash; $500/mo</a></li>
+                        <li><a href="/plans/blaze/">Blaze &mdash; $900/mo</a></li>
+                        <li><a href="/plans/inferno/">Inferno &mdash; $1,500/mo</a></li>
+                    </ul>
+                </li>
+                <li><a href="/order.html">Shop</a></li>
+                <li><a href="/#insights">Blog</a></li>
+                <li><a href="/#faq">FAQ</a></li>
+                <li><a href="/#contact" class="nav-cta">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
     <header class="page-hero"><div class="container">
         <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/#services">Industries</a> &rsaquo; <span>Mental Health</span></nav>
         <h1>Mental Health SEO for Practices That <span class="fire-text">Actually Want to Be Found</span></h1>
@@ -163,9 +252,42 @@
         <a href="/#contact" class="btn btn-ghost">Talk First</a>
     </div></div></section>
 
-    <footer><div class="container"><div class="footer-inner">
-        <div>&copy; 2026 Phoenix Method. Search. Rise. Dominate.</div>
-        <div><a href="/">Home</a> &middot; <a href="/#services">Services</a> &middot; <a href="/order.html">Shop</a> &middot; <a href="/services/seo-development/">Custom Project</a> &middot; <a href="/#contact">Contact</a></div>
-    </div></div></footer>
+        <footer class="footer">
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-brand">
+                    <p class="footer-tagline">Data-driven SEO &amp; SEM consulting.<br>Your rankings. Our fire.</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-col">
+                        <h4>Services</h4>
+                        <a href="/#services">Technical SEO</a>
+                        <a href="/#services">Content Strategy</a>
+                        <a href="/#services">Local SEO</a>
+                        <a href="/#services">Google Ads</a>
+                        <a href="/#services">Healthcare SEO</a>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Company</h4>
+                        <a href="/about/">About</a>
+                        <a href="/#process">Our Process</a>
+                        <a href="/#pricing">Pricing</a>
+                        <a href="/client-portal.html">Client Portal</a>
+                        <a href="/#faq">FAQ</a>
+                        <a href="/#insights">Blog</a>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Contact</h4>
+                        <a href="mailto:hello@phoenixmethodseo.com">hello@phoenixmethodseo.com</a>
+                        <a href="https://phoenixmethodseo.com">phoenixmethodseo.com</a>
+                        <a href="/#contact">Free SEO Audit</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Phoenix Method. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
