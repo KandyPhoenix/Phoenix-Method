@@ -255,7 +255,7 @@
 
     /* ========== ABOUT CONTENT ========== */
     .about-page { padding: clamp(40px, 5vw, 64px) 0 var(--section-padding); background: var(--bg-deep); position: relative; overflow: hidden; }
-    .about-body { max-width: 860px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 80px); }
+    .about-body { max-width: 860px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 80px); text-align: center; }
     .about-opener {
         font-size: clamp(1.1rem, 2vw, 1.3rem);
         line-height: 1.8;
@@ -277,7 +277,9 @@
         gap: clamp(16px, 3vw, 40px);
         flex-wrap: nowrap;
         margin-top: 48px;
-        padding: 40px 0;
+        margin-left: calc(-1 * clamp(20px, 5vw, 80px));
+        margin-right: calc(-1 * clamp(20px, 5vw, 80px));
+        padding: 40px clamp(20px, 4vw, 60px);
         border-top: 1px solid var(--border-subtle);
         border-bottom: 1px solid var(--border-subtle);
     }
