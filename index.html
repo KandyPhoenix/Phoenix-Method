@@ -954,13 +954,58 @@
         border-top: 1px solid var(--border-subtle);
     }
 
+    /* ========== CALLOUT ROW (Retainer Discount + À La Carte) ========== */
+    .callout-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin: 32px 0;
+    }
+    @media (max-width: 768px) {
+        .callout-row { grid-template-columns: 1fr; }
+    }
+    .alacarte-teaser {
+        background: linear-gradient(135deg, rgba(255,140,0,0.05) 0%, rgba(255,184,0,0.03) 100%);
+        border: 1px solid rgba(255,140,0,0.25);
+        border-radius: 10px;
+        padding: 20px 28px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+    .alacarte-teaser-tag {
+        font-family: var(--font-accent);
+        font-weight: 700;
+        font-size: 0.72rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--fire-mid);
+        margin-bottom: 8px;
+    }
+    .alacarte-teaser-title {
+        display: block;
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 1.15rem;
+        color: var(--text-primary);
+        margin-bottom: 8px;
+    }
+    .alacarte-teaser p {
+        color: var(--text-secondary);
+        font-size: 0.88rem;
+        line-height: 1.5;
+        margin: 0 0 14px;
+    }
+    .alacarte-teaser .btn-sm { padding: 10px 20px; font-size: 0.8rem; align-self: center; }
+
     /* ========== PACKAGE DISCOUNT BADGE ========== */
     .package-benefit {
         background: linear-gradient(135deg, rgba(255,77,0,0.08) 0%, rgba(255,140,0,0.04) 100%);
         border: 1px solid rgba(255,140,0,0.4);
         border-radius: 10px;
         padding: 20px 28px;
-        margin: 32px 0;
+        margin: 0;
         text-align: center;
     }
     .package-benefit-text strong {
@@ -1982,21 +2027,29 @@
                 <a href="/small-business-seo-pricing/" class="btn btn-ghost">Full Pricing Breakdown &rarr;</a>
             </div>
 
-            <!-- Retainer Client Discount Callout -->
-            <div class="package-benefit">
-                <div class="package-benefit-text">
-                    <strong>Retainer Client Discount</strong>
-                    <div class="benefit-stats">
-                        <div class="benefit-stat">
-                            <span class="benefit-pct">25% off</span>
-                            <span class="benefit-detail">hourly rate on work outside your plan</span>
+            <!-- Retainer Discount + A La Carte (2-column callout row) -->
+            <div class="callout-row">
+                <div class="package-benefit">
+                    <div class="package-benefit-text">
+                        <strong>Retainer Client Discount</strong>
+                        <div class="benefit-stats">
+                            <div class="benefit-stat">
+                                <span class="benefit-pct">25% off</span>
+                                <span class="benefit-detail">hourly rate on work outside your plan</span>
+                            </div>
+                            <div class="benefit-stat">
+                                <span class="benefit-pct">25% off</span>
+                                <span class="benefit-detail">all à la carte services</span>
+                            </div>
                         </div>
-                        <div class="benefit-stat">
-                            <span class="benefit-pct">25% off</span>
-                            <span class="benefit-detail">all à la carte services</span>
-                        </div>
+                        <span class="benefit-tagline">Active monthly clients get partner pricing.</span>
                     </div>
-                    <span class="benefit-tagline">Active monthly clients get partner pricing.</span>
+                </div>
+                <div class="alacarte-teaser">
+                    <span class="alacarte-teaser-tag">À La Carte</span>
+                    <strong class="alacarte-teaser-title">Only Pay for What You Need</strong>
+                    <p>No retainer required. GBP posts, citations, audits, keyword research, review templates, content work — pick what you need, when you need it.</p>
+                    <a href="/order.html" class="btn btn-primary btn-sm" style="margin-top: 8px;">Browse the Shop &rarr;</a>
                 </div>
             </div>
 
@@ -2052,15 +2105,6 @@
                         <a href="https://square.link/u/FqHB12Gz" class="btn btn-ghost btn-sm" target="_blank" rel="noopener">Buy Now &rarr;</a>
                     </div>
                 </div>
-            </div>
-
-            <!-- ========== À LA CARTE TEASER (full list on /order.html) ========== -->
-            <div style="margin-top: 72px; text-align: center;">
-                <span class="section-tag">À La Carte</span>
-                <h3 style="font-family: var(--font-display); font-size: clamp(1.4rem, 3vw, 1.9rem); margin: 12px 0 16px;">Only Pay for <span class="accent">What You Need</span></h3>
-                <p style="color: var(--text-secondary); max-width: 620px; margin: 0 auto 28px;">No retainer required. Pick individual services — GBP posts, citations, audits, keyword research, review templates, content work — à la carte. Instant checkout on commoditized items.</p>
-                <a href="/order.html" class="btn btn-primary" style="padding: 16px 40px; font-size: 1rem;">Browse &amp; Buy Individual Services &rarr;</a>
-                <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 14px;">Package clients save 25% on everything.</p>
             </div>
 
         </div>
