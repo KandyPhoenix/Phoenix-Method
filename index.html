@@ -835,6 +835,27 @@
     .price-features li:last-child { border-bottom: none; }
     .price-features li::before { content: '→'; position: absolute; left: 0; color: var(--fire-mid); font-weight: 600; }
 
+    /* ========== INDUSTRY STRIP ========== */
+    .industry-strip {
+        display: flex; align-items: center; justify-content: center;
+        flex-wrap: wrap; gap: 8px 24px;
+        padding: 18px 32px; margin-top: 40px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 8px;
+        font-size: 0.85rem;
+    }
+    .industry-strip-label { color: var(--text-muted); letter-spacing: 0.05em; }
+    .industry-strip a {
+        color: var(--text-secondary); text-decoration: none;
+        padding: 4px 12px; border-radius: 99px;
+        border: 1px solid rgba(255,255,255,0.1);
+        transition: color 0.2s, border-color 0.2s;
+        font-family: var(--font-accent); font-size: 0.8rem;
+        letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .industry-strip a:hover { color: var(--fire-mid); border-color: rgba(255,140,0,0.4); }
+
     /* ========== FEATURE EXPANDABLE DROPDOWNS ========== */
     .feature-detail { margin: 0; }
     .feature-detail > summary {
@@ -1566,7 +1587,7 @@
                         <li><a href="/industries/dental-seo/">Dental SEO</a></li>
                     </ul>
                 </li>
-                <li><a href="#why-phoenix-method">About</a></li>
+                <li><a href="/about/">About</a></li>
                 <li class="nav-dropdown dropdown-right">
                     <a href="/small-business-seo-pricing/">Investment</a>
                     <ul class="nav-dropdown-menu">
@@ -1579,7 +1600,7 @@
                 <li><a href="/order.html">Shop</a></li>
                 <li><a href="#insights">Blog</a></li>
                 <li><a href="#faq">FAQ</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#contact" class="nav-cta">Contact</a></li>
             </ul>
         </div>
     </nav>
@@ -1639,7 +1660,7 @@
             <div class="section-header">
                 <span class="section-tag">What We Do</span>
                 <h2 class="section-title">Small Business SEO, <span class="accent">Focused Where It Matters</span></h2>
-                <p class="section-sub">Five services, each with its own dedicated page, each built for how small businesses actually operate. Start with the one that fits your gap — or start with the pillar.</p>
+                <p class="section-sub">Each service is built for how small businesses actually operate. Start with the one that fits your gap — or start with the pillar.</p>
             </div>
             <div class="services-grid">
                 <a class="service-card" href="/small-business-seo/" style="text-decoration: none; color: inherit; display: block;">
@@ -1684,16 +1705,12 @@
                     <h3>AI Overview Optimization</h3>
                     <p>Get cited in Google's AI-generated answers. The new top spot — won with structure, E-E-A-T, and advanced schema most competitors haven't deployed yet.</p>
                 </a>
-                <a class="service-card" href="/services/seo-development/" style="text-decoration: none; color: inherit; display: block;">
-                    <div class="service-icon">
-                        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 14L6 24l12 10M30 14l12 10-12 10M26 8l-6 32" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </div>
-                    <h3>SEO Development <span style="font-size: 0.65em; opacity: 0.7;">(custom scope)</span></h3>
-                    <p>When SEO needs engineering — custom site builds, platform migrations, Core Web Vitals engineering, JavaScript SEO, custom schema systems. Scoped and quoted per project.</p>
-                </a>
             </div>
-            <div style="text-align: center; margin-top: 48px;">
-                <p class="section-sub" style="margin-bottom: 20px;">Or browse by industry: <a href="/industries/healthcare-seo/">Healthcare</a> &middot; <a href="/industries/mental-health-seo/">Mental Health</a> &middot; <a href="/industries/dental-seo/">Dental</a></p>
+            <div class="industry-strip">
+                <span class="industry-strip-label">Browse by industry</span>
+                <a href="/industries/healthcare-seo/">Healthcare SEO</a>
+                <a href="/industries/mental-health-seo/">Mental Health SEO</a>
+                <a href="/industries/dental-seo/">Dental SEO</a>
             </div>
         </div>
     </section>
@@ -1767,22 +1784,21 @@
         </div>
     </section>
 
-    <!-- ========== ABOUT ========== -->
+    <!-- ========== ABOUT TEASER ========== -->
     <section class="about" id="about">
         <div class="container">
             <div class="about-layout">
                 <div class="about-text">
                     <span class="section-tag">About Phoenix Method</span>
                     <h2 class="section-title">Built by Practitioners, <span class="accent">Not Salespeople</span></h2>
-                    <p>Phoenix Method was born from real-world experience — not a marketing textbook. With a background in healthcare operations, we bring an insider's understanding of how practices actually run to every client engagement. We've been in the trenches, and we know what small businesses actually need to grow. We also know where our lane ends — SEO is our retainer work. Compliance, billing, and clinical questions stay outside our scope. Paid media, Shopify or custom-platform builds, and deeper engineering work are all available as separately scoped custom engagements.</p>
-                    <p>We've built and maintained websites across a wide range of industries — dental practices, mental health providers, addiction treatment centers, medical offices, oil and gas companies, agriculture and farming equipment suppliers, goods and product suppliers, creative professionals, and more. Whether it's a therapy practice site written with care for YMYL requirements, an equipment catalog that needs to rank nationally, or an artist portfolio that needs local visibility — we've done it.</p>
-                    <p>Every campaign we touch is custom-built from scratch. We don't recycle playbooks, we don't use templates, and we don't make promises we can't back with data. The Phoenix Method is simple: learn your industry, audit your competition, build a strategy that dominates, and prove it with numbers every single month.</p>
+                    <p>Phoenix Method was born from real-world experience — not a marketing textbook. With a background in healthcare operations, we bring an insider's understanding of how practices actually run to every client engagement. No handoffs, no templates, no promises we can't back with data.</p>
                     <div class="about-creds">
                         <div class="cred"><span class="cred-icon">🏥</span><span>Healthcare, Dental & Mental Health SEO</span></div>
                         <div class="cred"><span class="cred-icon">🛢</span><span>Oil & Gas, Agriculture & Equipment Suppliers</span></div>
                         <div class="cred"><span class="cred-icon">🎨</span><span>Creative Professionals & Artist Portfolios</span></div>
                         <div class="cred"><span class="cred-icon">📈</span><span>Multi-Industry Experience Across 10+ Sectors</span></div>
                     </div>
+                    <a href="/about/" class="btn btn-ghost" style="margin-top: 28px;">Our Story &amp; How We Work &rarr;</a>
                 </div>
             </div>
         </div>
@@ -2012,14 +2028,14 @@
                 <details class="faq-item">
                     <summary class="faq-question">How long does it take to see SEO results?</summary>
                     <div class="faq-answer">
-                        <p>Most businesses see measurable improvements in 3-6 months, with significant results between 6-12 months. Technical fixes and local SEO optimizations can produce faster wins within 30-60 days. SEO is a compounding investment — the longer you maintain a consistent strategy, the stronger and more durable your rankings become. Unlike paid ads, organic rankings keep working for you even when you're not actively spending.</p>
+                        <p>There's no honest answer that gives you a specific date — anyone promising "page one in 30 days" is either lying or selling something that'll backfire. SEO is a compounding investment: foundation work builds on itself, rankings stabilize over time, and the real return comes from consistency. Some technical fixes produce quick visibility gains. Others take months to reflect in rankings. We don't promise timelines we can't control — we promise transparent reporting and a strategy built to last.</p>
                     </div>
                 </details>
                 <details class="faq-item">
                     <summary class="faq-question">What makes Phoenix Method different from other SEO agencies?</summary>
                     <div class="faq-answer">
-                        <p>Most SEO firms treat healthcare like any other industry. We don't. Phoenix Method was built by professionals who've worked inside healthcare operations — from revenue cycle management to clinical compliance to health information systems. That means we don't just optimize your website. We understand your patients, your referral patterns, your payer landscape, and the regulatory environment that shapes every word on your site.</p>
-                        <p>In an era where Google demands real E-E-A-T signals for healthcare content, having an SEO team that treats YMYL with care isn't a nice-to-have — it's the difference between ranking and being invisible. We also monitor every Google algorithm update in real-time and adapt strategies before your competitors even read the news.</p>
+                        <p>Most agencies hand you off to a junior account manager and run templated reports. Phoenix Method doesn't work that way — every campaign is built from scratch, every strategy is custom, and you're working directly with the people doing the actual work.</p>
+                        <p>We also don't make promises we can't back with data. No guaranteed rankings, no inflated projections — just transparent monthly reporting, real keyword movement, and strategies that compound over time. We monitor Google algorithm updates in real-time and adapt before your competitors even read the news.</p>
                     </div>
                 </details>
                 <details class="faq-item">
@@ -2105,20 +2121,12 @@
                         <input type="hidden" name="_template" value="table">
                         <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
                         <div class="form-group">
-                            <label for="name">Your Name</label>
-                            <input type="text" id="name" name="name" required placeholder="Jane Smith">
+                            <label for="website">Your Website</label>
+                            <input type="url" id="website" name="website" required placeholder="https://yourbusiness.com">
                         </div>
                         <div class="form-group">
                             <label for="email">Email Address</label>
                             <input type="email" id="email" name="email" required placeholder="jane@business.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="website">Website URL</label>
-                            <input type="url" id="website" name="website" placeholder="https://yourbusiness.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Tell Us About Your Goals</label>
-                            <textarea id="message" name="message" rows="4" placeholder="I want more organic traffic, better local visibility, help with Google Ads..."></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary btn-full">Send My Free Audit Request</button>
                     </form>
@@ -2145,7 +2153,7 @@
                     </div>
                     <div class="footer-col">
                         <h4>Company</h4>
-                        <a href="#about">About</a>
+                        <a href="/about/">About</a>
                         <a href="#process">Our Process</a>
                         <a href="#pricing">Pricing</a>
                         <a href="/client-portal.html">Client Portal</a>
