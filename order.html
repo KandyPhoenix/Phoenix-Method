@@ -185,13 +185,24 @@
 
         /* Retainer CTA */
         .retainer-cta {
-            background: var(--bg-card); border: 1px solid rgba(255,140,0,0.2);
-            border-radius: 14px; padding: 36px 40px; text-align: center; margin-top: 16px;
+            background: linear-gradient(135deg, rgba(255,77,0,0.06), rgba(255,184,0,0.03));
+            border: 1px solid rgba(255,140,0,0.3);
+            border-radius: 14px; padding: 40px; margin-top: 16px;
+            display: grid; grid-template-columns: auto 1fr; gap: 40px; align-items: center;
         }
-        .retainer-cta h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; margin-bottom: 10px; }
-        .retainer-cta p { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 24px; line-height: 1.6; max-width: 520px; margin-left: auto; margin-right: auto; }
-        .retainer-cta a { display: inline-block; padding: 14px 36px; font-family: var(--font-accent); font-weight: 700; font-size: 0.95rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fire-mid); border: 1px solid rgba(255,140,0,0.4); border-radius: 8px; text-decoration: none; transition: all 0.3s; }
-        .retainer-cta a:hover { background: rgba(255,140,0,0.08); transform: translateY(-2px); }
+        @media (max-width: 768px) { .retainer-cta { grid-template-columns: 1fr; gap: 24px; text-align: center; } }
+        .retainer-cta-discount { text-align: center; }
+        .retainer-cta-discount .big-pct { font-family: var(--font-display); font-weight: 900; font-size: clamp(3rem, 6vw, 4.5rem); line-height: 1; color: var(--fire-mid); display: block; }
+        .retainer-cta-discount .big-pct-label { display: block; font-family: var(--font-accent); font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted); margin-top: 6px; }
+        .retainer-cta-body h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; margin-bottom: 6px; color: var(--text-primary); }
+        .retainer-cta-body .subhead { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px; }
+        .retainer-cta-body ul { list-style: none; padding: 0; margin: 0 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; }
+        @media (max-width: 600px) { .retainer-cta-body ul { grid-template-columns: 1fr; } }
+        .retainer-cta-body ul li { font-size: 0.9rem; color: var(--text-secondary); padding-left: 22px; position: relative; line-height: 1.4; }
+        .retainer-cta-body ul li::before { content: '✓'; position: absolute; left: 0; top: 0; color: var(--fire-mid); font-weight: 900; }
+        .retainer-cta-body ul li strong { color: var(--text-primary); }
+        .retainer-cta-body a { display: inline-block; padding: 12px 28px; background: linear-gradient(135deg, var(--fire-start), var(--fire-mid)); color: #fff; font-family: var(--font-accent); font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 6px; text-decoration: none; transition: transform 0.15s, box-shadow 0.2s; }
+        .retainer-cta-body a:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(255,140,0,0.25); }
 
         @media (max-width: 768px) {
             .bundle-grid { grid-template-columns: 1fr; }
@@ -432,9 +443,25 @@
 
     <!-- Retainer CTA -->
     <div class="retainer-cta">
-        <h3>Buying More Than One or Two Things?</h3>
-        <p>Package clients get <strong>25% off all à la carte services</strong> and post bundles — plus dedicated hours, rank tracking, and a client portal. The math usually works out in the first month.</p>
-        <a href="https://phoenixmethodseo.com/get-started.html">See Monthly Plans &rarr;</a>
+        <div class="retainer-cta-discount">
+            <span class="big-pct">25% OFF</span>
+            <span class="big-pct-label">Retainer Perk</span>
+        </div>
+        <div class="retainer-cta-body">
+            <h3>Buying More Than One or Two Things?</h3>
+            <p class="subhead">Here's what active monthly clients get on top of the discount:</p>
+            <ul>
+                <li><strong>25% off</strong> all à la carte services</li>
+                <li><strong>25% off</strong> post bundles</li>
+                <li><strong>25% off</strong> hourly rate on extra work</li>
+                <li>Dedicated content &amp; site hours each month</li>
+                <li>Weekly keyword rank tracking</li>
+                <li>Monthly technical SEO audit</li>
+                <li>Weekly Google Business Profile check</li>
+                <li>Client portal dashboard</li>
+            </ul>
+            <a href="https://phoenixmethodseo.com/small-business-seo-pricing/">See Monthly Plans &rarr;</a>
+        </div>
     </div>
 
 </div>
