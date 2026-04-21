@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical SEO Services — Fix What's Silently Killing Your Rankings | Phoenix Method</title>
+    <meta name="description" content="Technical SEO audit and implementation: crawlability, indexability, Core Web Vitals, schema, site architecture. We find what's actually broken and fix it — not vanity issues.">
+    <link rel="canonical" href="https://phoenixmethodseo.com/services/technical-seo/">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#FF4D00">
+    <meta property="og:title" content="Technical SEO Services | Phoenix Method">
+    <meta property="og:description" content="Technical SEO that finds what's actually broken. Crawl budget, Core Web Vitals, schema, indexing.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://phoenixmethodseo.com/services/technical-seo/">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Outfit:wght@200;300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Outfit:wght@200;300;400;500;600&display=swap"></noscript>
+    <style>
+        :root { --font-display: 'Cinzel', serif; --font-accent: 'Rajdhani', sans-serif; --font-body: 'Outfit', sans-serif; --bg-deep: #07070D; --bg-surface: #0E0E18; --bg-card: #131320; --fire-start: #FF4D00; --fire-mid: #FF8C00; --fire-end: #FFB800; --text-primary: #F0EDE6; --text-secondary: #A8A49C; --text-muted: #6B6860; --border: rgba(255,255,255,0.08); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-body); background: var(--bg-deep); color: var(--text-primary); line-height: 1.7; }
+        a { color: var(--fire-mid); text-decoration: none; transition: color .2s; }
+        a:hover { color: var(--fire-end); }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(7,7,13,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 16px 0; }
+        .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo img { height: 72px; width: auto; object-fit: contain; }
+        .nav-back { font-family: var(--font-accent); font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fire-mid); text-decoration: none; }
+        .page-hero { padding: 160px 0 72px; border-bottom: 1px solid var(--border); }
+        .breadcrumbs { font-family: var(--font-accent); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px; }
+        .breadcrumbs a { color: var(--text-secondary); }
+        .page-hero h1 { font-family: var(--font-display); font-weight: 900; font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.15; margin-bottom: 20px; }
+        .fire-text { background: linear-gradient(135deg, var(--fire-start), var(--fire-mid), var(--fire-end)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .page-hero .lede { font-size: 1.2rem; color: var(--text-secondary); max-width: 780px; }
+        section.content-section { padding: 72px 0; border-bottom: 1px solid var(--border); }
+        section.content-section:last-of-type { border-bottom: none; }
+        .section-tag { display: inline-block; font-family: var(--font-accent); font-weight: 600; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fire-mid); margin-bottom: 12px; }
+        h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.6rem, 3.5vw, 2.2rem); margin-bottom: 24px; }
+        h3 { font-family: var(--font-accent); font-weight: 600; font-size: 1.25rem; margin: 28px 0 12px; color: var(--text-primary); }
+        p { color: var(--text-secondary); margin-bottom: 16px; max-width: 820px; }
+        p strong { color: var(--text-primary); }
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 28px; }
+        .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+        .card h3 { margin-top: 0; color: var(--fire-mid); font-size: 1.05rem; }
+        .card p { font-size: 0.95rem; margin: 0; }
+        .check-list { list-style: none; padding: 0; margin: 16px 0; }
+        .check-list li { padding: 8px 0; color: var(--text-secondary); }
+        .check-list li::before { content: '✓'; color: var(--fire-mid); margin-right: 12px; font-weight: 700; }
+        .faq details { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 18px 22px; margin-bottom: 12px; }
+        .faq summary { cursor: pointer; font-family: var(--font-accent); font-weight: 600; font-size: 1.05rem; color: var(--text-primary); list-style: none; }
+        .faq summary::-webkit-details-marker { display: none; }
+        .faq summary::before { content: '+'; color: var(--fire-mid); margin-right: 12px; }
+        .faq details[open] summary::before { content: '−'; }
+        .faq details p { margin-top: 12px; }
+        .cta-panel { background: linear-gradient(135deg, rgba(255,77,0,0.08), rgba(255,184,0,0.04)); border: 1px solid rgba(255,140,0,0.25); border-radius: 16px; padding: 48px 32px; text-align: center; }
+        .cta-panel p { margin: 0 auto 24px; }
+        .btn { display: inline-block; padding: 14px 28px; border-radius: 8px; font-family: var(--font-accent); font-weight: 700; font-size: 0.95rem; letter-spacing: 0.1em; text-transform: uppercase; transition: transform .15s, box-shadow .2s; }
+        .btn-primary { background: linear-gradient(135deg, var(--fire-start), var(--fire-mid)); color: #fff; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(255,140,0,0.25); color: #fff; }
+        .btn-ghost { background: transparent; color: var(--fire-mid); border: 1px solid var(--fire-mid); margin-left: 12px; }
+        .btn-ghost:hover { background: rgba(255,140,0,0.1); color: var(--fire-end); }
+        .related { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 28px; }
+        .related a { display: block; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; color: var(--text-primary); }
+        .related a:hover { border-color: var(--fire-mid); }
+        .related .tag { font-family: var(--font-accent); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fire-mid); display: block; margin-bottom: 6px; }
+        .related .title { font-weight: 600; }
+        footer { background: var(--bg-surface); border-top: 1px solid var(--border); padding: 48px 0 32px; margin-top: 48px; }
+        footer .footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 24px; font-size: 0.9rem; color: var(--text-muted); }
+        footer a { color: var(--text-secondary); }
+    </style>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Technical SEO Services","serviceType":"Technical Search Engine Optimization","provider":{"@type":"ProfessionalService","name":"Phoenix Method","url":"https://phoenixmethodseo.com/","priceRange":"$$"},"description":"Technical SEO audit and implementation including crawlability, indexability, Core Web Vitals, schema markup, site architecture, and log file analysis.","offers":[{"@type":"Offer","name":"Quick Technical SEO Audit","price":"150","priceCurrency":"USD"},{"@type":"Offer","name":"SEO Foundation Setup","price":"1200","priceCurrency":"USD"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://phoenixmethodseo.com/"},{"@type":"ListItem","position":2,"name":"Services","item":"https://phoenixmethodseo.com/services/"},{"@type":"ListItem","position":3,"name":"Technical SEO","item":"https://phoenixmethodseo.com/services/technical-seo/"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What's included in a technical SEO audit?","acceptedAnswer":{"@type":"Answer","text":"Crawl coverage analysis, indexability issues, broken links and redirects, Core Web Vitals performance, mobile usability, schema markup validation, XML sitemap and robots.txt review, canonical tag logic, internal linking structure, and site architecture. Deliverable is a prioritized action list — not a 100-page PDF nobody reads."}},{"@type":"Question","name":"How often do I need a technical SEO audit?","acceptedAnswer":{"@type":"Answer","text":"A full audit at engagement start, then monthly crawl monitoring via your retainer catches regressions before they compound. Google's algorithm updates can break what was working — ongoing monitoring is how you stay ahead."}},{"@type":"Question","name":"What's the difference between on-page SEO and technical SEO?","acceptedAnswer":{"@type":"Answer","text":"On-page SEO is about what's on a page — titles, meta descriptions, headers, internal links, keyword usage. Technical SEO is about whether Google can reach, crawl, index, and rank those pages at all. Broken technical foundations make perfect on-page work invisible."}},{"@type":"Question","name":"Will fixing technical SEO actually improve rankings?","acceptedAnswer":{"@type":"Answer","text":"For sites with real technical issues — indexing problems, slow pages, broken schema — yes, often dramatically. For sites that are already technically clean, the gains come from content and authority. Part of our job is telling you honestly which bucket you're in."}}]}</script>
+</head>
+<body>
+    <nav class="nav"><div class="nav-inner"><a href="/" class="nav-logo" aria-label="Phoenix Method Home"><img src="/assets/phoenix-full-logo.png" alt="Phoenix Method" width="1077" height="502"></a><a href="/" class="nav-back">&larr; Home</a></div></nav>
+    <header class="page-hero"><div class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/#services">Services</a> &rsaquo; <span>Technical SEO</span></nav>
+        <h1>Technical SEO That Fixes <span class="fire-text">What's Actually Broken</span></h1>
+        <p class="lede">Most sites don't need more content — they need Google to be able to <em>find</em> the content they already have. Technical SEO is the foundation every ranking sits on. When it's broken, nothing else works. When it's clean, everything else compounds.</p>
+    </div></header>
+
+    <section class="content-section"><div class="container">
+        <span class="section-tag">What It Is</span>
+        <h2>Technical SEO Is How Google Actually <span class="fire-text">Reaches Your Pages</span></h2>
+        <p>Before Google can rank a page, it has to crawl it, render it, index it, and understand it. Break any step in that chain and the rest of your SEO investment — content, backlinks, local citations — is wasted effort on pages Google can't even see properly. Most competitive gaps come from technical debt, not content gaps.</p>
+        <p>Technical SEO covers the invisible layer: whether your server responds quickly, whether your robots.txt accidentally blocks what matters, whether your Core Web Vitals keep users (and Google) engaged, whether your schema helps or confuses search engines, whether your internal linking funnels authority to the pages that sell. We find what's broken, prioritize by impact, and fix in order.</p>
+    </div></section>
+
+    <section class="content-section"><div class="container">
+        <span class="section-tag">What We Audit</span>
+        <h2>The Technical SEO Audit Coverage Map</h2>
+        <div class="grid-cards">
+            <div class="card"><h3>Crawlability &amp; Indexation</h3><p>Is Google reaching your pages? Are the right pages indexed? We cross-reference crawl stats with index coverage and find what's blocked, noindex'd by accident, or orphaned.</p></div>
+            <div class="card"><h3>Core Web Vitals</h3><p>LCP, INP, CLS — real user metrics from Chrome's field data, not just lab scores. We find what's dragging performance and target the fixes that actually move ranking-impacting percentiles.</p></div>
+            <div class="card"><h3>Schema &amp; Structured Data</h3><p>Schema validation, rich result eligibility, missing markup opportunities. Often the single biggest uplift for sites in competitive SERPs — and the thing most agencies do badly.</p></div>
+            <div class="card"><h3>Site Architecture</h3><p>URL structure, internal linking flow, orphaned pages, pagination handling, category depth. Good architecture distributes authority to pages that convert; bad architecture strands it.</p></div>
+            <div class="card"><h3>Canonicalization &amp; Duplicate Content</h3><p>Self-referencing canonicals, cross-domain issues, parameter handling, duplicate URLs. Often the hidden reason a site competes against itself in search results.</p></div>
+            <div class="card"><h3>Mobile &amp; Rendering</h3><p>Mobile usability, responsive breakpoints, JS rendering issues (single-page apps are a frequent offender). Google indexes the mobile version — if it's worse than desktop, you lose.</p></div>
+        </div>
+    </div></section>
+
+    <section class="content-section"><div class="container">
+        <span class="section-tag">Deliverables</span>
+        <h2>What You Walk Away With</h2>
+        <ul class="check-list">
+            <li><strong>Prioritized action list</strong> — not a raw list of every issue, but what to fix first, what matters most, and what to ignore</li>
+            <li><strong>Technical fixes implemented</strong> — redirects, canonicals, schema markup, sitemaps, robots.txt, meta robots rules</li>
+            <li><strong>Core Web Vitals improvements</strong> — image optimization, render-blocking resource handling, layout shift fixes</li>
+            <li><strong>Schema markup deployment</strong> — Organization, LocalBusiness, Article, FAQ, HowTo, Product, Service — whichever fits your business</li>
+            <li><strong>GA4 and Search Console integration</strong> — properly configured so you can see results, not just numbers</li>
+            <li><strong>Ongoing crawl monitoring</strong> (retainer clients) — catches regressions from site changes, plugin updates, or algorithm shifts</li>
+        </ul>
+    </div></section>
+
+    <section class="content-section"><div class="container">
+        <span class="section-tag">How to Work With Us</span>
+        <h2>Pricing &amp; Engagements</h2>
+        <p>Start with a <strong>Quick Technical SEO Audit</strong> ($150) for a focused report on the most critical issues holding your rankings back. Good for single-page validation, a second opinion, or before investing in a larger engagement.</p>
+        <p>The <strong>SEO Foundation Setup</strong> ($1,200) is the full package: complete technical audit and fixes, on-page optimization for up to 10 pages, GA4 and Search Console setup, sitemap and robots.txt configuration, baseline schema markup, and a performance baseline report. Most clients start here.</p>
+        <p>Ongoing technical monitoring is built into every monthly retainer — Spark, Blaze, and Inferno all include monthly technical audits as foundational deliverables.</p>
+        <p><a href="https://square.link/u/XYEsrpLz" class="btn btn-primary" target="_blank" rel="noopener">Buy Quick Audit — $150</a> <a href="/get-started.html?plan=seo-setup" class="btn btn-ghost">Start Full Setup</a></p>
+    </div></section>
+
+    <section class="content-section faq"><div class="container">
+        <span class="section-tag">Frequently Asked</span>
+        <h2>Technical SEO Questions</h2>
+        <details><summary>What's included in a technical SEO audit?</summary><p>Crawl coverage analysis, indexability issues, broken links and redirects, Core Web Vitals performance, mobile usability, schema markup validation, XML sitemap and robots.txt review, canonical tag logic, internal linking structure, and site architecture. Deliverable is a prioritized action list — not a 100-page PDF nobody reads.</p></details>
+        <details><summary>How often do I need a technical SEO audit?</summary><p>A full audit at engagement start, then monthly crawl monitoring via your retainer catches regressions before they compound. Google's algorithm updates can break what was working — ongoing monitoring is how you stay ahead.</p></details>
+        <details><summary>What's the difference between on-page SEO and technical SEO?</summary><p>On-page SEO is about what's on a page — titles, meta descriptions, headers, internal links, keyword usage. Technical SEO is about whether Google can reach, crawl, index, and rank those pages at all. Broken technical foundations make perfect on-page work invisible.</p></details>
+        <details><summary>Will fixing technical SEO actually improve rankings?</summary><p>For sites with real technical issues — indexing problems, slow pages, broken schema — yes, often dramatically. For sites that are already technically clean, the gains come from content and authority. Part of our job is telling you honestly which bucket you're in.</p></details>
+        <details><summary>Can you work with my platform? (WordPress, Shopify, Webflow, custom...)</summary><p>Yes. We've worked across WordPress, Shopify, Squarespace, Webflow, Wix, Drupal, and custom HTML. Each platform has its own common pitfalls — we know them.</p></details>
+        <details><summary>How long do technical fixes take to impact rankings?</summary><p>Some fixes (indexing unblock, schema deployment) can move rankings within days. Others (Core Web Vitals, architectural changes) take weeks to compound as Google re-crawls and re-evaluates. Expect a mix of fast wins and slow-compounding gains.</p></details>
+    </div></section>
+
+    <section class="content-section"><div class="container">
+        <span class="section-tag">Related</span>
+        <h2>Keep Exploring</h2>
+        <div class="related">
+            <a href="/services/local-seo/"><span class="tag">Service</span><span class="title">Local SEO</span></a>
+            <a href="/services/content-seo/"><span class="tag">Service</span><span class="title">Content SEO</span></a>
+            <a href="/order.html"><span class="tag">Shop</span><span class="title">À La Carte Services</span></a>
+        </div>
+    </div></section>
+
+    <section class="content-section"><div class="container"><div class="cta-panel">
+        <h2>Ready to See <span class="fire-text">What's Really Broken?</span></h2>
+        <p>Start with a $150 Quick Technical SEO Audit. You'll know within 3 business days exactly what's holding your rankings back — and what to fix first.</p>
+        <a href="https://square.link/u/XYEsrpLz" class="btn btn-primary" target="_blank" rel="noopener">Buy Quick Audit — $150</a>
+        <a href="/#contact" class="btn btn-ghost">Talk First</a>
+    </div></div></section>
+
+    <footer><div class="container"><div class="footer-inner">
+        <div>&copy; 2026 Phoenix Method. Search. Rise. Dominate.</div>
+        <div><a href="/">Home</a> &middot; <a href="/#services">Services</a> &middot; <a href="/order.html">Shop</a> &middot; <a href="/#contact">Contact</a></div>
+    </div></div></footer>
+</body>
+</html>
