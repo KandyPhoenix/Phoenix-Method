@@ -183,36 +183,11 @@
                 <span class="service-badge" id="serviceBadge">Service</span>
             </div>
 
-            <!-- Netlify Forms: hidden form tag so Netlify detects the form at build time -->
-            <form name="service-intake" netlify netlify-honeypot="bot-field" hidden>
-                <input type="text" name="name">
-                <input type="email" name="email">
-                <input type="tel" name="phone">
-                <input type="text" name="business_name">
-                <input type="url" name="website">
-                <input type="text" name="service">
-                <textarea name="project_details"></textarea>
-                <input type="text" name="gbp_url">
-                <input type="text" name="post_topic">
-                <input type="text" name="cta_preference">
-                <input type="text" name="platform">
-                <input type="text" name="brand_voice">
-                <input type="text" name="nap">
-                <input type="text" name="business_category">
-                <input type="text" name="hours_of_operation">
-                <input type="text" name="domain">
-                <input type="text" name="target_services">
-                <input type="text" name="service_area">
-                <input type="text" name="competitors">
-                <input type="text" name="site_platform">
-                <input type="text" name="priority_concerns">
-                <input type="text" name="tracking_goals">
-            </form>
-
-            <form class="intake-form" name="service-intake" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" id="intakeForm">
-                <input type="hidden" name="form-name" value="service-intake">
+            <form class="intake-form" method="POST" id="intakeForm" action="https://formsubmit.co/hello@phoenixmethodseo.com">
+                <input type="hidden" name="_subject" value="New service intake submission">
+                <input type="hidden" name="_template" value="table">
                 <input type="hidden" name="service" id="serviceField" value="">
-                <p class="hidden"><label>Don't fill this out: <input name="bot-field"></label></p>
+                <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
 
                 <!-- ===== UNIVERSAL FIELDS ===== -->
                 <div class="form-section">
@@ -407,28 +382,27 @@
             }
         }
 
-        // Intercept submit for AJAX to Netlify so we can show thank-you without leaving the page
+        // Intercept submit for AJAX to Formsubmit so we can show thank-you without leaving the page
         document.getElementById('intakeForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const form = e.target;
             const data = new FormData(form);
-            const params = new URLSearchParams();
-            for (const [k, v] of data.entries()) params.append(k, v);
+            const payload = Object.fromEntries(data.entries());
             try {
-                const resp = await fetch('/', {
+                const resp = await fetch('https://formsubmit.co/ajax/hello@phoenixmethodseo.com', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: params.toString()
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify(payload)
                 });
                 if (resp.ok) {
                     document.getElementById('form-wrapper').style.display = 'none';
                     document.getElementById('thankYou').classList.add('active');
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 } else {
-                    alert('Something went wrong submitting the form. Please email kandy@phoenixmethodseo.com directly.');
+                    alert('Something went wrong submitting the form. Please email hello@phoenixmethodseo.com directly.');
                 }
             } catch (err) {
-                alert('Connection error. Please email kandy@phoenixmethodseo.com directly.');
+                alert('Connection error. Please email hello@phoenixmethodseo.com directly.');
             }
         });
 

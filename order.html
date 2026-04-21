@@ -205,17 +205,6 @@
 </head>
 <body>
 
-<!-- Hidden Netlify form for request submissions -->
-<form name="service-request" netlify netlify-honeypot="bot-field" hidden>
-    <input type="text" name="name">
-    <input type="email" name="email">
-    <input type="tel" name="phone">
-    <input type="url" name="website">
-    <input type="text" name="service">
-    <textarea name="details"></textarea>
-    <input type="text" name="bot-field">
-</form>
-
 <nav class="nav">
     <div class="nav-inner">
         <a href="https://phoenixmethodseo.com/" class="nav-logo">
@@ -536,17 +525,21 @@ function submitRequest() {
     btn.textContent = 'Sending...';
     errEl.style.display = 'none';
 
-    var body = new URLSearchParams({
-        'form-name': 'service-request',
-        'name': name,
-        'email': email,
-        'phone': document.getElementById('reqPhone').value.trim(),
-        'website': website,
-        'service': currentService,
-        'details': details
-    });
+    var payload = {
+        _subject: 'New service request: ' + currentService,
+        name: name,
+        email: email,
+        phone: document.getElementById('reqPhone').value.trim(),
+        website: website,
+        service: currentService,
+        details: details
+    };
 
-    fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body.toString() })
+    fetch('https://formsubmit.co/ajax/hello@phoenixmethodseo.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+    })
         .then(function() { showSuccess(); })
         .catch(function() { showSuccess(); });
 }

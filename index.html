@@ -2187,9 +2187,10 @@
                     </div>
                 </div>
                 <div class="contact-form-wrap">
-                    <form class="contact-form" id="contactForm" name="audit-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="#">
-                        <input type="hidden" name="form-name" value="audit-request">
-                        <p style="display:none"><label>Don't fill this out: <input name="bot-field"></label></p>
+                    <form class="contact-form" id="contactForm" method="POST" action="https://formsubmit.co/hello@phoenixmethodseo.com">
+                        <input type="hidden" name="_subject" value="New audit request from phoenixmethodseo.com">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
                         <div class="form-group">
                             <label for="name">Your Name</label>
                             <input type="text" id="name" name="name" required placeholder="Jane Smith">
@@ -2308,18 +2309,31 @@
         // Form
         const form = document.getElementById('contactForm');
         if (form) {
-            form.addEventListener('submit', (e) => {
+            form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const btn = form.querySelector('button[type="submit"]');
                 const orig = btn.textContent;
                 btn.textContent = 'Sending...';
                 btn.disabled = true;
-                setTimeout(() => {
-                    btn.textContent = '✓ Audit Request Sent!';
-                    btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
-                    form.reset();
-                    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; btn.disabled = false; }, 3000);
-                }, 1200);
+                try {
+                    const resp = await fetch('https://formsubmit.co/ajax/hello@phoenixmethodseo.com', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                        body: JSON.stringify(Object.fromEntries(new FormData(form)))
+                    });
+                    if (resp.ok) {
+                        btn.textContent = '✓ Audit Request Sent!';
+                        btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
+                        form.reset();
+                        setTimeout(() => { btn.textContent = orig; btn.style.background = ''; btn.disabled = false; }, 3000);
+                    } else {
+                        btn.textContent = 'Error — please email hello@phoenixmethodseo.com';
+                        btn.disabled = false;
+                    }
+                } catch (err) {
+                    btn.textContent = 'Error — please email hello@phoenixmethodseo.com';
+                    btn.disabled = false;
+                }
             });
         }
     });
