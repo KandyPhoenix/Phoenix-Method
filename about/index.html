@@ -254,8 +254,8 @@
     .breadcrumbs a:hover { text-decoration: underline; }
 
     /* ========== ABOUT CONTENT ========== */
-    .about-page { padding: clamp(40px, 5vw, 64px) 0 var(--section-padding); background: var(--bg-deep); }
-    .about-body { max-width: 100%; }
+    .about-page { padding: clamp(40px, 5vw, 64px) 0 var(--section-padding); background: var(--bg-deep); position: relative; overflow: hidden; }
+    .about-body { max-width: 860px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 80px); }
     .about-opener {
         font-size: clamp(1.1rem, 2vw, 1.3rem);
         line-height: 1.8;
@@ -303,9 +303,21 @@
         font-size: 0.72rem;
         letter-spacing: 0.12em;
         text-transform: uppercase;
-        color: var(--text-muted);
+        color: var(--text-secondary);
     }
     .cred-divider { width: 1px; height: 40px; background: var(--border); flex-shrink: 0; }
+    .about-ember { position: absolute; width: 4px; height: 4px; background: var(--fire-mid); border-radius: 50%; opacity: 0; filter: blur(1px); pointer-events: none; }
+    .about-ember-1 { left: 10%; bottom: 12%; animation: emberFloat 9s ease-in-out infinite; }
+    .about-ember-2 { left: 30%; bottom: 5%; animation: emberFloat 7s ease-in-out 1.5s infinite; }
+    .about-ember-3 { left: 55%; bottom: 18%; animation: emberFloat 11s ease-in-out 3s infinite; }
+    .about-ember-4 { left: 75%; bottom: 8%; animation: emberFloat 8s ease-in-out 0.5s infinite; }
+    .about-ember-5 { left: 90%; bottom: 14%; animation: emberFloat 10s ease-in-out 2s infinite; }
+    @keyframes emberFloat {
+        0%   { opacity: 0; transform: translateY(0) scale(1); }
+        20%  { opacity: 0.8; }
+        80%  { opacity: 0.3; }
+        100% { opacity: 0; transform: translateY(-300px) scale(0.3); }
+    }
     @media (max-width: 700px) {
         .about-creds { flex-wrap: wrap; gap: 24px; justify-content: flex-start; }
         .cred-divider { display: none; }
@@ -457,6 +469,11 @@
     </header>
 
     <section class="about-page">
+        <div class="about-ember about-ember-1"></div>
+        <div class="about-ember about-ember-2"></div>
+        <div class="about-ember about-ember-3"></div>
+        <div class="about-ember about-ember-4"></div>
+        <div class="about-ember about-ember-5"></div>
         <div class="container">
             <div class="about-body">
                 <p class="about-opener">Phoenix Method was built from real-world experience — not a marketing textbook. With a background in healthcare operations, we bring an insider's understanding of how practices actually run to every client engagement. We know what small businesses need to grow, and we know where our lane ends.</p>
