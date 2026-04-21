@@ -721,6 +721,55 @@
     .result-card p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7; }
 
     /* ========== ABOUT ========== */
+    .about-slim {
+        padding: 36px 0;
+        background: linear-gradient(90deg, rgba(255,77,0,0.04), rgba(255,184,0,0.02), rgba(255,77,0,0.04));
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+    }
+    .about-slim-inner {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+    }
+    .about-slim-tag {
+        font-family: var(--font-accent);
+        font-weight: 700;
+        font-size: 0.72rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--fire-mid);
+        white-space: nowrap;
+    }
+    .about-slim-line {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        max-width: 720px;
+        margin: 0;
+    }
+    .about-slim-line strong { color: var(--text-primary); }
+    .about-slim-cta {
+        font-family: var(--font-accent);
+        font-weight: 700;
+        font-size: 0.78rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--fire-mid);
+        text-decoration: none;
+        white-space: nowrap;
+        padding: 8px 16px;
+        border: 1px solid rgba(255,140,0,0.4);
+        border-radius: 6px;
+        transition: background .2s, color .2s, border-color .2s;
+    }
+    .about-slim-cta:hover {
+        color: #fff;
+        background: linear-gradient(135deg, var(--fire-start), var(--fire-mid));
+        border-color: var(--fire-mid);
+    }
     .about { padding: var(--section-padding) 0; background: var(--bg-surface); position: relative; overflow: hidden; }
     .about::after {
         content: '';
@@ -907,55 +956,61 @@
 
     /* ========== PACKAGE DISCOUNT BADGE ========== */
     .package-benefit {
-        background: linear-gradient(135deg, rgba(255,77,0,0.12) 0%, rgba(255,140,0,0.07) 100%);
-        border: 1px solid var(--fire-mid);
-        border-radius: 12px;
-        padding: 32px 40px;
-        margin: 48px 0;
+        background: linear-gradient(135deg, rgba(255,77,0,0.08) 0%, rgba(255,140,0,0.04) 100%);
+        border: 1px solid rgba(255,140,0,0.4);
+        border-radius: 10px;
+        padding: 20px 28px;
+        margin: 32px 0;
         text-align: center;
     }
-    .package-benefit-icon { margin-bottom: 16px; }
     .package-benefit-text strong {
         display: block;
-        font-family: var(--font-display);
+        font-family: var(--font-accent);
         font-weight: 700;
-        font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-        color: var(--text-primary);
-        margin-bottom: 20px;
+        font-size: 0.82rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--fire-mid);
+        margin-bottom: 12px;
     }
     .benefit-stats {
         display: flex;
         gap: 0;
         justify-content: center;
         flex-wrap: wrap;
-        margin-bottom: 18px;
+        margin-bottom: 10px;
     }
     .benefit-stat {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
-        gap: 6px;
-        padding: 0 36px;
+        gap: 10px;
+        padding: 4px 24px;
     }
     .benefit-stat:first-child { border-right: 1px solid var(--border); }
     .benefit-pct {
         font-family: var(--font-display);
         font-weight: 900;
-        font-size: clamp(1.6rem, 3vw, 2.2rem);
+        font-size: 1.15rem;
         color: var(--fire-mid);
         line-height: 1;
     }
     .benefit-detail {
-        font-size: 0.88rem;
+        font-size: 0.82rem;
         color: var(--text-secondary);
-        text-align: center;
-        max-width: 180px;
-        line-height: 1.5;
+        text-align: left;
+        max-width: 240px;
+        line-height: 1.4;
     }
     .benefit-tagline {
-        font-size: 0.9rem;
-        color: var(--text-secondary);
+        font-size: 0.82rem;
+        color: var(--text-muted);
         display: block;
+        font-style: italic;
+    }
+    @media (max-width: 600px) {
+        .benefit-stat { padding: 4px 12px; }
+        .benefit-stat:first-child { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 4px; }
     }
 
     /* ========== À LA CARTE SECTION ========== */
@@ -1797,22 +1852,13 @@
         </div>
     </section>
 
-    <!-- ========== ABOUT TEASER ========== -->
-    <section class="about" id="about">
+    <!-- ========== ABOUT TEASER (slim strip — full page at /about/) ========== -->
+    <section class="about-slim" id="about" aria-label="About Phoenix Method">
         <div class="container">
-            <div class="about-layout">
-                <div class="about-text">
-                    <span class="section-tag">About Phoenix Method</span>
-                    <h2 class="section-title">Built by Practitioners, <span class="accent">Not Salespeople</span></h2>
-                    <p>Phoenix Method was born from real-world experience — not a marketing textbook. With a background in healthcare operations, we bring an insider's understanding of how practices actually run to every client engagement. No handoffs, no templates, no promises we can't back with data.</p>
-                    <div class="about-creds">
-                        <div class="cred"><span class="cred-icon">🏥</span><span>Healthcare, Dental & Mental Health SEO</span></div>
-                        <div class="cred"><span class="cred-icon">🛢</span><span>Oil & Gas, Agriculture & Equipment Suppliers</span></div>
-                        <div class="cred"><span class="cred-icon">🎨</span><span>Creative Professionals & Artist Portfolios</span></div>
-                        <div class="cred"><span class="cred-icon">📈</span><span>Multi-Industry Experience Across 10+ Sectors</span></div>
-                    </div>
-                    <a href="/about/" class="btn btn-ghost" style="margin-top: 28px;">Our Story &amp; How We Work &rarr;</a>
-                </div>
+            <div class="about-slim-inner">
+                <span class="about-slim-tag">About Phoenix Method</span>
+                <p class="about-slim-line"><strong>Built by practitioners, not salespeople.</strong> Real-world experience across healthcare, oil &amp; gas, agriculture, creative services, and 10+ other industries — no templates, no promises we can't back with data.</p>
+                <a href="/about/" class="about-slim-cta">Our Story &rarr;</a>
             </div>
         </div>
     </section>
@@ -1936,22 +1982,21 @@
                 <a href="/small-business-seo-pricing/" class="btn btn-ghost">Full Pricing Breakdown &rarr;</a>
             </div>
 
-            <!-- Package Benefit Callout -->
+            <!-- Retainer Client Discount Callout -->
             <div class="package-benefit">
-                <div class="package-benefit-icon"><img src="https://phoenixmethodseo.com/assets/phoenix-bird-transparent.png" alt="Phoenix Method" style="height:64px;width:auto;display:block;margin:0 auto;"></div>
                 <div class="package-benefit-text">
-                    <strong>Package Client Advantage</strong>
+                    <strong>Retainer Client Discount</strong>
                     <div class="benefit-stats">
                         <div class="benefit-stat">
                             <span class="benefit-pct">25% off</span>
-                            <span class="benefit-detail">your hourly rate on any work outside your plan inclusions</span>
+                            <span class="benefit-detail">hourly rate on work outside your plan</span>
                         </div>
                         <div class="benefit-stat">
                             <span class="benefit-pct">25% off</span>
                             <span class="benefit-detail">all à la carte services</span>
                         </div>
                     </div>
-                    <span class="benefit-tagline">You're a partner — you get partner pricing.</span>
+                    <span class="benefit-tagline">Active monthly clients get partner pricing.</span>
                 </div>
             </div>
 
