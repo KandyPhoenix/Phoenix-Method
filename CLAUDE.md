@@ -50,6 +50,36 @@ This repo's `main` branch is protected against force-pushes and deletions. Direc
 
 ---
 
+## Global Nav + Footer — NEVER Duplicate Inline
+
+Nav and footer are **globally managed** via two shared files:
+
+- **`/assets/site-chrome.css`** — all nav and footer styles
+- **`/assets/site-chrome.js`** — nav and footer HTML + mobile toggle logic
+
+Every page uses `<div id="pm-nav"></div>` and `<div id="pm-footer"></div>` as placeholders. The JS injects the actual HTML on load.
+
+### Rules:
+- **To change nav or footer on any page: edit `site-chrome.js` or `site-chrome.css` only.** The change will apply to all pages automatically.
+- **Never hardcode nav or footer HTML directly inside any page file.** It will get out of sync.
+- **Nav and footer must always look identical on every page.** There are no page-specific nav/footer variations.
+- New pages you create must include these two lines in `<head>`:
+  ```html
+  <link rel="stylesheet" href="/assets/site-chrome.css">
+  ```
+  And this before `</body>`:
+  ```html
+  <script src="/assets/site-chrome.js" defer></script>
+  ```
+  And placeholders in the body:
+  ```html
+  <div id="pm-nav"></div>
+  ...page content...
+  <div id="pm-footer"></div>
+  ```
+
+---
+
 ## Repo Details
 - **Remote:** https://github.com/KandyPhoenix/Phoenix-Method
 - **Protected branch:** main (force-push + deletion blocked; no review requirement)
