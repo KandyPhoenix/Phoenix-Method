@@ -216,7 +216,7 @@
         background: var(--bg-surface);
         position: relative;
         overflow: hidden;
-        text-align: center;
+        text-align: left;
     }
     .page-hero::before {
         content: '';
@@ -239,7 +239,7 @@
         font-size: 1.1rem;
         color: var(--text-secondary);
         max-width: 640px;
-        margin: 0 auto;
+        margin: 0;
         line-height: 1.75;
     }
     .breadcrumbs {
@@ -254,59 +254,43 @@
     .breadcrumbs a:hover { text-decoration: underline; }
 
     /* ========== ABOUT CONTENT ========== */
-    .about-page { padding: var(--section-padding) 0; background: var(--bg-surface); position: relative; overflow: hidden; }
-    .about-page::after {
-        content: '';
-        position: absolute;
-        bottom: -250px;
-        right: calc((100% - var(--container-max)) / 2 + 50px);
-        width: 650px;
-        height: 650px;
-        background: url('https://phoenixmethodseo.com/assets/phoenix-bird-transparent.png') no-repeat bottom center;
-        background-size: contain;
-        opacity: 0.045;
-        pointer-events: none;
-    }
-    .about-split {
-        display: grid;
-        grid-template-columns: 1fr 1.6fr;
-        gap: 80px;
-        align-items: start;
-        position: relative;
-        z-index: 2;
-    }
-    @media (max-width: 860px) {
-        .about-split { grid-template-columns: 1fr; gap: 40px; }
-    }
-    .about-left { position: sticky; top: 120px; }
-    .about-pull {
-        font-family: var(--font-display);
-        font-weight: 700;
-        font-size: clamp(1.4rem, 2.5vw, 1.9rem);
-        line-height: 1.3;
+    .about-page { padding: var(--section-padding) 0; background: var(--bg-surface); }
+    .about-body { max-width: 760px; }
+    .about-opener {
+        font-size: clamp(1.15rem, 2vw, 1.35rem);
+        line-height: 1.75;
         color: var(--text-primary);
         margin-bottom: 32px;
-        padding-left: 20px;
-        border-left: 3px solid var(--fire-start);
+        font-weight: 300;
     }
-    .about-right p {
-        color: var(--text-secondary);
-        font-size: 1.05rem;
+    .about-body p {
+        font-size: 1rem;
         line-height: 1.85;
-        margin-bottom: 22px;
+        color: var(--text-secondary);
+        margin-bottom: 20px;
     }
-    .about-right p:last-child { margin-bottom: 0; }
-    .about-creds { display: flex; flex-wrap: wrap; gap: 16px 36px; margin-top: 36px; }
+    .about-body p:last-of-type { margin-bottom: 0; }
+    .about-creds {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0;
+        margin-top: 40px;
+        border-top: 1px solid var(--border-subtle);
+        border-left: 1px solid var(--border-subtle);
+    }
     .cred {
         display: flex;
         align-items: center;
-        gap: 12px;
-        font-family: var(--font-accent);
-        font-weight: 500;
+        gap: 10px;
+        padding: 16px 24px;
         font-size: 0.9rem;
         color: var(--text-secondary);
+        border-right: 1px solid var(--border-subtle);
+        border-bottom: 1px solid var(--border-subtle);
+        width: 50%;
     }
-    .cred-icon { font-size: 1.2rem; }
+    .cred-icon { font-size: 1.1rem; flex-shrink: 0; }
+    @media (max-width: 600px) { .cred { width: 100%; } }
 
     /* Values cards */
     .values-grid {
@@ -454,21 +438,16 @@
 
     <section class="about-page">
         <div class="container">
-            <div class="about-split">
-                <div class="about-left">
-                    <span class="section-tag">Our Background</span>
-                    <p class="about-pull">We've been in the trenches. We know what small businesses actually need — and what just burns budget.</p>
-                    <div class="about-creds">
-                        <div class="cred"><span class="cred-icon">🏥</span><span>Healthcare, Dental &amp; Mental Health</span></div>
-                        <div class="cred"><span class="cred-icon">🛢</span><span>Oil &amp; Gas, Agriculture &amp; Equipment</span></div>
-                        <div class="cred"><span class="cred-icon">🎨</span><span>Creative Professionals &amp; Portfolios</span></div>
-                        <div class="cred"><span class="cred-icon">📈</span><span>10+ Industries Served</span></div>
-                    </div>
-                </div>
-                <div class="about-right">
-                    <p>Phoenix Method was built from real-world experience — not a marketing textbook. With a background in healthcare operations, we bring an insider's understanding of how practices actually run to every client engagement. We know what small businesses need to grow. We also know where our lane ends — SEO is our retainer work. Compliance, billing, and clinical questions stay outside our scope. Paid media, Shopify or custom-platform builds, and deeper engineering work are all available as separately scoped custom engagements.</p>
-                    <p>We've built and maintained websites across a wide range of industries — dental practices, mental health providers, addiction treatment centers, medical offices, oil and gas companies, agriculture and farming equipment suppliers, goods and product suppliers, creative professionals, and more. Whether it's a therapy practice written with care for YMYL requirements, an equipment catalog that needs to rank nationally, or an artist portfolio that needs local visibility — we've done it.</p>
-                    <p>Every campaign we touch is custom-built from scratch. We don't recycle playbooks, we don't use templates, and we don't make promises we can't back with data. The Phoenix Method is simple: learn your industry, audit your competition, build a strategy that dominates, and prove it with numbers every single month.</p>
+            <div class="about-body">
+                <p class="about-opener">Phoenix Method was built from real-world experience — not a marketing textbook. With a background in healthcare operations, we bring an insider's understanding of how practices actually run to every client engagement. We know what small businesses need to grow, and we know where our lane ends.</p>
+                <p>SEO is our retainer work. Compliance, billing, and clinical questions stay outside our scope. Paid media, Shopify or custom-platform builds, and deeper engineering work are available as separately scoped custom engagements — but they're not the core offering.</p>
+                <p>We've worked with dental practices, mental health providers, addiction treatment centers, medical offices, oil and gas companies, agriculture and farming equipment suppliers, creative professionals, and more. Whether it's a therapy practice written with care for YMYL requirements, an equipment catalog that needs to rank nationally, or an artist portfolio that needs local visibility — we've done it.</p>
+                <p>Every campaign is custom-built from scratch. No recycled playbooks, no templates, no promises we can't back with data. The Phoenix Method is simple: learn your industry, audit your competition, build a strategy that dominates, and prove it with numbers every single month.</p>
+                <div class="about-creds">
+                    <div class="cred"><span class="cred-icon">🏥</span><span>Healthcare, Dental &amp; Mental Health SEO</span></div>
+                    <div class="cred"><span class="cred-icon">🛢</span><span>Oil &amp; Gas, Agriculture &amp; Equipment Suppliers</span></div>
+                    <div class="cred"><span class="cred-icon">🎨</span><span>Creative Professionals &amp; Artist Portfolios</span></div>
+                    <div class="cred"><span class="cred-icon">📈</span><span>Multi-Industry Experience Across 10+ Sectors</span></div>
                 </div>
             </div>
         </div>
