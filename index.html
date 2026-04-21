@@ -1249,7 +1249,8 @@
         margin-bottom: 8px;
     }
     .form-group input,
-    .form-group textarea {
+    .form-group textarea,
+    .form-group select {
         width: 100%;
         background: var(--bg-deep);
         border: 1px solid var(--border-subtle);
@@ -1262,13 +1263,15 @@
         outline: none;
     }
     .form-group input:focus,
-    .form-group textarea:focus {
+    .form-group textarea:focus,
+    .form-group select:focus {
         border-color: var(--fire-start);
         box-shadow: 0 0 0 3px rgba(255, 77, 0, 0.1);
     }
     .form-group input::placeholder,
     .form-group textarea::placeholder { color: var(--text-muted); }
     .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-group select { appearance: none; cursor: pointer; background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23FF8C00' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; }
 
     /* ========== FOOTER ========== */
     .footer { padding: 60px 0 30px; border-top: 1px solid var(--border-subtle); }
@@ -2239,6 +2242,22 @@
                         <div class="form-group">
                             <label for="message">What's on your mind? <span style="color: var(--text-muted); font-weight: 400;">(optional)</span></label>
                             <textarea id="message" name="message" placeholder="Ranking issues, competitor concerns, specific goals, or just &quot;I want an audit&quot; — whatever you want us to know."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="referral_source">How did you hear about us? <span style="color: var(--text-muted); font-weight: 400;">(optional)</span></label>
+                            <select id="referral_source" name="referral_source">
+                                <option value="">-- Select --</option>
+                                <option value="google_search">Google search</option>
+                                <option value="ai_overview">Google AI Overview</option>
+                                <option value="referral">Referral from someone</option>
+                                <option value="facebook">Facebook</option>
+                                <option value="instagram">Instagram</option>
+                                <option value="linkedin">LinkedIn</option>
+                                <option value="event_conference">Event or conference</option>
+                                <option value="podcast_blog">Podcast or blog</option>
+                                <option value="existing_client">I'm already a client</option>
+                                <option value="other">Other</option>
+                            </select>
                         </div>
                         <button type="submit" class="btn btn-primary btn-full">Send My Free Audit Request</button>
                     </form>
