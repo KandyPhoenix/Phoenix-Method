@@ -385,25 +385,31 @@
     .cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
     /* ========== FOOTER ========== */
-    .footer { background: var(--bg-surface); border-top: 1px solid var(--border); padding: 48px 0 32px; margin-top: 0; }
-    .footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 32px; }
-    .footer-brand p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7; }
+    .footer { padding: 60px 0 30px; border-top: 1px solid var(--border-subtle); }
+    .footer-inner {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr 1fr 1fr;
+        gap: 40px;
+        margin-bottom: 40px;
+        align-items: start;
+    }
+    .footer-brand { display: flex; flex-direction: column; gap: 12px; }
     .footer-tagline { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
-    .footer-links { display: flex; gap: 48px; flex-wrap: wrap; }
+    .footer-links { display: contents; }
     .footer-col { display: flex; flex-direction: column; gap: 10px; }
     .footer-col h4 {
         font-family: var(--font-accent);
         font-weight: 600;
         font-size: 0.8rem;
-        letter-spacing: 0.2em;
+        letter-spacing: 0.15em;
         text-transform: uppercase;
-        color: var(--text-primary);
-        margin-bottom: 4px;
+        margin-bottom: 8px;
     }
-    .footer-col a { font-size: 0.9rem; color: var(--text-secondary); transition: color 0.3s; }
+    .footer-col a { color: var(--text-muted); font-size: 0.9rem; transition: color 0.3s; }
     .footer-col a:hover { color: var(--fire-mid); }
-    .footer-bottom { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--border-subtle); }
-    .footer-bottom p { color: var(--text-muted); font-size: 0.85rem; }
+    .footer-bottom { border-top: 1px solid var(--border-subtle); padding-top: 24px; text-align: center; }
+    .footer-bottom p { color: var(--text-muted); font-size: 0.8rem; }
+    @media (max-width: 900px) { .footer-inner { grid-template-columns: 1fr; text-align: center; } }
 
     /* ========== MOBILE ========== */
     @media (max-width: 900px) {
@@ -559,22 +565,22 @@
         <div class="container">
             <div class="footer-inner">
                 <div class="footer-brand">
-                    <p class="footer-tagline">Data-driven SEO &amp; SEM consulting.<br>Your rankings. Our fire.</p>
+                    <p class="footer-tagline">Data-driven SEO & SEM consulting.<br>Your rankings. Our fire.</p>
                 </div>
                 <div class="footer-links">
                     <div class="footer-col">
                         <h4>Services</h4>
-                        <a href="/services/technical-seo/">Technical SEO</a>
-                        <a href="/services/content-seo/">Content Strategy</a>
-                        <a href="/services/local-seo/">Local SEO</a>
-                        <a href="/services/gbp-optimization/">GBP Optimization</a>
-                        <a href="/industries/healthcare-seo/">Healthcare SEO</a>
+                        <a href="/#services">Technical SEO</a>
+                        <a href="/#services">Content Strategy</a>
+                        <a href="/#services">Local SEO</a>
+                        <a href="/#services">Google Ads</a>
+                        <a href="/#services">Healthcare SEO</a>
                     </div>
                     <div class="footer-col">
                         <h4>Company</h4>
                         <a href="/about/">About</a>
                         <a href="/#process">Our Process</a>
-                        <a href="/small-business-seo-pricing/">Pricing</a>
+                        <a href="/#pricing">Pricing</a>
                         <a href="/client-portal.html">Client Portal</a>
                         <a href="/#faq">FAQ</a>
                         <a href="/#insights">Blog</a>
