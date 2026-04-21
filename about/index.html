@@ -155,7 +155,7 @@
         font-size: 0.82rem;
         letter-spacing: 0.08em;
         text-transform: uppercase;
-        color: var(--text-secondary);
+        color: #C8C5D4;
         transition: color 0.3s;
     }
     .nav-links a:hover { color: var(--fire-mid); }
@@ -187,7 +187,7 @@
         display: block;
         padding: 10px 20px;
         font-size: 0.82rem;
-        color: var(--text-secondary);
+        color: #C8C5D4;
         text-transform: none;
         letter-spacing: 0.04em;
     }
@@ -247,7 +247,7 @@
         font-size: 0.78rem;
         letter-spacing: 0.1em;
         text-transform: uppercase;
-        color: var(--text-muted);
+        color: #B8B5C6;
         margin-bottom: 24px;
     }
     .breadcrumbs a { color: var(--fire-mid); }
@@ -255,21 +255,28 @@
 
     /* ========== ABOUT CONTENT ========== */
     .about-page { padding: clamp(40px, 5vw, 64px) 0 var(--section-padding); background: var(--bg-deep); position: relative; overflow: hidden; }
-    .about-body { max-width: 860px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 80px); text-align: center; }
+    .about-body { max-width: 900px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 80px); }
     .about-opener {
         font-size: clamp(1.1rem, 2vw, 1.3rem);
         line-height: 1.8;
         color: var(--text-primary);
-        margin-bottom: 28px;
+        margin-bottom: 36px;
         font-weight: 300;
+        text-align: center;
     }
-    .about-body p {
+    .about-cols {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 32px 48px;
+        text-align: left;
+    }
+    @media (max-width: 700px) { .about-cols { grid-template-columns: 1fr; } }
+    .about-cols p {
         font-size: 1rem;
         line-height: 1.85;
         color: var(--text-secondary);
-        margin-bottom: 18px;
+        margin: 0;
     }
-    .about-body p:last-of-type { margin-bottom: 0; }
     .about-creds {
         display: flex;
         justify-content: center;
@@ -303,7 +310,7 @@
         font-size: 0.72rem;
         letter-spacing: 0.12em;
         text-transform: uppercase;
-        color: var(--text-secondary);
+        color: #C8C5D4;
     }
     .cred-divider { width: 1px; height: 40px; background: var(--border); flex-shrink: 0; }
     .about-ember { position: absolute; width: 4px; height: 4px; background: var(--fire-mid); border-radius: 50%; opacity: 0; filter: blur(1px); pointer-events: none; }
@@ -477,9 +484,12 @@
         <div class="container">
             <div class="about-body">
                 <p class="about-opener">Phoenix Method was built from real-world experience — not a marketing textbook. With a background in healthcare operations, we bring an insider's understanding of how practices actually run to every client engagement. We know what small businesses need to grow, and we know where our lane ends.</p>
-                <p>SEO is our retainer work. Compliance, billing, and clinical questions stay outside our scope. Paid media, Shopify or custom-platform builds, and deeper engineering work are available as separately scoped custom engagements — but they're not the core offering.</p>
-                <p>We've worked with dental practices, mental health providers, addiction treatment centers, medical offices, oil and gas companies, agriculture and farming equipment suppliers, creative professionals, and more. Whether it's a therapy practice written with care for YMYL requirements, an equipment catalog that needs to rank nationally, or an artist portfolio that needs local visibility — we've done it.</p>
-                <p>Every campaign is custom-built from scratch. No recycled playbooks, no templates, no promises we can't back with data. The Phoenix Method is simple: learn your industry, audit your competition, build a strategy that dominates, and prove it with numbers every single month.</p>
+                <div class="about-cols">
+                    <p>SEO is our retainer work. Compliance, billing, and clinical questions stay outside our scope. Paid media, Shopify or custom-platform builds, and deeper engineering work are available as separately scoped custom engagements — but they're not the core offering.</p>
+                    <p>We've worked with dental practices, mental health providers, addiction treatment centers, medical offices, oil and gas companies, agriculture and farming equipment suppliers, creative professionals, and more.</p>
+                    <p>Whether it's a therapy practice written with care for YMYL requirements, an equipment catalog that needs to rank nationally, or an artist portfolio that needs local visibility — we've done it.</p>
+                    <p>Every campaign is custom-built from scratch. No recycled playbooks, no templates, no promises we can't back with data. Learn your industry, audit the competition, build a strategy that dominates, and prove it every month.</p>
+                </div>
             </div>
             <div class="about-creds">
                 <div class="cred">
