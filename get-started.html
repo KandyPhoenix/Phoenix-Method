@@ -614,10 +614,13 @@
             }
         });
 
-        fetch('/', {
+        var payload = { _subject: 'New client intake from ' + (selectedPlanName || 'phoenixmethodseo.com') };
+        formData.forEach(function(value, key) { payload[key] = value; });
+
+        fetch('https://formsubmit.co/ajax/hello@phoenixmethodseo.com', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams(formData).toString()
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify(payload)
         })
         .then(function() { window.location.href = selectedPlanUrl; })
         .catch(function() { window.location.href = selectedPlanUrl; });
