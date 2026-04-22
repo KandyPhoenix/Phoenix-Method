@@ -250,12 +250,12 @@
                 ]
             },
             'social-post': {
-                label: 'Social Media Post',
+                label: 'GBP Post (Extra)',
                 fields: [
-                    { name: 'platform', label: 'Platform', type: 'select', required: true, options: ['Facebook', 'Instagram', 'LinkedIn'] },
-                    { name: 'post_topic', label: 'Post topic', type: 'textarea', required: true, hint: 'What should this post be about?' },
+                    { name: 'gbp_url', label: 'Google Business Profile URL', type: 'url', required: true, hint: 'Paste the link to your GBP (goo.gl/maps/... or business.google.com/...)' },
+                    { name: 'post_topic', label: 'Post topic / offer / update', type: 'textarea', required: true, hint: 'What should this post be about? Include any dates, prices, or specific wording you want.' },
                     { name: 'brand_voice', label: 'Brand voice notes', type: 'textarea', hint: 'Formal? Playful? Any words/phrases you use a lot or always avoid?' },
-                    { name: 'cta_preference', label: 'Link the post should drive to (optional)', type: 'url' }
+                    { name: 'cta_preference', label: 'Call-to-action preference', type: 'select', options: ['Learn More', 'Call Now', 'Book', 'Order Online', 'Sign Up', 'Buy', 'None'] }
                 ]
             },
             'citation': {

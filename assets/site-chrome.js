@@ -25,8 +25,9 @@
           </ul>
         </li>
         <li class="nav-dropdown">
-          <a href="#services">Industries</a>
+          <a href="/industries/">Industries</a>
           <ul class="nav-dropdown-menu">
+            <li><a href="/industries/"><strong>All Industries</strong></a></li>
             <li><a href="/industries/healthcare-seo/">Healthcare SEO</a></li>
             <li><a href="/industries/mental-health-seo/">Mental Health SEO</a></li>
             <li><a href="/industries/dental-seo/">Dental SEO</a></li>
@@ -67,6 +68,15 @@
             <a href="/services/content-seo/">Content SEO</a>
             <a href="/services/gbp-optimization/">GBP Optimization</a>
             <a href="/services/ai-overview-optimization/">AI Overview Optimization</a>
+          </div>
+          <div class="footer-col">
+            <h4>Industries</h4>
+            <a href="/industries/">All Industries</a>
+            <a href="/industries/healthcare-seo/">Healthcare SEO</a>
+            <a href="/industries/mental-health-seo/">Mental Health SEO</a>
+            <a href="/industries/dental-seo/">Dental SEO</a>
+            <a href="/industries/agriculture-seo/">Agriculture SEO</a>
+            <a href="/industries/oil-gas-seo/">Oil &amp; Gas SEO</a>
           </div>
           <div class="footer-col">
             <h4>Company</h4>
