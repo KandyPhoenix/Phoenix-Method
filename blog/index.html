@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog &mdash; SEO Insights &amp; Algorithm Updates | Phoenix Method</title>
+    <meta name="description" content="Actionable SEO intelligence from Phoenix Method. Algorithm updates, technical SEO guides, healthcare SEO, and AI Overview optimization — no fluff, no recycled advice.">
+    <link rel="canonical" href="https://phoenixmethodseo.com/blog/">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#FF4D00">
+    <meta property="og:title" content="Blog | Phoenix Method">
+    <meta property="og:description" content="Actionable SEO intelligence. No fluff, no recycled advice.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://phoenixmethodseo.com/blog/">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Outfit:wght@200;300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Outfit:wght@200;300;400;500;600&display=swap"></noscript>
+    <style>
+        :root {
+            --font-display: 'Cinzel', serif;
+            --font-accent: 'Rajdhani', sans-serif;
+            --font-body: 'Outfit', sans-serif;
+            --bg-deep: #07070D;
+            --bg-surface: #0E0E18;
+            --bg-card: #131320;
+            --fire-start: #FF4D00;
+            --fire-mid: #FF8C00;
+            --fire-end: #FFB800;
+            --text-primary: #F0EDE6;
+            --text-secondary: #A8A49C;
+            --text-muted: #6B6860;
+            --border: rgba(255,255,255,0.08);
+            --border-subtle: rgba(255,255,255,0.05);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-body); background: var(--bg-deep); color: var(--text-primary); line-height: 1.7; }
+        a { color: var(--fire-mid); text-decoration: none; transition: color .2s; }
+        a:hover { color: var(--fire-end); }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
+
+        .page-hero { padding: 160px 0 56px; border-bottom: 1px solid var(--border); }
+        .breadcrumbs { font-family: var(--font-accent); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px; }
+        .breadcrumbs a { color: var(--text-secondary); }
+        .breadcrumbs a:hover { color: var(--fire-mid); }
+        .page-hero h1 { font-family: var(--font-display); font-weight: 900; font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.15; margin-bottom: 20px; }
+        .fire-text { background: linear-gradient(135deg, var(--fire-start), var(--fire-mid), var(--fire-end)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .page-hero .lede { font-size: 1.15rem; color: var(--text-secondary); max-width: 780px; }
+
+        section.content-section { padding: 64px 0; }
+
+        .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        .insight-card-link { text-decoration: none; color: inherit; display: block; }
+        .insight-card-link:hover .insight-card { border-color: var(--fire-start); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(255,77,0,0.1); }
+        .insight-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 32px 28px; transition: all 0.4s; display: flex; flex-direction: column; height: 100%; }
+        .insight-card:hover { border-color: var(--border); transform: translateY(-3px); }
+        .insight-category { font-family: var(--font-accent); font-weight: 600; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fire-mid); margin-bottom: 14px; }
+        .insight-card h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; margin-bottom: 12px; line-height: 1.4; color: var(--text-primary); }
+        .insight-card p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.7; flex: 1; }
+        .insight-date { font-family: var(--font-accent); font-size: 0.75rem; color: var(--text-muted); margin-top: 16px; letter-spacing: 0.1em; }
+
+        .cta-panel { background: linear-gradient(135deg, rgba(255,77,0,0.08), rgba(255,184,0,0.04)); border: 1px solid rgba(255,140,0,0.25); border-radius: 16px; padding: 48px 32px; text-align: center; margin-top: 24px; }
+        .cta-panel h2 { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.6rem, 3.5vw, 2.2rem); margin-bottom: 12px; }
+        .cta-panel p { color: var(--text-secondary); margin: 0 auto 24px; max-width: 680px; }
+        .btn { display: inline-block; padding: 14px 28px; border-radius: 8px; font-family: var(--font-accent); font-weight: 700; font-size: 0.95rem; letter-spacing: 0.1em; text-transform: uppercase; transition: transform .15s, box-shadow .2s; }
+        .btn-primary { background: linear-gradient(135deg, var(--fire-start), var(--fire-mid)); color: #fff; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(255,140,0,0.25); color: #fff; }
+    </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Blog",
+      "name": "Phoenix Method Blog",
+      "url": "https://phoenixmethodseo.com/blog/",
+      "description": "SEO insights, algorithm updates, and practical guides from Phoenix Method."
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://phoenixmethodseo.com/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://phoenixmethodseo.com/blog/"}
+      ]
+    }
+    </script>
+
+    <link rel="stylesheet" href="/assets/site-chrome.css">
+</head>
+<body>
+    <div id="pm-nav"></div>
+
+    <section class="page-hero">
+        <div class="container">
+            <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <span>Blog</span></div>
+            <h1>From the <span class="fire-text">Phoenix Method</span> Blog</h1>
+            <p class="lede">Actionable SEO intelligence &mdash; no fluff, no recycled advice, just what's working right now.</p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="insights-grid">
+                <a href="/google-core-update-march-2026-seo-guide.html" class="insight-card-link">
+                    <article class="insight-card">
+                        <span class="insight-category">Algorithm Updates</span>
+                        <h3>Google's March 2026 Core Update: What Changed and What to Do</h3>
+                        <p>Over 55% of sites saw ranking shifts. E-E-A-T tightened for healthcare. AI content under scrutiny. Here's what changed and your 6-step response plan.</p>
+                        <span class="insight-date">March 26, 2026 &bull; READ NOW</span>
+                    </article>
+                </a>
+
+                <a href="/ai-overviews-seo-optimization-guide.html" class="insight-card-link">
+                    <article class="insight-card">
+                        <span class="insight-category">Technical SEO</span>
+                        <h3>AI Overviews and Your Rankings: How to Optimize for Google's New Search</h3>
+                        <p>Google's AI-generated summaries are changing how users interact with search. Here's how to ensure your content gets cited in AI Overviews.</p>
+                        <span class="insight-date">March 28, 2026 &bull; READ NOW</span>
+                    </article>
+                </a>
+
+                <article class="insight-card">
+                    <span class="insight-category">Healthcare SEO</span>
+                    <h3>Healthcare SEO: A Practical Guide for Medical Practices</h3>
+                    <p>How to optimize your healthcare website for search without creating compliance risk. Schema markup, content strategy, and local SEO for providers.</p>
+                    <span class="insight-date">Coming Soon</span>
+                </article>
+            </div>
+
+            <div class="cta-panel">
+                <h2>Want this in your inbox?</h2>
+                <p>Monthly SEO intelligence, algorithm-update breakdowns, and practical tactics &mdash; sent when there's actually something worth saying. No spam, no filler.</p>
+                <a href="/#contact" class="btn btn-primary">Send Me Updates</a>
+            </div>
+        </div>
+    </section>
+
+    <div id="pm-footer"></div>
+    <script src="/assets/site-chrome.js" defer></script>
+</body>
+</html>

@@ -46,7 +46,7 @@
           </ul>
         </li>
         <li><a href="/order.html">Shop</a></li>
-        <li><a href="/#insights">Blog</a></li>
+        <li><a href="/blog/">Blog</a></li>
         <li><a href="/#faq">FAQ</a></li>
         <li><a href="/#contact" class="nav-cta">Contact</a></li>
       </ul>
@@ -85,7 +85,7 @@
             <a href="/small-business-seo-pricing/">Pricing</a>
             <a href="/order.html">Shop</a>
             <a href="/#faq">FAQ</a>
-            <a href="/#insights">Blog</a>
+            <a href="/blog/">Blog</a>
           </div>
           <div class="footer-col">
             <h4>Contact</h4>
