@@ -100,6 +100,7 @@
             <a href="mailto:hello@phoenixmethodseo.com">Quick Email &rarr;</a>
             <a href="/contact/">Contact Us &rarr;</a>
             <a href="/services/seo-development/" style="align-self: flex-start; margin-top: 8px;">Custom Project &rarr;</a>
+            <a href="/portal/" style="align-self: flex-start; margin-top: 8px;">Client Portal &rarr;</a>
           </div>
         </div>
       </div>
