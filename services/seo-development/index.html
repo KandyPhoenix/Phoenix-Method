@@ -67,9 +67,10 @@
         .footer-cta-btn:hover { background: linear-gradient(135deg, var(--fire-start), var(--fire-mid)); color: #fff !important; border-color: var(--fire-mid); transform: translateY(-1px); }
     </style>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"ContactPage","name":"Custom Project Inquiry","url":"https://phoenixmethodseo.com/services/seo-development/","description":"Submit a custom project inquiry to Phoenix Method."}</script>
+<link rel="stylesheet" href="/assets/site-chrome.css">
 </head>
 <body>
-    <nav class="nav"><div class="nav-inner"><a href="/" class="nav-logo" aria-label="Phoenix Method Home"><img src="/assets/phoenix-full-logo.png" alt="Phoenix Method" width="1077" height="502"></a><a href="/" class="nav-back">&larr; Home</a></div></nav>
+    <div id="pm-nav"></div>
 
     <div id="form-wrapper">
         <header class="page-hero">
@@ -172,10 +173,7 @@
         <a href="/">&larr; Back to Home</a>
     </div>
 
-    <footer><div class="container"><div class="footer-inner">
-        <div>&copy; 2026 Phoenix Method. Search. Rise. Dominate.</div>
-        <div><a href="/">Home</a> &middot; <a href="/#services">Services</a> &middot; <a href="/order.html">Shop</a> &middot; <a href="/services/seo-development/" class="footer-cta-btn">Custom Project</a> &middot; <a href="/#contact">Contact</a></div>
-    </div></div></footer>
+    <div id="pm-footer"></div>
 
     <script>
         document.getElementById('customProjectForm').addEventListener('submit', async function(e) {
@@ -202,5 +200,6 @@
             }
         });
     </script>
+<script src="/assets/site-chrome.js" defer></script>
 </body>
 </html>
