@@ -1,0 +1,29 @@
+name = "portal"
+main = "src/worker.js"
+compatibility_date = "2026-01-01"
+workers_dev = true
+
+# One worker, many clients. Each client's content lives under public/{slug}/
+# Allowlist value determines which client slug the logged-in user can access.
+[assets]
+directory = "./public"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+run_worker_first = true
+
+[vars]
+FROM_EMAIL = "hello@phoenixmethodseo.com"
+FROM_NAME = "Phoenix Method"
+SESSION_DAYS = "7"
+
+[[kv_namespaces]]
+binding = "ALLOWLIST"
+id = "a2e5debaf3a54f0aaa59cb463bc866c8"
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "6e4bc20aadd7439789b497081ec4a251"
+
+# Secrets set via `wrangler secret put`:
+#   RESEND_API_KEY
+#   SESSION_SECRET
