@@ -49,3 +49,6 @@
     .nav-toggle { display: flex; z-index: 1000; }
     .footer-inner { grid-template-columns: 1fr; text-align: center; }
 }
+
+/* ========== BREADCRUMBS — brighter final segment ========== */
+.breadcrumbs span { color: #C8C2D3; font-weight: 500; }
