@@ -283,16 +283,25 @@
         /* ── PLAN COMPARISON ── */
         .plan-compare { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
         .plan-tier {
-            background: #0E0E18; border-radius: 10px; padding: 18px;
+            background: #0E0E18; border-radius: 10px; padding: 24px 18px 18px;
             border: 0.5px solid rgba(255,255,255,0.06); text-align: center;
+            position: relative;
         }
         .plan-tier.current {
-            border-color: rgba(255,140,0,0.4);
-            background: rgba(255,140,0,0.05);
+            border-color: rgba(255,140,0,0.45);
+            background: linear-gradient(180deg, rgba(255,77,0,0.06) 0%, #0E0E18 50%);
+            box-shadow: 0 0 40px rgba(255,77,0,0.08);
         }
         .plan-tier-badge {
-            font-size: 10px; color: #E87B2F; text-transform: uppercase;
-            letter-spacing: 0.5px; font-weight: 600; margin-bottom: 8px;
+            position: absolute;
+            top: -11px; left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #FF4D00, #FF8C00);
+            color: #fff;
+            font-size: 9px; font-weight: 700;
+            letter-spacing: 0.15em; text-transform: uppercase;
+            padding: 5px 16px; border-radius: 20px;
+            white-space: nowrap;
         }
         .plan-tier-name { font-size: 15px; font-weight: 600; color: #F0ECE6; margin-bottom: 4px; }
         .plan-tier-price { font-size: 24px; font-weight: 700; color: #F0ECE6; }
