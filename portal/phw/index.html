@@ -774,8 +774,8 @@ function buildPortal(d) {
             <button class="tab" data-tab="rankings">Rank Tracking</button>
             <button class="tab" data-tab="calendar">Content Calendar</button>
             <button class="tab" data-tab="billing">Billing & Plan</button>
-            <button class="tab" data-tab="reports">Reports</button>
             <button class="tab" data-tab="roadmap">SEO Roadmap</button>
+            <button class="tab" data-tab="reports">Reports</button>
             <button class="tab" data-tab="messages">Messages</button>
         </div>
 
@@ -907,6 +907,11 @@ function buildPortal(d) {
             <div class="plan-compare">${planCompare}</div>
         </div>
 
+        <!-- SEO ROADMAP -->
+        <div class="section" id="sec-roadmap">
+            ${roadmapHtml}
+        </div>
+
         <!-- REPORTS -->
         <div class="section" id="sec-reports">
             <div class="sec-header">
@@ -914,11 +919,6 @@ function buildPortal(d) {
                 <span class="sec-sub">Audits, monthly reports &amp; deliverable files</span>
             </div>
             <div class="reports-grid">${reportCards}</div>
-        </div>
-
-        <!-- SEO ROADMAP -->
-        <div class="section" id="sec-roadmap">
-            ${roadmapHtml}
         </div>
 
         <!-- MESSAGES -->
