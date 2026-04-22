@@ -97,8 +97,8 @@
           </div>
           <div class="footer-col">
             <h4>Contact</h4>
-            <a href="mailto:hello@phoenixmethodseo.com">hello@phoenixmethodseo.com</a>
-            <a href="/contact/">Contact</a>
+            <a href="mailto:hello@phoenixmethodseo.com">Quick Email &rarr;</a>
+            <a href="/contact/">Contact Us &rarr;</a>
             <a href="/services/seo-development/" style="align-self: flex-start; margin-top: 8px;">Custom Project &rarr;</a>
           </div>
         </div>
