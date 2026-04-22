@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Portal Access | Phoenix Method</title>
+    <meta name="description" content="Access your Phoenix Method client portal. Enter your email and we'll send your personalized portal link.">
+    <link rel="canonical" href="https://phoenixmethodseo.com/portal/">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#FF4D00">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Outfit:wght@200;300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Outfit:wght@200;300;400;500;600&display=swap"></noscript>
+    <style>
+        :root {
+            --font-display: 'Cinzel', serif;
+            --font-accent: 'Rajdhani', sans-serif;
+            --font-body: 'Outfit', sans-serif;
+            --bg-deep: #07070D;
+            --bg-surface: #0E0E18;
+            --bg-card: #131320;
+            --fire-start: #FF4D00;
+            --fire-mid: #FF8C00;
+            --fire-end: #FFB800;
+            --text-primary: #F0EDE6;
+            --text-secondary: #A8A49C;
+            --text-muted: #6B6860;
+            --border: rgba(255,255,255,0.08);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-body); background: var(--bg-deep); color: var(--text-primary); line-height: 1.7; }
+        a { color: var(--fire-mid); text-decoration: none; transition: color .2s; }
+        a:hover { color: var(--fire-end); }
+        .container { max-width: 560px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 48px); }
+
+        .portal-shell { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 140px 0 80px; }
+        .portal-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 48px 40px;
+            text-align: center;
+        }
+        .portal-tag { display: inline-block; font-family: var(--font-accent); font-weight: 600; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fire-mid); margin-bottom: 16px; }
+        .portal-card h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.6rem, 4vw, 2.2rem); line-height: 1.2; margin-bottom: 14px; }
+        .fire-text { background: linear-gradient(135deg, var(--fire-start), var(--fire-mid), var(--fire-end)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .portal-card .lede { color: var(--text-secondary); font-size: 1rem; margin-bottom: 28px; }
+
+        form { display: flex; flex-direction: column; gap: 12px; }
+        label { font-family: var(--font-accent); font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary); text-align: left; }
+        input[type="email"] {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-deep);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: border-color .2s;
+        }
+        input[type="email"]:focus { outline: none; border-color: var(--fire-mid); }
+        button {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--fire-start), var(--fire-mid));
+            color: #fff;
+            font-family: var(--font-accent);
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: transform .15s, box-shadow .2s, opacity .2s;
+        }
+        button:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(255,140,0,0.25); }
+        button:disabled { opacity: 0.55; cursor: not-allowed; }
+
+        .portal-fallback { margin-top: 24px; font-size: 0.85rem; color: var(--text-muted); }
+        .portal-fallback a { color: var(--text-secondary); }
+        .portal-fallback a:hover { color: var(--fire-mid); }
+
+        .status { margin-top: 18px; padding: 14px 18px; border-radius: 8px; font-size: 0.92rem; text-align: left; display: none; }
+        .status.show { display: block; }
+        .status.success { background: rgba(255,184,0,0.08); border: 1px solid rgba(255,184,0,0.3); color: var(--text-primary); }
+        .status.error { background: rgba(255,77,77,0.08); border: 1px solid rgba(255,77,77,0.3); color: var(--text-primary); }
+
+        .home-link { display: inline-block; margin-top: 20px; font-family: var(--font-accent); font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+        .home-link:hover { color: var(--fire-mid); }
+    </style>
+    <link rel="stylesheet" href="/assets/site-chrome.css">
+</head>
+<body>
+    <div id="pm-nav"></div>
+
+    <div class="portal-shell">
+        <div class="container">
+            <div class="portal-card">
+                <span class="portal-tag">Client Portal</span>
+                <h1>Access Your <span class="fire-text">Portal</span></h1>
+                <p class="lede">Enter the email you use with Phoenix Method. We'll send you a secure link to your personalized portal.</p>
+
+                <form id="portalForm" novalidate>
+                    <label for="portalEmail">Your Email</label>
+                    <input type="email" id="portalEmail" name="email" required autocomplete="email" placeholder="you@yourbusiness.com">
+                    <button type="submit" id="portalSubmit">Send Me My Link</button>
+                </form>
+
+                <div class="status" id="portalStatus"></div>
+
+                <p class="portal-fallback">Don't have portal access yet? <a href="mailto:hello@phoenixmethodseo.com">Email hello@phoenixmethodseo.com</a> and we'll get you set up.</p>
+
+                <a href="/" class="home-link">&larr; Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="pm-footer"></div>
+    <script src="/assets/site-chrome.js" defer></script>
+
+    <script>
+        (function () {
+            // TODO: update this endpoint once the Cloudflare Worker is deployed.
+            // Expected response: always 200 with JSON { ok: true }
+            var ENDPOINT = 'https://portal-link.phoenixmethodseo.com/request';
+
+            var form = document.getElementById('portalForm');
+            var status = document.getElementById('portalStatus');
+            var submitBtn = document.getElementById('portalSubmit');
+            var emailInput = document.getElementById('portalEmail');
+
+            function showStatus(msg, type) {
+                status.textContent = msg;
+                status.className = 'status show ' + type;
+            }
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                var email = (emailInput.value || '').trim().toLowerCase();
+                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    showStatus('Enter a valid email address.', 'error');
+                    return;
+                }
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending…';
+
+                fetch(ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email })
+                }).then(function (r) {
+                    return r.ok ? r.json() : Promise.reject(r);
+                }).then(function () {
+                    showStatus('If that email is registered, you\'ll get a link within a minute. Check your inbox (and spam folder).', 'success');
+                    form.reset();
+                }).catch(function () {
+                    showStatus('Something went wrong. Please try again in a moment, or email hello@phoenixmethodseo.com.', 'error');
+                }).finally(function () {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Send Me My Link';
+                });
+            });
+        })();
+    </script>
+</body>
+</html>

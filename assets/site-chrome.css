@@ -4,10 +4,10 @@
    ============================================ */
 
 /* ========== NAV ========== */
-.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 20px 0; background: rgba(7,7,13,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,77,0,0.12); transition: all 0.4s ease; }
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 28px 0; background: rgba(7,7,13,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,77,0,0.12); transition: all 0.4s ease; }
 .nav-inner { max-width: var(--container-max, 1200px); margin: 0 auto; padding: 0 var(--side-padding, 24px); display: flex; align-items: center; justify-content: space-between; }
 .nav-logo { display: flex; align-items: center; }
-.nav-logo-img { height: 60px; width: auto; object-fit: contain; }
+.nav-logo-img { height: 70px; width: auto; object-fit: contain; }
 .nav-links { display: flex; align-items: center; gap: 22px; list-style: none; flex-wrap: nowrap; margin: 0; padding: 0; }
 .nav-links > li { white-space: nowrap; }
 .nav-links a { font-family: var(--font-accent, 'Rajdhani', sans-serif); font-weight: 500; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; color: #C8C5D4; text-decoration: none; transition: color 0.3s; }
@@ -40,7 +40,7 @@
 
 /* ========== MOBILE ========== */
 @media (max-width: 900px) {
-    .nav-links { display: none; flex-direction: column; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(7,7,13,0.98); padding: 100px 40px 40px; gap: 8px; z-index: 999; overflow-y: auto; }
+    .nav-links { display: none; flex-direction: column; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(7,7,13,0.98); padding: 130px 40px 40px; gap: 8px; z-index: 999; overflow-y: auto; }
     .nav-links.open { display: flex; }
     .nav-links > li { width: 100%; }
     .nav-links a { font-size: 1.1rem; padding: 12px 0; display: block; border-bottom: 1px solid rgba(255,255,255,0.06); }
