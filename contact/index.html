@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+    <meta name="theme-color" content="#07070D">
+    <title>Contact | Phoenix Method</title>
+    <meta name="description" content="Get in touch with Phoenix Method. Questions about SEO services, pricing, or your project — we respond within one business day.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://phoenixmethodseo.com/contact/">
+    <link rel="stylesheet" href="/assets/site-chrome.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #07070D;
+            --bg-surface: #0E0E18;
+            --bg-card: #13131F;
+            --text-primary: #F0ECE6;
+            --text-secondary: #C8C5D4;
+            --text-muted: #5E5A6B;
+            --fire-start: #FF4D00;
+            --fire-mid: #FF8C00;
+            --border: rgba(255,255,255,0.06);
+            --font-accent: 'Rajdhani', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --container-max: 1200px;
+            --side-padding: 24px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 var(--side-padding);
+        }
+
+        /* ── PAGE HEADER ── */
+        .page-header {
+            padding: 140px 0 60px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+        .page-header .eyebrow {
+            font-family: var(--font-accent);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--fire-mid);
+            margin-bottom: 16px;
+            display: block;
+        }
+        .page-header h1 {
+            font-family: var(--font-accent);
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+        .page-header p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        /* ── CONTACT LAYOUT ── */
+        .contact-section {
+            padding: 80px 0 100px;
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 64px;
+            align-items: start;
+        }
+
+        /* ── LEFT: INFO ── */
+        .contact-info h2 {
+            font-family: var(--font-accent);
+            font-size: 1.4rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        .contact-info p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 24px;
+        }
+        .contact-item-label {
+            font-family: var(--font-accent);
+            font-size: 0.7rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+        .contact-item a,
+        .contact-item span {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .contact-item a:hover { color: var(--fire-mid); }
+
+        .response-note {
+            margin-top: 40px;
+            padding: 16px 20px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--fire-start);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* ── RIGHT: FORM ── */
+        .contact-form-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 40px;
+        }
+        .contact-form-card h2 {
+            font-family: var(--font-accent);
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            font-family: var(--font-accent);
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 6px;
+            padding: 12px 14px;
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+            width: 100%;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: rgba(255,140,0,0.4);
+        }
+        .form-group select option { background: var(--bg-card); }
+        .form-group textarea { resize: vertical; min-height: 120px; }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, var(--fire-start), var(--fire-mid));
+            color: #fff;
+            font-family: var(--font-accent);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        .btn-submit:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        /* ── MOBILE ── */
+        @media (max-width: 768px) {
+            .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+            .form-row { grid-template-columns: 1fr; }
+            .contact-form-card { padding: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="pm-nav"></div>
+
+    <div class="page-header">
+        <div class="container">
+            <span class="eyebrow">Phoenix Method</span>
+            <h1>Get In Touch</h1>
+            <p>Questions about SEO services, your project, or working together — we're here.</p>
+        </div>
+    </div>
+
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-grid">
+
+                <div class="contact-info">
+                    <h2>Let's Talk</h2>
+                    <p>Whether you're exploring SEO for the first time or looking to level up an existing strategy, reach out. We'll respond within one business day.</p>
+
+                    <div class="contact-item">
+                        <span class="contact-item-label">Email</span>
+                        <a href="mailto:hello@phoenixmethodseo.com">hello@phoenixmethodseo.com</a>
+                    </div>
+
+                    <div class="contact-item">
+                        <span class="contact-item-label">Blog Updates</span>
+                        <a href="mailto:updates@phoenixmethodseo.com">updates@phoenixmethodseo.com</a>
+                    </div>
+
+                    <div class="contact-item">
+                        <span class="contact-item-label">Free SEO Audit</span>
+                        <a href="/#contact">Request your free audit &rarr;</a>
+                    </div>
+
+                    <div class="response-note">
+                        We respond within one business day. For urgent matters, include "URGENT" in your subject line.
+                    </div>
+                </div>
+
+                <div class="contact-form-card">
+                    <h2>Send a Message</h2>
+                    <form action="mailto:hello@phoenixmethodseo.com" method="POST" enctype="text/plain">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Your Name</label>
+                                <input type="text" id="name" name="name" placeholder="Jane Smith" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" name="email" placeholder="jane@example.com" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reason">What can we help with?</label>
+                            <select id="reason" name="reason">
+                                <option value="">Select a topic...</option>
+                                <option value="seo-services">SEO Services</option>
+                                <option value="pricing">Pricing &amp; Plans</option>
+                                <option value="existing-client">Existing Client Question</option>
+                                <option value="partnership">Partnership / Referral</option>
+                                <option value="other">Something Else</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" placeholder="Tell us what's on your mind..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-submit">Send Message</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <div id="pm-footer"></div>
+    <script src="/assets/site-chrome.js" defer></script>
+</body>
+</html>

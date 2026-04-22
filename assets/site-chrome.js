@@ -56,7 +56,7 @@
         </li>
         <li><a href="/blog/">Blog</a></li>
         <li><a href="/#faq">FAQ</a></li>
-        <li><a href="/#contact" class="nav-cta">Contact</a></li>
+        <li><a href="/contact/" class="nav-cta">Contact</a></li>
       </ul>
     </div>
   </nav>`;
@@ -98,7 +98,7 @@
           <div class="footer-col">
             <h4>Contact</h4>
             <a href="mailto:hello@phoenixmethodseo.com">hello@phoenixmethodseo.com</a>
-            <a href="/#contact">Contact Form</a>
+            <a href="/contact/">Contact</a>
             <a href="/services/seo-development/" style="align-self: flex-start; margin-top: 8px;">Custom Project &rarr;</a>
           </div>
         </div>
