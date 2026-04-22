@@ -986,6 +986,7 @@
         // Nav scroll effect
         (function() {
             var nav = document.getElementById('nav');
+            if (!nav) return;
             var scrolled = false;
             function onScroll() {
                 if (window.scrollY > 80) {
@@ -1002,6 +1003,7 @@
         (function() {
             var toggle = document.getElementById('navToggle');
             var links = document.getElementById('navLinks');
+            if (!toggle || !links) return;
             toggle.addEventListener('click', function() {
                 links.classList.toggle('open');
             });
