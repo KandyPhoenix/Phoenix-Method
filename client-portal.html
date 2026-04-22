@@ -139,99 +139,8 @@
         /* ============================================
            NAV
            ============================================ */
-        .nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            padding: 16px 0;
-            transition: all 0.4s ease;
-        }
-        .nav.scrolled {
-            background: rgba(7, 7, 13, 0.92);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 77, 0, 0.12);
-            padding: 10px 0;
-        }
-        .nav-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .nav-logo { display: flex; align-items: center; }
-        .nav-logo-img { height: 40px; width: auto; }
-        .nav-toggle {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-        }
-        .nav-toggle span {
-            display: block;
-            width: 24px;
-            height: 2px;
-            background: #F0ECE6;
-            transition: all 0.3s ease;
-        }
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 32px;
-            list-style: none;
-        }
-        .nav-links a {
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 500;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #9A95A8;
-            transition: color 0.3s ease;
-        }
-        .nav-links a:hover { color: #FF8C00; }
-        /* Dropdowns */
-        .nav-dropdown { position: relative; }
-        .nav-dropdown > a::after { content: ' ▾'; font-size: 0.7em; opacity: 0.6; }
-        .nav-dropdown-menu {
-            position: absolute; top: calc(100% + 12px); left: -16px;
-            min-width: 240px; background: rgba(14,14,24,0.98);
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
-            padding: 8px 0; opacity: 0; visibility: hidden;
-            transform: translateY(-4px); list-style: none;
-            transition: opacity .2s, transform .2s, visibility .2s;
-            backdrop-filter: blur(12px);
-        }
-        .nav-dropdown.dropdown-right .nav-dropdown-menu { left: auto; right: -16px; }
-        .nav-dropdown:hover .nav-dropdown-menu,
-        .nav-dropdown:focus-within .nav-dropdown-menu {
-            opacity: 1; visibility: visible; transform: translateY(0);
-        }
-        .nav-dropdown-menu li { display: block; }
-        .nav-dropdown-menu a {
-            display: block; padding: 10px 20px; font-size: 0.82rem;
-            color: #9A95A8; text-transform: none; letter-spacing: 0.04em;
-        }
-        .nav-dropdown-menu a:hover { color: #FF8C00; background: rgba(255,140,0,0.05); }
-        .nav-cta {
-            border: 1px solid #FF4D00 !important;
-            color: #FF8C00 !important;
-            padding: 8px 20px;
-            border-radius: 6px;
-            transition: all 0.3s ease !important;
-        }
-        .nav-cta:hover {
-            background: #FF4D00 !important;
-            color: #fff !important;
-        }
-
+                                                                                        /* Dropdowns */
+                                                                                
         /* ============================================
            HERO — SECTION 1
            ============================================ */
@@ -776,23 +685,7 @@
            RESPONSIVE — 768px
            ============================================ */
         @media (max-width: 768px) {
-            .nav-toggle { display: flex; }
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 280px;
-                height: 100vh;
-                background: rgba(7, 7, 13, 0.98);
-                backdrop-filter: blur(20px);
-                flex-direction: column;
-                padding: 80px 32px 32px;
-                gap: 20px;
-                transition: right 0.3s ease;
-                border-left: 1px solid rgba(255, 77, 0, 0.12);
-            }
-            .nav-links.open { right: 0; }
-            .features-grid { grid-template-columns: 1fr; }
+                                                .features-grid { grid-template-columns: 1fr; }
             .pricing-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
             .pricing-card.featured { transform: none; }
             .pricing-card.featured:hover { transform: translateY(-4px); }
@@ -823,59 +716,10 @@
             .footer-grid { grid-template-columns: 1fr; }
         }
     </style>
+<link rel="stylesheet" href="/assets/site-chrome.css">
 </head>
 <body>
-
-    <!-- ============================================
-         NAV
-         ============================================ -->
-    <nav class="nav" id="nav">
-        <div class="nav-inner">
-            <a href="https://phoenixmethodseo.com/" class="nav-logo">
-                <img src="https://phoenixmethodseo.com/assets/phoenix-full-logo.png" alt="Phoenix Method" class="nav-logo-img" width="1077" height="502">
-            </a>
-            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-                <span></span><span></span><span></span>
-            </button>
-            <ul class="nav-links" id="navLinks">
-                <li class="nav-dropdown">
-                    <a href="https://phoenixmethodseo.com/small-business-seo/">Services</a>
-                    <ul class="nav-dropdown-menu">
-                        <li><a href="https://phoenixmethodseo.com/small-business-seo/"><strong>Small Business SEO</strong></a></li>
-                        <li><a href="https://phoenixmethodseo.com/services/local-seo/">Local SEO</a></li>
-                        <li><a href="https://phoenixmethodseo.com/services/technical-seo/">Technical SEO</a></li>
-                        <li><a href="https://phoenixmethodseo.com/services/content-seo/">Content SEO</a></li>
-                        <li><a href="https://phoenixmethodseo.com/services/gbp-optimization/">GBP Optimization</a></li>
-                        <li><a href="https://phoenixmethodseo.com/services/ai-overview-optimization/">AI Overview Optimization</a></li>
-                    </ul>
-                </li>
-                <li class="nav-dropdown">
-                    <a href="https://phoenixmethodseo.com/#services">Industries</a>
-                    <ul class="nav-dropdown-menu">
-                        <li><a href="https://phoenixmethodseo.com/industries/healthcare-seo/">Healthcare SEO</a></li>
-                        <li><a href="https://phoenixmethodseo.com/industries/mental-health-seo/">Mental Health SEO</a></li>
-                        <li><a href="https://phoenixmethodseo.com/industries/dental-seo/">Dental SEO</a></li>
-                        <li><a href="https://phoenixmethodseo.com/industries/agriculture-seo/">Agriculture SEO</a></li>
-                        <li><a href="https://phoenixmethodseo.com/industries/oil-gas-seo/">Oil &amp; Gas SEO</a></li>
-                    </ul>
-                </li>
-                <li><a href="https://phoenixmethodseo.com/#why-phoenix-method">About</a></li>
-                <li class="nav-dropdown dropdown-right">
-                    <a href="https://phoenixmethodseo.com/small-business-seo-pricing/">Investment</a>
-                    <ul class="nav-dropdown-menu">
-                        <li><a href="https://phoenixmethodseo.com/small-business-seo-pricing/"><strong>Pricing Overview</strong></a></li>
-                        <li><a href="https://phoenixmethodseo.com/plans/spark/">Spark — $500/mo</a></li>
-                        <li><a href="https://phoenixmethodseo.com/plans/blaze/">Blaze — $900/mo</a></li>
-                        <li><a href="https://phoenixmethodseo.com/plans/inferno/">Inferno — $1,500/mo</a></li>
-                    </ul>
-                </li>
-                <li><a href="https://phoenixmethodseo.com/order.html">Shop</a></li>
-                <li><a href="https://phoenixmethodseo.com/#insights">Blog</a></li>
-                <li><a href="https://phoenixmethodseo.com/#faq">FAQ</a></li>
-                <li><a href="https://phoenixmethodseo.com/#contact">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
+    <div id="pm-nav"></div>
 
     <!-- ============================================
          SECTION 1 — HERO
@@ -1127,49 +971,7 @@
             <a href="#pricing" class="btn-primary">Choose Your Plan</a>
         </div>
     </section>
-
-    <!-- ============================================
-         FOOTER
-         ============================================ -->
-    <footer style="border-top:1px solid rgba(255,77,0,0.12);padding:60px 0 40px;background:#07070D">
-        <div class="container">
-            <div class="footer-grid">
-                <div>
-                    <p style="color:#9A95A8;font-size:0.9rem;line-height:1.7">Data-driven SEO &amp; SEM consulting.<br>Your rankings. Our fire.</p>
-                </div>
-                <div>
-                    <h4 style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;color:#F0ECE6;margin-bottom:16px">Services</h4>
-                    <a href="https://phoenixmethodseo.com/small-business-seo/" style="display:block;color:#9A95A8;font-size:0.9rem;margin-bottom:8px;text-decoration:none">Small Business SEO</a>
-                    <a href="https://phoenixmethodseo.com/services/local-seo/" style="display:block;color:#9A95A8;font-size:0.9rem;margin-bottom:8px;text-decoration:none">Local SEO</a>
-                    <a href="https://phoenixmethodseo.com/services/technical-seo/" style="display:block;color:#9A95A8;font-size:0.9rem;margin-bottom:8px;text-decoration:none">Technical SEO</a>
-                    <a href="https://phoenixmethodseo.com/services/content-seo/" style="display:block;color:#9A95A8;font-size:0.9rem;margin-bottom:8px;text-decoration:none">Content SEO</a>
-                    <a href="https://phoenixmethodseo.com/services/gbp-optimization/" style="display:block;color:#9A95A8;font-size:0.9rem;margin-bottom:8px;text-decoration:none">GBP Optimization</a>
-                    <a href="https://phoenixmethodseo.com/services/ai-overview-optimization/" style="display:block;color:#9A95A8;font-size:0.9rem;margin-bottom:8px;text-decoration:none">AI Overview Optimization</a>
-                </div>
-                <div>
-                    <h4 style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;color:#F0ECE6;margin-bottom:16px">Company</h4>
-                    <a href="https://phoenixmethodseo.com/about/" style="display:block;color:#9A95A8;font-size:0.9rem;margin-bottom:8px;text-decoration:none">About</a>
-                    <a href="https://phoenixmethodseo.com/#process" style="display:block;color:#9A95A8;font-size:0.9rem;margin-bottom:8px;text-decoration:none">Our Process</a>
-                    <a href="https://phoenixmethodseo.com/small-business-seo-pricing/" style="display:block;color:#9A95A8;font-size:0.9rem;margin-bottom:8px;text-decoration:none">Pricing</a>
-                    <a href="https://phoenixmethodseo.com/order.html" style="display:block;color:#9A95A8;font-size:0.9rem;margin-bottom:8px;text-decoration:none">Shop</a>
-                    <a href="https://phoenixmethodseo.com/#faq" style="display:block;color:#9A95A8;font-size:0.9rem;margin-bottom:8px;text-decoration:none">FAQ</a>
-                    <a href="https://phoenixmethodseo.com/#insights" style="display:block;color:#9A95A8;font-size:0.9rem;margin-bottom:8px;text-decoration:none">Blog</a>
-                </div>
-                <div>
-                    <h4 style="font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;color:#F0ECE6;margin-bottom:16px">Contact</h4>
-                    <a href="mailto:hello@phoenixmethodseo.com" style="display:block;color:#9A95A8;font-size:0.9rem;margin-bottom:8px;text-decoration:none">hello@phoenixmethodseo.com</a>
-                    <a href="https://phoenixmethodseo.com/#contact" style="display:block;color:#9A95A8;font-size:0.9rem;margin-bottom:16px;text-decoration:none">Contact Form</a>
-                    <a href="https://phoenixmethodseo.com/services/seo-development/" style="display:block;width:180px;max-width:100%;padding:28px 14px;border:1px solid rgba(255,140,0,0.5);border-radius:12px;color:#FF8C00;background:linear-gradient(135deg,rgba(255,77,0,0.12),rgba(255,184,0,0.05));font-family:'Rajdhani',sans-serif;font-weight:700;font-size:0.88rem;letter-spacing:0.12em;text-transform:uppercase;text-align:center;line-height:1.3;text-decoration:none">
-                        Custom Project &rarr;
-                        <span style="display:block;font-size:0.7rem;font-weight:500;letter-spacing:0.08em;text-transform:none;color:#9A95A8;margin-top:6px">Bigger scope? Tell us about it.</span>
-                    </a>
-                </div>
-            </div>
-            <div style="border-top:1px solid rgba(255,255,255,0.06);padding-top:24px;text-align:center">
-                <p style="color:#5E5A6B;font-size:0.8rem">&copy; 2026 Phoenix Method. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    <div id="pm-footer"></div>
 
     <!-- ============================================
          JAVASCRIPT
@@ -1238,5 +1040,6 @@
         })();
     </script>
 
+<script src="/assets/site-chrome.js" defer></script>
 </body>
 </html>
