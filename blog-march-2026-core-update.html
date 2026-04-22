@@ -1251,30 +1251,12 @@
       gtag('js', new Date());
       gtag('config', 'G-3RCCP637GV');
     </script>
+<link rel="stylesheet" href="/assets/site-chrome.css">
 </head>
 <body>
 
     <!-- NAV (same as main site) -->
-    <nav class="nav scrolled" id="nav">
-        <div class="nav-inner">
-            <a href="index.html" class="nav-logo" aria-label="Phoenix Home">
-                <img src="assets/phoenix-full-logo.png" alt="Phoenix Method" class="nav-logo-img" width="1077" height="502" fetchpriority="high">
-            </a>
-            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-                <span></span><span></span><span></span>
-            </button>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html#services">Services</a></li>
-                <li><a href="index.html#process">Process</a></li>
-                <li><a href="index.html#results">Results</a></li>
-                <li><a href="index.html#about">About</a></li>
-                <li><a href="index.html#pricing">Investment</a></li>
-                <li><a href="index.html#insights">Blog</a></li>
-                <li><a href="index.html#faq">FAQ</a></li>
-                <li><a href="index.html#contact" class="nav-cta">Free SEO Audit</a></li>
-            </ul>
-        </div>
-    </nav>
+    <div id="pm-nav"></div>
 
     <article class="blog-article">
         <div class="blog-container">
@@ -1430,18 +1412,7 @@
     </article>
 
     <!-- FOOTER (same as main site) -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-inner" style="text-align: center;">
-                <div class="footer-brand">
-                    <p class="footer-tagline">Data-driven SEO & SEM consulting.<br>Dead rankings don't stay dead.</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 Phoenix Method. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    <div id="pm-footer"></div>
 
     <script>
     // Mobile nav
@@ -1449,5 +1420,6 @@
         document.getElementById('navLinks').classList.toggle('open');
     });
     </script>
+<script src="/assets/site-chrome.js" defer></script>
 </body>
 </html>

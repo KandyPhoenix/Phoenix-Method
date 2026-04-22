@@ -639,30 +639,12 @@
       gtag('js', new Date());
       gtag('config', 'G-3RCCP637GV');
     </script>
+<link rel="stylesheet" href="/assets/site-chrome.css">
 </head>
 <body>
 
     <!-- NAV -->
-    <nav class="nav scrolled" id="nav">
-        <div class="nav-inner">
-            <a href="index.html" class="nav-logo" aria-label="Phoenix Method Home">
-                <img src="assets/phoenix-full-logo.png" alt="Phoenix Method" class="nav-logo-img" width="1077" height="502" fetchpriority="high">
-            </a>
-            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
-                <span></span><span></span><span></span>
-            </button>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html#services">Services</a></li>
-                <li><a href="index.html#process">Process</a></li>
-                <li><a href="index.html#results">Results</a></li>
-                <li><a href="index.html#about">About</a></li>
-                <li><a href="index.html#pricing">Investment</a></li>
-                <li><a href="index.html#insights">Blog</a></li>
-                <li><a href="index.html#faq">FAQ</a></li>
-                <li><a href="index.html#contact" class="nav-cta">Free SEO Audit</a></li>
-            </ul>
-        </div>
-    </nav>
+    <div id="pm-nav"></div>
 
     <!-- BLOG ARTICLE -->
     <article class="blog-article" itemscope itemtype="https://schema.org/Article">
@@ -903,52 +885,8 @@
     </article>
 
     <!-- FOOTER -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-inner">
-                <div class="footer-brand">
-                    <p class="footer-tagline">Data-driven SEO &amp; SEM consulting.<br>Dead rankings don't stay dead.</p>
-                </div>
-                <div class="footer-links">
-                    <div class="footer-col">
-                        <h4>Services</h4>
-                        <a href="index.html#services">Technical SEO</a>
-                        <a href="index.html#services">Content Strategy</a>
-                        <a href="index.html#services">Local SEO</a>
-                        <a href="index.html#services">Google Ads</a>
-                        <a href="index.html#services">Healthcare SEO</a>
-                    </div>
-                    <div class="footer-col">
-                        <h4>Company</h4>
-                        <a href="index.html#about">About</a>
-                        <a href="index.html#process">Our Process</a>
-                        <a href="index.html#faq">FAQ</a>
-                        <a href="index.html#insights">Blog</a>
-                    </div>
-                    <div class="footer-col">
-                        <h4>Contact</h4>
-                        <a href="mailto:hello@phoenixmethodseo.com">hello@phoenixmethodseo.com</a>
-                        <a href="https://phoenixmethodseo.com">phoenixmethodseo.com</a>
-                        <a href="index.html#contact">Free SEO Audit</a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 Phoenix Method. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    <div id="pm-footer"></div>
 
-    <script>
-    // Mobile nav toggle
-    document.getElementById('navToggle').addEventListener('click', () => {
-        document.getElementById('navLinks').classList.toggle('open');
-    });
-    // Scroll-based nav styling
-    window.addEventListener('scroll', () => {
-        document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
-    });
-    </script>
-
+<script src="/assets/site-chrome.js" defer></script>
 </body>
 </html>
