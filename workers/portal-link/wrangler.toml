@@ -1,0 +1,28 @@
+name = "portal-link"
+main = "src/worker.js"
+compatibility_date = "2026-01-01"
+
+# Custom route — point the Worker at a subdomain on the zone.
+# Requires phoenixmethodseo.com to be on Cloudflare. Add a DNS record:
+#   CNAME  portal-link  ->  phoenixmethodseo.com   (proxied / orange cloud)
+# Then Cloudflare routes portal-link.phoenixmethodseo.com to this Worker.
+routes = [
+  { pattern = "portal-link.phoenixmethodseo.com/*", custom_domain = true }
+]
+
+[vars]
+FROM_EMAIL = "hello@phoenixmethodseo.com"
+FROM_NAME  = "Phoenix Method"
+SITE_ORIGIN = "https://phoenixmethodseo.com"
+
+# KV namespace IDs are created via:
+#   wrangler kv:namespace create ALLOWLIST
+#   wrangler kv:namespace create RATE_LIMIT
+# Paste the returned ids here.
+[[kv_namespaces]]
+binding = "ALLOWLIST"
+id = "REPLACE_WITH_ALLOWLIST_KV_ID"
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "REPLACE_WITH_RATE_LIMIT_KV_ID"
