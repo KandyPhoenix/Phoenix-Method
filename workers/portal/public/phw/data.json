@@ -70,14 +70,7 @@
     { "title": "Online Therapy vs. In-Person: Which Is Right for You?", "status": "planned" },
     { "title": "How to Find a Therapist That Accepts Your Insurance", "status": "planned" }
   ],
-  "reports": [
-    {
-      "name": "PHW Care SEO Audit",
-      "date": "April 2026",
-      "icon": "🔍",
-      "url": "/portal/phw/PHW-Care-SEO-Audit-Phoenix-Method.pdf"
-    }
-  ],
+  "reports": [],
   "roadmap": [
     {
       "phase": 1,
