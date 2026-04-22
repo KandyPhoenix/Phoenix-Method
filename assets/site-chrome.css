@@ -27,7 +27,8 @@
 
 /* ========== FOOTER ========== */
 .footer { padding: 60px 0 30px; border-top: 1px solid rgba(255,255,255,0.06); }
-.footer-inner { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; align-items: start; }
+.footer .container { max-width: var(--container-max, 1200px); margin: 0 auto; padding: 0 var(--side-padding, 24px); }
+.footer-inner { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr 1fr; gap: 24px; margin-bottom: 40px; align-items: start; }
 .footer-brand { display: flex; flex-direction: column; gap: 12px; }
 .footer-tagline { color: var(--text-muted, #5E5A6B); font-size: 0.9rem; line-height: 1.6; }
 .footer-links { display: contents; }
