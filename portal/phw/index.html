@@ -162,6 +162,30 @@
         .change.down    { color: #c0392b; }
         .change.neutral { color: #5E5A6B; }
 
+        /* ── KEYWORD PANELS ── */
+        .kw-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 4px; }
+        .kw-panel {
+            background: #0E0E18; border-radius: 10px;
+            border: 0.5px solid rgba(255,255,255,0.06); overflow: hidden;
+        }
+        .kw-panel-header {
+            padding: 12px 16px 10px; border-bottom: 0.5px solid rgba(255,255,255,0.06);
+            display: flex; align-items: baseline; justify-content: space-between;
+        }
+        .kw-panel-title { font-size: 13px; font-weight: 600; color: #F0ECE6; }
+        .kw-panel-sub { font-size: 11px; color: #5E5A6B; }
+        .kw-panel-row {
+            display: flex; align-items: center; gap: 10px;
+            padding: 9px 16px; border-bottom: 0.5px solid rgba(255,255,255,0.04);
+        }
+        .kw-panel-row:last-child { border-bottom: none; }
+        .kw-panel-rank { font-size: 11px; color: #5E5A6B; width: 18px; text-align: right; flex-shrink: 0; }
+        .kw-panel-keyword { flex: 1; font-size: 12px; color: #F0ECE6; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+        .kw-panel-clicks { font-size: 12px; color: #9A95A8; flex-shrink: 0; }
+        .kw-panel-pos { font-weight: 700; font-size: 13px; flex-shrink: 0; }
+        .kw-panel-empty { padding: 20px 16px; font-size: 12px; color: #5E5A6B; font-style: italic; }
+        @media (max-width: 720px) { .kw-panels { grid-template-columns: 1fr; } }
+
         /* ── GSC SUMMARY PILLS ── */
         .gsc-summary { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
         .gsc-pill {
@@ -291,9 +315,83 @@
         .report-icon { font-size: 26px; line-height: 1; }
         .report-name { font-size: 13px; color: #F0ECE6; font-weight: 500; line-height: 1.3; }
         .report-date { font-size: 11px; color: #9A95A8; }
+        .report-view-hint { font-size: 11px; color: #FF8C00; margin-top: 4px; }
         .reports-empty {
             grid-column: 1 / -1; padding: 40px 20px; text-align: center;
             color: #5E5A6B; font-size: 13px; line-height: 1.7;
+        }
+
+        /* ── SEO ROADMAP ── */
+        .roadmap-summary-bar {
+            background: #0E0E18; border-radius: 10px; padding: 18px 20px;
+            border: 0.5px solid rgba(255,255,255,0.06); margin-bottom: 24px;
+            display: flex; align-items: center; gap: 20px;
+        }
+        .roadmap-summary-text { flex: 1; }
+        .roadmap-summary-title { font-size: 14px; font-weight: 600; color: #F0ECE6; }
+        .roadmap-summary-sub { font-size: 12px; color: #9A95A8; margin-top: 2px; }
+        .roadmap-overall-bar {
+            height: 5px; background: rgba(255,255,255,0.08);
+            border-radius: 99px; overflow: hidden; margin-top: 10px;
+        }
+        .roadmap-overall-fill {
+            height: 100%; border-radius: 99px;
+            background: linear-gradient(90deg, #FF4D00, #FF8C00);
+            transition: width 0.4s ease;
+        }
+        .roadmap-pct { font-size: 22px; font-weight: 700; color: #E87B2F; flex-shrink: 0; }
+
+        .roadmap-phase { margin-bottom: 20px; }
+        .roadmap-phase-header {
+            display: flex; align-items: center; gap: 10px;
+            padding: 12px 16px; background: #0A0A14;
+            border-radius: 8px 8px 0 0;
+            border: 0.5px solid rgba(255,255,255,0.08);
+        }
+        .roadmap-phase-num {
+            font-size: 10px; color: #E87B2F; text-transform: uppercase;
+            letter-spacing: 0.5px; font-weight: 600; flex-shrink: 0;
+        }
+        .roadmap-phase-title { font-size: 13px; font-weight: 600; color: #F0ECE6; flex: 1; }
+        .roadmap-phase-count {
+            font-size: 11px; color: #9A95A8; flex-shrink: 0;
+            background: rgba(255,255,255,0.05); padding: 2px 8px; border-radius: 99px;
+        }
+        .roadmap-phase-count.phase-done { color: #27ae60; background: rgba(39,174,96,0.1); }
+        .roadmap-items-list {
+            border: 0.5px solid rgba(255,255,255,0.08); border-top: none;
+            border-radius: 0 0 8px 8px; overflow: hidden;
+        }
+        .roadmap-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 11px 16px; background: #0E0E18;
+            border-bottom: 0.5px solid rgba(255,255,255,0.04);
+        }
+        .roadmap-item:last-child { border-bottom: none; }
+        .roadmap-item.done { opacity: 0.45; }
+        .priority-badge {
+            font-size: 9px; font-weight: 700; padding: 2px 7px;
+            border-radius: 4px; text-transform: uppercase; letter-spacing: 0.4px;
+            flex-shrink: 0; min-width: 62px; text-align: center;
+        }
+        .pri-critical { background: rgba(231,76,60,0.18); color: #e74c3c; border: 0.5px solid rgba(231,76,60,0.35); }
+        .pri-high     { background: rgba(255,140,0,0.15); color: #E87B2F; border: 0.5px solid rgba(255,140,0,0.3); }
+        .pri-medium   { background: rgba(52,152,219,0.12); color: #5dade2; border: 0.5px solid rgba(52,152,219,0.25); }
+        .pri-low      { background: rgba(94,90,107,0.18); color: #9A95A8; border: 0.5px solid rgba(94,90,107,0.25); }
+        .roadmap-item-title { flex: 1; font-size: 13px; color: #F0ECE6; line-height: 1.4; }
+        .roadmap-item.done .roadmap-item-title { text-decoration: line-through; color: #5E5A6B; }
+        .roadmap-effort { font-size: 11px; color: #5E5A6B; flex-shrink: 0; min-width: 60px; text-align: right; }
+        .roadmap-status-pill {
+            font-size: 10px; padding: 2px 8px; border-radius: 99px;
+            font-weight: 500; white-space: nowrap; flex-shrink: 0;
+        }
+        .rs-backlog     { background: rgba(94,90,107,0.18); color: #9A95A8; }
+        .rs-in_progress { background: rgba(255,140,0,0.15); color: #C9922A; }
+        .rs-done        { background: rgba(39,174,96,0.15); color: #27ae60; }
+        @media (max-width: 720px) {
+            .roadmap-effort { display: none; }
+            .roadmap-summary-bar { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .roadmap-pct { font-size: 18px; }
         }
 
         /* ── FOOTER ── */
@@ -483,7 +581,7 @@ function buildPortal(d) {
     const blogTopicsHtml = topics.length
         ? topics.map((t, i) => {
             const sc = t.status === 'published' ? 'status-published' : t.status === 'writing' ? 'status-writing' : 'status-planned';
-            const sl = t.status === 'published' ? 'Published' : t.status === 'writing' ? 'Writing' : 'Planned';
+            const sl = t.status === 'published' ? 'Published' : t.status === 'writing' ? 'Writing' : 'Suggested';
             return `<div class="topic-item">
                 <span class="topic-num">${i + 1}</span>
                 <span class="topic-title">${t.title}</span>
@@ -504,21 +602,23 @@ function buildPortal(d) {
 
     // ── BILLING ──
     const hoursUsed = d.hours_used || 0;
-    const hoursPct = Math.min(100, Math.round((hoursUsed / d.plan_hours) * 100));
+    const rolledOver = (d.rollover_enabled && d.hours_rolled_over) ? d.hours_rolled_over : 0;
+    const totalHours = d.plan_hours + rolledOver;
+    const hoursPct = Math.min(100, Math.round((hoursUsed / totalHours) * 100));
     const nextInvoice = d.next_invoice || null;
 
     const PLANS = [
         {
-            name: 'Spark', price: '$450', hours: '5',
-            features: ['5 SEO hours/month', 'Monthly reporting', 'Rank tracking', 'Email support']
+            name: 'Spark', price: '$500', hours: '2',
+            features: ['2 hrs content/site work/month', 'Monthly reporting', 'Rank tracking', 'Email support']
         },
         {
-            name: 'Blaze', price: '$900', hours: '10',
-            features: ['10 SEO hours/month', 'Monthly reporting', 'Rank tracking', 'Content calendar', 'Priority support']
+            name: 'Blaze', price: '$900', hours: '6',
+            features: ['6 hrs content/site work/month', 'Monthly reporting', 'Rank tracking', 'Content calendar', 'Priority support']
         },
         {
-            name: 'Inferno', price: '$1,500', hours: '20',
-            features: ['20 SEO hours/month', 'Full content strategy', 'Rank tracking', 'Content calendar', 'Dedicated manager', 'Priority support']
+            name: 'Inferno', price: '$1,500', hours: '12',
+            features: ['12 hrs content/site work/month', 'Full content strategy', 'Rank tracking', 'Content calendar', 'Dedicated manager', 'Priority support']
         },
     ];
     const planCompare = PLANS.map(p => {
@@ -536,13 +636,109 @@ function buildPortal(d) {
     const reports = d.reports || [];
     const reportCards = reports.length
         ? reports.map(r => `
-            <a class="report-card" href="${r.url || '#'}" target="_blank">
+            <div class="report-card" onclick="openReport('${r.url || '#'}', '${r.name}')">
                 <div class="report-icon">${r.icon || '📄'}</div>
                 <div class="report-name">${r.name}</div>
                 <div class="report-date">${r.date}</div>
-            </a>
+                <div class="report-view-hint">Click to view</div>
+            </div>
         `).join('')
         : '<div class="reports-empty">Reports and documents will appear here as your team completes and uploads them — audits, monthly reports, content deliverables, and more.</div>';
+
+    // ── SEO ROADMAP ──
+    const roadmap = d.roadmap || [];
+    const allItems = roadmap.flatMap(ph => ph.items || []);
+    const totalItems = allItems.length;
+    const doneItems = allItems.filter(i => i.status === 'done').length;
+    const activeItems = allItems.filter(i => i.status === 'in_progress').length;
+    const overallPct = totalItems ? Math.round((doneItems / totalItems) * 100) : 0;
+
+    const priLabel = { critical: 'Critical', high: 'High', medium: 'Medium', low: 'Low' };
+    const statusLabel = { backlog: 'Backlog', in_progress: 'In Progress', done: 'Done' };
+
+    const roadmapPhases = roadmap.map(ph => {
+        const items = ph.items || [];
+        const phaseDone = items.filter(i => i.status === 'done').length;
+        const allDone = phaseDone === items.length && items.length > 0;
+        const itemRows = items.map(item => `
+            <div class="roadmap-item${item.status === 'done' ? ' done' : ''}">
+                <span class="priority-badge pri-${item.priority}">${priLabel[item.priority] || item.priority}</span>
+                <span class="roadmap-item-title">${item.title}</span>
+                <span class="roadmap-effort">${item.effort}</span>
+                <span class="roadmap-status-pill rs-${item.status}">${statusLabel[item.status] || item.status}</span>
+            </div>
+        `).join('');
+        return `
+            <div class="roadmap-phase">
+                <div class="roadmap-phase-header">
+                    <span class="roadmap-phase-num">Phase ${ph.phase}</span>
+                    <span class="roadmap-phase-title">${ph.phase_title}</span>
+                    <span class="roadmap-phase-count${allDone ? ' phase-done' : ''}">${phaseDone} / ${items.length} done</span>
+                </div>
+                <div class="roadmap-items-list">${itemRows}</div>
+            </div>
+        `;
+    }).join('');
+
+    const roadmapSub = activeItems > 0
+        ? `${totalItems} items across 4 phases &nbsp;·&nbsp; <span style="color:#C9922A">${activeItems} in progress</span>&nbsp;·&nbsp; ${doneItems} complete`
+        : `${totalItems} items across 4 phases &nbsp;·&nbsp; ${doneItems} complete`;
+
+    const roadmapHtml = totalItems ? `
+        <div class="sec-header">
+            <span class="sec-title">SEO Action Roadmap</span>
+            <span class="sec-sub">From your April 2026 audit</span>
+        </div>
+        <div class="roadmap-summary-bar">
+            <div class="roadmap-summary-text">
+                <div class="roadmap-summary-title">Overall Progress</div>
+                <div class="roadmap-summary-sub">${roadmapSub}</div>
+                <div class="roadmap-overall-bar">
+                    <div class="roadmap-overall-fill" style="width:${overallPct}%"></div>
+                </div>
+            </div>
+            <div class="roadmap-pct">${overallPct}%</div>
+        </div>
+        ${roadmapPhases}
+        <div style="margin-top:20px;padding:14px 16px;background:#0A0A14;border-radius:8px;border:0.5px solid rgba(255,255,255,0.04)">
+            <div style="font-size:11px;color:#5E5A6B;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">Priority Guide</div>
+            <div style="display:flex;gap:16px;flex-wrap:wrap;">
+                <span style="font-size:12px;color:#9A95A8"><span style="color:#e74c3c;font-weight:600">Critical</span> — Must fix ASAP, directly impacts rankings</span>
+                <span style="font-size:12px;color:#9A95A8"><span style="color:#E87B2F;font-weight:600">High</span> — Strong ROI, do within first 60 days</span>
+                <span style="font-size:12px;color:#9A95A8"><span style="color:#5dade2;font-weight:600">Medium</span> — Important for long-term growth</span>
+                <span style="font-size:12px;color:#9A95A8"><span style="color:#9A95A8;font-weight:600">Low</span> — Quick wins, do when time allows</span>
+            </div>
+        </div>
+    ` : '<p style="color:#9A95A8;font-size:13px;padding:20px 0">No roadmap data yet. Your SEO action plan will appear here after your audit is complete.</p>';
+
+    // ── TOP CLICKED / TOP RANKING PANELS ──
+    const kwList = d.keywords || [];
+    const hasClicks = kwList.some(k => k.clicks != null && k.clicks > 0);
+
+    const topRanking = [...kwList].sort((a, b) => a.position - b.position).slice(0, 5);
+    const topRankingHtml = topRanking.length
+        ? topRanking.map((kw, i) => `
+            <div class="kw-panel-row">
+                <span class="kw-panel-rank">${i + 1}</span>
+                <span class="kw-panel-keyword">${kw.keyword}</span>
+                <span class="kw-panel-pos ${posClass(kw.position)}">#${kw.position}</span>
+            </div>`)
+            .join('')
+        : '<div class="kw-panel-empty">No keyword data yet.</div>';
+
+    const topClicked = hasClicks
+        ? [...kwList].filter(k => k.clicks != null).sort((a, b) => b.clicks - a.clicks).slice(0, 5)
+        : [];
+    const topClickedHtml = hasClicks
+        ? topClicked.map((kw, i) => `
+            <div class="kw-panel-row">
+                <span class="kw-panel-rank">${i + 1}</span>
+                <span class="kw-panel-keyword">${kw.keyword}</span>
+                <span class="kw-panel-clicks">${kw.clicks.toLocaleString()} clicks</span>
+                <span class="kw-panel-pos ${posClass(kw.position)}">#${kw.position}</span>
+            </div>`)
+            .join('')
+        : '<div class="kw-panel-empty">Click data will appear after the first full tracking month.</div>';
 
     // ── IMPRESSIONS / CTR display ──
     const impressions = s.impressions != null ? s.impressions.toLocaleString() : '—';
@@ -568,6 +764,7 @@ function buildPortal(d) {
             <button class="tab" data-tab="calendar">Content Calendar</button>
             <button class="tab" data-tab="billing">Billing & Plan</button>
             <button class="tab" data-tab="reports">Reports</button>
+            <button class="tab" data-tab="roadmap">SEO Roadmap</button>
             <button class="tab" data-tab="messages">Messages</button>
         </div>
 
@@ -608,13 +805,34 @@ function buildPortal(d) {
         <div class="section" id="sec-rankings">
             <div class="sec-header">
                 <span class="sec-title">Keyword Rankings</span>
-                <span class="sec-sub">Last 30 days · Google Search Console</span>
+                <span class="sec-sub">Last 30 days</span>
             </div>
             <div class="gsc-summary">
                 <div class="gsc-pill">Clicks: <strong>${s.sessions != null ? s.sessions.toLocaleString() : '—'}</strong></div>
                 <div class="gsc-pill">Impressions: <strong>${impressions}</strong></div>
                 <div class="gsc-pill">CTR: <strong>${ctr}</strong></div>
                 <div class="gsc-pill">Avg Position: <strong>#${s.position != null ? s.position : '—'}</strong></div>
+            </div>
+
+            <div class="kw-panels">
+                <div class="kw-panel">
+                    <div class="kw-panel-header">
+                        <span class="kw-panel-title">Top Clicked Keywords</span>
+                        <span class="kw-panel-sub">Most traffic-driving</span>
+                    </div>
+                    ${topClickedHtml}
+                </div>
+                <div class="kw-panel">
+                    <div class="kw-panel-header">
+                        <span class="kw-panel-title">Top Ranking Keywords</span>
+                        <span class="kw-panel-sub">Best positions</span>
+                    </div>
+                    ${topRankingHtml}
+                </div>
+            </div>
+
+            <div class="sec-header" style="margin-top:28px">
+                <span class="sec-title">All Tracked Keywords</span>
             </div>
             <table class="rank-table">
                 <thead>
@@ -654,7 +872,8 @@ function buildPortal(d) {
                     <div class="billing-value">${d.plan}</div>
                     <div class="billing-sub">${d.plan_price}</div>
                     <div style="margin-top:14px">
-                        <div class="billing-sub">${hoursUsed} of ${d.plan_hours} hours used (${hoursPct}%)</div>
+                        <div class="billing-sub">${hoursUsed} of ${totalHours} hours used (${hoursPct}%)</div>
+                        ${rolledOver > 0 ? `<div class="billing-sub" style="margin-top:4px;color:#FF8C00;">+${rolledOver} hrs rolled over from last month</div>` : ''}
                         <div class="hours-bar-bg">
                             <div class="hours-bar-fill" style="width:${hoursPct}%"></div>
                         </div>
@@ -686,6 +905,11 @@ function buildPortal(d) {
             <div class="reports-grid">${reportCards}</div>
         </div>
 
+        <!-- SEO ROADMAP -->
+        <div class="section" id="sec-roadmap">
+            ${roadmapHtml}
+        </div>
+
         <!-- MESSAGES -->
         <div class="section" id="sec-messages">
             <div class="sec-header">
@@ -703,6 +927,33 @@ function buildPortal(d) {
 }
 
 loadPortal();
+
+function openReport(url, name) {
+    document.getElementById('pdf-modal-title').textContent = name;
+    document.getElementById('pdf-modal-frame').src = url;
+    document.getElementById('pdf-modal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+function closeReport() {
+    document.getElementById('pdf-modal').style.display = 'none';
+    document.getElementById('pdf-modal-frame').src = '';
+    document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeReport(); });
 </script>
+
+<!-- PDF Viewer Modal -->
+<div id="pdf-modal" style="display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.88);align-items:center;justify-content:center;padding:20px;">
+    <div style="background:#0E0E18;border:1px solid rgba(255,77,0,0.2);border-radius:12px;width:100%;max-width:900px;height:90vh;display:flex;flex-direction:column;overflow:hidden;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.06);">
+            <span id="pdf-modal-title" style="font-family:'Outfit',sans-serif;font-weight:600;font-size:15px;color:#F0ECE6;"></span>
+            <div style="display:flex;gap:12px;align-items:center;">
+                <a id="pdf-modal-download" onclick="var f=document.getElementById('pdf-modal-frame');var a=document.createElement('a');a.href=f.src;a.download='';a.click();" style="font-size:13px;color:#FF8C00;cursor:pointer;text-decoration:none;">⬇ Download</a>
+                <button onclick="closeReport()" style="background:none;border:none;color:#9A95A8;font-size:22px;cursor:pointer;line-height:1;padding:0 4px;">&times;</button>
+            </div>
+        </div>
+        <iframe id="pdf-modal-frame" src="" style="flex:1;border:none;width:100%;background:#fff;"></iframe>
+    </div>
+</div>
 </body>
 </html>
