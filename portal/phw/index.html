@@ -162,6 +162,30 @@
         .change.down    { color: #c0392b; }
         .change.neutral { color: #5E5A6B; }
 
+        /* ── KEYWORD PANELS ── */
+        .kw-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 4px; }
+        .kw-panel {
+            background: #0E0E18; border-radius: 10px;
+            border: 0.5px solid rgba(255,255,255,0.06); overflow: hidden;
+        }
+        .kw-panel-header {
+            padding: 12px 16px 10px; border-bottom: 0.5px solid rgba(255,255,255,0.06);
+            display: flex; align-items: baseline; justify-content: space-between;
+        }
+        .kw-panel-title { font-size: 13px; font-weight: 600; color: #F0ECE6; }
+        .kw-panel-sub { font-size: 11px; color: #5E5A6B; }
+        .kw-panel-row {
+            display: flex; align-items: center; gap: 10px;
+            padding: 9px 16px; border-bottom: 0.5px solid rgba(255,255,255,0.04);
+        }
+        .kw-panel-row:last-child { border-bottom: none; }
+        .kw-panel-rank { font-size: 11px; color: #5E5A6B; width: 18px; text-align: right; flex-shrink: 0; }
+        .kw-panel-keyword { flex: 1; font-size: 12px; color: #F0ECE6; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+        .kw-panel-clicks { font-size: 12px; color: #9A95A8; flex-shrink: 0; }
+        .kw-panel-pos { font-weight: 700; font-size: 13px; flex-shrink: 0; }
+        .kw-panel-empty { padding: 20px 16px; font-size: 12px; color: #5E5A6B; font-style: italic; }
+        @media (max-width: 720px) { .kw-panels { grid-template-columns: 1fr; } }
+
         /* ── GSC SUMMARY PILLS ── */
         .gsc-summary { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
         .gsc-pill {
@@ -544,6 +568,35 @@ function buildPortal(d) {
         `).join('')
         : '<div class="reports-empty">Reports and documents will appear here as your team completes and uploads them — audits, monthly reports, content deliverables, and more.</div>';
 
+    // ── TOP CLICKED / TOP RANKING PANELS ──
+    const kwList = d.keywords || [];
+    const hasClicks = kwList.some(k => k.clicks != null && k.clicks > 0);
+
+    const topRanking = [...kwList].sort((a, b) => a.position - b.position).slice(0, 5);
+    const topRankingHtml = topRanking.length
+        ? topRanking.map((kw, i) => `
+            <div class="kw-panel-row">
+                <span class="kw-panel-rank">${i + 1}</span>
+                <span class="kw-panel-keyword">${kw.keyword}</span>
+                <span class="kw-panel-pos ${posClass(kw.position)}">#${kw.position}</span>
+            </div>`)
+            .join('')
+        : '<div class="kw-panel-empty">No keyword data yet.</div>';
+
+    const topClicked = hasClicks
+        ? [...kwList].filter(k => k.clicks != null).sort((a, b) => b.clicks - a.clicks).slice(0, 5)
+        : [];
+    const topClickedHtml = hasClicks
+        ? topClicked.map((kw, i) => `
+            <div class="kw-panel-row">
+                <span class="kw-panel-rank">${i + 1}</span>
+                <span class="kw-panel-keyword">${kw.keyword}</span>
+                <span class="kw-panel-clicks">${kw.clicks.toLocaleString()} clicks</span>
+                <span class="kw-panel-pos ${posClass(kw.position)}">#${kw.position}</span>
+            </div>`)
+            .join('')
+        : '<div class="kw-panel-empty">Click data will appear after the first full tracking month.</div>';
+
     // ── IMPRESSIONS / CTR display ──
     const impressions = s.impressions != null ? s.impressions.toLocaleString() : '—';
     const ctr = s.ctr != null ? s.ctr + '%' : '—';
@@ -608,13 +661,34 @@ function buildPortal(d) {
         <div class="section" id="sec-rankings">
             <div class="sec-header">
                 <span class="sec-title">Keyword Rankings</span>
-                <span class="sec-sub">Last 30 days · Google Search Console</span>
+                <span class="sec-sub">Last 30 days</span>
             </div>
             <div class="gsc-summary">
                 <div class="gsc-pill">Clicks: <strong>${s.sessions != null ? s.sessions.toLocaleString() : '—'}</strong></div>
                 <div class="gsc-pill">Impressions: <strong>${impressions}</strong></div>
                 <div class="gsc-pill">CTR: <strong>${ctr}</strong></div>
                 <div class="gsc-pill">Avg Position: <strong>#${s.position != null ? s.position : '—'}</strong></div>
+            </div>
+
+            <div class="kw-panels">
+                <div class="kw-panel">
+                    <div class="kw-panel-header">
+                        <span class="kw-panel-title">Top Clicked Keywords</span>
+                        <span class="kw-panel-sub">Most traffic-driving</span>
+                    </div>
+                    ${topClickedHtml}
+                </div>
+                <div class="kw-panel">
+                    <div class="kw-panel-header">
+                        <span class="kw-panel-title">Top Ranking Keywords</span>
+                        <span class="kw-panel-sub">Best positions</span>
+                    </div>
+                    ${topRankingHtml}
+                </div>
+            </div>
+
+            <div class="sec-header" style="margin-top:28px">
+                <span class="sec-title">All Tracked Keywords</span>
             </div>
             <table class="rank-table">
                 <thead>
