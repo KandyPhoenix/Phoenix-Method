@@ -1122,7 +1122,7 @@
     .contact-link:hover { color: var(--fire-end); }
     .contact-form-wrap {
         background: var(--bg-card);
-        border: 1px solid var(--border-subtle);
+        border: 1px solid rgba(255,255,255,0.12);
         border-radius: 10px;
         padding: 40px;
     }
@@ -1130,37 +1130,38 @@
     .form-group label {
         display: block;
         font-family: var(--font-accent);
-        font-weight: 500;
-        font-size: 0.8rem;
+        font-weight: 600;
+        font-size: 0.82rem;
         letter-spacing: 0.1em;
         text-transform: uppercase;
-        color: var(--text-secondary);
+        color: #D4D0E0;
         margin-bottom: 8px;
     }
     .form-group input,
     .form-group textarea,
     .form-group select {
         width: 100%;
-        background: var(--bg-deep);
-        border: 1px solid var(--border-subtle);
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.18);
         border-radius: 6px;
         padding: 14px 16px;
         font-family: var(--font-body);
         font-size: 0.95rem;
-        color: var(--text-primary);
-        transition: border-color 0.3s;
+        color: #F0ECE6;
+        transition: border-color 0.3s, box-shadow 0.3s;
         outline: none;
     }
     .form-group input:focus,
     .form-group textarea:focus,
     .form-group select:focus {
         border-color: var(--fire-start);
-        box-shadow: 0 0 0 3px rgba(255, 77, 0, 0.1);
+        box-shadow: 0 0 0 3px rgba(255, 77, 0, 0.15);
     }
     .form-group input::placeholder,
-    .form-group textarea::placeholder { color: var(--text-muted); }
+    .form-group textarea::placeholder { color: #7A7590; }
     .form-group textarea { resize: vertical; min-height: 100px; }
-    .form-group select { appearance: none; cursor: pointer; background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23FF8C00' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; }
+    .form-group select { appearance: none; cursor: pointer; background-color: rgba(255,255,255,0.05); background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23FF8C00' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; }
+    .form-group select option { background: #1A1A2E; color: #F0ECE6; }
 
     /* ========== FOOTER ========== */
                 
@@ -1980,7 +1981,7 @@
                         <input type="hidden" name="_template" value="table">
                         <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
                         <div class="form-group">
-                            <label for="name">Name <span style="color: var(--text-muted); font-weight: 400;">(optional)</span></label>
+                            <label for="name">Name <span style="color: #7A7590; font-weight: 400;">(optional)</span></label>
                             <input type="text" id="name" name="name" placeholder="Jane Smith">
                         </div>
                         <div class="form-group">
@@ -1988,24 +1989,24 @@
                             <input type="email" id="email" name="email" required placeholder="jane@business.com">
                         </div>
                         <div class="form-group">
-                            <label for="phone">Phone <span style="color: var(--text-muted); font-weight: 400;">(optional)</span></label>
+                            <label for="phone">Phone <span style="color: #7A7590; font-weight: 400;">(optional)</span></label>
                             <input type="tel" id="phone" name="phone" placeholder="555-123-4567">
                         </div>
                         <div class="form-group">
-                            <label for="business_name">Business Name <span style="color: var(--text-muted); font-weight: 400;">(optional)</span></label>
+                            <label for="business_name">Business Name <span style="color: #7A7590; font-weight: 400;">(optional)</span></label>
                             <input type="text" id="business_name" name="business_name" placeholder="Your Business, LLC">
                         </div>
                         <div class="form-group">
                             <label for="website">Website <span style="color: var(--fire-mid);">*</span></label>
                             <input type="text" id="website" name="website" required placeholder="yourbusiness.com">
-                            <span style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-top: 6px;">Just the domain is fine — no need to type <code style="color: var(--text-secondary);">https://</code> or <code style="color: var(--text-secondary);">www.</code></span>
+                            <span style="display: block; font-size: 0.8rem; color: #9A95A8; margin-top: 6px;">Just the domain is fine — no need to type <code style="color: #C0BBCC;">https://</code> or <code style="color: #C0BBCC;">www.</code></span>
                         </div>
                         <div class="form-group">
-                            <label for="message">What's on your mind? <span style="color: var(--text-muted); font-weight: 400;">(optional)</span></label>
+                            <label for="message">What's on your mind? <span style="color: #7A7590; font-weight: 400;">(optional)</span></label>
                             <textarea id="message" name="message" placeholder="Ranking issues, competitor concerns, specific goals, or just &quot;I want an audit&quot; — whatever you want us to know."></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="referral_source">How did you hear about us? <span style="color: var(--text-muted); font-weight: 400;">(optional)</span></label>
+                            <label for="referral_source">How did you hear about us? <span style="color: #7A7590; font-weight: 400;">(optional)</span></label>
                             <select id="referral_source" name="referral_source">
                                 <option value="">-- Select --</option>
                                 <option value="google_search">Google search</option>
