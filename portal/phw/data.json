@@ -4,8 +4,10 @@
   "month": "April 2026",
   "plan": "Blaze",
   "plan_price": "$900/mo",
-  "plan_hours": 10,
+  "plan_hours": 6,
   "hours_used": 3,
+  "rollover_enabled": true,
+  "hours_rolled_over": 2,
   "updated": "2026-04-21",
   "next_invoice": {
     "date": "May 1, 2026",
@@ -63,7 +65,58 @@
     { "title": "Online Therapy vs. In-Person: Which Is Right for You?", "status": "planned" },
     { "title": "How to Find a Therapist That Accepts Your Insurance", "status": "planned" }
   ],
-  "reports": [],
+  "reports": [
+    {
+      "name": "PHW Care SEO Audit",
+      "date": "April 2026",
+      "icon": "🔍",
+      "url": "/portal/phw/PHW-Care-SEO-Audit-Phoenix-Method.pdf"
+    }
+  ],
+  "roadmap": [
+    {
+      "phase": 1,
+      "phase_title": "Critical Fixes",
+      "items": [
+        { "id": 1, "title": "Schema markup: LocalBusiness, MedicalBusiness, FAQPage, BreadcrumbList", "priority": "critical", "effort": "4–6 hrs", "status": "backlog" },
+        { "id": 2, "title": "Fix image alt text site-wide", "priority": "high", "effort": "2–3 hrs", "status": "backlog" },
+        { "id": 3, "title": "Optimize title tags and meta descriptions", "priority": "high", "effort": "2–3 hrs", "status": "backlog" },
+        { "id": 4, "title": "Fix heading hierarchy — one H1 per page", "priority": "high", "effort": "1–2 hrs", "status": "backlog" },
+        { "id": 5, "title": "Update copyright to 2026 and footer credit", "priority": "low", "effort": "10 min", "status": "backlog" }
+      ]
+    },
+    {
+      "phase": 2,
+      "phase_title": "Local SEO",
+      "items": [
+        { "id": 6, "title": "Optimize Google Business Profile: complete all fields, photos, and posts", "priority": "critical", "effort": "3–4 hrs", "status": "in_progress" },
+        { "id": 7, "title": "Submit to 10 priority local citations", "priority": "high", "effort": "4–6 hrs", "status": "backlog" },
+        { "id": 8, "title": "Implement review generation templates for clients", "priority": "high", "effort": "1–2 hrs", "status": "backlog" },
+        { "id": 9, "title": "NAP consistency audit and fix across all listings", "priority": "medium", "effort": "2–3 hrs", "status": "backlog" }
+      ]
+    },
+    {
+      "phase": 3,
+      "phase_title": "Content Expansion",
+      "items": [
+        { "id": 10, "title": "Add FAQ sections to each therapy service page", "priority": "high", "effort": "6–8 hrs", "status": "backlog" },
+        { "id": 11, "title": "Create location-specific landing pages for surrounding cities", "priority": "high", "effort": "4–6 hrs", "status": "backlog" },
+        { "id": 12, "title": "Publish 2 blog posts/month targeting long-tail keywords", "priority": "medium", "effort": "Ongoing", "status": "backlog" },
+        { "id": 13, "title": "Create therapy hub page linking all service pages", "priority": "medium", "effort": "2–3 hrs", "status": "backlog" },
+        { "id": 14, "title": "Build cross-linking between related therapy pages", "priority": "medium", "effort": "2–3 hrs", "status": "backlog" }
+      ]
+    },
+    {
+      "phase": 4,
+      "phase_title": "Authority Building",
+      "items": [
+        { "id": 15, "title": "Build backlinks from healthcare directories", "priority": "high", "effort": "Ongoing", "status": "backlog" },
+        { "id": 16, "title": "Secure local press mentions and community features", "priority": "medium", "effort": "Ongoing", "status": "backlog" },
+        { "id": 17, "title": "Register therapist profiles on all major directories", "priority": "medium", "effort": "4–6 hrs", "status": "backlog" },
+        { "id": 18, "title": "Monthly performance reporting and strategy refinement", "priority": "high", "effort": "Ongoing", "status": "in_progress" }
+      ]
+    }
+  ],
   "messages": [
     {
       "from": "Kandy",
