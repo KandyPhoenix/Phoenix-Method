@@ -17,7 +17,7 @@
     "sessions": 146,
     "sessions_change": "+8.1%",
     "sessions_trend": "up",
-    "keywords": 25,
+    "keywords": 20,
     "keywords_change": "Baseline",
     "keywords_trend": "neutral",
     "position": 36.5,
@@ -53,7 +53,10 @@
     { "keyword": "affordable online mental health care", "position": 55.3, "last_month": 55.3, "clicks": 0 },
     { "keyword": "online therapist", "position": 40.2, "last_month": null, "clicks": 1 },
     { "keyword": "affirming therapy pomona", "position": 68.4, "last_month": 68.4, "clicks": 0 },
-    { "keyword": "affordable counseling online", "position": 79.0, "last_month": 70.0, "clicks": 0 }
+    { "keyword": "affordable counseling online", "position": 79.0, "last_month": 70.0, "clicks": 0 },
+    { "keyword": "anger management counseling california", "position": 19.7, "last_month": null, "clicks": 0 },
+    { "keyword": "affordable online therapy", "position": 68.2, "last_month": null, "clicks": 0 },
+    { "keyword": "affordable mental health therapy online", "position": 70.0, "last_month": null, "clicks": 0 }
   ],
   "content_calendar": [
     { "date": "May 5", "title": "5 Signs You Need Online Therapy", "type": "blog" },

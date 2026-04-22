@@ -138,6 +138,7 @@
         .kw-change.up      { color: #27ae60; }
         .kw-change.down    { color: #c0392b; }
         .kw-change.neutral { color: #5E5A6B; }
+        .kw-change.new-kw  { color: #FF8C00; font-weight: 600; }
 
         /* ── RANK TABLE ── */
         .rank-table { width: 100%; border-collapse: collapse; }
@@ -161,6 +162,7 @@
         .change.up      { color: #27ae60; }
         .change.down    { color: #c0392b; }
         .change.neutral { color: #5E5A6B; }
+        .change.new-kw  { color: #FF8C00; font-weight: 600; }
 
         /* ── KEYWORD PANELS ── */
         .kw-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 4px; }
@@ -501,7 +503,7 @@ function posClass(pos) {
 }
 
 function kwChange(current, last) {
-    if (last === null || last === undefined) return { cls: 'neutral', text: 'New' };
+    if (last === null || last === undefined) return { cls: 'new-kw', text: 'New' };
     const diff = Math.round(last - current);
     if (diff > 0) return { cls: 'up',   text: '▲' + diff };
     if (diff < 0) return { cls: 'down', text: '▼' + Math.abs(diff) };
