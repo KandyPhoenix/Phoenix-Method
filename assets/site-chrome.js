@@ -45,7 +45,15 @@
             <li><a href="/plans/inferno/">Inferno — $1,500/mo</a></li>
           </ul>
         </li>
-        <li><a href="/order.html">Shop</a></li>
+        <li class="nav-dropdown">
+          <a href="/order.html">Shop</a>
+          <ul class="nav-dropdown-menu">
+            <li><a href="/order.html"><strong>All Offerings</strong></a></li>
+            <li><a href="/order.html#content-packs">Content Packs</a></li>
+            <li><a href="/order.html#fixed-price">Fixed-Price Services</a></li>
+            <li><a href="/order.html#scoped">Scoped Services</a></li>
+          </ul>
+        </li>
         <li><a href="/#insights">Blog</a></li>
         <li><a href="/#faq">FAQ</a></li>
         <li><a href="/#contact" class="nav-cta">Contact</a></li>
