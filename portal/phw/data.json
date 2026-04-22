@@ -8,25 +8,25 @@
   "hours_used": 3,
   "rollover_enabled": true,
   "hours_rolled_over": 2,
-  "updated": "2026-04-21",
+  "updated": "2026-04-22",
   "next_invoice": {
     "date": "May 1, 2026",
     "amount": "$900.00"
   },
   "stats": {
-    "sessions": 135,
-    "sessions_change": "Baseline",
-    "sessions_trend": "neutral",
+    "sessions": 146,
+    "sessions_change": "+8.1%",
+    "sessions_trend": "up",
     "keywords": 25,
     "keywords_change": "Baseline",
     "keywords_trend": "neutral",
-    "position": 36.9,
-    "position_change": "Baseline",
-    "position_trend": "neutral",
-    "impressions": 42834,
-    "impressions_change": "Baseline",
-    "impressions_trend": "neutral",
-    "ctr": 0.32
+    "position": 36.5,
+    "position_change": "▲ 0.4",
+    "position_trend": "up",
+    "impressions": 43827,
+    "impressions_change": "+2.3%",
+    "impressions_trend": "up",
+    "ctr": 0.33
   },
   "deliverables": [
     { "text": "Full technical SEO audit", "status": "done" },
@@ -37,21 +37,23 @@
     { "text": "Online therapy service page SEO update", "status": "todo", "due": "Apr 30" }
   ],
   "keywords": [
-    { "keyword": "parish health and wellness", "position": 1.0, "last_month": null, "clicks": null },
-    { "keyword": "therapy mental health", "position": 3.0, "last_month": null, "clicks": null },
-    { "keyword": "acsw therapist", "position": 5.0, "last_month": null, "clicks": null },
-    { "keyword": "tehama county behavioral health", "position": 5.0, "last_month": null, "clicks": null },
-    { "keyword": "addiction counselor near me", "position": 12.4, "last_month": null, "clicks": null },
-    { "keyword": "online therapy in california", "position": 16.3, "last_month": null, "clicks": null },
-    { "keyword": "affordable online mental health care with insurance", "position": 19.0, "last_month": null, "clicks": null },
-    { "keyword": "online therapy california", "position": 20.0, "last_month": null, "clicks": null },
-    { "keyword": "24 hour online therapist", "position": 34.0, "last_month": null, "clicks": null },
-    { "keyword": "couples therapy", "position": 37.0, "last_month": null, "clicks": null },
-    { "keyword": "relationship therapy", "position": 43.0, "last_month": null, "clicks": null },
-    { "keyword": "24/7 online therapy", "position": 45.0, "last_month": null, "clicks": null },
-    { "keyword": "affordable online mental health care", "position": 55.3, "last_month": null, "clicks": null },
-    { "keyword": "affirming therapy pomona", "position": 68.4, "last_month": null, "clicks": null },
-    { "keyword": "affordable counseling online", "position": 70.0, "last_month": null, "clicks": null }
+    { "keyword": "parish health and wellness", "position": 1.0, "last_month": 1.0, "clicks": 51 },
+    { "keyword": "therapy mental health", "position": 3.0, "last_month": 3.0, "clicks": 1 },
+    { "keyword": "acsw therapist", "position": 5.0, "last_month": 5.0, "clicks": 0 },
+    { "keyword": "tehama county behavioral health", "position": 5.0, "last_month": 5.0, "clicks": 1 },
+    { "keyword": "online therapy in california", "position": 15.9, "last_month": 16.3, "clicks": 1 },
+    { "keyword": "affordable online mental health care with insurance", "position": 19.0, "last_month": 19.0, "clicks": 0 },
+    { "keyword": "online therapy california", "position": 19.7, "last_month": 20.0, "clicks": 1 },
+    { "keyword": "addiction counselor near me", "position": 13.0, "last_month": 12.4, "clicks": 0 },
+    { "keyword": "online therapy", "position": 31.3, "last_month": null, "clicks": 1 },
+    { "keyword": "24 hour online therapist", "position": 34.0, "last_month": 34.0, "clicks": 0 },
+    { "keyword": "couples therapy", "position": 37.0, "last_month": 37.0, "clicks": 0 },
+    { "keyword": "relationship therapy", "position": 43.0, "last_month": 43.0, "clicks": 0 },
+    { "keyword": "24/7 online therapy", "position": 45.0, "last_month": 45.0, "clicks": 0 },
+    { "keyword": "affordable online mental health care", "position": 55.3, "last_month": 55.3, "clicks": 0 },
+    { "keyword": "online therapist", "position": 40.2, "last_month": null, "clicks": 1 },
+    { "keyword": "affirming therapy pomona", "position": 68.4, "last_month": 68.4, "clicks": 0 },
+    { "keyword": "affordable counseling online", "position": 79.0, "last_month": 70.0, "clicks": 0 }
   ],
   "content_calendar": [
     { "date": "May 5", "title": "5 Signs You Need Online Therapy", "type": "blog" },
@@ -120,8 +122,8 @@
   "messages": [
     {
       "from": "Kandy",
-      "date": "April 21, 2026",
-      "text": "Welcome to your Phoenix Method client portal! This is your first month and we've established your baseline SEO data. Parish Health and Wellness received 135 organic clicks from 42,834 impressions in Google Search this month. Your top keyword \"parish health and wellness\" is ranking at #1. We're actively working to improve rankings for your therapy and counseling keywords. Check back monthly for updated stats and progress reports."
+      "date": "April 22, 2026",
+      "text": "April 2026 stats are in! Parish Health and Wellness received 146 organic clicks from 43,827 impressions in Google Search over the last 30 days — up 8% in clicks and 2.3% in impressions from our baseline. Your average position improved slightly from 36.9 to 36.5. Top keyword \"parish health and wellness\" holds strong at #1 with 51 clicks. We also spotted two high-opportunity keywords with significant impressions but low clicks — \"online therapy\" (2,936 impressions, position 31) and \"online therapist\" (845 impressions, position 40) — both added to tracking. These are prime targets for content improvements next month."
     }
   ]
 }
