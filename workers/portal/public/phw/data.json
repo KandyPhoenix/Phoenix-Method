@@ -33,7 +33,7 @@
     { "text": "PHW client portal setup", "status": "done" },
     { "text": "GSC baseline data established", "status": "done" },
     { "text": "Monthly rank tracking initialized", "status": "done" },
-    { "text": "Google Business Profile optimization", "status": "in_progress" },
+    { "text": "Google Business Profile optimization", "status": "done" },
     { "text": "Online therapy service page SEO update", "status": "todo", "due": "Apr 30" }
   ],
   "keywords": [
@@ -75,7 +75,7 @@
       "name": "PHW Care SEO Audit",
       "date": "April 2026",
       "icon": "🔍",
-      "url": "/portal/phw/PHW-Care-SEO-Audit-Phoenix-Method.pdf"
+      "url": "/phw/PHW-Care-SEO-Audit-Phoenix-Method.pdf"
     }
   ],
   "roadmap": [
@@ -94,7 +94,7 @@
       "phase": 2,
       "phase_title": "Local SEO",
       "items": [
-        { "id": 6, "title": "Optimize Google Business Profile: complete all fields, photos, and posts", "priority": "critical", "effort": "3–4 hrs", "status": "in_progress" },
+        { "id": 6, "title": "Optimize Google Business Profile: complete all fields, photos, and posts", "priority": "critical", "effort": "3–4 hrs", "status": "done" },
         { "id": 7, "title": "Submit to 10 priority local citations", "priority": "high", "effort": "4–6 hrs", "status": "backlog" },
         { "id": 8, "title": "Implement review generation templates for clients", "priority": "high", "effort": "1–2 hrs", "status": "backlog" },
         { "id": 9, "title": "NAP consistency audit and fix across all listings", "priority": "medium", "effort": "2–3 hrs", "status": "backlog" }
