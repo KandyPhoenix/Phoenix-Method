@@ -1,0 +1,619 @@
+{
+  "client": "Lori Kimmerly Therapy and Coaching",
+  "short_name": "Lori",
+  "month": "May 2026",
+  "plan": "Custom",
+  "plan_price": "$575/mo",
+  "plan_hours": 1,
+  "hours_used": 1,
+  "rollover_enabled": true,
+  "hours_rolled_over": 0,
+  "updated": "2026-05-10",
+  "next_invoice": {
+    "date": "June 1, 2026",
+    "amount": "$575.00"
+  },
+  "stats": {
+    "sessions": 238,
+    "sessions_change": "+11",
+    "sessions_trend": "up",
+    "keywords": 58,
+    "keywords_change": "+7",
+    "keywords_trend": "up",
+    "position": 7.8,
+    "position_change": "0",
+    "position_trend": "neutral",
+    "impressions": 1521,
+    "impressions_change": "+117",
+    "impressions_trend": "up",
+    "ctr": 8.02,
+    "ctr_change": "+0.3",
+    "ctr_trend": "up"
+  },
+  "deliverables": [
+    {
+      "text": "SEO Monitoring — Tech, Rankings, Schema, Indexing, Content",
+      "status": "in_progress"
+    },
+    {
+      "text": "Blog or SEO Op",
+      "status": "todo"
+    },
+    {
+      "text": "Site Work — 1 Hr",
+      "status": "done",
+      "label": "Included"
+    },
+    {
+      "text": "Quarterly Performance Report",
+      "status": "todo",
+      "due": "Jun 30"
+    },
+    {
+      "text": "Discretionary Work — $50/hr (50% off our $100/hr standard rate)",
+      "status": "info",
+      "label": "On Request"
+    }
+  ],
+  "package_details": {
+    "monthly_audit": "Weekly scan for broken links, slow pages, missing meta tags, indexing issues, duplicate content, and schema errors. Issues flagged and prioritized for repair.",
+    "blog_or_seo": "One blog post OR one full page SEO treatment per month. Your choice — send us your topic or a written draft by the 15th. If we don't hear from you by the 15th, we'll choose based on your best keyword opportunities. Deliverable live by the 22nd.",
+    "site_hour": "One included hour of site work each month — used for updates you request or audit fixes that go beyond routine maintenance. Unused hours roll over and bank up month to month. They never expire.",
+    "quarterly_report": "Every three months you'll receive a full performance report covering keyword rankings, traffic trends, what we've done, and what's coming next.",
+    "overage": "Additional work beyond your banked hours is billed at $50/hr (our standard rate is $100/hr — you receive a 50% discount for the life of your package)."
+  },
+  "gsc_keywords": [
+    {
+      "keyword": "lori kimmerly therapy",
+      "position": 1.2,
+      "clicks": 43,
+      "impressions": 92
+    },
+    {
+      "keyword": "john hubbs",
+      "position": 1.9,
+      "clicks": 3,
+      "impressions": 48
+    },
+    {
+      "keyword": "natalie kim",
+      "position": 3.2,
+      "clicks": 1,
+      "impressions": 38
+    },
+    {
+      "keyword": "life transitions therapy renton",
+      "position": 10.1,
+      "clicks": 0,
+      "impressions": 22
+    },
+    {
+      "keyword": "lori kimmerly",
+      "position": 1,
+      "clicks": 8,
+      "impressions": 16
+    },
+    {
+      "keyword": "jennifer kenworthy",
+      "position": 1.4,
+      "clicks": 0,
+      "impressions": 15
+    },
+    {
+      "keyword": "couples therapy renton",
+      "position": 10.2,
+      "clicks": 0,
+      "impressions": 11
+    },
+    {
+      "keyword": "affordable licensed therapist online washington",
+      "position": 15.3,
+      "clicks": 0,
+      "impressions": 10
+    },
+    {
+      "keyword": "online therapy for anxiety washington",
+      "position": 33.8,
+      "clicks": 0,
+      "impressions": 9
+    },
+    {
+      "keyword": "online counseling affordable rates washington",
+      "position": 11.2,
+      "clicks": 0,
+      "impressions": 8
+    },
+    {
+      "keyword": "anxiety therapist renton wa",
+      "position": 16.7,
+      "clicks": 0,
+      "impressions": 7
+    },
+    {
+      "keyword": "clayton holman",
+      "position": 3,
+      "clicks": 0,
+      "impressions": 6
+    },
+    {
+      "keyword": "ryan carragher",
+      "position": 6.6,
+      "clicks": 1,
+      "impressions": 5
+    },
+    {
+      "keyword": "lori kim",
+      "position": 30,
+      "clicks": 0,
+      "impressions": 5
+    },
+    {
+      "keyword": "online individual therapy washington",
+      "position": 20.4,
+      "clicks": 0,
+      "impressions": 5
+    },
+    {
+      "keyword": "kimmerly",
+      "position": 19.5,
+      "clicks": 0,
+      "impressions": 4
+    },
+    {
+      "keyword": "marriage counseling renton",
+      "position": 10.8,
+      "clicks": 0,
+      "impressions": 4
+    },
+    {
+      "keyword": "sliding scale therapy online washington",
+      "position": 18,
+      "clicks": 0,
+      "impressions": 4
+    },
+    {
+      "keyword": "affordable online counseling washington state",
+      "position": 17.3,
+      "clicks": 0,
+      "impressions": 3
+    },
+    {
+      "keyword": "alleger",
+      "position": 11.3,
+      "clicks": 0,
+      "impressions": 3
+    }
+  ],
+  "keywords": [
+    {
+      "keyword": "lori kimmerly therapy",
+      "position": 1.3,
+      "last_month": null,
+      "clicks": 133
+    },
+    {
+      "keyword": "therapist renton wa",
+      "position": null,
+      "last_month": null,
+      "clicks": 0
+    },
+    {
+      "keyword": "therapy renton washington",
+      "position": null,
+      "last_month": null,
+      "clicks": 0
+    },
+    {
+      "keyword": "ifs therapist renton wa",
+      "position": null,
+      "last_month": null,
+      "clicks": 0
+    },
+    {
+      "keyword": "ifs therapist seattle",
+      "position": null,
+      "last_month": null,
+      "clicks": 0
+    },
+    {
+      "keyword": "ifs therapy washington",
+      "position": null,
+      "last_month": null,
+      "clicks": 0
+    },
+    {
+      "keyword": "internal family systems therapist",
+      "position": null,
+      "last_month": null,
+      "clicks": 0
+    },
+    {
+      "keyword": "couples therapy renton",
+      "position": 10.1,
+      "last_month": null,
+      "clicks": 0
+    },
+    {
+      "keyword": "couples therapist renton",
+      "position": 10.5,
+      "last_month": null,
+      "clicks": 0
+    },
+    {
+      "keyword": "marriage counseling renton wa",
+      "position": null,
+      "last_month": null,
+      "clicks": 0
+    },
+    {
+      "keyword": "marriage therapy renton wa",
+      "position": null,
+      "last_month": null,
+      "clicks": 0
+    },
+    {
+      "keyword": "anxiety therapist renton wa",
+      "position": 13.3,
+      "last_month": 23.1,
+      "clicks": 0
+    },
+    {
+      "keyword": "anxiety therapist renton",
+      "position": null,
+      "last_month": null,
+      "clicks": 0
+    },
+    {
+      "keyword": "depression counseling renton wa",
+      "position": null,
+      "last_month": null,
+      "clicks": 0
+    },
+    {
+      "keyword": "trauma therapist washington",
+      "position": null,
+      "last_month": null,
+      "clicks": 0
+    },
+    {
+      "keyword": "online therapy washington state",
+      "position": 21.4,
+      "last_month": null,
+      "clicks": 0
+    },
+    {
+      "keyword": "telehealth therapy washington",
+      "position": null,
+      "last_month": null,
+      "clicks": 0
+    },
+    {
+      "keyword": "life transitions therapy renton",
+      "position": 17.7,
+      "last_month": null,
+      "clicks": 0
+    },
+    {
+      "keyword": "family therapy renton wa",
+      "position": null,
+      "last_month": null,
+      "clicks": 0
+    },
+    {
+      "keyword": "family counselor washington",
+      "position": null,
+      "last_month": null,
+      "clicks": 0
+    }
+  ],
+  "content_calendar": [
+    {
+      "date": "May 15",
+      "title": "Blog Topic or Draft Submission Due",
+      "type": "client"
+    },
+    {
+      "date": "May 31",
+      "title": "Blog Post or SEO Op",
+      "type": "deliverable"
+    },
+    {
+      "date": "Jun 30",
+      "title": "Quarterly Performance Report",
+      "type": "deliverable"
+    }
+  ],
+  "content_choice": {
+    "chosen": null,
+    "blog": {
+      "title": null,
+      "keyword": null,
+      "status": "pending"
+    },
+    "page": {
+      "title": "Natalie Kim Bio — SEO Treatment",
+      "url": "lorikimmerly.com/natalie-kim/",
+      "keyword": "natalie kim therapist",
+      "status": "suggested"
+    }
+  },
+  "blog_topics": [
+    {
+      "title": "How to Find a Therapist in Renton WA (What to Look For)",
+      "keyword": "therapist Renton WA",
+      "status": "suggested"
+    },
+    {
+      "title": "IFS Therapy for Anxiety: How Internal Family Systems Helps You Heal",
+      "keyword": "IFS therapy anxiety",
+      "status": "suggested"
+    },
+    {
+      "title": "Couples Therapy vs. Marriage Counseling: What's the Difference?",
+      "keyword": "couples counseling Renton WA",
+      "status": "suggested"
+    },
+    {
+      "title": "What to Expect in Your First Therapy Session (And How to Prepare)",
+      "keyword": "first therapy session",
+      "status": "suggested"
+    },
+    {
+      "title": "Online Therapy in Washington State: Is Telehealth Right for You?",
+      "keyword": "online therapy Washington state",
+      "status": "suggested"
+    },
+    {
+      "title": "Understanding Trauma: Signs You Might Benefit from Trauma Therapy",
+      "keyword": "trauma therapist Washington",
+      "status": "suggested"
+    },
+    {
+      "title": "Does Insurance Cover Therapy in Washington State? (Premera, Aetna, Kaiser)",
+      "keyword": "does Premera cover therapy",
+      "status": "suggested"
+    },
+    {
+      "title": "Depression vs. Anxiety: How to Tell the Difference and Get the Right Help",
+      "keyword": "depression anxiety therapist",
+      "status": "suggested"
+    },
+    {
+      "title": "Therapy for Men: Why Men's Mental Health Deserves More Attention",
+      "keyword": "men's therapy Washington",
+      "status": "suggested"
+    },
+    {
+      "title": "What Is LMFTA vs. LMFT? Understanding Therapist Credentials in Washington",
+      "keyword": "therapist credentials Washington",
+      "status": "suggested"
+    }
+  ],
+  "reports": [
+    {
+      "name": "SEO Audit — May 2026",
+      "date": "May 1, 2026",
+      "icon": "📋",
+      "url": "/lori/reports/paid-audit-lorikimmerly-CLIENT-2026-05-01.pdf"
+    },
+    {
+      "name": "Blog Topic Recommendations — May 2026",
+      "date": "May 1, 2026",
+      "icon": "✍️",
+      "url": "/lori/reports/lori-blog-topics-2026-05.pdf"
+    }
+  ],
+  "roadmap": [
+    {
+      "phase": 1,
+      "phase_title": "Foundation Fixes",
+      "items": [
+        {
+          "id": 1,
+          "title": "Schema Monitoring & Correction",
+          "why": "WordPress and the Avada theme can silently overwrite structured data during page saves and plugin updates. Monitored monthly — re-applied when conflicts are detected.",
+          "priority": "high",
+          "effort": "Ongoing",
+          "status": "in_progress"
+        },
+        {
+          "id": 2,
+          "title": "Meta Description Monitoring",
+          "why": "Plugin updates and WordPress changes can occasionally reset meta data across pages. Verified and corrected as part of monthly maintenance.",
+          "priority": "high",
+          "effort": "Ongoing",
+          "status": "in_progress"
+        },
+        {
+          "id": 3,
+          "title": "Indexing Monitoring",
+          "why": "New content, plugin changes, and site updates can affect how Google crawls and indexes the site. Search Console reviewed monthly — coverage issues resolved as they arise.",
+          "priority": "high",
+          "effort": "Ongoing",
+          "status": "in_progress"
+        },
+        {
+          "id": 4,
+          "title": "Author Archive Pages — Noindex",
+          "why": "WordPress generates author archive pages for every user account. These thin, auto-generated pages create duplicate content signals and expose internal admin structure to Google's index.",
+          "priority": "high",
+          "effort": "Quick fix",
+          "status": "done"
+        },
+        {
+          "id": 5,
+          "title": "Blog Author Attribution",
+          "why": "The IFS blog post is attributed to a behind-the-scenes admin account rather than a licensed therapist. Google's quality raters check author credentials on YMYL health content — this is a direct E-E-A-T liability.",
+          "priority": "high",
+          "effort": "1 hr",
+          "status": "done"
+        },
+        {
+          "id": 6,
+          "title": "On-Site Testimonials",
+          "why": "Patient testimonials are a direct trust signal that Google quality raters look for on YMYL health sites. The site currently has no testimonials section — a gap that affects perceived credibility.",
+          "priority": "high",
+          "effort": "1–2 hrs",
+          "status": "backlog"
+        },
+        {
+          "id": 7,
+          "title": "Google Business Profile Optimization",
+          "why": "GBP category alignment, service list, photos, and Q&A section all need a full optimization pass. A complete, verified profile is a hard requirement for local pack eligibility on therapy queries.",
+          "priority": "high",
+          "effort": "1–2 hrs",
+          "status": "backlog"
+        },
+        {
+          "id": 8,
+          "title": "Psychology Today Profiles",
+          "why": "Psychology Today is the highest-authority therapist directory and a direct referral source. Every therapist on the team needs a full profile with specialty tags — currently absent from the backlink profile. Initial pass complete: 7 of 12 therapist Person schemas now include Psychology Today profile URLs. Remaining 5 (Jared, Clayton, Natalie, Mariah, Leah) need profile URLs — pending Kandy follow-up.",
+          "priority": "high",
+          "effort": "2–3 hrs",
+          "status": "in_progress"
+        },
+        {
+          "id": 9,
+          "title": "Privacy Policy & Terms of Service",
+          "why": "Google quality raters check for trust pages on YMYL health sites. Once provided by the practice, these will be published and linked correctly across the site.",
+          "priority": "medium",
+          "effort": "Quick fix",
+          "status": "todo"
+        }
+      ]
+    },
+    {
+      "phase": 2,
+      "phase_title": "Local Visibility",
+      "items": [
+        {
+          "id": 10,
+          "title": "GBP Post Management",
+          "why": "Regular GBP posts — blog excerpts, mental health tips, practice announcements — signal an active, engaged listing to Google and improve local pack visibility.",
+          "priority": "high",
+          "effort": "Ongoing",
+          "status": "backlog"
+        },
+        {
+          "id": 11,
+          "title": "Google Review Process",
+          "why": "Review count and average rating are direct local pack ranking factors. Growing toward 20+ reviews at 4.8+ average requires a consistent, compliant ask process — in-office or automated.",
+          "priority": "high",
+          "effort": "Setup",
+          "status": "backlog"
+        },
+        {
+          "id": 12,
+          "title": "Priority Directory Submissions",
+          "why": "TherapyDen, Healthgrades, Zocdoc, Bing Places, Apple Maps, and GoodTherapy — high-authority citations missing from the backlink profile. Each submission builds local authority and opens a new referral channel.",
+          "priority": "high",
+          "effort": "2–3 hrs",
+          "status": "backlog"
+        },
+        {
+          "id": 13,
+          "title": "Location Landing Pages",
+          "why": "Dedicated pages for Renton WA, Online Therapy Washington, and Online Therapy Arizona — each targeting location-specific search queries the site currently has no page to capture.",
+          "priority": "high",
+          "effort": "3–4 hrs each",
+          "status": "backlog"
+        }
+      ]
+    },
+    {
+      "phase": 3,
+      "phase_title": "Content Investment — Service Pages",
+      "items": [
+        {
+          "id": 14,
+          "title": "IFS Therapy Washington",
+          "why": "'IFS therapist renton wa', 'ifs therapist seattle', 'ifs therapy washington' — no indexed landing page. Zero SERP presence for the practice's primary keyword differentiator and strongest competitive advantage.",
+          "priority": "high",
+          "effort": "3–4 hrs",
+          "status": "backlog"
+        },
+        {
+          "id": 15,
+          "title": "Anxiety Therapy Renton WA",
+          "why": "'Anxiety therapist renton wa' at pos 13.3 with 16 impressions and 0 clicks. The highest-volume local therapy search term — ranking but not capturing clicks without a dedicated page.",
+          "priority": "high",
+          "effort": "3–4 hrs",
+          "status": "backlog"
+        },
+        {
+          "id": 16,
+          "title": "Couples Counseling Renton WA",
+          "why": "'Couples therapy renton' at pos 10.1 — sitting at the page 1 threshold. High commercial intent keyword cluster with no dedicated landing page to hold or improve the position.",
+          "priority": "high",
+          "effort": "3–4 hrs",
+          "status": "backlog"
+        },
+        {
+          "id": 17,
+          "title": "Depression Therapy Washington",
+          "why": "Second most searched mental health condition after anxiety. Statewide keyword with no dedicated page — missed traffic across both in-person and telehealth service areas.",
+          "priority": "high",
+          "effort": "3–4 hrs",
+          "status": "backlog"
+        },
+        {
+          "id": 18,
+          "title": "Trauma Therapy Washington",
+          "why": "Supports the practice's trauma-specialized therapist team. High-empathy search cluster with strong conversion intent — searchers on this term are actively looking for help.",
+          "priority": "high",
+          "effort": "3–4 hrs",
+          "status": "backlog"
+        },
+        {
+          "id": 19,
+          "title": "Online Therapy Washington & Arizona",
+          "why": "'Online therapy washington state' at pos 21.4 — impressions with zero clicks. A single optimized page consolidates authority across both telehealth service states.",
+          "priority": "high",
+          "effort": "3–4 hrs",
+          "status": "backlog"
+        },
+        {
+          "id": 20,
+          "title": "Family Therapy Renton WA",
+          "why": "Completes the core service page library. Without it the practice has no indexed page for family therapy queries despite offering the service.",
+          "priority": "medium",
+          "effort": "3–4 hrs",
+          "status": "backlog"
+        },
+        {
+          "id": 21,
+          "title": "FAQ Sections on All Service Pages",
+          "why": "FAQ content qualifies pages for FAQ rich results in SERPs and directly addresses hesitant visitors. Every service page needs a FAQ section once built.",
+          "priority": "medium",
+          "effort": "1 hr each",
+          "status": "backlog"
+        },
+        {
+          "id": 22,
+          "title": "Internal Linking",
+          "why": "Foundation work begun — bio-to-bio supervisory links and one bio→blog topical link (IFS) are live. Full execution waits for dedicated service pages to exist (Phase 3) so each bio can link to a relevant service page.",
+          "priority": "medium",
+          "effort": "1–2 hrs",
+          "status": "in_progress"
+        }
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "from": "Kandy",
+      "date": "May 10, 2026",
+      "text": "Big SEO + schema cleanup pass on the site this afternoon. Twelve retired Avada portfolio URLs (cardiology, pediatrics, ultrasound — leftover from the old theme demo) were permanently deleted and 301-redirected to the Meet the Team page so any inbound links keep working and Google updates faster. We also closed the loop on three duplicate/old slugs (an old Ryan Carragher URL, plus former-therapist pages for Faynesha Haragan and Keziah Grindeland) — all redirected, no more 404s for Google. Three of the highest-impression pages got rewritten meta titles + descriptions tuned for click-through (Lori's bio, the contact page, and the Meet the Team page) — the bio page especially was sitting at 1,124 impressions with a 0.6% CTR, so we rebuilt the title around 'Online Therapist' service intent rather than IFS jargon. Roughly twenty thin auto-generated FAQ pages were noindex'd and pulled out of the sitemap — they were duplicating the FAQ schema already on the contact page and just cluttering Google's coverage report. We also rebuilt the Person schema on every therapist bio page so each one now has full credentials, license info, areas of focus, and Psychology Today links where they exist — Lori's bio correctly lists both Washington and Arizona service areas, all others are Washington-only. Added a sitewide WebSite + SearchAction schema (enables Google's sitelinks search box on brand searches), submitted the cleaned sitemap, and removed the redundant www GSC property. Everything is verified live. Real impact (CTR, indexing, ranking) will show in the next 4 weeks — checkpoint scheduled for June 7 to compare before/after."
+    },
+    {
+      "from": "Kandy",
+      "date": "May 10, 2026",
+      "text": "This week we used Lori's included site hour to onboard the two new team members (Iwona Abraham and Devi Viswanathan) and update John Hubbs's credentials now that he's fully licensed. Both new therapists have full bio pages, and we added them to the homepage carousel, the Meet the Team page, the mega menu, the contact form dropdown, and the structured-data schema for Google. We also did a full SEO optimization pass on both new bios — single rich Person schema, focus keywords matching actual content, contextual internal links, sweet-spot meta lengths. While we were in there, we added Caroline Bacon to the contact form dropdown (she'd been missing since March), tightened up Jenn Kenworthy's specialty list per her request, fixed John's photo alignment on his Meet the Team card, and added one internal link from Lori's bio to the IFS blog post for SEO. Everything is live and verified."
+    },
+    {
+      "from": "Kandy",
+      "date": "April 30, 2026",
+      "text": "Welcome to your Phoenix Method client portal, Lori! This is your home base for everything we're doing on your site month to month — rankings, deliverables, your content calendar, and reports. Your May package is active. Reminder: if you'd like to pick the blog topic or page we work on this month, just send it over by the 15th. If we don't hear from you by the 15th, we'll pick the best opportunity from your current keyword data."
+    }
+  ]
+}
