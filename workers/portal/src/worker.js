@@ -191,7 +191,7 @@ async function adminDashboardHTML(env) {
       const raw = await env.PORTAL_DATA.get(slug, { type: 'text' });
       if (!raw) return { slug, error: 'no data in KV' };
       const data = JSON.parse(raw);
-      const lastMsg = (data.messages && data.messages[0]) || null;
+      const lastMsg = (data.messages && data.messages[data.messages.length - 1]) || null;
       const completedDeliv = (data.deliverables || []).filter((d) => d.status === 'completed').length;
       const totalDeliv = (data.deliverables || []).length;
       return {
