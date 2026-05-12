@@ -84,8 +84,9 @@ async function lookupAllowlist(env, email) {
   if (!raw) return null;
   try {
     const obj = JSON.parse(raw);
-    if (obj && typeof obj === 'object' && validSlug(obj.client)) {
-      return { client: obj.client, name: obj.name || '' };
+    if (obj && typeof obj === 'object') {
+      if (obj.isAdmin) return { client: obj.client || 'lori', name: obj.name || '', isAdmin: true };
+      if (validSlug(obj.client)) return { client: obj.client, name: obj.name || '' };
     }
   } catch { /* fall through */ }
   return null;
@@ -175,6 +176,112 @@ function loginHTML() {
   return page('Sign in to your Phoenix Method portal', body);
 }
 
+function escapeHTML(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+
+async function adminDashboardHTML(env) {
+  // List all client slugs from the PORTAL_DATA KV namespace
+  const list = env.PORTAL_DATA ? await env.PORTAL_DATA.list() : { keys: [] };
+  const slugs = list.keys.map((k) => k.name).filter((n) => /^[a-z0-9][a-z0-9-]{0,40}$/.test(n)).sort();
+
+  // Fetch each client's data.json from KV in parallel
+  const clients = await Promise.all(slugs.map(async (slug) => {
+    try {
+      const raw = await env.PORTAL_DATA.get(slug, { type: 'text' });
+      if (!raw) return { slug, error: 'no data in KV' };
+      const data = JSON.parse(raw);
+      const lastMsg = (data.messages && data.messages[0]) || null;
+      const completedDeliv = (data.deliverables || []).filter((d) => d.status === 'completed').length;
+      const totalDeliv = (data.deliverables || []).length;
+      return {
+        slug,
+        client: data.client || slug,
+        short_name: data.short_name || data.client || slug,
+        month: data.month || '',
+        plan: data.plan || '',
+        plan_price: data.plan_price || '',
+        plan_hours: data.plan_hours,
+        hours_used: data.hours_used,
+        hours_rolled_over: data.hours_rolled_over || 0,
+        updated: data.updated || '',
+        deliv_progress: `${completedDeliv}/${totalDeliv}`,
+        last_msg_date: lastMsg ? (lastMsg.date || '') : '',
+        last_msg_text: lastMsg ? (lastMsg.text || '').slice(0, 140) : '',
+        next_invoice_date: (data.next_invoice && data.next_invoice.date) || '',
+        next_invoice_amount: (data.next_invoice && data.next_invoice.amount) || '',
+      };
+    } catch (e) {
+      return { slug, error: 'parse error: ' + e.message };
+    }
+  }));
+
+  // Sort by updated date desc (most recent first)
+  clients.sort((a, b) => (b.updated || '').localeCompare(a.updated || ''));
+
+  const rows = clients.map((c) => {
+    if (c.error) {
+      return `<div class="row error-row">
+        <div class="row-main"><strong>${escapeHTML(c.slug)}</strong> &mdash; <span class="muted">${escapeHTML(c.error)}</span></div>
+      </div>`;
+    }
+    const hoursStr = (c.hours_used != null && c.plan_hours != null)
+      ? `${c.hours_used}/${c.plan_hours}${c.hours_rolled_over ? ` (+${c.hours_rolled_over} rollover)` : ''}`
+      : '—';
+    const hoursDone = c.hours_used >= c.plan_hours;
+    return `<div class="row">
+      <div class="row-head">
+        <div>
+          <div class="client-name">${escapeHTML(c.client)}</div>
+          <div class="client-meta">/${escapeHTML(c.slug)}/ &middot; ${escapeHTML(c.plan)} ${escapeHTML(c.plan_price)} &middot; ${escapeHTML(c.month)}</div>
+        </div>
+        <a class="open-btn" href="/${escapeHTML(c.slug)}/" target="_blank" rel="noopener">Open portal &rarr;</a>
+      </div>
+      <div class="row-stats">
+        <div class="stat"><div class="stat-label">Hours</div><div class="stat-val ${hoursDone ? 'done' : ''}">${escapeHTML(hoursStr)}</div></div>
+        <div class="stat"><div class="stat-label">Deliverables</div><div class="stat-val">${escapeHTML(c.deliv_progress)}</div></div>
+        <div class="stat"><div class="stat-label">Updated</div><div class="stat-val">${escapeHTML(c.updated || '—')}</div></div>
+        <div class="stat"><div class="stat-label">Next invoice</div><div class="stat-val">${escapeHTML(c.next_invoice_date || '—')} ${escapeHTML(c.next_invoice_amount || '')}</div></div>
+      </div>
+      ${c.last_msg_date ? `<div class="last-msg"><span class="muted">Last update ${escapeHTML(c.last_msg_date)}:</span> ${escapeHTML(c.last_msg_text)}${c.last_msg_text && c.last_msg_text.length >= 140 ? '…' : ''}</div>` : ''}
+    </div>`;
+  }).join('');
+
+  const body = `
+    <div class="tag">Admin</div>
+    <h1><span class="fire">All Client Portals</span></h1>
+    <p class="lede">${clients.length} client${clients.length === 1 ? '' : 's'} &middot; sorted by most recently updated</p>
+    <div class="rows">
+      ${rows || '<p class="muted">No clients found in PORTAL_DATA KV.</p>'}
+    </div>
+    <p class="fallback"><a href="/auth/logout">Sign out</a></p>
+  `;
+  // Override the default narrow .card width and add admin-specific styles
+  return page('Admin — All Portals', body).replace(
+    '.card { max-width:480px;',
+    '.card { max-width:920px; text-align:left; }\n  .card.admin-narrow { max-width:480px;'
+  ).replace(
+    '</style>',
+    `
+  .rows { display:flex; flex-direction:column; gap:14px; margin-top:18px; }
+  .row { background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:12px; padding:18px 20px; }
+  .row-head { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap; }
+  .client-name { font-family:'Cinzel',serif; font-size:1.15rem; font-weight:700; color:var(--text); }
+  .client-meta { font-family:'Rajdhani',sans-serif; font-size:0.78rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:4px; }
+  .open-btn { background:linear-gradient(135deg,var(--fire-start),var(--fire-mid)); color:#fff; padding:8px 16px; border-radius:6px; text-decoration:none; font-family:'Rajdhani',sans-serif; font-weight:700; font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase; white-space:nowrap; }
+  .open-btn:hover { box-shadow:0 6px 18px rgba(255,140,0,0.3); }
+  .row-stats { display:flex; gap:24px; flex-wrap:wrap; margin-top:14px; padding-top:14px; border-top:1px solid var(--border); }
+  .stat { min-width:90px; }
+  .stat-label { font-family:'Rajdhani',sans-serif; font-size:0.7rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--deep-muted); }
+  .stat-val { font-size:0.95rem; color:var(--text); margin-top:2px; }
+  .stat-val.done { color:var(--fire-mid); font-weight:600; }
+  .last-msg { margin-top:12px; padding-top:12px; border-top:1px solid var(--border); font-size:0.88rem; color:var(--text); line-height:1.5; }
+  .muted { color:var(--muted); }
+  .error-row { border-color: rgba(255,77,77,0.4); background:rgba(255,77,77,0.05); }
+</style>`
+  );
+}
+
 function verifyErrorHTML(msg) {
   const body = `
     <div class="tag">Sign-in error</div>
@@ -247,6 +354,7 @@ export default {
 
     if (path === '/auth/request' && request.method === 'POST') return handleAuthRequest(request, env, url);
     if (path === '/auth/verify') return handleAuthVerify(request, env, url);
+    if (path === '/auth/admin-bookmark') return handleAdminBookmark(request, env, url);
     if (path === '/auth/logout') {
       return new Response(null, {
         status: 302,
@@ -259,10 +367,24 @@ export default {
 
     const session = await currentSession(request, env);
 
-    // Root: login page if not authed, redirect to their client area if authed
+    // Root: login page if not authed, redirect to their client area (or /admin/ if admin)
     if (path === '/' || path === '') {
-      if (session) return Response.redirect(`${url.origin}/${session.client}/`, 302);
+      if (session) {
+        const dest = session.isAdmin ? '/admin/' : `/${session.client}/`;
+        return Response.redirect(`${url.origin}${dest}`, 302);
+      }
       return new Response(loginHTML(), { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } });
+    }
+
+    // Admin dashboard — lists all clients (admin-only)
+    if (path === '/admin' || path === '/admin/') {
+      if (!session) {
+        return new Response(loginHTML(), { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } });
+      }
+      if (!session.isAdmin) {
+        return new Response('Not Found', { status: 404 });
+      }
+      return new Response(await adminDashboardHTML(env), { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } });
     }
 
     // Any other path requires a session
@@ -274,11 +396,22 @@ export default {
       return new Response('Unauthorized', { status: 401 });
     }
 
-    // Enforce: user can only access /{their-client}/* — no cross-client peeking
+    // Enforce: user can only access /{their-client}/* — no cross-client peeking (admin exempt)
     const segments = path.split('/').filter(Boolean);
     const requestedClient = segments[0];
-    if (requestedClient !== session.client) {
+    if (requestedClient !== session.client && !session.isAdmin) {
       return new Response('Not Found', { status: 404 });
+    }
+
+    // Serve data.json from KV so the weekly health check can update stats without a redeploy
+    const rest = segments.slice(1).join('/');
+    if (rest === 'data.json' && env.PORTAL_DATA) {
+      const data = await env.PORTAL_DATA.get(requestedClient, { type: 'text' });
+      if (data) {
+        return new Response(data, {
+          headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
+        });
+      }
     }
 
     // All good — hand off to static assets
@@ -302,7 +435,7 @@ async function handleAuthRequest(request, env, url) {
   if (!entry) return Response.json({ ok: true });
 
   const exp = Math.floor(Date.now() / 1000) + MAGIC_TTL_SECONDS;
-  const token = await signToken({ kind: 'magic', email, client: entry.client, exp }, env.SESSION_SECRET);
+  const token = await signToken({ kind: 'magic', email, client: entry.client, isAdmin: entry.isAdmin || false, exp }, env.SESSION_SECRET);
   const magicUrl = `${url.origin}/auth/verify?t=${encodeURIComponent(token)}`;
 
   try {
@@ -312,6 +445,29 @@ async function handleAuthRequest(request, env, url) {
     console.error('resend send failed', err);
   }
   return Response.json({ ok: true });
+}
+
+async function handleAdminBookmark(request, env, url) {
+  // Permanent admin session via bookmarkable URL: /auth/admin-bookmark?k=SECRET
+  // Sets a 10-year admin session cookie. Anyone with the URL gets admin access — keep it private.
+  const k = url.searchParams.get('k');
+  if (!env.ADMIN_BYPASS_KEY || !k || k !== env.ADMIN_BYPASS_KEY) {
+    return new Response('Not Found', { status: 404 });
+  }
+  // 10-year session cookie
+  const sessionDays = 3650;
+  const sessionExp = Math.floor(Date.now() / 1000) + sessionDays * 86400;
+  const sessionToken = await signToken(
+    { kind: 'session', email: 'admin@phoenixmethodseo.com', client: 'lori', isAdmin: true, exp: sessionExp },
+    env.SESSION_SECRET
+  );
+  return new Response(null, {
+    status: 302,
+    headers: {
+      'Location': '/admin/',
+      'Set-Cookie': `${COOKIE_NAME}=${sessionToken}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${sessionDays * 86400}`,
+    },
+  });
 }
 
 async function handleAuthVerify(request, env, url) {
@@ -324,7 +480,7 @@ async function handleAuthVerify(request, env, url) {
   }
   const sessionDays = parseInt(env.SESSION_DAYS || '7', 10);
   const sessionExp = Math.floor(Date.now() / 1000) + sessionDays * 86400;
-  const sessionToken = await signToken({ kind: 'session', email: payload.email, client: payload.client, exp: sessionExp }, env.SESSION_SECRET);
+  const sessionToken = await signToken({ kind: 'session', email: payload.email, client: payload.client, isAdmin: payload.isAdmin || false, exp: sessionExp }, env.SESSION_SECRET);
 
   return new Response(null, {
     status: 302,
