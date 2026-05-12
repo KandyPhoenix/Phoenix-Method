@@ -14,7 +14,7 @@ run_worker_first = true
 [vars]
 FROM_EMAIL = "hello@phoenixmethodseo.com"
 FROM_NAME = "Phoenix Method"
-SESSION_DAYS = "7"
+SESSION_DAYS = "90"
 
 [[kv_namespaces]]
 binding = "ALLOWLIST"
@@ -23,6 +23,10 @@ id = "a2e5debaf3a54f0aaa59cb463bc866c8"
 [[kv_namespaces]]
 binding = "RATE_LIMIT"
 id = "6e4bc20aadd7439789b497081ec4a251"
+
+[[kv_namespaces]]
+binding = "PORTAL_DATA"
+id = "92ed0633a40e4f28842fed8d9826c7ba"
 
 # Secrets set via `wrangler secret put`:
 #   RESEND_API_KEY
