@@ -1,0 +1,41 @@
+name: Monthly Portal Reset
+
+on:
+  schedule:
+    - cron: '0 14 1 * *'  # 9 AM CT (2 PM UTC) on the 1st of every month
+  workflow_dispatch:        # Allow manual trigger from GitHub Actions tab
+
+jobs:
+  reset:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install google-api-python-client google-auth
+
+      - name: Write GSC credentials
+        env:
+          GSC_CREDENTIALS_JSON: ${{ secrets.GSC_CREDENTIALS_JSON }}
+        run: echo "$GSC_CREDENTIALS_JSON" | base64 -d > /tmp/gsc-credentials.json
+
+      - name: Reset Lori portal
+        env:
+          GSC_CREDS_PATH: /tmp/gsc-credentials.json
+          LORI_GSC_PROPERTY: sc-domain:lorikimmerly.com
+        run: python tools/portal-monthly-reset.py lori
+
+      - name: Commit and push
+        run: |
+          git config user.name "Phoenix Method Bot"
+          git config user.email "hello@phoenixmethodseo.com"
+          git add workers/portal/public/lori/data.json
+          git diff --staged --quiet || git commit -m "auto: monthly reset lori $(date +%Y-%m)"
+          git push
