@@ -61,21 +61,24 @@ def pull_gsc_stats(service, gsc_property):
             siteUrl=gsc_property, body=body
         ).execute()
 
-    # Totals — current
-    cur = query(start, end)
-    cur_rows = cur.get("rows", [{}])
-    cur_clicks = int(sum(r.get("clicks", 0) for r in cur_rows))
-    cur_impr = int(sum(r.get("impressions", 0) for r in cur_rows))
-    cur_pos = round(sum(r.get("position", 0) for r in cur_rows) / len(cur_rows), 1) if cur_rows else 0.0
+    # Totals (no dimensions = single aggregated row from GSC)
+    cur_agg = query(start, end).get("rows", [{}])[0]
+    cur_clicks = int(cur_agg.get("clicks", 0))
+    cur_impr = int(cur_agg.get("impressions", 0))
+    cur_pos = round(cur_agg.get("position", 0.0), 1)
     cur_ctr = round(cur_clicks / cur_impr * 100, 2) if cur_impr else 0.0
 
-    # Totals — previous (for change %)
-    prev = query(prev_start, prev_end)
-    prev_rows = prev.get("rows", [{}])
-    prev_clicks = int(sum(r.get("clicks", 0) for r in prev_rows))
-    prev_impr = int(sum(r.get("impressions", 0) for r in prev_rows))
-    prev_pos = round(sum(r.get("position", 0) for r in prev_rows) / len(prev_rows), 1) if prev_rows else 0.0
+    prev_agg = query(prev_start, prev_end).get("rows", [{}])[0]
+    prev_clicks = int(prev_agg.get("clicks", 0))
+    prev_impr = int(prev_agg.get("impressions", 0))
+    prev_pos = round(prev_agg.get("position", 0.0), 1)
     prev_ctr = round(prev_clicks / prev_impr * 100, 2) if prev_impr else 0.0
+
+    # Keyword count — query with dimensions to count unique ranking queries
+    cur_kw_rows = query(start, end, dimensions=["query"], row_limit=500).get("rows", [])
+    prev_kw_rows = query(prev_start, prev_end, dimensions=["query"], row_limit=500).get("rows", [])
+    cur_kw_count = len(cur_kw_rows)
+    prev_kw_count = len(prev_kw_rows)
 
     def change(cur_val, prev_val, is_pos=False):
         diff = round(cur_val - prev_val, 1) if isinstance(cur_val, float) else cur_val - prev_val
@@ -95,9 +98,9 @@ def pull_gsc_stats(service, gsc_property):
         "sessions": cur_clicks,
         "sessions_change": clicks_chg,
         "sessions_trend": clicks_trend,
-        "keywords": len(cur_rows),
-        "keywords_change": change(len(cur_rows), len(prev_rows))[0],
-        "keywords_trend": change(len(cur_rows), len(prev_rows))[1],
+        "keywords": cur_kw_count,
+        "keywords_change": change(cur_kw_count, prev_kw_count)[0],
+        "keywords_trend": change(cur_kw_count, prev_kw_count)[1],
         "position": cur_pos,
         "position_change": pos_chg,
         "position_trend": pos_trend,
