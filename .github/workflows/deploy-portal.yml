@@ -21,12 +21,11 @@ jobs:
           workingDirectory: workers/portal
 
       - name: Sync data.json files to PORTAL_DATA KV
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: d3aefe8ad2b7a8399b3f47238cde9599
-          workingDirectory: workers/portal
-          command: |
-            kv key put --binding=PORTAL_DATA "lori" --path="public/lori/data.json" --remote
-            kv key put --binding=PORTAL_DATA "phw" --path="public/phw/data.json" --remote
-            kv key put --binding=PORTAL_DATA "pm" --path="public/pm/data.json" --remote
+        working-directory: workers/portal
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: d3aefe8ad2b7a8399b3f47238cde9599
+        run: |
+          npx wrangler kv key put --binding=PORTAL_DATA "lori" --path="public/lori/data.json" --remote
+          npx wrangler kv key put --binding=PORTAL_DATA "phw" --path="public/phw/data.json" --remote
+          npx wrangler kv key put --binding=PORTAL_DATA "pm" --path="public/pm/data.json" --remote
