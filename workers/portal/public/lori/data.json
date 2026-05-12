@@ -8,7 +8,7 @@
   "hours_used": 1,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-05-10",
+  "updated": "2026-05-12",
   "next_invoice": {
     "date": "June 1, 2026",
     "amount": "$575.00"
@@ -614,6 +614,11 @@
       "from": "Kandy",
       "date": "April 30, 2026",
       "text": "Welcome to your Phoenix Method client portal, Lori! This is your home base for everything we're doing on your site month to month — rankings, deliverables, your content calendar, and reports. Your May package is active. Reminder: if you'd like to pick the blog topic or page we work on this month, just send it over by the 15th. If we don't hear from you by the 15th, we'll pick the best opportunity from your current keyword data."
+    },
+    {
+      "from": "Kandy",
+      "date": "May 12, 2026",
+      "text": "Quick maintenance session this week. Fixed the contact forms on your site — a plugin called SilentShield was blocking all form submissions. Clients should now be able to reach you and your therapists without issues. Also updated session rates on Devi and Iwona’s bio pages (correcting the listed fees). On the SEO side, cleaned up the About Our Therapists hero section: tightened the headline text, removed duplicate mentions of “online” and “Washington” that could flag as keyword stuffing, and polished the visual layout. (LOR-325, LOR-324, LOR-326)"
     }
   ]
 }
