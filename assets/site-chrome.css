@@ -31,6 +31,10 @@
 .footer-inner { display: flex; gap: 48px; margin-bottom: 40px; align-items: start; }
 .footer-brand { flex: 0 0 auto; min-width: 160px; display: flex; flex-direction: column; gap: 12px; }
 .footer-tagline { color: var(--text-muted, #5E5A6B); font-size: 0.9rem; line-height: 1.6; }
+.footer-nap { color: var(--text-muted, #5E5A6B); font-size: 0.85rem; line-height: 1.6; font-style: normal; }
+.footer-nap strong { color: inherit; font-weight: 600; }
+.footer-nap a { color: inherit; text-decoration: none; transition: color 0.3s; }
+.footer-nap a:hover { color: var(--fire-mid, #FF8C00); }
 .footer-links { display: flex; gap: 16px; flex: 1; }
 .footer-col { display: flex; flex-direction: column; gap: 10px; flex: 1; }
 .footer-col h4 { font-family: var(--font-accent, 'Rajdhani', sans-serif); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; color: inherit; }

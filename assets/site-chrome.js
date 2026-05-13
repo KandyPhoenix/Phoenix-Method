@@ -66,6 +66,11 @@
       <div class="footer-inner">
         <div class="footer-brand">
           <p class="footer-tagline">Data-driven SEO &amp; SEM<br>consulting.<br>Your rankings. Our fire.</p>
+          <address class="footer-nap">
+            <strong>Phoenix Method</strong><br>
+            <a href="/seo-agency-phoenix-az/">Phoenix, AZ</a> &middot; Serving the U.S.<br>
+            <a href="mailto:hello@phoenixmethodseo.com">hello@phoenixmethodseo.com</a>
+          </address>
         </div>
         <div class="footer-links">
           <div class="footer-col">
@@ -89,6 +94,7 @@
           <div class="footer-col">
             <h4>Company</h4>
             <a href="/about/">About</a>
+            <a href="/seo-agency-phoenix-az/">Phoenix, AZ</a>
             <a href="/#process">Our Process</a>
             <a href="/small-business-seo-pricing/">Pricing</a>
             <a href="/order.html">Shop</a>
