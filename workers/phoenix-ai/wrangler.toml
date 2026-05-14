@@ -1,0 +1,61 @@
+name = "phoenix-ai"
+main = "src/worker.js"
+compatibility_date = "2026-01-01"
+workers_dev = true
+
+# Phoenix AI — SEO content autopilot SaaS.
+# Public sign-up worker; one customer per email. Each customer connects one or
+# more WordPress sites. The cron triggers daily article generation (added in
+# Phase 2). Phase 1 supports manual on-demand generation via the dashboard.
+
+[vars]
+FROM_EMAIL = "phoenix-ai@phoenixmethodseo.com"
+FROM_NAME = "Phoenix AI"
+SESSION_DAYS = "30"
+ANTHROPIC_MODEL = "claude-opus-4-7"
+DEFAULT_PLAN = "trial"
+TRIAL_DAYS = "7"
+
+# KV namespaces. Create with:
+#   wrangler kv:namespace create CUSTOMERS
+#   wrangler kv:namespace create SITES
+#   wrangler kv:namespace create KEYWORDS
+#   wrangler kv:namespace create ARTICLES
+#   wrangler kv:namespace create RATE_LIMIT
+#   wrangler kv:namespace create AUDIT_LOG
+# Then replace the placeholder ids below with the real ones wrangler prints.
+
+[[kv_namespaces]]
+binding = "CUSTOMERS"
+id = "REPLACE_ME_CUSTOMERS"
+
+[[kv_namespaces]]
+binding = "SITES"
+id = "REPLACE_ME_SITES"
+
+[[kv_namespaces]]
+binding = "KEYWORDS"
+id = "REPLACE_ME_KEYWORDS"
+
+[[kv_namespaces]]
+binding = "ARTICLES"
+id = "REPLACE_ME_ARTICLES"
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT"
+id = "REPLACE_ME_RATE_LIMIT"
+
+[[kv_namespaces]]
+binding = "AUDIT_LOG"
+id = "REPLACE_ME_AUDIT_LOG"
+
+# Daily cron — picks the next keyword for each active customer/site and runs
+# the pipeline. Wired up in Phase 2; harmless to leave defined.
+[triggers]
+crons = ["0 13 * * *"]
+
+# Secrets (set via `wrangler secret put` after first deploy):
+#   SESSION_SECRET       HMAC key for signing session + magic-link tokens
+#   RESEND_API_KEY       Magic-link email delivery (Resend)
+#   ANTHROPIC_API_KEY    Article generation (Claude)
+#   AHREFS_API_KEY       Keyword research (Ahrefs API v3)
