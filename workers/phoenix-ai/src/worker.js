@@ -286,7 +286,11 @@ async function pickNextKeyword(env, siteId) {
 function buildArticlePrompt({ keyword, site }) {
   const intent = (keyword.intent || 'informational').toLowerCase();
   const niche = site.niche || 'general business';
-  const voiceSample = (site.brandVoice || '').slice(0, 1500);
+  // brandVoiceOverride is a manually-curated paragraph that takes precedence
+  // over the auto-crawled homepage sample. Used for clients whose existing
+  // site doesn't represent the voice we want (thin content, placeholder copy,
+  // or YMYL clients where we want to control tone tightly).
+  const voiceSample = (site.brandVoiceOverride || site.brandVoice || '').slice(0, 1500);
   return {
     system: `You are a senior SEO content writer at Phoenix Method, a working SEO agency. Your job is to write a single long-form article that ranks on Google and converts readers.
 
@@ -438,8 +442,11 @@ async function runPipeline(env, site, opts = {}) {
   }
   const article = claudeResult.content;
 
-  // 4. Publish to WordPress (draft by default).
-  const publishStatus = site.autoPublish ? 'publish' : 'draft';
+  // 4. Publish to WordPress.
+  // requireApproval locks the site to draft-only — autoPublish has no effect
+  // when this is on. Used for YMYL (healthcare, finance, legal) clients where
+  // every article must be reviewed before going live.
+  const publishStatus = (!site.requireApproval && site.autoPublish) ? 'publish' : 'draft';
   const wpResult = await wpPublish(env, site, article, publishStatus);
 
   // 5. Persist article record.
@@ -664,6 +671,8 @@ async function apiRouter(request, env, url, path) {
     const siteUrl = (body.url || '').toString().trim().replace(/\/+$/, '');
     const appUsername = (body.appUsername || '').toString().trim();
     const appPasswordPlain = (body.appPassword || '').toString().trim();
+    const brandVoiceOverride = (body.brandVoiceOverride || '').toString().trim().slice(0, 4000);
+    const requireApproval = Boolean(body.requireApproval);
     if (!/^https?:\/\//.test(siteUrl)) return json({ error: 'site URL must start with http(s)://' }, 400);
     if (!appUsername || !appPasswordPlain) return json({ error: 'WordPress username and application password are required' }, 400);
 
@@ -677,7 +686,9 @@ async function apiRouter(request, env, url, path) {
       appPassword: await encryptSecret(appPasswordPlain, env.SESSION_SECRET),
       niche: learned.niche,
       brandVoice: learned.brandVoice,
+      brandVoiceOverride,
       autoPublish: false,
+      requireApproval,
       status: 'active',
       createdAt: nowIso(),
     };
@@ -705,6 +716,27 @@ async function apiRouter(request, env, url, path) {
       await removeSiteFromOwner(env, email, siteId);
       await env.KEYWORDS.delete(`kws:${siteId}`);
       return json({ ok: true });
+    }
+
+    if (sub === '' && request.method === 'PATCH') {
+      let body; try { body = await request.json(); } catch { return json({ error: 'bad json' }, 400); }
+      // Only specific fields are editable. Credentials and ownership are
+      // immutable through this endpoint by design.
+      if (typeof body.brandVoiceOverride === 'string') {
+        site.brandVoiceOverride = body.brandVoiceOverride.trim().slice(0, 4000);
+      }
+      if (typeof body.requireApproval === 'boolean') site.requireApproval = body.requireApproval;
+      if (typeof body.autoPublish === 'boolean') {
+        // Honor the lock — can't flip autoPublish on while requireApproval is true.
+        site.autoPublish = site.requireApproval ? false : body.autoPublish;
+      }
+      await saveSite(env, site);
+      await audit(env, siteId, 'site.updated', {
+        requireApproval: site.requireApproval,
+        autoPublish: site.autoPublish,
+        brandVoiceOverrideLen: (site.brandVoiceOverride || '').length,
+      });
+      return json({ ok: true, site: stripSiteSecrets(site) });
     }
 
     if (sub === 'research' && request.method === 'POST') {
@@ -866,6 +898,22 @@ function dashboardHTML() {
         <input type="password" id="appPassword" required placeholder="xxxx xxxx xxxx xxxx xxxx xxxx">
         <p class="help" style="margin-top:6px;">Generate one at <em>WP Admin → Users → Profile → Application Passwords</em>. We store it encrypted; it never leaves the worker except to publish posts on your behalf. <a href="https://wordpress.org/documentation/article/application-passwords/" target="_blank" rel="noopener">Help</a></p>
       </div>
+      <details style="margin-top:4px;">
+        <summary style="cursor:pointer;color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:0.82rem;letter-spacing:0.1em;text-transform:uppercase;">Advanced (optional)</summary>
+        <div style="margin-top:14px;display:grid;gap:14px;">
+          <div>
+            <label for="brandVoiceOverride">Brand voice override</label>
+            <textarea id="brandVoiceOverride" rows="5" placeholder="Optional. Paste 200–500 words that capture how the site should sound. If empty, Phoenix AI learns the voice from the homepage." style="width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Outfit',sans-serif;font-size:0.95rem;resize:vertical;"></textarea>
+            <p class="help" style="margin-top:6px;">Use this when the homepage doesn't represent the voice you want — thin content, placeholder copy, or a regulated industry where you want full control.</p>
+          </div>
+          <div>
+            <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);">
+              <input type="checkbox" id="requireApproval" style="margin-top:4px;">
+              <span><strong>Require approval on every article</strong><br><span style="color:var(--muted);font-size:0.85rem;">Recommended for healthcare, finance, legal, or any YMYL site. Locks Phoenix AI to draft-only — you'll review every article in WordPress before it goes live.</span></span>
+            </label>
+          </div>
+        </div>
+      </details>
       <div class="row-actions">
         <button type="submit" class="btn btn-primary" id="connectBtn">Connect Site</button>
       </div>
@@ -915,7 +963,9 @@ function dashboardHTML() {
           const url = formEl.querySelector('#siteUrl').value.trim();
           const appUsername = formEl.querySelector('#appUsername').value.trim();
           const appPassword = formEl.querySelector('#appPassword').value.trim();
-          await api('POST', '/api/sites', { url, appUsername, appPassword });
+          const brandVoiceOverride = (formEl.querySelector('#brandVoiceOverride').value || '').trim();
+          const requireApproval = formEl.querySelector('#requireApproval').checked;
+          await api('POST', '/api/sites', { url, appUsername, appPassword, brandVoiceOverride, requireApproval });
           showBanner('Site connected. Researching keywords now…', 'success');
           await load();
         } catch (err) {
@@ -941,9 +991,13 @@ function dashboardHTML() {
         '<span class="keyword-chip' + (k.picked ? ' picked' : '') + '" title="vol ' + k.volume + ' / KD ' + k.kd + ' / ' + escapeHTML(k.intent) + '">' + escapeHTML(k.keyword) + '</span>'
       ).join('') : '<span style="color:var(--deep);">No keywords yet. Click <em>Refresh keywords</em>.</span>';
 
+      const approvalBadge = site.requireApproval
+        ? '<span class="badge draft" style="margin-left:10px;vertical-align:middle;">Approval required</span>' : '';
+      const voiceOverrideLen = (site.brandVoiceOverride || '').length;
+
       return '<div class="panel">' +
         '<div class="site-header">' +
-          '<div><h2 style="margin:0;">' + escapeHTML(site.url) + '</h2>' +
+          '<div><h2 style="margin:0;display:inline;">' + escapeHTML(site.url) + '</h2>' + approvalBadge +
           '<div class="site-meta">' + (site.niche ? escapeHTML(site.niche.slice(0, 140)) : '<em>Niche learning…</em>') + '</div></div>' +
           '<div class="row-actions">' +
             '<button class="btn btn-primary" data-action="generate" data-site="' + site.id + '">Generate Article Now</button>' +
@@ -951,6 +1005,25 @@ function dashboardHTML() {
             '<button class="btn btn-danger" data-action="disconnect" data-site="' + site.id + '">Disconnect</button>' +
           '</div>' +
         '</div>' +
+        '<details style="margin-top:18px;border-top:1px solid var(--border);padding-top:14px;">' +
+          '<summary style="cursor:pointer;color:var(--muted);font-family:\\'Rajdhani\\',sans-serif;font-size:0.82rem;letter-spacing:0.1em;text-transform:uppercase;">Settings</summary>' +
+          '<form data-settings-site="' + site.id + '" style="display:grid;gap:14px;margin-top:14px;max-width:640px;">' +
+            '<div>' +
+              '<label>Brand voice override</label>' +
+              '<textarea name="brandVoiceOverride" rows="5" placeholder="Optional. Paste 200–500 words that capture the voice." style="width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:\\'Outfit\\',sans-serif;font-size:0.95rem;resize:vertical;">' + escapeHTML(site.brandVoiceOverride || '') + '</textarea>' +
+              '<p class="help" style="margin-top:6px;">' + (voiceOverrideLen ? voiceOverrideLen + ' chars — overriding the auto-crawled voice.' : 'Empty — using the auto-crawled homepage as the voice sample.') + '</p>' +
+            '</div>' +
+            '<label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);">' +
+              '<input type="checkbox" name="requireApproval"' + (site.requireApproval ? ' checked' : '') + ' style="margin-top:4px;">' +
+              '<span><strong>Require approval on every article</strong><br><span style="color:var(--muted);font-size:0.85rem;">Locks this site to draft-only. Recommended for YMYL clients.</span></span>' +
+            '</label>' +
+            '<label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:' + (site.requireApproval ? 'var(--deep)' : 'var(--text)') + ';">' +
+              '<input type="checkbox" name="autoPublish"' + (site.autoPublish ? ' checked' : '') + (site.requireApproval ? ' disabled' : '') + ' style="margin-top:4px;">' +
+              '<span><strong>Auto-publish</strong><br><span style="color:var(--muted);font-size:0.85rem;">Publish directly (skip draft). ' + (site.requireApproval ? 'Disabled while approval is required.' : 'Off by default.') + '</span></span>' +
+            '</label>' +
+            '<div class="row-actions"><button type="submit" class="btn btn-ghost">Save settings</button></div>' +
+          '</form>' +
+        '</details>' +
         '<h3 style="margin-top:24px;">Keyword Queue</h3>' +
         '<div>' + keywordChips + '</div>' +
         '<h3 style="margin-top:24px;">Articles</h3>' +
@@ -993,9 +1066,31 @@ function dashboardHTML() {
         attachConnectForm(document.getElementById('connectForm'));
 
         root.addEventListener('click', onAction, { once: false });
+        root.querySelectorAll('form[data-settings-site]').forEach(attachSettingsForm);
       } catch (err) {
         root.innerHTML = '<div class="panel"><h2>Couldn\\'t load your dashboard</h2><p class="lede">' + escapeHTML(err.message) + '</p><a class="btn btn-primary" href="/">Reload</a></div>';
       }
+    }
+
+    function attachSettingsForm(form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const siteId = form.dataset.settingsSite;
+        const btn = form.querySelector('button[type=submit]');
+        btn.disabled = true; btn.innerHTML = '<span class="loader"></span>Saving…';
+        try {
+          await api('PATCH', '/api/sites/' + siteId, {
+            brandVoiceOverride: form.querySelector('textarea[name=brandVoiceOverride]').value,
+            requireApproval: form.querySelector('input[name=requireApproval]').checked,
+            autoPublish: form.querySelector('input[name=autoPublish]').checked,
+          });
+          showBanner('Settings saved.', 'success');
+          await load();
+        } catch (err) {
+          showBanner(err.message, 'error');
+          btn.disabled = false; btn.textContent = 'Save settings';
+        }
+      });
     }
 
     async function onAction(e) {
