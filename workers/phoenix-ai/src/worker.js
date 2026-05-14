@@ -1,0 +1,1032 @@
+/**
+ * Phoenix AI — SEO Content Autopilot
+ *
+ * Self-serve SaaS: customer signs up with email, connects a WordPress site
+ * (URL + application password), and Phoenix AI researches keywords, writes
+ * SEO articles via Claude, and pushes them to WordPress.
+ *
+ * Routes:
+ *   POST /auth/request                  — { email }; sends magic link
+ *   GET  /auth/verify?t=                — sets session cookie, redirects to /app/
+ *   GET  /auth/logout                   — clears cookie
+ *   GET  /app/                          — dashboard SPA (HTML shell)
+ *   GET  /api/me                        — current customer + sites
+ *   POST /api/sites                     — { url, appUsername, appPassword }; connect site
+ *   DEL  /api/sites/:siteId             — disconnect site
+ *   POST /api/sites/:siteId/research    — kick off keyword research (Ahrefs)
+ *   GET  /api/sites/:siteId/keywords    — list researched keywords
+ *   POST /api/sites/:siteId/generate    — generate one article now (manual)
+ *   GET  /api/sites/:siteId/articles    — list generated articles
+ *   GET  /api/sites/:siteId/articles/:articleId  — single article detail
+ *   scheduled                           — daily cron, processes one article per active site
+ *
+ * KV layout:
+ *   CUSTOMERS: email                       → { email, plan, trialEnds, createdAt }
+ *   SITES:     site:<siteId>               → { id, ownerEmail, url, appUsername, appPassword, niche, brandVoice, status, createdAt }
+ *              owner:<email>               → [siteId, ...]
+ *   KEYWORDS:  kws:<siteId>                → [{ keyword, volume, kd, intent, picked, pickedAt }, ...]
+ *   ARTICLES:  art:<siteId>:<articleId>    → { id, siteId, keyword, title, slug, meta, html, status, wpPostId, wpEditUrl, generatedAt, publishedAt, model, tokens }
+ *              list:<siteId>               → [articleId, ...]   (newest first)
+ *   AUDIT_LOG: log:<siteId>:<ts>           → { event, detail }   (TTL 30d)
+ *   RATE_LIMIT: rl:<ip>                    → request count
+ */
+
+const COOKIE_NAME = 'phoenix_ai_session';
+const MAGIC_TTL_SECONDS = 15 * 60;
+const RATE_LIMIT_MAX = 5;
+const RATE_LIMIT_WINDOW = 600;
+const AUDIT_TTL_SECONDS = 30 * 24 * 3600;
+const TEXT_ENCODER = new TextEncoder();
+
+// ──────────────────────────────────────────────────────────────
+// Crypto
+
+async function hmacKey(secret) {
+  return crypto.subtle.importKey('raw', TEXT_ENCODER.encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign', 'verify']);
+}
+function b64urlEncode(bytes) {
+  const s = typeof bytes === 'string' ? bytes : String.fromCharCode(...new Uint8Array(bytes));
+  return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+function b64urlDecode(s) {
+  s = s.replace(/-/g, '+').replace(/_/g, '/');
+  while (s.length % 4) s += '=';
+  return atob(s);
+}
+async function signToken(payload, secret) {
+  const body = b64urlEncode(JSON.stringify(payload));
+  const key = await hmacKey(secret);
+  const sig = await crypto.subtle.sign('HMAC', key, TEXT_ENCODER.encode(body));
+  return `${body}.${b64urlEncode(sig)}`;
+}
+async function verifyToken(token, secret) {
+  if (!token || typeof token !== 'string' || !token.includes('.')) return null;
+  const [body, sig] = token.split('.');
+  if (!body || !sig) return null;
+  const key = await hmacKey(secret);
+  const sigBytes = Uint8Array.from(b64urlDecode(sig), (c) => c.charCodeAt(0));
+  const ok = await crypto.subtle.verify('HMAC', key, sigBytes, TEXT_ENCODER.encode(body));
+  if (!ok) return null;
+  try {
+    const payload = JSON.parse(b64urlDecode(body));
+    if (payload.exp && payload.exp < Math.floor(Date.now() / 1000)) return null;
+    return payload;
+  } catch { return null; }
+}
+
+// AES-GCM for app passwords (we don't want plaintext WP passwords in KV)
+async function aesKey(secret) {
+  const hash = await crypto.subtle.digest('SHA-256', TEXT_ENCODER.encode(secret + ':aes'));
+  return crypto.subtle.importKey('raw', hash, { name: 'AES-GCM' }, false, ['encrypt', 'decrypt']);
+}
+async function encryptSecret(plain, secret) {
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const key = await aesKey(secret);
+  const ct = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, TEXT_ENCODER.encode(plain));
+  return `${b64urlEncode(iv)}.${b64urlEncode(ct)}`;
+}
+async function decryptSecret(blob, secret) {
+  if (!blob || !blob.includes('.')) return null;
+  const [ivPart, ctPart] = blob.split('.');
+  const iv = Uint8Array.from(b64urlDecode(ivPart), (c) => c.charCodeAt(0));
+  const ct = Uint8Array.from(b64urlDecode(ctPart), (c) => c.charCodeAt(0));
+  const key = await aesKey(secret);
+  const pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, ct);
+  return new TextDecoder().decode(pt);
+}
+
+// ──────────────────────────────────────────────────────────────
+// Helpers
+
+function validEmail(email) { return typeof email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
+function uuid() {
+  return crypto.randomUUID ? crypto.randomUUID() : 'x' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+}
+function nowIso() { return new Date().toISOString(); }
+function getCookie(request, name) {
+  const header = request.headers.get('Cookie') || '';
+  const match = header.split(';').map((c) => c.trim()).find((c) => c.startsWith(name + '='));
+  return match ? match.slice(name.length + 1) : null;
+}
+async function currentSession(request, env) {
+  const cookie = getCookie(request, COOKIE_NAME);
+  if (!cookie) return null;
+  const payload = await verifyToken(cookie, env.SESSION_SECRET);
+  return payload && payload.kind === 'session' ? payload : null;
+}
+async function rateLimitOk(env, ip, max = RATE_LIMIT_MAX) {
+  const key = `rl:${ip}`;
+  const current = parseInt((await env.RATE_LIMIT.get(key)) || '0', 10);
+  if (current >= max) return false;
+  await env.RATE_LIMIT.put(key, String(current + 1), { expirationTtl: RATE_LIMIT_WINDOW });
+  return true;
+}
+function json(data, status = 200) {
+  return new Response(JSON.stringify(data), { status, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' } });
+}
+async function audit(env, siteId, event, detail) {
+  if (!env.AUDIT_LOG) return;
+  const key = `log:${siteId}:${Date.now()}`;
+  await env.AUDIT_LOG.put(key, JSON.stringify({ event, detail, at: nowIso() }), { expirationTtl: AUDIT_TTL_SECONDS });
+}
+
+// ──────────────────────────────────────────────────────────────
+// Data model
+
+async function getOrCreateCustomer(env, email) {
+  const existing = await env.CUSTOMERS.get(email);
+  if (existing) return JSON.parse(existing);
+  const trialDays = parseInt(env.TRIAL_DAYS || '7', 10);
+  const customer = {
+    email,
+    plan: env.DEFAULT_PLAN || 'trial',
+    trialEnds: new Date(Date.now() + trialDays * 86400e3).toISOString(),
+    createdAt: nowIso(),
+  };
+  await env.CUSTOMERS.put(email, JSON.stringify(customer));
+  return customer;
+}
+
+async function listSitesForOwner(env, email) {
+  const idsRaw = await env.SITES.get(`owner:${email}`);
+  const ids = idsRaw ? JSON.parse(idsRaw) : [];
+  const sites = await Promise.all(ids.map(async (id) => {
+    const raw = await env.SITES.get(`site:${id}`);
+    return raw ? JSON.parse(raw) : null;
+  }));
+  return sites.filter(Boolean).map(stripSiteSecrets);
+}
+function stripSiteSecrets(site) {
+  const { appPassword, ...safe } = site;
+  return { ...safe, hasCredentials: Boolean(appPassword) };
+}
+async function getSite(env, siteId, owner) {
+  const raw = await env.SITES.get(`site:${siteId}`);
+  if (!raw) return null;
+  const site = JSON.parse(raw);
+  if (owner && site.ownerEmail !== owner) return null;
+  return site;
+}
+async function saveSite(env, site) {
+  await env.SITES.put(`site:${site.id}`, JSON.stringify(site));
+}
+async function addSiteToOwner(env, email, siteId) {
+  const raw = await env.SITES.get(`owner:${email}`);
+  const ids = raw ? JSON.parse(raw) : [];
+  if (!ids.includes(siteId)) ids.push(siteId);
+  await env.SITES.put(`owner:${email}`, JSON.stringify(ids));
+}
+async function removeSiteFromOwner(env, email, siteId) {
+  const raw = await env.SITES.get(`owner:${email}`);
+  const ids = raw ? JSON.parse(raw) : [];
+  await env.SITES.put(`owner:${email}`, JSON.stringify(ids.filter((id) => id !== siteId)));
+}
+
+// ──────────────────────────────────────────────────────────────
+// Site learning — pulls homepage HTML to infer niche + brand voice
+
+async function learnSite(siteUrl) {
+  try {
+    const res = await fetch(siteUrl, { headers: { 'User-Agent': 'PhoenixAI/1.0 (+https://phoenixmethodseo.com/phoenix-ai/)' }, redirect: 'follow' });
+    if (!res.ok) return { niche: '', brandVoice: '', sample: '' };
+    const html = await res.text();
+    const title = (html.match(/<title[^>]*>([^<]+)<\/title>/i) || [, ''])[1].trim();
+    const description = (html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i) || [, ''])[1].trim();
+    const text = html
+      .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+      .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .slice(0, 6000);
+    return { niche: `${title} — ${description}`.trim(), brandVoice: text, sample: text.slice(0, 2000) };
+  } catch (err) {
+    return { niche: '', brandVoice: '', sample: '', error: String(err) };
+  }
+}
+
+// ──────────────────────────────────────────────────────────────
+// Pipeline: keyword research (Ahrefs API v3)
+
+async function ahrefsKeywords(env, niche, domain) {
+  if (!env.AHREFS_API_KEY) {
+    // Fallback: stubbed keyword list derived from niche so the pipeline still
+    // works in dev environments without an Ahrefs key. Real keys produce real
+    // research; this is just enough to keep the article generator unblocked.
+    const seed = (niche || domain || 'business').toLowerCase().replace(/[^a-z0-9 ]/g, '').split(/\s+/).filter(Boolean).slice(0, 4);
+    const base = seed.join(' ') || 'small business';
+    return [
+      { keyword: `best ${base} services`, volume: 1200, kd: 18, intent: 'commercial' },
+      { keyword: `how to choose a ${base} provider`, volume: 900, kd: 14, intent: 'informational' },
+      { keyword: `${base} pricing guide`, volume: 700, kd: 12, intent: 'commercial' },
+      { keyword: `${base} vs alternatives`, volume: 500, kd: 16, intent: 'commercial' },
+      { keyword: `${base} checklist`, volume: 400, kd: 10, intent: 'informational' },
+      { keyword: `${base} mistakes to avoid`, volume: 350, kd: 9, intent: 'informational' },
+    ];
+  }
+  // Real Ahrefs v3 call: keywords-explorer matching terms for the niche seed.
+  const seed = (niche || domain).split(/[—\-|]/)[0].trim().slice(0, 80) || 'small business';
+  const params = new URLSearchParams({
+    keywords: seed,
+    country: 'us',
+    limit: '50',
+    select: 'keyword,volume,difficulty,intent',
+    order_by: 'volume:desc',
+  });
+  const res = await fetch(`https://api.ahrefs.com/v3/keywords-explorer/matching-terms?${params}`, {
+    headers: { 'Authorization': `Bearer ${env.AHREFS_API_KEY}`, 'Accept': 'application/json' },
+  });
+  if (!res.ok) {
+    console.error('ahrefs failed', res.status, await res.text().catch(() => ''));
+    return [];
+  }
+  const data = await res.json().catch(() => ({}));
+  const rows = (data.keywords || data.data || data.results || []).slice(0, 30);
+  return rows.map((r) => ({
+    keyword: r.keyword || r.term,
+    volume: r.volume || r.search_volume || 0,
+    kd: r.difficulty || r.keyword_difficulty || 0,
+    intent: r.intent || (Array.isArray(r.intents) ? r.intents[0] : 'informational'),
+  })).filter((k) => k.keyword);
+}
+
+function scoreKeyword(k) {
+  // Buyer-intent first, then opportunity (high volume / low difficulty).
+  const intentBonus = k.intent === 'commercial' || k.intent === 'transactional' ? 50 : 0;
+  const kd = Math.max(1, k.kd || 1);
+  return intentBonus + Math.log2((k.volume || 0) + 1) * 10 - kd;
+}
+
+async function researchAndStoreKeywords(env, site) {
+  const raw = await ahrefsKeywords(env, site.niche, new URL(site.url).hostname);
+  const ranked = raw
+    .map((k) => ({ ...k, score: scoreKeyword(k), picked: false, pickedAt: null }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 25);
+  await env.KEYWORDS.put(`kws:${site.id}`, JSON.stringify(ranked));
+  await audit(env, site.id, 'keywords.refreshed', { count: ranked.length });
+  return ranked;
+}
+
+async function pickNextKeyword(env, siteId) {
+  const raw = await env.KEYWORDS.get(`kws:${siteId}`);
+  if (!raw) return null;
+  const list = JSON.parse(raw);
+  const next = list.find((k) => !k.picked);
+  if (!next) return null;
+  next.picked = true;
+  next.pickedAt = nowIso();
+  await env.KEYWORDS.put(`kws:${siteId}`, JSON.stringify(list));
+  return next;
+}
+
+// ──────────────────────────────────────────────────────────────
+// Pipeline: article generation (Anthropic Claude)
+
+function buildArticlePrompt({ keyword, site }) {
+  const intent = (keyword.intent || 'informational').toLowerCase();
+  const niche = site.niche || 'general business';
+  const voiceSample = (site.brandVoice || '').slice(0, 1500);
+  return {
+    system: `You are a senior SEO content writer at Phoenix Method, a working SEO agency. Your job is to write a single long-form article that ranks on Google and converts readers.
+
+Style guardrails:
+- 1,500–2,500 words.
+- Plain English, no SEO-speak, no keyword stuffing, no marketing fluff.
+- Match the brand voice sample given to you in word choice, sentence rhythm, and POV.
+- Use proper H-hierarchy: one H1 (matches title), 4–8 H2s, optional H3s.
+- Open with a punchy 2–3 sentence intro that answers the core question immediately.
+- Include a "Frequently Asked Questions" section with 4–6 Q&As at the end.
+- Cite a source by name when stating a statistic (don't fabricate numbers — if you don't know one, drop the stat).
+- Never use the word "delve". Avoid corporate buzzwords ("leverage", "synergy", "unlock", "elevate").
+- No em-dash overuse. No bullet-list spam — only when listing actual discrete items.
+
+You MUST respond with a single JSON object (no prose, no code fences) matching this schema exactly:
+{
+  "title":        string  // SEO meta title, 50–60 chars
+  "slug":         string  // url-safe slug
+  "metaDescription": string  // 140–160 chars
+  "html":         string  // article body as HTML (no <html>/<head>/<body>, just content starting with <p> or <h2>)
+  "tags":         string[]  // 3–6 tags
+  "faqs":         [{ "q": string, "a": string }]  // matches the FAQ section in html
+}`,
+    user: `Write the article for this target:
+
+Target keyword: "${keyword.keyword}"
+Search intent: ${intent}
+Search volume: ${keyword.volume || 'unknown'}
+Keyword difficulty: ${keyword.kd || 'unknown'}/100
+
+Site niche: ${niche}
+Site URL: ${site.url}
+
+Brand voice sample (write in this voice):
+"""
+${voiceSample}
+"""
+
+Return only the JSON object.`,
+  };
+}
+
+async function callClaude(env, { system, user }) {
+  if (!env.ANTHROPIC_API_KEY) {
+    // Dev fallback so the pipeline is testable without secrets configured.
+    const stub = {
+      title: 'Sample article generated without ANTHROPIC_API_KEY',
+      slug: 'sample-article',
+      metaDescription: 'This is a stub article. Set the ANTHROPIC_API_KEY secret on the worker to generate real content.',
+      html: '<p>This is a stub. The Phoenix AI worker generated this article without an ANTHROPIC_API_KEY configured. Add the secret and re-run.</p>',
+      tags: ['phoenix-ai', 'stub'],
+      faqs: [{ q: 'Why is this article a stub?', a: 'Because ANTHROPIC_API_KEY is not set on the worker yet.' }],
+    };
+    return { ok: true, content: stub, tokens: { input: 0, output: 0 }, model: 'stub' };
+  }
+  const model = env.ANTHROPIC_MODEL || 'claude-opus-4-7';
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'x-api-key': env.ANTHROPIC_API_KEY,
+      'anthropic-version': '2023-06-01',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      model,
+      max_tokens: 8000,
+      system,
+      messages: [{ role: 'user', content: user }],
+    }),
+  });
+  if (!res.ok) {
+    const errBody = await res.text().catch(() => '');
+    return { ok: false, error: `claude ${res.status}: ${errBody.slice(0, 400)}` };
+  }
+  const data = await res.json();
+  const text = (data.content || []).map((c) => c.text || '').join('').trim();
+  // Strip code fences if Claude added them despite our instructions.
+  const cleaned = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
+  let parsed;
+  try { parsed = JSON.parse(cleaned); }
+  catch (err) { return { ok: false, error: `failed to parse model output: ${err.message}`, raw: text.slice(0, 500) }; }
+  return { ok: true, content: parsed, tokens: { input: data.usage?.input_tokens || 0, output: data.usage?.output_tokens || 0 }, model };
+}
+
+// ──────────────────────────────────────────────────────────────
+// Pipeline: WordPress REST publish
+
+async function wpPublish(env, site, article, status = 'draft') {
+  const appPassword = await decryptSecret(site.appPassword, env.SESSION_SECRET);
+  if (!appPassword || !site.appUsername) return { ok: false, error: 'missing WP credentials' };
+
+  const base = site.url.replace(/\/+$/, '');
+  const endpoint = `${base}/wp-json/wp/v2/posts`;
+  const auth = 'Basic ' + btoa(`${site.appUsername}:${appPassword}`);
+
+  const payload = {
+    title: article.title,
+    slug: article.slug,
+    content: article.html,
+    excerpt: article.metaDescription,
+    status,
+  };
+
+  const res = await fetch(endpoint, {
+    method: 'POST',
+    headers: { 'Authorization': auth, 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const body = await res.text().catch(() => '');
+    return { ok: false, error: `wp ${res.status}: ${body.slice(0, 400)}` };
+  }
+  const data = await res.json();
+  return {
+    ok: true,
+    wpPostId: data.id,
+    wpEditUrl: `${base}/wp-admin/post.php?post=${data.id}&action=edit`,
+    publicUrl: data.link,
+  };
+}
+
+// ──────────────────────────────────────────────────────────────
+// Pipeline: full run
+
+async function runPipeline(env, site, opts = {}) {
+  const startedAt = nowIso();
+  await audit(env, site.id, 'pipeline.start', { manual: Boolean(opts.manual) });
+
+  // 1. Make sure we have keywords to pick from.
+  let kwListRaw = await env.KEYWORDS.get(`kws:${site.id}`);
+  let kwList = kwListRaw ? JSON.parse(kwListRaw) : [];
+  if (!kwList.length || kwList.every((k) => k.picked)) {
+    kwList = await researchAndStoreKeywords(env, site);
+  }
+
+  // 2. Pick the next keyword.
+  const keyword = await pickNextKeyword(env, site.id);
+  if (!keyword) {
+    await audit(env, site.id, 'pipeline.error', { reason: 'no keywords available' });
+    return { ok: false, error: 'No keywords available for this site.' };
+  }
+
+  // 3. Generate article via Claude.
+  const prompt = buildArticlePrompt({ keyword, site });
+  const claudeResult = await callClaude(env, prompt);
+  if (!claudeResult.ok) {
+    await audit(env, site.id, 'pipeline.error', { stage: 'claude', error: claudeResult.error });
+    return { ok: false, error: claudeResult.error };
+  }
+  const article = claudeResult.content;
+
+  // 4. Publish to WordPress (draft by default).
+  const publishStatus = site.autoPublish ? 'publish' : 'draft';
+  const wpResult = await wpPublish(env, site, article, publishStatus);
+
+  // 5. Persist article record.
+  const articleId = uuid();
+  const record = {
+    id: articleId,
+    siteId: site.id,
+    keyword: keyword.keyword,
+    title: article.title,
+    slug: article.slug,
+    metaDescription: article.metaDescription,
+    html: article.html,
+    tags: article.tags || [],
+    faqs: article.faqs || [],
+    status: wpResult.ok ? publishStatus : 'failed',
+    wpPostId: wpResult.wpPostId || null,
+    wpEditUrl: wpResult.wpEditUrl || null,
+    publicUrl: wpResult.publicUrl || null,
+    publishError: wpResult.ok ? null : wpResult.error,
+    generatedAt: startedAt,
+    publishedAt: wpResult.ok ? nowIso() : null,
+    model: claudeResult.model,
+    tokens: claudeResult.tokens,
+    manual: Boolean(opts.manual),
+  };
+  await env.ARTICLES.put(`art:${site.id}:${articleId}`, JSON.stringify(record));
+
+  // Maintain a per-site newest-first index.
+  const indexRaw = await env.ARTICLES.get(`list:${site.id}`);
+  const index = indexRaw ? JSON.parse(indexRaw) : [];
+  index.unshift(articleId);
+  await env.ARTICLES.put(`list:${site.id}`, JSON.stringify(index.slice(0, 500)));
+
+  await audit(env, site.id, 'pipeline.done', { articleId, keyword: keyword.keyword, wpOk: wpResult.ok });
+
+  return { ok: true, article: record };
+}
+
+// ──────────────────────────────────────────────────────────────
+// Email (Resend)
+
+function emailTemplate({ magicUrl }) {
+  const subject = `Your Phoenix AI sign-in link`;
+  const text = `Click this link to sign in to Phoenix AI:
+
+${magicUrl}
+
+This link is valid for 15 minutes. After you sign in, your browser will remember you for 30 days.
+
+If you didn't request this, you can safely ignore it.
+
+— Phoenix AI
+hello@phoenixmethodseo.com`;
+  const html = `<!DOCTYPE html><html><body style="margin:0;padding:0;background:#07070D;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#07070D;padding:32px 16px;">
+  <tr><td align="center">
+    <table role="presentation" width="560" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;background:#131320;border:1px solid rgba(255,255,255,0.08);border-radius:16px;overflow:hidden;">
+      <tr><td style="padding:32px 36px 8px;background:linear-gradient(135deg,#FF4D00,#FF8C00,#FFB800);">
+        <div style="font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:#fff;letter-spacing:0.04em;">PHOENIX AI</div>
+      </td></tr>
+      <tr><td style="padding:36px;color:#F0EDE6;">
+        <h1 style="margin:0 0 12px;font-size:22px;font-weight:600;color:#F0EDE6;">Your sign-in link</h1>
+        <p style="margin:0 0 24px;color:#A8A49C;font-size:15px;line-height:1.6;">Click below to sign in to your Phoenix AI dashboard. This link is valid for 15 minutes.</p>
+        <p style="margin:0 0 28px;"><a href="${magicUrl}" style="display:inline-block;padding:14px 32px;background:linear-gradient(135deg,#FF4D00,#FF8C00);color:#fff;text-decoration:none;font-weight:700;font-size:14px;letter-spacing:0.12em;text-transform:uppercase;border-radius:8px;">Sign in to Phoenix AI &rarr;</a></p>
+        <p style="margin:0 0 8px;color:#6B6860;font-size:13px;line-height:1.6;">Or paste this URL in your browser:</p>
+        <p style="margin:0 0 24px;color:#A8A49C;font-size:13px;word-break:break-all;">${magicUrl}</p>
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.08);margin:24px 0;">
+        <p style="margin:0;color:#6B6860;font-size:12px;line-height:1.6;">If you didn't request this, ignore it — your account stays safe.</p>
+      </td></tr>
+      <tr><td style="padding:20px 36px;background:#0E0E18;color:#6B6860;font-size:12px;text-align:center;">
+        Phoenix AI &bull; <a href="mailto:hello@phoenixmethodseo.com" style="color:#FF8C00;text-decoration:none;">hello@phoenixmethodseo.com</a>
+      </td></tr>
+    </table>
+  </td></tr>
+</table>
+</body></html>`;
+  return { subject, text, html };
+}
+
+async function sendViaResend({ env, to, subject, text, html }) {
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ from: `${env.FROM_NAME} <${env.FROM_EMAIL}>`, to: [to], subject, text, html }),
+  });
+  if (!res.ok) throw new Error(`Resend ${res.status}: ${await res.text()}`);
+}
+
+// ──────────────────────────────────────────────────────────────
+// Router
+
+export default {
+  async fetch(request, env, ctx) {
+    const url = new URL(request.url);
+    const path = url.pathname;
+
+    // Permissive CORS for the marketing page calling /auth/request from phoenixmethodseo.com.
+    if (request.method === 'OPTIONS') return cors(new Response(null, { status: 204 }));
+
+    if (path === '/auth/request' && request.method === 'POST') return cors(await handleAuthRequest(request, env, url));
+    if (path === '/auth/verify') return await handleAuthVerify(request, env, url);
+    if (path === '/auth/logout') return logout();
+
+    if (path.startsWith('/api/')) return cors(await apiRouter(request, env, url, path));
+
+    if (path === '/app' || path === '/app/' || path.startsWith('/app/')) {
+      return new Response(dashboardHTML(), { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } });
+    }
+
+    if (path === '/' || path === '') {
+      const session = await currentSession(request, env);
+      if (session) return Response.redirect(`${url.origin}/app/`, 302);
+      // Anonymous: bounce to the marketing page.
+      return Response.redirect('https://phoenixmethodseo.com/phoenix-ai/', 302);
+    }
+
+    return new Response('Not Found', { status: 404 });
+  },
+
+  async scheduled(event, env, ctx) {
+    // Phase 2 entry point: walk every active site and run the pipeline once.
+    // Phase 1 leaves this as a no-op so we don't burn API credits before the
+    // dashboard is ready.
+    if (env.CRON_ENABLED !== 'true') return;
+    const list = await env.SITES.list({ prefix: 'site:' });
+    for (const k of list.keys) {
+      const raw = await env.SITES.get(k.name);
+      if (!raw) continue;
+      const site = JSON.parse(raw);
+      if (site.status !== 'active' || !site.appPassword) continue;
+      try {
+        await runPipeline(env, site, { manual: false });
+      } catch (err) {
+        await audit(env, site.id, 'pipeline.crash', { error: String(err) });
+      }
+    }
+  },
+};
+
+function cors(res) {
+  const h = new Headers(res.headers);
+  h.set('Access-Control-Allow-Origin', 'https://phoenixmethodseo.com');
+  h.set('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS');
+  h.set('Access-Control-Allow-Headers', 'Content-Type');
+  h.set('Access-Control-Allow-Credentials', 'true');
+  return new Response(res.body, { status: res.status, headers: h });
+}
+
+function logout() {
+  return new Response(null, {
+    status: 302,
+    headers: {
+      'Location': '/',
+      'Set-Cookie': `${COOKIE_NAME}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`,
+    },
+  });
+}
+
+// ──────────────────────────────────────────────────────────────
+// Auth handlers
+
+async function handleAuthRequest(request, env, url) {
+  const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+  if (!(await rateLimitOk(env, ip))) return json({ ok: true });
+
+  let body;
+  try { body = await request.json(); } catch { return new Response('Bad JSON', { status: 400 }); }
+  const email = (body.email || '').toString().trim().toLowerCase();
+  if (!validEmail(email)) return new Response('Bad email', { status: 400 });
+
+  // Phoenix AI is self-serve — anyone with a real email can sign up. We
+  // upsert the customer record on first sign-in (in handleAuthVerify).
+  const exp = Math.floor(Date.now() / 1000) + MAGIC_TTL_SECONDS;
+  const token = await signToken({ kind: 'magic', email, exp }, env.SESSION_SECRET);
+  const magicUrl = `${url.origin}/auth/verify?t=${encodeURIComponent(token)}`;
+  try {
+    const { subject, text, html } = emailTemplate({ magicUrl });
+    await sendViaResend({ env, to: email, subject, text, html });
+  } catch (err) {
+    console.error('resend send failed', err);
+  }
+  return json({ ok: true });
+}
+
+async function handleAuthVerify(request, env, url) {
+  const token = url.searchParams.get('t');
+  const payload = await verifyToken(token, env.SESSION_SECRET);
+  if (!payload || payload.kind !== 'magic' || !validEmail(payload.email)) {
+    return new Response(verifyErrorHTML('This link is expired or invalid. Request a new one from the homepage.'), {
+      status: 400, headers: { 'Content-Type': 'text/html; charset=utf-8' },
+    });
+  }
+  await getOrCreateCustomer(env, payload.email);
+  const sessionDays = parseInt(env.SESSION_DAYS || '30', 10);
+  const sessionExp = Math.floor(Date.now() / 1000) + sessionDays * 86400;
+  const sessionToken = await signToken({ kind: 'session', email: payload.email, exp: sessionExp }, env.SESSION_SECRET);
+  return new Response(null, {
+    status: 302,
+    headers: {
+      'Location': '/app/',
+      'Set-Cookie': `${COOKIE_NAME}=${sessionToken}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${sessionDays * 86400}`,
+    },
+  });
+}
+
+// ──────────────────────────────────────────────────────────────
+// API router (all routes require a session)
+
+async function apiRouter(request, env, url, path) {
+  const session = await currentSession(request, env);
+  if (!session) return json({ error: 'unauthorized' }, 401);
+  const email = session.email;
+
+  if (path === '/api/me' && request.method === 'GET') {
+    const customer = await getOrCreateCustomer(env, email);
+    const sites = await listSitesForOwner(env, email);
+    return json({ customer, sites });
+  }
+
+  if (path === '/api/sites' && request.method === 'POST') {
+    let body; try { body = await request.json(); } catch { return json({ error: 'bad json' }, 400); }
+    const siteUrl = (body.url || '').toString().trim().replace(/\/+$/, '');
+    const appUsername = (body.appUsername || '').toString().trim();
+    const appPasswordPlain = (body.appPassword || '').toString().trim();
+    if (!/^https?:\/\//.test(siteUrl)) return json({ error: 'site URL must start with http(s)://' }, 400);
+    if (!appUsername || !appPasswordPlain) return json({ error: 'WordPress username and application password are required' }, 400);
+
+    const learned = await learnSite(siteUrl);
+    const id = uuid();
+    const site = {
+      id,
+      ownerEmail: email,
+      url: siteUrl,
+      appUsername,
+      appPassword: await encryptSecret(appPasswordPlain, env.SESSION_SECRET),
+      niche: learned.niche,
+      brandVoice: learned.brandVoice,
+      autoPublish: false,
+      status: 'active',
+      createdAt: nowIso(),
+    };
+    await saveSite(env, site);
+    await addSiteToOwner(env, email, id);
+    await audit(env, id, 'site.connected', { url: siteUrl, learnedChars: learned.brandVoice.length });
+
+    // Kick off keyword research immediately so the customer sees data on first dashboard load.
+    try { await researchAndStoreKeywords(env, site); }
+    catch (err) { await audit(env, id, 'keywords.error', { error: String(err) }); }
+
+    return json({ ok: true, site: stripSiteSecrets(site) });
+  }
+
+  // Per-site routes
+  const siteMatch = path.match(/^\/api\/sites\/([a-z0-9-]+)(?:\/(.+))?$/i);
+  if (siteMatch) {
+    const siteId = siteMatch[1];
+    const sub = siteMatch[2] || '';
+    const site = await getSite(env, siteId, email);
+    if (!site) return json({ error: 'not found' }, 404);
+
+    if (sub === '' && request.method === 'DELETE') {
+      await env.SITES.delete(`site:${siteId}`);
+      await removeSiteFromOwner(env, email, siteId);
+      await env.KEYWORDS.delete(`kws:${siteId}`);
+      return json({ ok: true });
+    }
+
+    if (sub === 'research' && request.method === 'POST') {
+      const list = await researchAndStoreKeywords(env, site);
+      return json({ ok: true, count: list.length, keywords: list });
+    }
+
+    if (sub === 'keywords' && request.method === 'GET') {
+      const raw = await env.KEYWORDS.get(`kws:${siteId}`);
+      return json({ keywords: raw ? JSON.parse(raw) : [] });
+    }
+
+    if (sub === 'generate' && request.method === 'POST') {
+      // Long-running — Cloudflare gives us ~30s of CPU/IO per request which
+      // is enough for one Claude call. If we need more, we'd offload to a
+      // queue + websocket; not in Phase 1.
+      const result = await runPipeline(env, site, { manual: true });
+      return result.ok ? json({ ok: true, article: result.article }) : json({ ok: false, error: result.error }, 500);
+    }
+
+    if (sub === 'articles' && request.method === 'GET') {
+      const indexRaw = await env.ARTICLES.get(`list:${siteId}`);
+      const ids = indexRaw ? JSON.parse(indexRaw) : [];
+      const items = await Promise.all(ids.slice(0, 50).map(async (id) => {
+        const raw = await env.ARTICLES.get(`art:${siteId}:${id}`);
+        if (!raw) return null;
+        const a = JSON.parse(raw);
+        // Strip the heavy html body from the list response.
+        const { html, ...summary } = a;
+        return summary;
+      }));
+      return json({ articles: items.filter(Boolean) });
+    }
+
+    const articleMatch = sub.match(/^articles\/([a-z0-9-]+)$/i);
+    if (articleMatch && request.method === 'GET') {
+      const raw = await env.ARTICLES.get(`art:${siteId}:${articleMatch[1]}`);
+      if (!raw) return json({ error: 'not found' }, 404);
+      return json({ article: JSON.parse(raw) });
+    }
+  }
+
+  return json({ error: 'not found' }, 404);
+}
+
+// ──────────────────────────────────────────────────────────────
+// HTML
+
+function verifyErrorHTML(msg) {
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Sign-in error — Phoenix AI</title>
+<style>body{font-family:system-ui,sans-serif;background:#07070D;color:#F0EDE6;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:24px}.card{background:#131320;border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:36px;max-width:420px;text-align:center}h1{color:#FF8C00;margin:0 0 12px}p{color:#A8A49C;margin:0 0 18px}a{display:inline-block;padding:12px 24px;background:linear-gradient(135deg,#FF4D00,#FF8C00);color:#fff;border-radius:8px;text-decoration:none;font-weight:700}</style>
+</head><body><div class="card"><h1>Sign-in link not valid</h1><p>${msg}</p><a href="https://phoenixmethodseo.com/phoenix-ai/#signup">Get a new link</a></div></body></html>`;
+}
+
+function dashboardHTML() {
+  // Server-rendered shell. JS fetches /api/me and renders the rest client-side.
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phoenix AI Dashboard</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/x-icon" href="https://phoenixmethodseo.com/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@500;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#07070D; --surface:#0E0E18; --card:#131320; --border:rgba(255,255,255,0.08); --text:#F0EDE6; --muted:#A8A49C; --deep:#6B6860; --fire-s:#FF4D00; --fire-m:#FF8C00; --fire-e:#FFB800; --danger:#ff7373; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
+  a { color: var(--fire-m); text-decoration: none; }
+  a:hover { color: var(--fire-e); }
+  header.topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+  .brand { font-family: 'Cinzel', serif; font-weight: 900; font-size: 1.2rem; letter-spacing: 0.04em; background: linear-gradient(135deg, var(--fire-s), var(--fire-m), var(--fire-e)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .topbar-right { display: flex; align-items: center; gap: 16px; }
+  .topbar-right .email { color: var(--muted); font-size: 0.88rem; }
+  .topbar-right a.logout { font-family: 'Rajdhani', sans-serif; font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase; }
+  main { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
+  h1 { font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.8rem; margin-bottom: 6px; }
+  h2 { font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.25rem; margin: 32px 0 14px; }
+  h3 { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+  .lede { color: var(--muted); margin-bottom: 24px; }
+  .panel { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; margin-bottom: 20px; }
+  .panel.empty { text-align: center; padding: 40px 24px; }
+  .panel.empty h2 { margin-top: 0; }
+  .btn { display: inline-block; padding: 12px 22px; border-radius: 8px; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.88rem; letter-spacing: 0.1em; text-transform: uppercase; border: none; cursor: pointer; transition: transform .15s, box-shadow .2s; }
+  .btn-primary { background: linear-gradient(135deg, var(--fire-s), var(--fire-m)); color: #fff; }
+  .btn-primary:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(255,140,0,0.25); }
+  .btn-ghost { background: transparent; color: var(--fire-m); border: 1px solid var(--fire-m); }
+  .btn-ghost:hover { background: rgba(255,140,0,0.08); }
+  .btn-danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  form.connect { display: grid; gap: 14px; max-width: 560px; }
+  label { font-family: 'Rajdhani', sans-serif; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  input[type=text], input[type=url], input[type=password] { width: 100%; padding: 12px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: 'Outfit', sans-serif; font-size: 0.95rem; }
+  input:focus { outline: none; border-color: var(--fire-m); }
+  .help { color: var(--deep); font-size: 0.82rem; }
+  .help a { color: var(--muted); text-decoration: underline; }
+  .row-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .badge { display: inline-block; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
+  .badge.draft { background: rgba(255,140,0,0.15); color: var(--fire-m); border: 1px solid rgba(255,140,0,0.3); }
+  .badge.publish { background: rgba(120,220,140,0.12); color: #7fd693; border: 1px solid rgba(120,220,140,0.3); }
+  .badge.failed { background: rgba(255,77,77,0.12); color: var(--danger); border: 1px solid rgba(255,77,77,0.3); }
+  .site-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+  .site-meta { font-size: 0.88rem; color: var(--muted); margin-top: 4px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.92rem; }
+  table th, table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  table th { font-family: 'Rajdhani', sans-serif; font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--deep); font-weight: 600; }
+  table tr:last-child td { border-bottom: none; }
+  .keyword-chip { display: inline-block; padding: 4px 10px; margin: 3px; background: var(--bg); border: 1px solid var(--border); border-radius: 999px; font-size: 0.82rem; }
+  .keyword-chip.picked { opacity: 0.5; text-decoration: line-through; }
+  .status-banner { padding: 12px 16px; border-radius: 8px; margin-bottom: 14px; font-size: 0.92rem; display: none; }
+  .status-banner.show { display: block; }
+  .status-banner.success { background: rgba(120,220,140,0.08); border: 1px solid rgba(120,220,140,0.3); color: #b3edc1; }
+  .status-banner.error { background: rgba(255,77,77,0.08); border: 1px solid rgba(255,77,77,0.3); color: var(--danger); }
+  .status-banner.info { background: rgba(255,184,0,0.06); border: 1px solid rgba(255,184,0,0.25); color: var(--fire-m); }
+  .loader { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,140,0,0.3); border-top-color: var(--fire-m); border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 6px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .trial-banner { background: linear-gradient(135deg, rgba(255,77,0,0.1), rgba(255,184,0,0.05)); border: 1px solid rgba(255,140,0,0.25); border-radius: 12px; padding: 16px 20px; margin-bottom: 24px; font-size: 0.92rem; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">PHOENIX AI</div>
+    <div class="topbar-right">
+      <span class="email" id="topbarEmail">—</span>
+      <a class="logout" href="/auth/logout">Log out</a>
+    </div>
+  </header>
+  <main>
+    <div id="trialBanner" class="trial-banner" style="display:none;"></div>
+    <div id="statusBanner" class="status-banner"></div>
+    <div id="root">
+      <p class="lede"><span class="loader"></span> Loading your dashboard…</p>
+    </div>
+  </main>
+
+  <template id="emptyTemplate">
+    <div class="panel empty">
+      <h2>Connect Your First Site</h2>
+      <p class="lede">Phoenix AI needs to know where to publish. Connect a WordPress site and we'll start researching keywords for it immediately.</p>
+      <div id="connectFormSlot"></div>
+    </div>
+  </template>
+
+  <template id="connectFormTemplate">
+    <form class="connect" id="connectForm">
+      <div>
+        <label for="siteUrl">WordPress site URL</label>
+        <input type="url" id="siteUrl" required placeholder="https://yourblog.com">
+      </div>
+      <div>
+        <label for="appUsername">WordPress username</label>
+        <input type="text" id="appUsername" required placeholder="your-wp-login">
+      </div>
+      <div>
+        <label for="appPassword">Application password</label>
+        <input type="password" id="appPassword" required placeholder="xxxx xxxx xxxx xxxx xxxx xxxx">
+        <p class="help" style="margin-top:6px;">Generate one at <em>WP Admin → Users → Profile → Application Passwords</em>. We store it encrypted; it never leaves the worker except to publish posts on your behalf. <a href="https://wordpress.org/documentation/article/application-passwords/" target="_blank" rel="noopener">Help</a></p>
+      </div>
+      <div class="row-actions">
+        <button type="submit" class="btn btn-primary" id="connectBtn">Connect Site</button>
+      </div>
+    </form>
+  </template>
+
+  <script>
+    const root = document.getElementById('root');
+    const banner = document.getElementById('statusBanner');
+    const trialBanner = document.getElementById('trialBanner');
+    const topbarEmail = document.getElementById('topbarEmail');
+
+    function showBanner(msg, kind) { banner.textContent = msg; banner.className = 'status-banner show ' + kind; setTimeout(() => banner.classList.remove('show'), 8000); }
+
+    function escapeHTML(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+    function formatDate(iso) { if (!iso) return '—'; const d = new Date(iso); return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }
+
+    async function api(method, path, body) {
+      const opts = { method, credentials: 'include', headers: {} };
+      if (body) { opts.headers['Content-Type'] = 'application/json'; opts.body = JSON.stringify(body); }
+      const res = await fetch(path, opts);
+      if (res.status === 401) { window.location.href = '/'; throw new Error('unauthorized'); }
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || ('HTTP ' + res.status));
+      return data;
+    }
+
+    function renderTrial(customer) {
+      if (!customer.trialEnds) return;
+      const ms = new Date(customer.trialEnds).getTime() - Date.now();
+      if (ms <= 0) {
+        trialBanner.innerHTML = '<strong>Your trial has ended.</strong> Pick a plan to keep generating articles — billing isn\\'t live yet in this beta, contact <a href="mailto:hello@phoenixmethodseo.com">hello@phoenixmethodseo.com</a> to extend.';
+        trialBanner.style.display = 'block';
+      } else if (customer.plan === 'trial') {
+        const days = Math.ceil(ms / 86400000);
+        trialBanner.innerHTML = '<strong>' + days + ' day' + (days === 1 ? '' : 's') + ' left in your free trial.</strong> Generate as much as you want — no card required.';
+        trialBanner.style.display = 'block';
+      }
+    }
+
+    function attachConnectForm(formEl) {
+      const btn = formEl.querySelector('#connectBtn');
+      formEl.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        btn.disabled = true; btn.innerHTML = '<span class="loader"></span>Connecting…';
+        try {
+          const url = formEl.querySelector('#siteUrl').value.trim();
+          const appUsername = formEl.querySelector('#appUsername').value.trim();
+          const appPassword = formEl.querySelector('#appPassword').value.trim();
+          await api('POST', '/api/sites', { url, appUsername, appPassword });
+          showBanner('Site connected. Researching keywords now…', 'success');
+          await load();
+        } catch (err) {
+          showBanner(err.message, 'error');
+        } finally {
+          btn.disabled = false; btn.textContent = 'Connect Site';
+        }
+      });
+    }
+
+    function renderSite(site, keywords, articles) {
+      const articleRows = articles.length ? articles.map(a => {
+        const link = a.publicUrl ? a.publicUrl : (a.wpEditUrl || '#');
+        return '<tr>' +
+          '<td>' + escapeHTML(a.title || '—') + '<div style="color:var(--deep);font-size:0.82rem;margin-top:2px;">' + escapeHTML(a.keyword || '') + '</div></td>' +
+          '<td><span class="badge ' + (a.status === 'publish' ? 'publish' : a.status === 'failed' ? 'failed' : 'draft') + '">' + escapeHTML(a.status || 'draft') + '</span></td>' +
+          '<td>' + escapeHTML(formatDate(a.generatedAt)) + '</td>' +
+          '<td>' + (link !== '#' ? '<a href="' + link + '" target="_blank" rel="noopener">Open ↗</a>' : '<span style="color:var(--deep);">—</span>') + '</td>' +
+        '</tr>';
+      }).join('') : '<tr><td colspan="4" style="color:var(--deep);text-align:center;padding:24px;">No articles yet. Click <em>Generate Article Now</em> above to create your first.</td></tr>';
+
+      const keywordChips = keywords.length ? keywords.slice(0, 20).map(k =>
+        '<span class="keyword-chip' + (k.picked ? ' picked' : '') + '" title="vol ' + k.volume + ' / KD ' + k.kd + ' / ' + escapeHTML(k.intent) + '">' + escapeHTML(k.keyword) + '</span>'
+      ).join('') : '<span style="color:var(--deep);">No keywords yet. Click <em>Refresh keywords</em>.</span>';
+
+      return '<div class="panel">' +
+        '<div class="site-header">' +
+          '<div><h2 style="margin:0;">' + escapeHTML(site.url) + '</h2>' +
+          '<div class="site-meta">' + (site.niche ? escapeHTML(site.niche.slice(0, 140)) : '<em>Niche learning…</em>') + '</div></div>' +
+          '<div class="row-actions">' +
+            '<button class="btn btn-primary" data-action="generate" data-site="' + site.id + '">Generate Article Now</button>' +
+            '<button class="btn btn-ghost" data-action="research" data-site="' + site.id + '">Refresh keywords</button>' +
+            '<button class="btn btn-danger" data-action="disconnect" data-site="' + site.id + '">Disconnect</button>' +
+          '</div>' +
+        '</div>' +
+        '<h3 style="margin-top:24px;">Keyword Queue</h3>' +
+        '<div>' + keywordChips + '</div>' +
+        '<h3 style="margin-top:24px;">Articles</h3>' +
+        '<table><thead><tr><th>Title / target keyword</th><th>Status</th><th>Generated</th><th></th></tr></thead><tbody>' + articleRows + '</tbody></table>' +
+      '</div>';
+    }
+
+    async function load() {
+      try {
+        const me = await api('GET', '/api/me');
+        topbarEmail.textContent = me.customer.email;
+        renderTrial(me.customer);
+
+        if (!me.sites.length) {
+          root.innerHTML = '';
+          const empty = document.getElementById('emptyTemplate').content.cloneNode(true);
+          root.appendChild(empty);
+          const form = document.getElementById('connectFormTemplate').content.cloneNode(true);
+          document.getElementById('connectFormSlot').appendChild(form);
+          attachConnectForm(document.getElementById('connectForm'));
+          return;
+        }
+
+        // For each site, fetch keywords + articles in parallel.
+        const details = await Promise.all(me.sites.map(async (s) => {
+          const [k, a] = await Promise.all([
+            api('GET', '/api/sites/' + s.id + '/keywords'),
+            api('GET', '/api/sites/' + s.id + '/articles'),
+          ]);
+          return { site: s, keywords: k.keywords || [], articles: a.articles || [] };
+        }));
+
+        const sitesHtml = details.map(d => renderSite(d.site, d.keywords, d.articles)).join('');
+        root.innerHTML = '<h1>Your Sites</h1><p class="lede">Manage your connected sites, refresh keyword research, and ship articles.</p>' +
+          sitesHtml +
+          '<div class="panel"><h3 style="margin-top:0;">Connect Another Site</h3><div id="connectFormSlot"></div></div>';
+
+        const form = document.getElementById('connectFormTemplate').content.cloneNode(true);
+        document.getElementById('connectFormSlot').appendChild(form);
+        attachConnectForm(document.getElementById('connectForm'));
+
+        root.addEventListener('click', onAction, { once: false });
+      } catch (err) {
+        root.innerHTML = '<div class="panel"><h2>Couldn\\'t load your dashboard</h2><p class="lede">' + escapeHTML(err.message) + '</p><a class="btn btn-primary" href="/">Reload</a></div>';
+      }
+    }
+
+    async function onAction(e) {
+      const btn = e.target.closest('button[data-action]');
+      if (!btn) return;
+      const action = btn.dataset.action;
+      const siteId = btn.dataset.site;
+      btn.disabled = true;
+      const originalText = btn.textContent;
+      btn.innerHTML = '<span class="loader"></span>' + originalText;
+      try {
+        if (action === 'generate') {
+          const out = await api('POST', '/api/sites/' + siteId + '/generate');
+          showBanner('Article generated: "' + (out.article.title || '') + '" — open it from the table below.', 'success');
+        } else if (action === 'research') {
+          const out = await api('POST', '/api/sites/' + siteId + '/research');
+          showBanner('Refreshed — ' + out.count + ' keywords queued.', 'success');
+        } else if (action === 'disconnect') {
+          if (!confirm('Disconnect this site? Articles already published stay on your WordPress.')) { btn.disabled = false; btn.textContent = originalText; return; }
+          await api('DELETE', '/api/sites/' + siteId);
+          showBanner('Site disconnected.', 'info');
+        }
+        await load();
+      } catch (err) {
+        showBanner(err.message, 'error');
+        btn.disabled = false; btn.textContent = originalText;
+      }
+    }
+
+    load();
+  </script>
+</body>
+</html>`;
+}
