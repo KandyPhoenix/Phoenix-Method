@@ -12,7 +12,6 @@ workers_dev = true
 FROM_EMAIL = "phoenix-ai@phoenixmethodseo.com"
 FROM_NAME = "Phoenix AI"
 SESSION_DAYS = "30"
-ANTHROPIC_MODEL = "claude-opus-4-7"
 DEFAULT_PLAN = "trial"
 TRIAL_DAYS = "7"
 
@@ -51,6 +50,9 @@ crons = ["0 13 * * *"]
 
 # Secrets (set via `wrangler secret put` after first deploy):
 #   SESSION_SECRET       HMAC key for signing session + magic-link tokens
-#   RESEND_API_KEY       Magic-link email delivery (Resend)
-#   ANTHROPIC_API_KEY    Article generation (Claude)
+#   RESEND_API_KEY       Magic-link email delivery
+#   AI_API_KEY           Article generation API key
+#   AI_API_URL           Article generation API endpoint URL
+#   AI_API_VERSION       Optional version header value (provider-specific)
+#   AI_MODEL_ID          Article generation model identifier
 #   AHREFS_API_KEY       Keyword research (Ahrefs API v3)
