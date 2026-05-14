@@ -3,7 +3,7 @@
  *
  * Self-serve SaaS: customer signs up with email, connects a WordPress site
  * (URL + application password), and Phoenix AI researches keywords, writes
- * SEO articles via Claude, and pushes them to WordPress.
+ * SEO articles via an LLM, and pushes them to WordPress.
  *
  * Routes:
  *   POST /auth/request                  — { email }; sends magic link
@@ -281,7 +281,7 @@ async function pickNextKeyword(env, siteId) {
 }
 
 // ──────────────────────────────────────────────────────────────
-// Pipeline: article generation (Anthropic Claude)
+// Pipeline: article generation (LLM)
 
 function buildArticlePrompt({ keyword, site }) {
   const intent = (keyword.intent || 'informational').toLowerCase();
@@ -333,27 +333,28 @@ Return only the JSON object.`,
   };
 }
 
-async function callClaude(env, { system, user }) {
-  if (!env.ANTHROPIC_API_KEY) {
+async function callLLM(env, { system, user }) {
+  if (!env.AI_API_KEY) {
     // Dev fallback so the pipeline is testable without secrets configured.
     const stub = {
-      title: 'Sample article generated without ANTHROPIC_API_KEY',
+      title: 'Sample article generated without AI_API_KEY',
       slug: 'sample-article',
-      metaDescription: 'This is a stub article. Set the ANTHROPIC_API_KEY secret on the worker to generate real content.',
-      html: '<p>This is a stub. The Phoenix AI worker generated this article without an ANTHROPIC_API_KEY configured. Add the secret and re-run.</p>',
+      metaDescription: 'This is a stub article. Set the AI_API_KEY secret on the worker to generate real content.',
+      html: '<p>This is a stub. The Phoenix AI worker generated this article without an AI_API_KEY configured. Add the secret and re-run.</p>',
       tags: ['phoenix-ai', 'stub'],
-      faqs: [{ q: 'Why is this article a stub?', a: 'Because ANTHROPIC_API_KEY is not set on the worker yet.' }],
+      faqs: [{ q: 'Why is this article a stub?', a: 'Because AI_API_KEY is not set on the worker yet.' }],
     };
     return { ok: true, content: stub, tokens: { input: 0, output: 0 }, model: 'stub' };
   }
-  const model = env.ANTHROPIC_MODEL || 'claude-opus-4-7';
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
+  const model = env.AI_MODEL_ID;
+  const apiUrl = env.AI_API_URL;
+  const versionHeader = env.AI_API_VERSION;
+  if (!model || !apiUrl) return { ok: false, error: 'AI_MODEL_ID and AI_API_URL must be set as worker secrets' };
+  const headers = { 'x-api-key': env.AI_API_KEY, 'Content-Type': 'application/json' };
+  if (versionHeader) headers['anthropic-version'] = versionHeader;
+  const res = await fetch(apiUrl, {
     method: 'POST',
-    headers: {
-      'x-api-key': env.ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01',
-      'Content-Type': 'application/json',
-    },
+    headers,
     body: JSON.stringify({
       model,
       max_tokens: 8000,
@@ -363,11 +364,11 @@ async function callClaude(env, { system, user }) {
   });
   if (!res.ok) {
     const errBody = await res.text().catch(() => '');
-    return { ok: false, error: `claude ${res.status}: ${errBody.slice(0, 400)}` };
+    return { ok: false, error: `llm ${res.status}: ${errBody.slice(0, 400)}` };
   }
   const data = await res.json();
   const text = (data.content || []).map((c) => c.text || '').join('').trim();
-  // Strip code fences if Claude added them despite our instructions.
+  // Strip code fences if the model added them despite our instructions.
   const cleaned = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
   let parsed;
   try { parsed = JSON.parse(cleaned); }
@@ -433,14 +434,14 @@ async function runPipeline(env, site, opts = {}) {
     return { ok: false, error: 'No keywords available for this site.' };
   }
 
-  // 3. Generate article via Claude.
+  // 3. Generate article via the LLM.
   const prompt = buildArticlePrompt({ keyword, site });
-  const claudeResult = await callClaude(env, prompt);
-  if (!claudeResult.ok) {
-    await audit(env, site.id, 'pipeline.error', { stage: 'claude', error: claudeResult.error });
-    return { ok: false, error: claudeResult.error };
+  const llmResult = await callLLM(env, prompt);
+  if (!llmResult.ok) {
+    await audit(env, site.id, 'pipeline.error', { stage: 'llm', error: llmResult.error });
+    return { ok: false, error: llmResult.error };
   }
-  const article = claudeResult.content;
+  const article = llmResult.content;
 
   // 4. Publish to WordPress (or skip for manual-paste sites).
   // requireApproval locks the site to draft-only — autoPublish has no effect
@@ -474,8 +475,8 @@ async function runPipeline(env, site, opts = {}) {
     publishError: wpResult.ok ? null : wpResult.error,
     generatedAt: startedAt,
     publishedAt: wpResult.ok ? nowIso() : null,
-    model: claudeResult.model,
-    tokens: claudeResult.tokens,
+    model: llmResult.model,
+    tokens: llmResult.tokens,
     manual: Boolean(opts.manual),
   };
   await env.ARTICLES.put(`art:${site.id}:${articleId}`, JSON.stringify(record));
@@ -763,7 +764,7 @@ async function apiRouter(request, env, url, path) {
 
     if (sub === 'generate' && request.method === 'POST') {
       // Long-running — Cloudflare gives us ~30s of CPU/IO per request which
-      // is enough for one Claude call. If we need more, we'd offload to a
+      // is enough for one LLM call. If we need more, we'd offload to a
       // queue + websocket; not in Phase 1.
       const result = await runPipeline(env, site, { manual: true });
       return result.ok ? json({ ok: true, article: result.article }) : json({ ok: false, error: result.error }, 500);

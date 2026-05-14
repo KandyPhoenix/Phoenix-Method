@@ -1,6 +1,6 @@
 # Phoenix AI — SEO Content Autopilot
 
-A self-serve SaaS that researches keywords, writes SEO articles, and publishes them to a customer's WordPress site. Soro-style, but agency-built.
+A self-serve SaaS that researches keywords, writes SEO articles, and publishes them to a customer's WordPress site.
 
 The marketing page is at `phoenixmethod.com/phoenix-ai/` (in this repo at `/phoenix-ai/index.html`). The product runs as a single Cloudflare Worker in this directory.
 
@@ -27,7 +27,7 @@ KV: kws:<siteId>  ←  a queue of 25 unpicked keywords
 pick next unpicked keyword
         │
         ▼
-Claude (Opus 4.7): JSON-mode prompt → {title, slug, meta, html, faqs, tags}
+LLM (JSON-mode prompt) → {title, slug, meta, html, faqs, tags}
         │
         ▼
 WordPress REST: POST /wp-json/wp/v2/posts (Basic auth = appUser:appPassword)
@@ -58,7 +58,7 @@ dashboard lists it, customer reviews / publishes
 - `DELETE /api/sites/:siteId`
 - `POST   /api/sites/:siteId/research` — refreshes keyword research now
 - `GET    /api/sites/:siteId/keywords` — `{ keywords: [...] }`
-- `POST   /api/sites/:siteId/generate` — runs the pipeline once (Claude + WP publish)
+- `POST   /api/sites/:siteId/generate` — runs the pipeline once (LLM + WP publish)
 - `GET    /api/sites/:siteId/articles` — newest-first summaries
 - `GET    /api/sites/:siteId/articles/:articleId` — full article record (incl. html)
 
@@ -100,7 +100,7 @@ wrangler kv:namespace create AUDIT_LOG
 # 2) Set secrets
 wrangler secret put SESSION_SECRET     # any 32+ random chars
 wrangler secret put RESEND_API_KEY     # from resend.com
-wrangler secret put ANTHROPIC_API_KEY  # from console.anthropic.com
+wrangler secret put AI_API_KEY         # LLM provider API key
 wrangler secret put AHREFS_API_KEY     # optional — pipeline falls back to seeded keywords without it
 
 # 3) Deploy
@@ -126,7 +126,7 @@ The worker is reachable at `https://phoenix-ai.phoenixmethod.workers.dev/`. The 
 ## Phase 2 roadmap
 
 - Flip `CRON_ENABLED=true` and let the daily cron auto-generate
-- AI image generation (Anthropic + image API) — hero image per article
+- AI image generation — hero image per article
 - Internal linking: crawl the customer's existing posts, pick 2–4 to link from each new article
 - Brand-voice tuning: store accepted/rejected drafts, feed into the prompt
 - Stripe billing
@@ -137,7 +137,7 @@ The worker is reachable at `https://phoenix-ai.phoenixmethod.workers.dev/`. The 
 ## Phase 1 limitations
 
 - WordPress only.
-- One Claude call per article — Cloudflare's 30s request limit means we can't chain steps in a single request. Internal linking and image generation are deferred for that reason.
+- One LLM call per article — Cloudflare's 30s request limit means we can't chain steps in a single request. Internal linking and image generation are deferred for that reason.
 - No queueing system; "Generate Now" is synchronous from the dashboard.
 - Trial is honor-system. Billing isn't wired up.
 - No email notifications on article generation (only the magic-link email).
