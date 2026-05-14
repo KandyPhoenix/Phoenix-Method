@@ -442,12 +442,18 @@ async function runPipeline(env, site, opts = {}) {
   }
   const article = claudeResult.content;
 
-  // 4. Publish to WordPress.
+  // 4. Publish to WordPress (or skip for manual-paste sites).
   // requireApproval locks the site to draft-only — autoPublish has no effect
   // when this is on. Used for YMYL (healthcare, finance, legal) clients where
   // every article must be reviewed before going live.
-  const publishStatus = (!site.requireApproval && site.autoPublish) ? 'publish' : 'draft';
-  const wpResult = await wpPublish(env, site, article, publishStatus);
+  let publishStatus, wpResult;
+  if (site.cms === 'manual') {
+    publishStatus = 'ready';
+    wpResult = { ok: true };  // success = "article is ready to copy/paste"
+  } else {
+    publishStatus = (!site.requireApproval && site.autoPublish) ? 'publish' : 'draft';
+    wpResult = await wpPublish(env, site, article, publishStatus);
+  }
 
   // 5. Persist article record.
   const articleId = uuid();
@@ -669,12 +675,17 @@ async function apiRouter(request, env, url, path) {
   if (path === '/api/sites' && request.method === 'POST') {
     let body; try { body = await request.json(); } catch { return json({ error: 'bad json' }, 400); }
     const siteUrl = (body.url || '').toString().trim().replace(/\/+$/, '');
+    const cms = body.cms === 'manual' ? 'manual' : 'wordpress';
     const appUsername = (body.appUsername || '').toString().trim();
     const appPasswordPlain = (body.appPassword || '').toString().trim();
     const brandVoiceOverride = (body.brandVoiceOverride || '').toString().trim().slice(0, 4000);
-    const requireApproval = Boolean(body.requireApproval);
+    // manual-paste mode always implies approval-required — there's no
+    // automated publish step, so every article waits on a human anyway.
+    const requireApproval = cms === 'manual' ? true : Boolean(body.requireApproval);
     if (!/^https?:\/\//.test(siteUrl)) return json({ error: 'site URL must start with http(s)://' }, 400);
-    if (!appUsername || !appPasswordPlain) return json({ error: 'WordPress username and application password are required' }, 400);
+    if (cms === 'wordpress' && (!appUsername || !appPasswordPlain)) {
+      return json({ error: 'WordPress username and application password are required' }, 400);
+    }
 
     const learned = await learnSite(siteUrl);
     const id = uuid();
@@ -682,8 +693,9 @@ async function apiRouter(request, env, url, path) {
       id,
       ownerEmail: email,
       url: siteUrl,
-      appUsername,
-      appPassword: await encryptSecret(appPasswordPlain, env.SESSION_SECRET),
+      cms,
+      appUsername: cms === 'wordpress' ? appUsername : '',
+      appPassword: cms === 'wordpress' ? await encryptSecret(appPasswordPlain, env.SESSION_SECRET) : '',
       niche: learned.niche,
       brandVoice: learned.brandVoice,
       brandVoiceOverride,
@@ -840,7 +852,27 @@ function dashboardHTML() {
   .badge { display: inline-block; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; }
   .badge.draft { background: rgba(255,140,0,0.15); color: var(--fire-m); border: 1px solid rgba(255,140,0,0.3); }
   .badge.publish { background: rgba(120,220,140,0.12); color: #7fd693; border: 1px solid rgba(120,220,140,0.3); }
+  .badge.ready { background: rgba(120,180,255,0.12); color: #91baff; border: 1px solid rgba(120,180,255,0.3); }
   .badge.failed { background: rgba(255,77,77,0.12); color: var(--danger); border: 1px solid rgba(255,77,77,0.3); }
+  button.link-like { background: none; border: none; color: var(--fire-m); cursor: pointer; padding: 0; font: inherit; font-size: 0.92rem; }
+  button.link-like:hover { color: var(--fire-e); text-decoration: underline; }
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; align-items: center; justify-content: center; padding: 24px; z-index: 100; }
+  .modal-overlay.show { display: flex; }
+  .modal { background: var(--card); border: 1px solid var(--border); border-radius: 14px; max-width: 900px; width: 100%; max-height: 90vh; display: flex; flex-direction: column; }
+  .modal-head { padding: 18px 22px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .modal-head h2 { margin: 0; font-size: 1.15rem; font-family: 'Cinzel', serif; }
+  .modal-head button.close { background: none; border: none; color: var(--muted); font-size: 1.6rem; cursor: pointer; padding: 0; line-height: 1; }
+  .modal-tabs { display: flex; gap: 6px; padding: 12px 22px 0; border-bottom: 1px solid var(--border); }
+  .modal-tab { background: none; border: none; padding: 8px 14px; color: var(--muted); cursor: pointer; font-family: 'Rajdhani', sans-serif; font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase; border-bottom: 2px solid transparent; }
+  .modal-tab.active { color: var(--fire-m); border-bottom-color: var(--fire-m); }
+  .modal-body { padding: 22px; overflow-y: auto; flex: 1; }
+  .modal-pre { white-space: pre-wrap; word-break: break-word; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-family: 'SF Mono', Menlo, Consolas, monospace; font-size: 0.85rem; color: var(--text); max-height: 60vh; overflow-y: auto; }
+  .modal-foot { padding: 14px 22px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .modal-meta { color: var(--muted); font-size: 0.85rem; }
+  .article-render { font-family: 'Outfit', sans-serif; line-height: 1.7; color: var(--text); }
+  .article-render h2, .article-render h3 { font-family: 'Cinzel', serif; margin: 18px 0 10px; }
+  .article-render p { margin-bottom: 12px; color: var(--text); }
+  .article-render a { color: var(--fire-m); }
   .site-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
   .site-meta { font-size: 0.88rem; color: var(--muted); margin-top: 4px; }
   table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.92rem; }
@@ -875,6 +907,25 @@ function dashboardHTML() {
     </div>
   </main>
 
+  <div class="modal-overlay" id="articleModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modal-head">
+        <h2 id="modalTitle">Article</h2>
+        <button class="close" id="modalClose" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-tabs">
+        <button class="modal-tab active" data-tab="preview">Preview</button>
+        <button class="modal-tab" data-tab="html">HTML</button>
+        <button class="modal-tab" data-tab="meta">Meta &amp; FAQ</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-foot">
+        <span class="modal-meta" id="modalMeta"></span>
+        <button class="btn btn-primary" id="modalCopyBtn">Copy HTML</button>
+      </div>
+    </div>
+  </div>
+
   <template id="emptyTemplate">
     <div class="panel empty">
       <h2>Connect Your First Site</h2>
@@ -886,16 +937,29 @@ function dashboardHTML() {
   <template id="connectFormTemplate">
     <form class="connect" id="connectForm">
       <div>
-        <label for="siteUrl">WordPress site URL</label>
+        <label>How will Phoenix AI publish?</label>
+        <div style="display:grid;gap:8px;margin-top:6px;">
+          <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);">
+            <input type="radio" name="cms" value="wordpress" checked style="margin-top:4px;">
+            <span><strong>WordPress (autopilot)</strong><br><span style="color:var(--muted);font-size:0.85rem;">Articles are pushed as drafts (or live, if you allow) directly to your WP blog.</span></span>
+          </label>
+          <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);">
+            <input type="radio" name="cms" value="manual" style="margin-top:4px;">
+            <span><strong>Manual paste (any CMS)</strong><br><span style="color:var(--muted);font-size:0.85rem;">Phoenix AI does the keyword research and writing. You copy the HTML into Squarespace / Wix / Ghost / wherever. For sites without a WordPress endpoint.</span></span>
+          </label>
+        </div>
+      </div>
+      <div>
+        <label for="siteUrl">Site URL</label>
         <input type="url" id="siteUrl" required placeholder="https://yourblog.com">
       </div>
-      <div>
+      <div data-cms-fields="wordpress">
         <label for="appUsername">WordPress username</label>
-        <input type="text" id="appUsername" required placeholder="your-wp-login">
+        <input type="text" id="appUsername" placeholder="your-wp-login">
       </div>
-      <div>
+      <div data-cms-fields="wordpress">
         <label for="appPassword">Application password</label>
-        <input type="password" id="appPassword" required placeholder="xxxx xxxx xxxx xxxx xxxx xxxx">
+        <input type="password" id="appPassword" placeholder="xxxx xxxx xxxx xxxx xxxx xxxx">
         <p class="help" style="margin-top:6px;">Generate one at <em>WP Admin → Users → Profile → Application Passwords</em>. We store it encrypted; it never leaves the worker except to publish posts on your behalf. <a href="https://wordpress.org/documentation/article/application-passwords/" target="_blank" rel="noopener">Help</a></p>
       </div>
       <details style="margin-top:4px;">
@@ -956,16 +1020,25 @@ function dashboardHTML() {
 
     function attachConnectForm(formEl) {
       const btn = formEl.querySelector('#connectBtn');
+      const cmsRadios = formEl.querySelectorAll('input[name=cms]');
+      const wpFields = formEl.querySelectorAll('[data-cms-fields="wordpress"]');
+      function syncCmsFields() {
+        const cms = formEl.querySelector('input[name=cms]:checked').value;
+        wpFields.forEach(el => { el.style.display = cms === 'wordpress' ? '' : 'none'; });
+      }
+      cmsRadios.forEach(r => r.addEventListener('change', syncCmsFields));
+      syncCmsFields();
       formEl.addEventListener('submit', async (e) => {
         e.preventDefault();
         btn.disabled = true; btn.innerHTML = '<span class="loader"></span>Connecting…';
         try {
+          const cms = formEl.querySelector('input[name=cms]:checked').value;
           const url = formEl.querySelector('#siteUrl').value.trim();
           const appUsername = formEl.querySelector('#appUsername').value.trim();
           const appPassword = formEl.querySelector('#appPassword').value.trim();
           const brandVoiceOverride = (formEl.querySelector('#brandVoiceOverride').value || '').trim();
           const requireApproval = formEl.querySelector('#requireApproval').checked;
-          await api('POST', '/api/sites', { url, appUsername, appPassword, brandVoiceOverride, requireApproval });
+          await api('POST', '/api/sites', { url, cms, appUsername, appPassword, brandVoiceOverride, requireApproval });
           showBanner('Site connected. Researching keywords now…', 'success');
           await load();
         } catch (err) {
@@ -978,12 +1051,15 @@ function dashboardHTML() {
 
     function renderSite(site, keywords, articles) {
       const articleRows = articles.length ? articles.map(a => {
-        const link = a.publicUrl ? a.publicUrl : (a.wpEditUrl || '#');
+        const link = a.publicUrl ? a.publicUrl : (a.wpEditUrl || '');
+        const viewBtn = '<button class="link-like" data-action="view-article" data-site="' + site.id + '" data-article="' + a.id + '">View / copy</button>';
+        const openLink = link ? ' &middot; <a href="' + link + '" target="_blank" rel="noopener">Open ↗</a>' : '';
+        const badgeClass = a.status === 'publish' ? 'publish' : a.status === 'failed' ? 'failed' : a.status === 'ready' ? 'ready' : 'draft';
         return '<tr>' +
           '<td>' + escapeHTML(a.title || '—') + '<div style="color:var(--deep);font-size:0.82rem;margin-top:2px;">' + escapeHTML(a.keyword || '') + '</div></td>' +
-          '<td><span class="badge ' + (a.status === 'publish' ? 'publish' : a.status === 'failed' ? 'failed' : 'draft') + '">' + escapeHTML(a.status || 'draft') + '</span></td>' +
+          '<td><span class="badge ' + badgeClass + '">' + escapeHTML(a.status || 'draft') + '</span></td>' +
           '<td>' + escapeHTML(formatDate(a.generatedAt)) + '</td>' +
-          '<td>' + (link !== '#' ? '<a href="' + link + '" target="_blank" rel="noopener">Open ↗</a>' : '<span style="color:var(--deep);">—</span>') + '</td>' +
+          '<td>' + viewBtn + openLink + '</td>' +
         '</tr>';
       }).join('') : '<tr><td colspan="4" style="color:var(--deep);text-align:center;padding:24px;">No articles yet. Click <em>Generate Article Now</em> above to create your first.</td></tr>';
 
@@ -1093,11 +1169,69 @@ function dashboardHTML() {
       });
     }
 
+    // ── article modal ──
+    const modal = document.getElementById('articleModal');
+    const modalBody = document.getElementById('modalBody');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalMeta = document.getElementById('modalMeta');
+    const modalCopyBtn = document.getElementById('modalCopyBtn');
+    let currentArticle = null;
+    let currentTab = 'preview';
+    function renderModalTab() {
+      if (!currentArticle) return;
+      const a = currentArticle;
+      if (currentTab === 'preview') {
+        modalBody.innerHTML = '<div class="article-render"><h1 style="font-family:Cinzel,serif;font-size:1.6rem;margin-bottom:6px;">' + escapeHTML(a.title || '') + '</h1>' + (a.metaDescription ? '<p style="color:var(--muted);margin-bottom:18px;">' + escapeHTML(a.metaDescription) + '</p>' : '') + (a.html || '') + '</div>';
+      } else if (currentTab === 'html') {
+        modalBody.innerHTML = '<pre class="modal-pre">' + escapeHTML(a.html || '') + '</pre>';
+      } else if (currentTab === 'meta') {
+        const tags = (a.tags || []).map(t => '<span class="keyword-chip">' + escapeHTML(t) + '</span>').join(' ');
+        const faqs = (a.faqs || []).map(f => '<div style="margin-bottom:14px;"><strong>' + escapeHTML(f.q) + '</strong><br><span style="color:var(--muted);">' + escapeHTML(f.a) + '</span></div>').join('') || '<span style="color:var(--deep);">No FAQs.</span>';
+        modalBody.innerHTML =
+          '<h3>Title</h3><p>' + escapeHTML(a.title || '—') + '</p>' +
+          '<h3>Slug</h3><p style="font-family:monospace;color:var(--muted);">' + escapeHTML(a.slug || '—') + '</p>' +
+          '<h3>Meta description</h3><p>' + escapeHTML(a.metaDescription || '—') + '</p>' +
+          '<h3>Target keyword</h3><p>' + escapeHTML(a.keyword || '—') + '</p>' +
+          '<h3>Tags</h3><p>' + (tags || '<span style="color:var(--deep);">None.</span>') + '</p>' +
+          '<h3>FAQs</h3><div>' + faqs + '</div>';
+      }
+    }
+    document.querySelectorAll('.modal-tab').forEach(t => t.addEventListener('click', () => {
+      document.querySelectorAll('.modal-tab').forEach(x => x.classList.toggle('active', x === t));
+      currentTab = t.dataset.tab;
+      renderModalTab();
+    }));
+    document.getElementById('modalClose').addEventListener('click', () => modal.classList.remove('show'));
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('show'); });
+    modalCopyBtn.addEventListener('click', async () => {
+      if (!currentArticle) return;
+      try { await navigator.clipboard.writeText(currentArticle.html || ''); modalCopyBtn.textContent = 'Copied!'; setTimeout(() => { modalCopyBtn.textContent = 'Copy HTML'; }, 1500); }
+      catch { showBanner('Copy failed — select the HTML tab and copy manually.', 'error'); }
+    });
+    async function openArticleModal(siteId, articleId) {
+      modal.classList.add('show');
+      modalBody.innerHTML = '<p class="lede"><span class="loader"></span>Loading article…</p>';
+      try {
+        const r = await api('GET', '/api/sites/' + siteId + '/articles/' + articleId);
+        currentArticle = r.article;
+        modalTitle.textContent = currentArticle.title || 'Article';
+        modalMeta.textContent = (currentArticle.keyword || '') + ' · ' + formatDate(currentArticle.generatedAt);
+        currentTab = 'preview';
+        document.querySelectorAll('.modal-tab').forEach(x => x.classList.toggle('active', x.dataset.tab === 'preview'));
+        renderModalTab();
+      } catch (err) {
+        modalBody.innerHTML = '<p class="lede">' + escapeHTML(err.message) + '</p>';
+      }
+    }
+
     async function onAction(e) {
       const btn = e.target.closest('button[data-action]');
       if (!btn) return;
       const action = btn.dataset.action;
       const siteId = btn.dataset.site;
+      if (action === 'view-article') {
+        return openArticleModal(siteId, btn.dataset.article);
+      }
       btn.disabled = true;
       const originalText = btn.textContent;
       btn.innerHTML = '<span class="loader"></span>' + originalText;
