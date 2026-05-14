@@ -16,38 +16,33 @@ ANTHROPIC_MODEL = "claude-opus-4-7"
 DEFAULT_PLAN = "trial"
 TRIAL_DAYS = "7"
 
-# KV namespaces. Create with:
-#   wrangler kv:namespace create CUSTOMERS
-#   wrangler kv:namespace create SITES
-#   wrangler kv:namespace create KEYWORDS
-#   wrangler kv:namespace create ARTICLES
-#   wrangler kv:namespace create RATE_LIMIT
-#   wrangler kv:namespace create AUDIT_LOG
-# Then replace the placeholder ids below with the real ones wrangler prints.
+# KV namespaces. Created via `wrangler kv namespace create PHOENIX_AI_<NAME>`.
+# Binding names below intentionally match the worker code; titles in Cloudflare
+# are prefixed PHOENIX_AI_ for tidiness in the dashboard.
 
 [[kv_namespaces]]
 binding = "CUSTOMERS"
-id = "REPLACE_ME_CUSTOMERS"
+id = "28889f7d43d945b5a01c039749e6519b"
 
 [[kv_namespaces]]
 binding = "SITES"
-id = "REPLACE_ME_SITES"
+id = "32003724561b4715a1bdab9558c661e0"
 
 [[kv_namespaces]]
 binding = "KEYWORDS"
-id = "REPLACE_ME_KEYWORDS"
+id = "c75103a4ce514ab38508794a5e322b66"
 
 [[kv_namespaces]]
 binding = "ARTICLES"
-id = "REPLACE_ME_ARTICLES"
+id = "f5c8e1a1be5646a28f1b3a9807e8bc7d"
 
 [[kv_namespaces]]
 binding = "RATE_LIMIT"
-id = "REPLACE_ME_RATE_LIMIT"
+id = "8c0eb4d5d78d49cea60a33447fdb6036"
 
 [[kv_namespaces]]
 binding = "AUDIT_LOG"
-id = "REPLACE_ME_AUDIT_LOG"
+id = "2a9794fd305f43ce96c2d116562c61ad"
 
 # Daily cron — picks the next keyword for each active customer/site and runs
 # the pipeline. Wired up in Phase 2; harmless to leave defined.
