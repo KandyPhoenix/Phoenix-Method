@@ -157,8 +157,12 @@ async function listSitesForOwner(env, email) {
   return sites.filter(Boolean).map(stripSiteSecrets);
 }
 function stripSiteSecrets(site) {
-  const { appPassword, ...safe } = site;
-  return { ...safe, hasCredentials: Boolean(appPassword) };
+  const { appPassword, gsc, ...safe } = site;
+  return {
+    ...safe,
+    hasCredentials: Boolean(appPassword) || site.cms === 'manual',
+    gsc: gsc ? { property: gsc.property || '', connected: true, connectedAt: gsc.connectedAt || null } : null,
+  };
 }
 async function getSite(env, siteId, owner) {
   const raw = await env.SITES.get(`site:${siteId}`);
@@ -258,14 +262,51 @@ function scoreKeyword(k) {
 }
 
 async function researchAndStoreKeywords(env, site) {
-  const raw = await ahrefsKeywords(env, site.niche, new URL(site.url).hostname);
+  const source = site.keywordSource || 'gsc';
+  let raw = [];
+  let usedSource = source;
+  if (source === 'gsc') {
+    if (site.gsc && site.gsc.property) {
+      raw = await gscKeywords(env, site);
+    } else {
+      // GSC not yet connected — fall back to manual seeds (or stub niche-derived
+      // keywords) so the customer still has SOMETHING to look at on first load.
+      raw = await manualKeywords(site, []);
+    }
+  } else if (source === 'ahrefs') {
+    raw = await ahrefsKeywords(env, site.niche, new URL(site.url).hostname);
+  } else if (source === 'manual') {
+    raw = await manualKeywords(site, site.manualKeywords || []);
+  }
   const ranked = raw
     .map((k) => ({ ...k, score: scoreKeyword(k), picked: false, pickedAt: null }))
     .sort((a, b) => b.score - a.score)
     .slice(0, 25);
   await env.KEYWORDS.put(`kws:${site.id}`, JSON.stringify(ranked));
-  await audit(env, site.id, 'keywords.refreshed', { count: ranked.length });
+  await audit(env, site.id, 'keywords.refreshed', { count: ranked.length, source: usedSource });
   return ranked;
+}
+
+async function manualKeywords(site, seeds) {
+  if (Array.isArray(seeds) && seeds.length) {
+    return seeds.map((s) => {
+      const k = typeof s === 'string' ? { keyword: s } : s;
+      return {
+        keyword: String(k.keyword || '').trim(),
+        volume: k.volume || 0,
+        kd: k.kd || 0,
+        intent: k.intent || 'informational',
+      };
+    }).filter((k) => k.keyword);
+  }
+  // No seeds: derive from site niche so the pipeline isn't blocked.
+  const niche = (site.niche || new URL(site.url).hostname || 'business').toLowerCase().replace(/[^a-z0-9 ]/g, '').split(/\s+/).filter(Boolean).slice(0, 4).join(' ') || 'small business';
+  return [
+    { keyword: `best ${niche} services`, volume: 0, kd: 0, intent: 'commercial' },
+    { keyword: `how to choose a ${niche} provider`, volume: 0, kd: 0, intent: 'informational' },
+    { keyword: `${niche} pricing guide`, volume: 0, kd: 0, intent: 'commercial' },
+    { keyword: `${niche} checklist`, volume: 0, kd: 0, intent: 'informational' },
+  ];
 }
 
 async function pickNextKeyword(env, siteId) {
@@ -278,6 +319,140 @@ async function pickNextKeyword(env, siteId) {
   next.pickedAt = nowIso();
   await env.KEYWORDS.put(`kws:${siteId}`, JSON.stringify(list));
   return next;
+}
+
+// ──────────────────────────────────────────────────────────────
+// GSC OAuth + keyword research (Google Search Console)
+
+const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
+const GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token';
+const GSC_SCOPE = 'https://www.googleapis.com/auth/webmasters.readonly';
+
+function googleRedirectUri(url) {
+  return `${url.origin}/auth/google/callback`;
+}
+
+// Build the Google consent URL the customer is sent to.
+async function googleAuthUrl(env, url, siteId, ownerEmail) {
+  const stateExp = Math.floor(Date.now() / 1000) + 10 * 60;
+  const state = await signToken({ kind: 'gsc', siteId, ownerEmail, exp: stateExp }, env.SESSION_SECRET);
+  const params = new URLSearchParams({
+    client_id: env.GOOGLE_CLIENT_ID,
+    redirect_uri: googleRedirectUri(url),
+    response_type: 'code',
+    scope: GSC_SCOPE,
+    access_type: 'offline',
+    prompt: 'consent',
+    state,
+  });
+  return `${GOOGLE_AUTH_URL}?${params.toString()}`;
+}
+
+async function exchangeGoogleCode(env, code, url) {
+  const body = new URLSearchParams({
+    client_id: env.GOOGLE_CLIENT_ID,
+    client_secret: env.GOOGLE_CLIENT_SECRET,
+    code,
+    grant_type: 'authorization_code',
+    redirect_uri: googleRedirectUri(url),
+  });
+  const res = await fetch(GOOGLE_TOKEN_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body,
+  });
+  if (!res.ok) throw new Error(`google token ${res.status}: ${(await res.text()).slice(0, 300)}`);
+  return res.json();  // { access_token, refresh_token, expires_in, scope, token_type }
+}
+
+async function refreshGoogleToken(env, refreshTokenPlain) {
+  const body = new URLSearchParams({
+    client_id: env.GOOGLE_CLIENT_ID,
+    client_secret: env.GOOGLE_CLIENT_SECRET,
+    refresh_token: refreshTokenPlain,
+    grant_type: 'refresh_token',
+  });
+  const res = await fetch(GOOGLE_TOKEN_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body,
+  });
+  if (!res.ok) throw new Error(`google refresh ${res.status}: ${(await res.text()).slice(0, 300)}`);
+  return res.json();  // { access_token, expires_in, scope, token_type } — no new refresh_token
+}
+
+// Returns a fresh access token for the site, refreshing if needed and persisting
+// the new expiry. Throws if the site has no GSC connection.
+async function gscAccessToken(env, site) {
+  if (!site.gsc || !site.gsc.refreshToken) throw new Error('site is not connected to GSC');
+  const skewMs = 60 * 1000;
+  if (site.gsc.accessToken && site.gsc.expiresAt && site.gsc.expiresAt - skewMs > Date.now()) {
+    return decryptSecret(site.gsc.accessToken, env.SESSION_SECRET);
+  }
+  const refreshTokenPlain = await decryptSecret(site.gsc.refreshToken, env.SESSION_SECRET);
+  const tok = await refreshGoogleToken(env, refreshTokenPlain);
+  site.gsc.accessToken = await encryptSecret(tok.access_token, env.SESSION_SECRET);
+  site.gsc.expiresAt = Date.now() + (tok.expires_in || 3600) * 1000;
+  await saveSite(env, site);
+  return tok.access_token;
+}
+
+// List GSC properties the connected Google account can access.
+async function listGscProperties(env, site) {
+  const accessToken = await gscAccessToken(env, site);
+  const res = await fetch('https://searchconsole.googleapis.com/webmasters/v3/sites', {
+    headers: { 'Authorization': `Bearer ${accessToken}` },
+  });
+  if (!res.ok) throw new Error(`gsc sites ${res.status}: ${(await res.text()).slice(0, 300)}`);
+  const data = await res.json();
+  return (data.siteEntry || []).map((s) => ({ siteUrl: s.siteUrl, permissionLevel: s.permissionLevel }));
+}
+
+// Pull last 90 days of search analytics, filter to "low-hanging fruit" queries
+// (position 5–20, decent impressions), and shape into our keyword schema.
+async function gscKeywords(env, site) {
+  const accessToken = await gscAccessToken(env, site);
+  const property = site.gsc.property;
+  if (!property) return [];
+
+  const today = new Date();
+  const startDate = new Date(today.getTime() - 90 * 86400e3);
+  const fmt = (d) => d.toISOString().slice(0, 10);
+  const endpoint = `https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(property)}/searchAnalytics/query`;
+  const body = JSON.stringify({
+    startDate: fmt(startDate),
+    endDate: fmt(today),
+    dimensions: ['query'],
+    rowLimit: 250,
+  });
+  const res = await fetch(endpoint, {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+    body,
+  });
+  if (!res.ok) {
+    console.error('gsc query failed', res.status, (await res.text()).slice(0, 300));
+    return [];
+  }
+  const data = await res.json();
+  const rows = data.rows || [];
+  return rows
+    .filter((r) => r.position >= 5 && r.position <= 20 && r.impressions >= 10)
+    .map((r) => {
+      const ctr = r.ctr || 0;
+      // Keep our schema consistent: keyword/volume/kd/intent/score-style fields.
+      // For GSC: impressions stand in for "volume", missed clicks
+      // (impressions × (1 − ctr)) is the opportunity score input.
+      return {
+        keyword: r.keys[0],
+        volume: Math.round(r.impressions),
+        kd: Math.round(r.position),
+        intent: 'informational',
+        opportunity: Math.round(r.impressions * (1 - ctr)),
+      };
+    })
+    .sort((a, b) => b.opportunity - a.opportunity)
+    .slice(0, 50);
 }
 
 // ──────────────────────────────────────────────────────────────
@@ -556,6 +731,8 @@ export default {
     if (path === '/auth/request' && request.method === 'POST') return cors(await handleAuthRequest(request, env, url));
     if (path === '/auth/verify') return await handleAuthVerify(request, env, url);
     if (path === '/auth/logout') return logout();
+    if (path === '/auth/google/start') return await handleGoogleStart(request, env, url);
+    if (path === '/auth/google/callback') return await handleGoogleCallback(request, env, url);
 
     if (path.startsWith('/api/')) return cors(await apiRouter(request, env, url, path));
 
@@ -596,7 +773,7 @@ export default {
 function cors(res) {
   const h = new Headers(res.headers);
   h.set('Access-Control-Allow-Origin', 'https://phoenixmethodseo.com');
-  h.set('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS');
+  h.set('Access-Control-Allow-Methods', 'GET,POST,PATCH,DELETE,OPTIONS');
   h.set('Access-Control-Allow-Headers', 'Content-Type');
   h.set('Access-Control-Allow-Credentials', 'true');
   return new Response(res.body, { status: res.status, headers: h });
@@ -659,6 +836,87 @@ async function handleAuthVerify(request, env, url) {
   });
 }
 
+async function handleGoogleStart(request, env, url) {
+  const session = await currentSession(request, env);
+  if (!session) return Response.redirect('https://phoenixmethodseo.com/phoenix-ai/#waitlist', 302);
+  if (!env.GOOGLE_CLIENT_ID || !env.GOOGLE_CLIENT_SECRET) {
+    return new Response(oauthErrorHTML('Google OAuth is not configured on this worker yet. Check back shortly.'), {
+      status: 503, headers: { 'Content-Type': 'text/html; charset=utf-8' },
+    });
+  }
+  const siteId = url.searchParams.get('siteId');
+  const site = siteId ? await getSite(env, siteId, session.email) : null;
+  if (!site) return new Response('Site not found', { status: 404 });
+  const authUrl = await googleAuthUrl(env, url, site.id, session.email);
+  return Response.redirect(authUrl, 302);
+}
+
+async function handleGoogleCallback(request, env, url) {
+  const session = await currentSession(request, env);
+  if (!session) {
+    return new Response(oauthErrorHTML('Your sign-in session expired during the Google flow. Sign in again, then re-connect GSC.'), {
+      status: 401, headers: { 'Content-Type': 'text/html; charset=utf-8' },
+    });
+  }
+  const code = url.searchParams.get('code');
+  const stateToken = url.searchParams.get('state');
+  const error = url.searchParams.get('error');
+  if (error) {
+    return Response.redirect(`${url.origin}/app/?gscError=${encodeURIComponent(error)}`, 302);
+  }
+  const state = await verifyToken(stateToken, env.SESSION_SECRET);
+  if (!state || state.kind !== 'gsc' || state.ownerEmail !== session.email) {
+    return new Response(oauthErrorHTML('OAuth state was invalid or expired. Try connecting again from the dashboard.'), {
+      status: 400, headers: { 'Content-Type': 'text/html; charset=utf-8' },
+    });
+  }
+  const site = await getSite(env, state.siteId, session.email);
+  if (!site) return new Response('Site not found', { status: 404 });
+  if (!code) return new Response('Missing authorization code', { status: 400 });
+
+  let tokens;
+  try { tokens = await exchangeGoogleCode(env, code, url); }
+  catch (err) {
+    await audit(env, site.id, 'gsc.oauth.exchange_failed', { error: String(err) });
+    return new Response(oauthErrorHTML('Could not exchange the Google authorization code for tokens. Please try again.'), {
+      status: 502, headers: { 'Content-Type': 'text/html; charset=utf-8' },
+    });
+  }
+
+  // refresh_token is only returned on first consent (or when prompt=consent
+  // forces re-prompt). If it's missing on a re-auth, keep whatever we already
+  // had so the connection survives.
+  const refreshTokenPlain = tokens.refresh_token || (site.gsc && site.gsc.refreshToken
+    ? await decryptSecret(site.gsc.refreshToken, env.SESSION_SECRET)
+    : null);
+  if (!refreshTokenPlain) {
+    return new Response(oauthErrorHTML("Google didn't return a refresh token. Try again — and revoke the previous Phoenix AI grant in your Google account first if needed."), {
+      status: 400, headers: { 'Content-Type': 'text/html; charset=utf-8' },
+    });
+  }
+
+  site.gsc = {
+    accessToken: await encryptSecret(tokens.access_token, env.SESSION_SECRET),
+    refreshToken: await encryptSecret(refreshTokenPlain, env.SESSION_SECRET),
+    expiresAt: Date.now() + (tokens.expires_in || 3600) * 1000,
+    property: site.gsc && site.gsc.property ? site.gsc.property : '',
+    connectedAt: nowIso(),
+  };
+  if (!site.keywordSource) site.keywordSource = 'gsc';
+  await saveSite(env, site);
+  await audit(env, site.id, 'gsc.oauth.connected', {});
+
+  // After connect, send the user back to the dashboard. The SPA will look at
+  // ?gscConnected and offer property selection if none picked yet.
+  return Response.redirect(`${url.origin}/app/?gscConnected=${site.id}`, 302);
+}
+
+function oauthErrorHTML(msg) {
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Connection error — Phoenix AI</title>
+<style>body{font-family:system-ui,sans-serif;background:#07070D;color:#F0EDE6;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:24px}.card{background:#131320;border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:36px;max-width:480px;text-align:center}h1{color:#FF8C00;margin:0 0 12px}p{color:#A8A49C;margin:0 0 18px;line-height:1.6}a{display:inline-block;padding:12px 24px;background:linear-gradient(135deg,#FF4D00,#FF8C00);color:#fff;border-radius:8px;text-decoration:none;font-weight:700}</style>
+</head><body><div class="card"><h1>Couldn't finish connecting GSC</h1><p>${msg}</p><a href="/app/">Back to dashboard</a></div></body></html>`;
+}
+
 // ──────────────────────────────────────────────────────────────
 // API router (all routes require a session)
 
@@ -690,6 +948,10 @@ async function apiRouter(request, env, url, path) {
 
     const learned = await learnSite(siteUrl);
     const id = uuid();
+    // Allow keywordSource to be set at connect time; default to 'gsc' so new
+    // customers are nudged toward the free option. They'll click Connect GSC
+    // from the dashboard before any real research runs against it.
+    const keywordSource = ['gsc', 'ahrefs', 'manual'].includes(body.keywordSource) ? body.keywordSource : 'gsc';
     const site = {
       id,
       ownerEmail: email,
@@ -702,6 +964,9 @@ async function apiRouter(request, env, url, path) {
       brandVoiceOverride,
       autoPublish: false,
       requireApproval,
+      keywordSource,
+      gsc: null,
+      manualKeywords: Array.isArray(body.manualKeywords) ? body.manualKeywords.slice(0, 50) : [],
       status: 'active',
       createdAt: nowIso(),
     };
@@ -743,10 +1008,13 @@ async function apiRouter(request, env, url, path) {
         // Honor the lock — can't flip autoPublish on while requireApproval is true.
         site.autoPublish = site.requireApproval ? false : body.autoPublish;
       }
+      if (['gsc', 'ahrefs', 'manual'].includes(body.keywordSource)) site.keywordSource = body.keywordSource;
+      if (Array.isArray(body.manualKeywords)) site.manualKeywords = body.manualKeywords.slice(0, 50);
       await saveSite(env, site);
       await audit(env, siteId, 'site.updated', {
         requireApproval: site.requireApproval,
         autoPublish: site.autoPublish,
+        keywordSource: site.keywordSource,
         brandVoiceOverrideLen: (site.brandVoiceOverride || '').length,
       });
       return json({ ok: true, site: stripSiteSecrets(site) });
@@ -754,7 +1022,35 @@ async function apiRouter(request, env, url, path) {
 
     if (sub === 'research' && request.method === 'POST') {
       const list = await researchAndStoreKeywords(env, site);
-      return json({ ok: true, count: list.length, keywords: list });
+      return json({ ok: true, count: list.length, keywords: list, source: site.keywordSource || 'gsc' });
+    }
+
+    if (sub === 'gsc/properties' && request.method === 'GET') {
+      if (!site.gsc || !site.gsc.refreshToken) return json({ error: 'GSC not connected for this site' }, 400);
+      try {
+        const properties = await listGscProperties(env, site);
+        return json({ properties });
+      } catch (err) {
+        return json({ error: String(err.message || err) }, 502);
+      }
+    }
+
+    if (sub === 'gsc/property' && request.method === 'PATCH') {
+      let body; try { body = await request.json(); } catch { return json({ error: 'bad json' }, 400); }
+      if (!site.gsc) return json({ error: 'GSC not connected' }, 400);
+      const property = (body.property || '').toString().trim();
+      if (!property) return json({ error: 'property is required' }, 400);
+      site.gsc.property = property;
+      await saveSite(env, site);
+      await audit(env, siteId, 'gsc.property.set', { property });
+      return json({ ok: true, site: stripSiteSecrets(site) });
+    }
+
+    if (sub === 'gsc' && request.method === 'DELETE') {
+      site.gsc = null;
+      await saveSite(env, site);
+      await audit(env, siteId, 'gsc.disconnected', {});
+      return json({ ok: true, site: stripSiteSecrets(site) });
     }
 
     if (sub === 'keywords' && request.method === 'GET') {
@@ -1071,6 +1367,17 @@ function dashboardHTML() {
       const approvalBadge = site.requireApproval
         ? '<span class="badge draft" style="margin-left:10px;vertical-align:middle;">Approval required</span>' : '';
       const voiceOverrideLen = (site.brandVoiceOverride || '').length;
+      const keywordSource = site.keywordSource || 'gsc';
+      const gscConnected = site.gsc && site.gsc.connected;
+      const gscPropertySet = gscConnected && site.gsc.property;
+
+      // Banner shown above the keyword queue when GSC needs attention.
+      let keywordSourceBanner = '';
+      if (keywordSource === 'gsc' && !gscConnected) {
+        keywordSourceBanner = '<div class="status-banner show info" style="margin:14px 0;">Keyword source is set to Google Search Console, but no GSC account is connected yet. <button class="link-like" data-action="gsc-connect" data-site="' + site.id + '">Connect GSC →</button></div>';
+      } else if (keywordSource === 'gsc' && gscConnected && !gscPropertySet) {
+        keywordSourceBanner = '<div class="status-banner show info" style="margin:14px 0;">GSC connected, but no property selected. <button class="link-like" data-action="gsc-pick" data-site="' + site.id + '">Pick a property →</button></div>';
+      }
 
       return '<div class="panel">' +
         '<div class="site-header">' +
@@ -1079,9 +1386,13 @@ function dashboardHTML() {
           '<div class="row-actions">' +
             '<button class="btn btn-primary" data-action="generate" data-site="' + site.id + '">Generate Article Now</button>' +
             '<button class="btn btn-ghost" data-action="research" data-site="' + site.id + '">Refresh keywords</button>' +
+            (gscConnected
+              ? '<button class="btn btn-ghost" data-action="gsc-disconnect" data-site="' + site.id + '">Disconnect GSC</button>'
+              : '<button class="btn btn-ghost" data-action="gsc-connect" data-site="' + site.id + '">Connect GSC</button>') +
             '<button class="btn btn-danger" data-action="disconnect" data-site="' + site.id + '">Disconnect</button>' +
           '</div>' +
         '</div>' +
+        keywordSourceBanner +
         '<details style="margin-top:18px;border-top:1px solid var(--border);padding-top:14px;">' +
           '<summary style="cursor:pointer;color:var(--muted);font-family:\\'Rajdhani\\',sans-serif;font-size:0.82rem;letter-spacing:0.1em;text-transform:uppercase;">Settings</summary>' +
           '<form data-settings-site="' + site.id + '" style="display:grid;gap:14px;margin-top:14px;max-width:640px;">' +
@@ -1089,6 +1400,27 @@ function dashboardHTML() {
               '<label>Brand voice override</label>' +
               '<textarea name="brandVoiceOverride" rows="5" placeholder="Optional. Paste 200–500 words that capture the voice." style="width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:\\'Outfit\\',sans-serif;font-size:0.95rem;resize:vertical;">' + escapeHTML(site.brandVoiceOverride || '') + '</textarea>' +
               '<p class="help" style="margin-top:6px;">' + (voiceOverrideLen ? voiceOverrideLen + ' chars — overriding the auto-crawled voice.' : 'Empty — using the auto-crawled homepage as the voice sample.') + '</p>' +
+            '</div>' +
+            '<div>' +
+              '<label>Keyword source</label>' +
+              '<div style="display:grid;gap:8px;margin-top:8px;">' +
+                '<label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);">' +
+                  '<input type="radio" name="keywordSource" value="gsc"' + (keywordSource === 'gsc' ? ' checked' : '') + ' style="margin-top:4px;">' +
+                  '<span><strong>Google Search Console</strong> <span class="badge publish" style="font-size:0.62rem;">Recommended</span><br><span style="color:var(--muted);font-size:0.85rem;">Free. Pulls "low-hanging fruit" queries the site already ranks position 5–20 for.</span></span>' +
+                '</label>' +
+                '<label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);">' +
+                  '<input type="radio" name="keywordSource" value="ahrefs"' + (keywordSource === 'ahrefs' ? ' checked' : '') + ' style="margin-top:4px;">' +
+                  '<span><strong>Ahrefs</strong><br><span style="color:var(--muted);font-size:0.85rem;">Discovers brand-new keywords for sites with no traffic yet. Requires AHREFS_API_KEY on the worker.</span></span>' +
+                '</label>' +
+                '<label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);">' +
+                  '<input type="radio" name="keywordSource" value="manual"' + (keywordSource === 'manual' ? ' checked' : '') + ' style="margin-top:4px;">' +
+                  '<span><strong>Manual paste</strong><br><span style="color:var(--muted);font-size:0.85rem;">You paste 10–30 starter keywords below. Best for brand-new sites with no GSC data.</span></span>' +
+                '</label>' +
+              '</div>' +
+            '</div>' +
+            '<div data-keyword-source-fields="manual" style="display:' + (keywordSource === 'manual' ? 'block' : 'none') + ';">' +
+              '<label>Manual keyword list (one per line)</label>' +
+              '<textarea name="manualKeywords" rows="6" placeholder="best dental clinic seattle\nteeth whitening cost\npediatric dentist near me" style="width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:\\'Outfit\\',sans-serif;font-size:0.95rem;resize:vertical;">' + escapeHTML((site.manualKeywords || []).map(k => typeof k === 'string' ? k : k.keyword).join('\\n')) + '</textarea>' +
             '</div>' +
             '<label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);">' +
               '<input type="checkbox" name="requireApproval"' + (site.requireApproval ? ' checked' : '') + ' style="margin-top:4px;">' +
@@ -1150,16 +1482,28 @@ function dashboardHTML() {
     }
 
     function attachSettingsForm(form) {
+      // Show/hide manual-keywords textarea when source toggles
+      form.querySelectorAll('input[name=keywordSource]').forEach((r) => {
+        r.addEventListener('change', () => {
+          const manualField = form.querySelector('[data-keyword-source-fields=manual]');
+          if (manualField) manualField.style.display = r.checked && r.value === 'manual' ? 'block' : 'none';
+        });
+      });
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const siteId = form.dataset.settingsSite;
         const btn = form.querySelector('button[type=submit]');
         btn.disabled = true; btn.innerHTML = '<span class="loader"></span>Saving…';
         try {
+          const sourceRadio = form.querySelector('input[name=keywordSource]:checked');
+          const manualText = (form.querySelector('textarea[name=manualKeywords]') || {}).value || '';
+          const manualKeywords = manualText.split(/\\n+/).map(s => s.trim()).filter(Boolean).slice(0, 50);
           await api('PATCH', '/api/sites/' + siteId, {
             brandVoiceOverride: form.querySelector('textarea[name=brandVoiceOverride]').value,
             requireApproval: form.querySelector('input[name=requireApproval]').checked,
             autoPublish: form.querySelector('input[name=autoPublish]').checked,
+            keywordSource: sourceRadio ? sourceRadio.value : undefined,
+            manualKeywords,
           });
           showBanner('Settings saved.', 'success');
           await load();
@@ -1168,6 +1512,29 @@ function dashboardHTML() {
           btn.disabled = false; btn.textContent = 'Save settings';
         }
       });
+    }
+
+    async function pickGscProperty(siteId) {
+      try {
+        const r = await api('GET', '/api/sites/' + siteId + '/gsc/properties');
+        const properties = r.properties || [];
+        if (!properties.length) { showBanner('No GSC properties found on that Google account.', 'error'); return; }
+        if (properties.length === 1) {
+          await api('PATCH', '/api/sites/' + siteId + '/gsc/property', { property: properties[0].siteUrl });
+          showBanner('GSC property set: ' + properties[0].siteUrl, 'success');
+          await load();
+          return;
+        }
+        const list = properties.map((p, i) => (i + 1) + '. ' + p.siteUrl + ' (' + p.permissionLevel + ')').join('\\n');
+        const pick = prompt('Pick the GSC property for this site (enter the number):\\n\\n' + list);
+        const idx = parseInt(pick, 10) - 1;
+        if (isNaN(idx) || !properties[idx]) { showBanner('Cancelled.', 'info'); return; }
+        await api('PATCH', '/api/sites/' + siteId + '/gsc/property', { property: properties[idx].siteUrl });
+        showBanner('GSC property set: ' + properties[idx].siteUrl, 'success');
+        await load();
+      } catch (err) {
+        showBanner(err.message, 'error');
+      }
     }
 
     // ── article modal ──
@@ -1233,6 +1600,14 @@ function dashboardHTML() {
       if (action === 'view-article') {
         return openArticleModal(siteId, btn.dataset.article);
       }
+      if (action === 'gsc-connect') {
+        // Full-page redirect to start the OAuth flow on the worker.
+        window.location.href = '/auth/google/start?siteId=' + encodeURIComponent(siteId);
+        return;
+      }
+      if (action === 'gsc-pick') {
+        return pickGscProperty(siteId);
+      }
       btn.disabled = true;
       const originalText = btn.textContent;
       btn.innerHTML = '<span class="loader"></span>' + originalText;
@@ -1242,7 +1617,11 @@ function dashboardHTML() {
           showBanner('Article generated: "' + (out.article.title || '') + '" — open it from the table below.', 'success');
         } else if (action === 'research') {
           const out = await api('POST', '/api/sites/' + siteId + '/research');
-          showBanner('Refreshed — ' + out.count + ' keywords queued.', 'success');
+          showBanner('Refreshed — ' + out.count + ' keywords queued (' + (out.source || 'gsc') + ').', 'success');
+        } else if (action === 'gsc-disconnect') {
+          if (!confirm('Disconnect Google Search Console for this site? Already-collected keywords stay until you refresh.')) { btn.disabled = false; btn.textContent = originalText; return; }
+          await api('DELETE', '/api/sites/' + siteId + '/gsc');
+          showBanner('GSC disconnected.', 'info');
         } else if (action === 'disconnect') {
           if (!confirm('Disconnect this site? Articles already published stay on your WordPress.')) { btn.disabled = false; btn.textContent = originalText; return; }
           await api('DELETE', '/api/sites/' + siteId);
@@ -1254,6 +1633,24 @@ function dashboardHTML() {
         btn.disabled = false; btn.textContent = originalText;
       }
     }
+
+    // After the OAuth redirect, ?gscConnected=<siteId> lands here. If the site
+    // doesn't have a property selected yet, kick the picker.
+    (function handleGscReturn() {
+      const params = new URLSearchParams(window.location.search);
+      const connectedId = params.get('gscConnected');
+      const errorMsg = params.get('gscError');
+      if (errorMsg) showBanner('Google declined: ' + errorMsg, 'error');
+      if (connectedId) {
+        history.replaceState({}, '', '/app/');
+        // Wait for first load() so site list is populated, then trigger picker.
+        const t = setInterval(() => {
+          const sitesLoaded = document.querySelector('[data-settings-site=' + JSON.stringify(connectedId) + ']');
+          if (sitesLoaded) { clearInterval(t); pickGscProperty(connectedId); }
+        }, 200);
+        setTimeout(() => clearInterval(t), 5000);
+      }
+    })();
 
     load();
   </script>

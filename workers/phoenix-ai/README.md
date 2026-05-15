@@ -18,8 +18,8 @@ connects WordPress site (URL + app password)
 worker fetches homepage HTML ────────────┘
         │  derives niche + brand-voice sample
         ▼
-keyword research (Ahrefs v3)
-        │  ranked by intent + opportunity
+keyword research — default GSC (free), optional Ahrefs, or manual paste
+        │  GSC: position 5–20 queries scored by impressions × (1 − CTR)
         ▼
 KV: kws:<siteId>  ←  a queue of 25 unpicked keywords
         │
@@ -44,9 +44,11 @@ dashboard lists it, customer reviews / publishes
 ## Routes
 
 ### Public
-- `POST /auth/request` — `{ email }` → emails a magic link (Resend). Always returns 200.
+- `POST /auth/request` — `{ email }` → emails a magic link. Always returns 200.
 - `GET  /auth/verify?t=` — validates magic token, sets a 30-day session cookie, redirects to `/app/`.
 - `GET  /auth/logout` — clears the cookie.
+- `GET  /auth/google/start?siteId=` — starts Google OAuth for GSC keyword research.
+- `GET  /auth/google/callback?code=&state=` — finishes Google OAuth, stores tokens, returns to `/app/`.
 - `GET  /` — redirects authed users to `/app/`, anonymous to the marketing page.
 
 ### Dashboard (HTML)
@@ -54,10 +56,14 @@ dashboard lists it, customer reviews / publishes
 
 ### API (session-gated, JSON)
 - `GET    /api/me` — `{ customer, sites }`
-- `POST   /api/sites` — `{ url, appUsername, appPassword }` → connects a WP site, learns it, kicks off keyword research
+- `POST   /api/sites` — `{ url, cms, appUsername?, appPassword?, brandVoiceOverride?, requireApproval?, keywordSource?, manualKeywords? }`
+- `PATCH  /api/sites/:siteId` — edit `brandVoiceOverride`, `requireApproval`, `autoPublish`, `keywordSource`, `manualKeywords`
 - `DELETE /api/sites/:siteId`
 - `POST   /api/sites/:siteId/research` — refreshes keyword research now
 - `GET    /api/sites/:siteId/keywords` — `{ keywords: [...] }`
+- `GET    /api/sites/:siteId/gsc/properties` — list GSC properties on the connected Google account
+- `PATCH  /api/sites/:siteId/gsc/property` — `{ property }` → set the active GSC property for this site
+- `DELETE /api/sites/:siteId/gsc` — disconnect GSC (clears stored OAuth tokens)
 - `POST   /api/sites/:siteId/generate` — runs the pipeline once (LLM + WP publish)
 - `GET    /api/sites/:siteId/articles` — newest-first summaries
 - `GET    /api/sites/:siteId/articles/:articleId` — full article record (incl. html)
@@ -72,15 +78,38 @@ dashboard lists it, customer reviews / publishes
 | Binding     | Key                              | Value                                                                                     |
 |-------------|----------------------------------|-------------------------------------------------------------------------------------------|
 | `CUSTOMERS` | `<email>`                        | `{ email, plan, trialEnds, createdAt }`                                                   |
-| `SITES`     | `site:<siteId>`                  | `{ id, ownerEmail, url, appUsername, appPassword(enc), niche, brandVoice, autoPublish, status, createdAt }` |
+| `SITES`     | `site:<siteId>`                  | `{ id, ownerEmail, url, cms, appUsername, appPassword(enc), niche, brandVoice, brandVoiceOverride, autoPublish, requireApproval, keywordSource, gsc:{accessToken(enc),refreshToken(enc),expiresAt,property,connectedAt}, manualKeywords, status, createdAt }` |
 | `SITES`     | `owner:<email>`                  | `[siteId, ...]` (an index of which sites a customer owns)                                 |
-| `KEYWORDS`  | `kws:<siteId>`                   | `[{ keyword, volume, kd, intent, score, picked, pickedAt }, ...]`                          |
+| `KEYWORDS`  | `kws:<siteId>`                   | `[{ keyword, volume, kd, intent, opportunity, score, picked, pickedAt }, ...]` (GSC source: `volume`=impressions, `kd`=position) |
 | `ARTICLES`  | `art:<siteId>:<articleId>`       | full record (incl. `html`)                                                                |
 | `ARTICLES`  | `list:<siteId>`                  | `[articleId, ...]` newest-first index                                                     |
 | `RATE_LIMIT`| `rl:<ip>`                        | counter, 10-minute TTL                                                                    |
 | `AUDIT_LOG` | `log:<siteId>:<ts>`              | `{ event, detail, at }` 30-day TTL                                                        |
 
-WordPress application passwords are stored AES-GCM encrypted with a key derived from `SESSION_SECRET`. Never in plaintext.
+WordPress application passwords AND Google OAuth refresh/access tokens are all stored AES-GCM encrypted with a key derived from `SESSION_SECRET`. Never in plaintext.
+
+---
+
+## Keyword sources
+
+Phoenix AI defaults to **Google Search Console** as the keyword source — free for any verified site owner. Three sources are supported per-site:
+
+| Source | What it does | Cost | Best for |
+|---|---|---|---|
+| **`gsc`** (default) | OAuth into the customer's GSC, pull last 90 days of queries where they rank position 5–20, sort by missed-clicks (`impressions × (1 − CTR)`) | Free | Any site with existing GSC data |
+| **`ahrefs`** | Calls Ahrefs Keywords Explorer API; falls back to seeded keywords if no key | Requires `AHREFS_API_KEY` worker secret | Brand-new sites with no traffic; competitor-gap discovery |
+| **`manual`** | Customer pastes 10–30 starter keywords; pipeline picks from those | Free | Brand-new sites where the customer already has a keyword list |
+
+Set per-site from the dashboard Settings panel.
+
+### GSC OAuth setup (one-time, per worker)
+
+1. https://console.cloud.google.com → enable **Search Console API**
+2. OAuth consent screen → External, add scope `https://www.googleapis.com/auth/webmasters.readonly`
+3. Credentials → OAuth Client ID → Web application
+   - Authorized JavaScript origins: `https://phoenix-ai.phoenixmethod.workers.dev`
+   - Authorized redirect URIs: `https://phoenix-ai.phoenixmethod.workers.dev/auth/google/callback`
+4. `wrangler secret put GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`
 
 ---
 
@@ -99,9 +128,14 @@ wrangler kv:namespace create AUDIT_LOG
 
 # 2) Set secrets
 wrangler secret put SESSION_SECRET     # any 32+ random chars
-wrangler secret put RESEND_API_KEY     # from resend.com
+wrangler secret put RESEND_API_KEY     # magic-link email
 wrangler secret put AI_API_KEY         # LLM provider API key
-wrangler secret put AHREFS_API_KEY     # optional — pipeline falls back to seeded keywords without it
+wrangler secret put AI_API_URL         # LLM provider endpoint URL
+wrangler secret put AI_API_VERSION     # LLM provider version header (optional)
+wrangler secret put AI_MODEL_ID        # LLM model identifier
+wrangler secret put GOOGLE_CLIENT_ID   # GSC OAuth client ID
+wrangler secret put GOOGLE_CLIENT_SECRET  # GSC OAuth client secret
+wrangler secret put AHREFS_API_KEY     # optional — only needed for keywordSource=ahrefs
 
 # 3) Deploy
 wrangler deploy
