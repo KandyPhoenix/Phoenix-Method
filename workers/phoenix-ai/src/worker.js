@@ -1206,8 +1206,8 @@ function dashboardHTML() {
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@500;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root { --bg:#07070D; --surface:#0E0E18; --card:#131320; --border:rgba(255,255,255,0.08); --text:#F0EDE6; --muted:#A8A49C; --deep:#6B6860; --fire-s:#FF4D00; --fire-m:#FF8C00; --fire-e:#FFB800; --danger:#ff7373; }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
+  * { box-sizing: border-box; margin: 0; padding: 0; min-width: 0; }
+  body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; overflow-wrap: break-word; word-wrap: break-word; }
   a { color: var(--fire-m); text-decoration: none; }
   a:hover { color: var(--fire-e); }
   header.topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
@@ -1220,9 +1220,16 @@ function dashboardHTML() {
   h2 { font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.25rem; margin: 32px 0 14px; }
   h3 { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
   .lede { color: var(--muted); margin-bottom: 24px; }
-  .panel { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; margin-bottom: 20px; }
+  .panel { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; margin-bottom: 20px; overflow: hidden; overflow-wrap: break-word; word-wrap: break-word; }
   .panel.empty { text-align: center; padding: 40px 24px; }
   .panel.empty h2 { margin-top: 0; }
+  .panel h2, .panel h3, .panel p, .panel a, .panel label, .panel pre, .panel summary { overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; max-width: 100%; }
+  .panel table { width: 100%; table-layout: auto; }
+  .panel table td { overflow-wrap: break-word; word-break: break-word; max-width: 0; }
+  .panel pre, .panel code { white-space: pre-wrap; word-break: break-all; }
+  .panel .site-meta { word-break: break-word; }
+  .row-actions { flex-wrap: wrap; }
+  textarea, input[type=text], input[type=url], input[type=password], input[type=email] { max-width: 100%; }
   .btn { display: inline-block; padding: 12px 22px; border-radius: 8px; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.88rem; letter-spacing: 0.1em; text-transform: uppercase; border: none; cursor: pointer; transition: transform .15s, box-shadow .2s; }
   .btn-primary { background: linear-gradient(135deg, var(--fire-s), var(--fire-m)); color: #fff; }
   .btn-primary:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(255,140,0,0.25); }
