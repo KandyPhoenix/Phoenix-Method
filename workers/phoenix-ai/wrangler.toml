@@ -9,7 +9,7 @@ workers_dev = true
 # Phase 2). Phase 1 supports manual on-demand generation via the dashboard.
 
 [vars]
-FROM_EMAIL = "phoenix-ai@phoenixmethodseo.com"
+FROM_EMAIL = "hello@phoenixmethodseo.com"
 FROM_NAME = "Phoenix AI"
 SESSION_DAYS = "30"
 DEFAULT_PLAN = "trial"
