@@ -788,15 +788,15 @@ export default {
     const path = url.pathname;
 
     // Permissive CORS for the marketing page calling /auth/request from phoenixmethodseo.com.
-    if (request.method === 'OPTIONS') return cors(new Response(null, { status: 204 }));
+    if (request.method === 'OPTIONS') return cors(new Response(null, { status: 204 }), request);
 
-    if (path === '/auth/request' && request.method === 'POST') return cors(await handleAuthRequest(request, env, url));
+    if (path === '/auth/request' && request.method === 'POST') return cors(await handleAuthRequest(request, env, url), request);
     if (path === '/auth/verify') return await handleAuthVerify(request, env, url);
     if (path === '/auth/logout') return logout();
     if (path === '/auth/google/start') return await handleGoogleStart(request, env, url);
     if (path === '/auth/google/callback') return await handleGoogleCallback(request, env, url);
 
-    if (path.startsWith('/api/')) return cors(await apiRouter(request, env, url, path));
+    if (path.startsWith('/api/')) return cors(await apiRouter(request, env, url, path), request);
 
     if (path === '/app' || path === '/app/' || path.startsWith('/app/')) {
       return new Response(dashboardHTML(), { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } });
@@ -832,9 +832,19 @@ export default {
   },
 };
 
-function cors(res) {
+const ALLOWED_ORIGINS = new Set([
+  'https://phoenixmethodseo.com',
+  'https://www.phoenixmethodseo.com',
+]);
+
+function cors(res, request) {
+  const origin = request && request.headers ? request.headers.get('Origin') : null;
   const h = new Headers(res.headers);
-  h.set('Access-Control-Allow-Origin', 'https://phoenixmethodseo.com');
+  // Echo back whichever allowed origin the browser is on (bare domain vs www).
+  // GitHub Pages canonically redirects to www, but bookmarks etc. may still
+  // hit the bare host.
+  h.set('Access-Control-Allow-Origin', ALLOWED_ORIGINS.has(origin) ? origin : 'https://www.phoenixmethodseo.com');
+  h.set('Vary', 'Origin');
   h.set('Access-Control-Allow-Methods', 'GET,POST,PATCH,DELETE,OPTIONS');
   h.set('Access-Control-Allow-Headers', 'Content-Type');
   h.set('Access-Control-Allow-Credentials', 'true');
