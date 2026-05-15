@@ -49,10 +49,12 @@ id = "2a9794fd305f43ce96c2d116562c61ad"
 crons = ["0 13 * * *"]
 
 # Secrets (set via `wrangler secret put` after first deploy):
-#   SESSION_SECRET       HMAC key for signing session + magic-link tokens
-#   RESEND_API_KEY       Magic-link email delivery
-#   AI_API_KEY           Article generation API key
-#   AI_API_URL           Article generation API endpoint URL
-#   AI_API_VERSION       Optional version header value (provider-specific)
-#   AI_MODEL_ID          Article generation model identifier
-#   AHREFS_API_KEY       Keyword research (Ahrefs API v3)
+#   SESSION_SECRET         HMAC key for signing session + magic-link tokens
+#   RESEND_API_KEY         Magic-link email delivery
+#   AI_API_KEY             Article generation API key
+#   AI_API_URL             Article generation API endpoint URL
+#   AI_API_VERSION         Optional version header value (provider-specific)
+#   AI_MODEL_ID            Article generation model identifier
+#   GOOGLE_CLIENT_ID       OAuth client ID for GSC keyword research
+#   GOOGLE_CLIENT_SECRET   OAuth client secret for GSC keyword research
+#   AHREFS_API_KEY         Optional — only needed when keywordSource=ahrefs
