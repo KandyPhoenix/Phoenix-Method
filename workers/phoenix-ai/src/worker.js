@@ -157,11 +157,12 @@ async function listSitesForOwner(env, email) {
   return sites.filter(Boolean).map(stripSiteSecrets);
 }
 function stripSiteSecrets(site) {
-  const { appPassword, gsc, ...safe } = site;
+  const { appPassword, gsc, anthropicApiKey, ...safe } = site;
   return {
     ...safe,
     hasCredentials: Boolean(appPassword) || site.cms === 'manual',
     gsc: gsc ? { property: gsc.property || '', connected: true, connectedAt: gsc.connectedAt || null } : null,
+    hasAnthropicKey: Boolean(anthropicApiKey),
   };
 }
 async function getSite(env, siteId, owner) {
@@ -508,28 +509,85 @@ Return only the JSON object.`,
   };
 }
 
-async function callLLM(env, { system, user }) {
-  if (!env.AI_API_KEY) {
-    // Dev fallback so the pipeline is testable without secrets configured.
-    const stub = {
-      title: 'Sample article generated without AI_API_KEY',
-      slug: 'sample-article',
-      metaDescription: 'This is a stub article. Set the AI_API_KEY secret on the worker to generate real content.',
-      html: '<p>This is a stub. The Phoenix AI worker generated this article without an AI_API_KEY configured. Add the secret and re-run.</p>',
-      tags: ['phoenix-ai', 'stub'],
-      faqs: [{ q: 'Why is this article a stub?', a: 'Because AI_API_KEY is not set on the worker yet.' }],
+// JSON schema we ask the model to populate. Used both as a prompt
+// reminder and as the structured-output schema for Workers AI.
+const ARTICLE_JSON_SCHEMA = {
+  type: 'object',
+  required: ['title', 'slug', 'metaDescription', 'html', 'tags', 'faqs'],
+  properties: {
+    title: { type: 'string' },
+    slug: { type: 'string' },
+    metaDescription: { type: 'string' },
+    html: { type: 'string' },
+    tags: { type: 'array', items: { type: 'string' } },
+    faqs: {
+      type: 'array',
+      items: {
+        type: 'object',
+        required: ['q', 'a'],
+        properties: { q: { type: 'string' }, a: { type: 'string' } },
+      },
+    },
+  },
+};
+
+// Single entry point. Picks Workers AI (free, default) or BYOK Anthropic
+// based on what the site is configured for. Never falls back to a
+// worker-paid provider — Phoenix AI's business model is that customer
+// generation never costs Kandy uncapped tokens.
+async function callLLM(env, site, { system, user }) {
+  const provider = site.llmProvider === 'anthropic' && site.anthropicApiKey
+    ? 'anthropic' : 'workers-ai';
+  if (provider === 'anthropic') return callAnthropic(env, site, { system, user });
+  return callWorkersAI(env, { system, user });
+}
+
+async function callWorkersAI(env, { system, user }) {
+  if (!env.AI) return { ok: false, error: 'Workers AI binding is not configured on this worker' };
+  try {
+    const result = await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast', {
+      messages: [
+        { role: 'system', content: system },
+        { role: 'user', content: user },
+      ],
+      max_tokens: 4096,
+      response_format: { type: 'json_schema', json_schema: ARTICLE_JSON_SCHEMA },
+    });
+    // env.AI.run returns either { response: <object|string> } or a raw string
+    // depending on the model. Normalize.
+    const raw = result.response ?? result;
+    let parsed;
+    if (typeof raw === 'object' && raw !== null && !Array.isArray(raw) && raw.title) {
+      parsed = raw;
+    } else if (typeof raw === 'string') {
+      const cleaned = raw.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
+      try { parsed = JSON.parse(cleaned); }
+      catch (err) { return { ok: false, error: `Workers AI returned non-JSON: ${err.message}`, raw: cleaned.slice(0, 500) }; }
+    } else {
+      return { ok: false, error: 'Workers AI returned unexpected response shape' };
+    }
+    return {
+      ok: true,
+      content: parsed,
+      tokens: { input: result.usage?.prompt_tokens || 0, output: result.usage?.completion_tokens || 0 },
+      model: '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
     };
-    return { ok: true, content: stub, tokens: { input: 0, output: 0 }, model: 'stub' };
+  } catch (err) {
+    return { ok: false, error: `Workers AI error: ${err.message || err}` };
   }
-  const model = env.AI_MODEL_ID;
-  const apiUrl = env.AI_API_URL;
-  const versionHeader = env.AI_API_VERSION;
-  if (!model || !apiUrl) return { ok: false, error: 'AI_MODEL_ID and AI_API_URL must be set as worker secrets' };
-  const headers = { 'x-api-key': env.AI_API_KEY, 'Content-Type': 'application/json' };
-  if (versionHeader) headers['anthropic-version'] = versionHeader;
-  const res = await fetch(apiUrl, {
+}
+
+async function callAnthropic(env, site, { system, user }) {
+  const apiKey = await decryptSecret(site.anthropicApiKey, env.SESSION_SECRET);
+  if (!apiKey) return { ok: false, error: 'BYOK Anthropic key is missing or unreadable for this site' };
+  const model = site.anthropicModel || 'claude-opus-4-7';
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
-    headers,
+    headers: {
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify({
       model,
       max_tokens: 8000,
@@ -539,16 +597,20 @@ async function callLLM(env, { system, user }) {
   });
   if (!res.ok) {
     const errBody = await res.text().catch(() => '');
-    return { ok: false, error: `llm ${res.status}: ${errBody.slice(0, 400)}` };
+    return { ok: false, error: `Anthropic ${res.status}: ${errBody.slice(0, 400)}` };
   }
   const data = await res.json();
   const text = (data.content || []).map((c) => c.text || '').join('').trim();
-  // Strip code fences if the model added them despite our instructions.
   const cleaned = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
   let parsed;
   try { parsed = JSON.parse(cleaned); }
   catch (err) { return { ok: false, error: `failed to parse model output: ${err.message}`, raw: text.slice(0, 500) }; }
-  return { ok: true, content: parsed, tokens: { input: data.usage?.input_tokens || 0, output: data.usage?.output_tokens || 0 }, model };
+  return {
+    ok: true,
+    content: parsed,
+    tokens: { input: data.usage?.input_tokens || 0, output: data.usage?.output_tokens || 0 },
+    model,
+  };
 }
 
 // ──────────────────────────────────────────────────────────────
@@ -611,7 +673,7 @@ async function runPipeline(env, site, opts = {}) {
 
   // 3. Generate article via the LLM.
   const prompt = buildArticlePrompt({ keyword, site });
-  const llmResult = await callLLM(env, prompt);
+  const llmResult = await callLLM(env, site, prompt);
   if (!llmResult.ok) {
     await audit(env, site.id, 'pipeline.error', { stage: 'llm', error: llmResult.error });
     return { ok: false, error: llmResult.error };
@@ -952,6 +1014,11 @@ async function apiRouter(request, env, url, path) {
     // customers are nudged toward the free option. They'll click Connect GSC
     // from the dashboard before any real research runs against it.
     const keywordSource = ['gsc', 'ahrefs', 'manual'].includes(body.keywordSource) ? body.keywordSource : 'gsc';
+    // LLM provider: 'workers-ai' (free default) or 'anthropic' (BYOK premium).
+    // Phoenix AI never pays for customer tokens — Anthropic mode requires the
+    // customer to paste their own API key, stored encrypted per-site.
+    const llmProvider = body.llmProvider === 'anthropic' ? 'anthropic' : 'workers-ai';
+    const anthropicKeyPlain = (body.anthropicApiKey || '').toString().trim();
     const site = {
       id,
       ownerEmail: email,
@@ -967,6 +1034,8 @@ async function apiRouter(request, env, url, path) {
       keywordSource,
       gsc: null,
       manualKeywords: Array.isArray(body.manualKeywords) ? body.manualKeywords.slice(0, 50) : [],
+      llmProvider,
+      anthropicApiKey: anthropicKeyPlain ? await encryptSecret(anthropicKeyPlain, env.SESSION_SECRET) : '',
       status: 'active',
       createdAt: nowIso(),
     };
@@ -1010,11 +1079,23 @@ async function apiRouter(request, env, url, path) {
       }
       if (['gsc', 'ahrefs', 'manual'].includes(body.keywordSource)) site.keywordSource = body.keywordSource;
       if (Array.isArray(body.manualKeywords)) site.manualKeywords = body.manualKeywords.slice(0, 50);
+      if (['workers-ai', 'anthropic'].includes(body.llmProvider)) site.llmProvider = body.llmProvider;
+      // Set anthropicApiKey ONLY if a non-empty string is provided; pass an
+      // empty string to clear it (e.g., when the customer wants to revoke).
+      if (typeof body.anthropicApiKey === 'string') {
+        const trimmed = body.anthropicApiKey.trim();
+        site.anthropicApiKey = trimmed ? await encryptSecret(trimmed, env.SESSION_SECRET) : '';
+      }
+      // If the customer clears their Anthropic key but llmProvider is still
+      // 'anthropic', downgrade them to workers-ai so generation doesn't break.
+      if (site.llmProvider === 'anthropic' && !site.anthropicApiKey) site.llmProvider = 'workers-ai';
       await saveSite(env, site);
       await audit(env, siteId, 'site.updated', {
         requireApproval: site.requireApproval,
         autoPublish: site.autoPublish,
         keywordSource: site.keywordSource,
+        llmProvider: site.llmProvider,
+        hasAnthropicKey: Boolean(site.anthropicApiKey),
         brandVoiceOverrideLen: (site.brandVoiceOverride || '').length,
       });
       return json({ ok: true, site: stripSiteSecrets(site) });
@@ -1422,6 +1503,24 @@ function dashboardHTML() {
               '<label>Manual keyword list (one per line)</label>' +
               '<textarea name="manualKeywords" rows="6" placeholder="best dental clinic seattle\nteeth whitening cost\npediatric dentist near me" style="width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:\\'Outfit\\',sans-serif;font-size:0.95rem;resize:vertical;">' + escapeHTML((site.manualKeywords || []).map(k => typeof k === 'string' ? k : k.keyword).join('\\n')) + '</textarea>' +
             '</div>' +
+            '<div>' +
+              '<label>AI provider</label>' +
+              '<div style="display:grid;gap:8px;margin-top:8px;">' +
+                '<label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);">' +
+                  '<input type="radio" name="llmProvider" value="workers-ai"' + ((site.llmProvider || 'workers-ai') === 'workers-ai' ? ' checked' : '') + ' style="margin-top:4px;">' +
+                  '<span><strong>Cloudflare Workers AI (Llama 3.3 70B)</strong> <span class="badge publish" style="font-size:0.62rem;">Default · Free</span><br><span style="color:var(--muted);font-size:0.85rem;">Runs on Cloudflare\\'s infra. Included free up to ~10 articles/day, then sub-cent per article.</span></span>' +
+                '</label>' +
+                '<label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);">' +
+                  '<input type="radio" name="llmProvider" value="anthropic"' + (site.llmProvider === 'anthropic' ? ' checked' : '') + ' style="margin-top:4px;">' +
+                  '<span><strong>Anthropic Claude (BYOK)</strong> <span class="badge draft" style="font-size:0.62rem;">Premium</span><br><span style="color:var(--muted);font-size:0.85rem;">Higher-quality brand-voice matching. <em>You</em> pay your own Anthropic bill — paste your API key below.</span></span>' +
+                '</label>' +
+              '</div>' +
+            '</div>' +
+            '<div data-llm-provider-fields="anthropic" style="display:' + (site.llmProvider === 'anthropic' ? 'block' : 'none') + ';">' +
+              '<label>Anthropic API key</label>' +
+              '<input type="password" name="anthropicApiKey" placeholder="' + (site.hasAnthropicKey ? '••• key already set — paste to replace, leave blank to keep' : 'sk-ant-…') + '" style="width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:\\'Outfit\\',sans-serif;font-size:0.95rem;">' +
+              '<p class="help" style="margin-top:6px;">Get one at <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a>. We store it encrypted and only use it for this site.</p>' +
+            '</div>' +
             '<label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);">' +
               '<input type="checkbox" name="requireApproval"' + (site.requireApproval ? ' checked' : '') + ' style="margin-top:4px;">' +
               '<span><strong>Require approval on every article</strong><br><span style="color:var(--muted);font-size:0.85rem;">Locks this site to draft-only. Recommended for YMYL clients.</span></span>' +
@@ -1489,6 +1588,13 @@ function dashboardHTML() {
           if (manualField) manualField.style.display = r.checked && r.value === 'manual' ? 'block' : 'none';
         });
       });
+      // Show/hide Anthropic key field when provider toggles
+      form.querySelectorAll('input[name=llmProvider]').forEach((r) => {
+        r.addEventListener('change', () => {
+          const keyField = form.querySelector('[data-llm-provider-fields=anthropic]');
+          if (keyField) keyField.style.display = r.checked && r.value === 'anthropic' ? 'block' : 'none';
+        });
+      });
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const siteId = form.dataset.settingsSite;
@@ -1496,15 +1602,23 @@ function dashboardHTML() {
         btn.disabled = true; btn.innerHTML = '<span class="loader"></span>Saving…';
         try {
           const sourceRadio = form.querySelector('input[name=keywordSource]:checked');
+          const providerRadio = form.querySelector('input[name=llmProvider]:checked');
           const manualText = (form.querySelector('textarea[name=manualKeywords]') || {}).value || '';
           const manualKeywords = manualText.split(/\\n+/).map(s => s.trim()).filter(Boolean).slice(0, 50);
-          await api('PATCH', '/api/sites/' + siteId, {
+          // Only send anthropicApiKey if the field has content. Empty string
+          // means "keep what's stored" — don't accidentally clear it.
+          const keyField = form.querySelector('input[name=anthropicApiKey]');
+          const keyValue = keyField ? keyField.value.trim() : '';
+          const patch = {
             brandVoiceOverride: form.querySelector('textarea[name=brandVoiceOverride]').value,
             requireApproval: form.querySelector('input[name=requireApproval]').checked,
             autoPublish: form.querySelector('input[name=autoPublish]').checked,
             keywordSource: sourceRadio ? sourceRadio.value : undefined,
+            llmProvider: providerRadio ? providerRadio.value : undefined,
             manualKeywords,
-          });
+          };
+          if (keyValue) patch.anthropicApiKey = keyValue;
+          await api('PATCH', '/api/sites/' + siteId, patch);
           showBanner('Settings saved.', 'success');
           await load();
         } catch (err) {

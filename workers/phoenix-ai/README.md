@@ -78,7 +78,7 @@ dashboard lists it, customer reviews / publishes
 | Binding     | Key                              | Value                                                                                     |
 |-------------|----------------------------------|-------------------------------------------------------------------------------------------|
 | `CUSTOMERS` | `<email>`                        | `{ email, plan, trialEnds, createdAt }`                                                   |
-| `SITES`     | `site:<siteId>`                  | `{ id, ownerEmail, url, cms, appUsername, appPassword(enc), niche, brandVoice, brandVoiceOverride, autoPublish, requireApproval, keywordSource, gsc:{accessToken(enc),refreshToken(enc),expiresAt,property,connectedAt}, manualKeywords, status, createdAt }` |
+| `SITES`     | `site:<siteId>`                  | `{ id, ownerEmail, url, cms, appUsername, appPassword(enc), niche, brandVoice, brandVoiceOverride, autoPublish, requireApproval, keywordSource, gsc:{accessToken(enc),refreshToken(enc),expiresAt,property,connectedAt}, manualKeywords, llmProvider, anthropicApiKey(enc), status, createdAt }` |
 | `SITES`     | `owner:<email>`                  | `[siteId, ...]` (an index of which sites a customer owns)                                 |
 | `KEYWORDS`  | `kws:<siteId>`                   | `[{ keyword, volume, kd, intent, opportunity, score, picked, pickedAt }, ...]` (GSC source: `volume`=impressions, `kd`=position) |
 | `ARTICLES`  | `art:<siteId>:<articleId>`       | full record (incl. `html`)                                                                |
@@ -86,7 +86,22 @@ dashboard lists it, customer reviews / publishes
 | `RATE_LIMIT`| `rl:<ip>`                        | counter, 10-minute TTL                                                                    |
 | `AUDIT_LOG` | `log:<siteId>:<ts>`              | `{ event, detail, at }` 30-day TTL                                                        |
 
-WordPress application passwords AND Google OAuth refresh/access tokens are all stored AES-GCM encrypted with a key derived from `SESSION_SECRET`. Never in plaintext.
+WordPress application passwords, Google OAuth refresh/access tokens, and per-site BYOK Anthropic API keys are all stored AES-GCM encrypted with a key derived from `SESSION_SECRET`. Never in plaintext.
+
+---
+
+## AI providers
+
+Phoenix AI never pays for customer LLM tokens. Two paths per-site:
+
+| Provider | What it is | Cost to operator | Best for |
+|---|---|---|---|
+| **`workers-ai`** (default) | Calls Cloudflare Workers AI binding (`env.AI`) with `@cf/meta/llama-3.3-70b-instruct-fp8-fast`. Structured-output via `response_format: json_schema`. | Included on the Workers paid plan up to ~10k neurons/day, then sub-cent per article. | Every customer by default. |
+| **`anthropic`** (BYOK) | Customer pastes their own Anthropic API key in Settings. Stored encrypted per-site. Worker calls `api.anthropic.com/v1/messages` with their key, never with a worker-level key. | `$0` to the operator (customer pays their own Anthropic bill). | Customers who want higher-quality brand-voice matching and are willing to bring their own key. |
+
+Switching is one click in the Settings panel. Pasting an empty Anthropic key clears it; if the active provider is `anthropic` and the key is removed, the site auto-falls-back to `workers-ai` so generation never breaks silently.
+
+The legacy worker-level secrets (`AI_API_KEY`, `AI_API_URL`, `AI_API_VERSION`, `AI_MODEL_ID`) are no longer read by the code path. They can be deleted from Cloudflare; leaving them in place is also fine (they're inert).
 
 ---
 
@@ -127,15 +142,15 @@ wrangler kv:namespace create RATE_LIMIT
 wrangler kv:namespace create AUDIT_LOG
 
 # 2) Set secrets
-wrangler secret put SESSION_SECRET     # any 32+ random chars
-wrangler secret put RESEND_API_KEY     # magic-link email
-wrangler secret put AI_API_KEY         # LLM provider API key
-wrangler secret put AI_API_URL         # LLM provider endpoint URL
-wrangler secret put AI_API_VERSION     # LLM provider version header (optional)
-wrangler secret put AI_MODEL_ID        # LLM model identifier
-wrangler secret put GOOGLE_CLIENT_ID   # GSC OAuth client ID
+wrangler secret put SESSION_SECRET        # any 32+ random chars
+wrangler secret put RESEND_API_KEY        # magic-link email
+wrangler secret put GOOGLE_CLIENT_ID      # GSC OAuth client ID
 wrangler secret put GOOGLE_CLIENT_SECRET  # GSC OAuth client secret
-wrangler secret put AHREFS_API_KEY     # optional — only needed for keywordSource=ahrefs
+wrangler secret put AHREFS_API_KEY        # optional — only needed for keywordSource=ahrefs
+
+# No worker-level AI key is needed — Workers AI is the default (uses
+# the `[ai]` binding declared in wrangler.toml), and customers who want
+# Claude bring their own Anthropic key, stored encrypted per-site.
 
 # 3) Deploy
 wrangler deploy
