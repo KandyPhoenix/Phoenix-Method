@@ -579,10 +579,28 @@ async function callWorkersAI(env, { system, user }) {
       ],
       max_tokens: 4000,
     });
-    // env.AI.run returns either { response: <string> } or a raw string
-    // depending on the model. Normalize, then parse JSON from the text.
+    // env.AI.run for chat models returns one of three shapes depending on
+    // the model + how strictly it followed the JSON instruction:
+    //   1. { response: "<string>" }                        — text mode
+    //   2. { response: { title, slug, html, ... } }        — structured-output mode (Workers AI parses it for us)
+    //   3. just a raw string                               — older models
+    // For case 2 we skip JSON.parse entirely and use the object as-is.
     const raw = result.response ?? result;
-    const text = typeof raw === 'string' ? raw : (raw && raw.text) || String(raw);
+    if (raw && typeof raw === 'object' && !Array.isArray(raw) && (raw.title || raw.html || raw.slug)) {
+      return {
+        ok: true,
+        content: raw,
+        tokens: { input: result.usage?.prompt_tokens || 0, output: result.usage?.completion_tokens || 0 },
+        model: WORKERS_AI_MODEL,
+      };
+    }
+    // Coerce to a string we can JSON.parse. JSON.stringify on an object is
+    // safer than String() because it produces valid JSON in most cases and
+    // gives a readable diagnostic for the cases it doesn't.
+    let text;
+    if (typeof raw === 'string') text = raw;
+    else if (raw && typeof raw === 'object') text = raw.text || raw.content || JSON.stringify(raw);
+    else text = String(raw);
     const cleaned = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
     let parsed;
     try { parsed = JSON.parse(cleaned); }
@@ -1807,7 +1825,17 @@ function dashboardHTML() {
     const trialBanner = document.getElementById('trialBanner');
     const topbarEmail = document.getElementById('topbarEmail');
 
-    function showBanner(msg, kind) { banner.textContent = msg; banner.className = 'status-banner show ' + kind; setTimeout(() => banner.classList.remove('show'), 8000); }
+    function showBanner(msg, kind) {
+      banner.textContent = msg;
+      banner.className = 'status-banner show ' + kind;
+      banner.style.cursor = 'pointer';
+      banner.title = 'Click to dismiss';
+      banner.onclick = () => banner.classList.remove('show');
+      // Success/info auto-hide after 8s. Errors stay until clicked or 60s,
+      // since they may contain long diagnostic info that takes time to read.
+      const hideAfter = kind === 'error' ? 60000 : 8000;
+      setTimeout(() => banner.classList.remove('show'), hideAfter);
+    }
 
     function escapeHTML(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
     function formatDate(iso) { if (!iso) return '—'; const d = new Date(iso); return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }
