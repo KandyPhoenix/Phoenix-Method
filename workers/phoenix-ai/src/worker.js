@@ -484,7 +484,7 @@ function buildArticlePrompt({ keyword, site }) {
     system: `You are a senior SEO content writer at Phoenix Method, a working SEO agency. Your job is to write a single long-form article that ranks on Google and converts readers.
 
 Style guardrails:
-- 1,500–2,500 words.
+- 1,200–1,600 words.
 - Plain English, no SEO-speak, no keyword stuffing, no marketing fluff.
 - Match the brand voice sample given to you in word choice, sentence rhythm, and POV.
 - Use proper H-hierarchy: one H1 (matches title), 4–8 H2s, optional H3s.
@@ -522,28 +522,6 @@ Return only the JSON object.`,
   };
 }
 
-// JSON schema we ask the model to populate. Used both as a prompt
-// reminder and as the structured-output schema for Workers AI.
-const ARTICLE_JSON_SCHEMA = {
-  type: 'object',
-  required: ['title', 'slug', 'metaDescription', 'html', 'tags', 'faqs'],
-  properties: {
-    title: { type: 'string' },
-    slug: { type: 'string' },
-    metaDescription: { type: 'string' },
-    html: { type: 'string' },
-    tags: { type: 'array', items: { type: 'string' } },
-    faqs: {
-      type: 'array',
-      items: {
-        type: 'object',
-        required: ['q', 'a'],
-        properties: { q: { type: 'string' }, a: { type: 'string' } },
-      },
-    },
-  },
-};
-
 // Single entry point. Picks Workers AI (free, default) or BYOK Anthropic
 // based on what the site is configured for. Never falls back to a
 // worker-paid provider — Phoenix AI's business model is that customer
@@ -555,35 +533,47 @@ async function callLLM(env, site, { system, user }) {
   return callWorkersAI(env, { system, user });
 }
 
+// Llama 3.1 8B Instruct Fast is widely available across Workers AI accounts
+// and completes within Cloudflare's 30s worker CPU budget for our prompt size
+// (~1500-2000 word article). Llama 3.3 70B fp8-fast produces higher-quality
+// articles but routinely exceeds 30s and gets canceled. When we move article
+// generation to a queue/durable-object (async, no time limit), the default
+// can move back to the 70B model.
+const WORKERS_AI_MODEL = '@cf/meta/llama-3.1-8b-instruct-fast';
+
 async function callWorkersAI(env, { system, user }) {
   if (!env.AI) return { ok: false, error: 'Workers AI binding is not configured on this worker' };
   try {
-    const result = await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast', {
+    const result = await env.AI.run(WORKERS_AI_MODEL, {
       messages: [
         { role: 'system', content: system },
         { role: 'user', content: user },
       ],
-      max_tokens: 4096,
-      response_format: { type: 'json_schema', json_schema: ARTICLE_JSON_SCHEMA },
+      max_tokens: 2500,
     });
-    // env.AI.run returns either { response: <object|string> } or a raw string
-    // depending on the model. Normalize.
+    // env.AI.run returns either { response: <string> } or a raw string
+    // depending on the model. Normalize, then parse JSON from the text.
     const raw = result.response ?? result;
+    const text = typeof raw === 'string' ? raw : (raw && raw.text) || String(raw);
+    const cleaned = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
     let parsed;
-    if (typeof raw === 'object' && raw !== null && !Array.isArray(raw) && raw.title) {
-      parsed = raw;
-    } else if (typeof raw === 'string') {
-      const cleaned = raw.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
-      try { parsed = JSON.parse(cleaned); }
-      catch (err) { return { ok: false, error: `Workers AI returned non-JSON: ${err.message}`, raw: cleaned.slice(0, 500) }; }
-    } else {
-      return { ok: false, error: 'Workers AI returned unexpected response shape' };
+    try { parsed = JSON.parse(cleaned); }
+    catch (err) {
+      // Some models wrap or prepend prose despite the JSON instruction; try to
+      // extract the first balanced { ... } block.
+      const match = cleaned.match(/\{[\s\S]*\}/);
+      if (match) {
+        try { parsed = JSON.parse(match[0]); }
+        catch { return { ok: false, error: `Workers AI returned non-JSON: ${err.message}`, raw: cleaned.slice(0, 500) }; }
+      } else {
+        return { ok: false, error: `Workers AI returned non-JSON: ${err.message}`, raw: cleaned.slice(0, 500) };
+      }
     }
     return {
       ok: true,
       content: parsed,
       tokens: { input: result.usage?.prompt_tokens || 0, output: result.usage?.completion_tokens || 0 },
-      model: '@cf/meta/llama-3.3-70b-instruct-fp8-fast',
+      model: WORKERS_AI_MODEL,
     };
   } catch (err) {
     return { ok: false, error: `Workers AI error: ${err.message || err}` };
