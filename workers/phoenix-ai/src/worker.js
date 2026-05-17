@@ -503,6 +503,7 @@ You MUST respond with a single JSON object (no prose, no code fences) matching t
   "html":         string  // article body as HTML (no <html>/<head>/<body>, no FAQ section, just content starting with <p> or <h2>)
   "tags":         string[]  // 3–6 tags
   "faqs":         [{ "q": string, "a": string }]  // exactly 3 entries; rendered by the dashboard, NOT in the html field above
+  "imagePrompt":  string  // 1–2 sentence visual brief for an editorial hero image. Describe the SCENE concretely (objects, setting, lighting, mood) — not the article topic abstractly. No text overlays, no faces, no logos. Style hint: "editorial photograph" OR "minimal illustration" depending on what fits the topic.
 }`,
     user: `Write the article for this target:
 
@@ -521,6 +522,32 @@ ${voiceSample}
 
 Return only the JSON object.`,
   };
+}
+
+// Repair pass for LLM-emitted JSON: walks the string tracking quote/escape
+// state, and inside string literals replaces raw control chars (0x00-0x1F)
+// with their valid JSON escape (\n, \r, \t, or \uXXXX). Llama 8B routinely
+// emits raw newlines inside the html string field, which makes strict
+// JSON.parse fail at the first newline.
+function escapeUnescapedControlChars(s) {
+  let out = '';
+  let inString = false;
+  let escaped = false;
+  for (let i = 0; i < s.length; i++) {
+    const ch = s[i];
+    if (escaped) { out += ch; escaped = false; continue; }
+    if (ch === '\\') { out += ch; escaped = true; continue; }
+    if (ch === '"') { inString = !inString; out += ch; continue; }
+    if (inString) {
+      const code = ch.charCodeAt(0);
+      if (ch === '\n') { out += '\\n'; continue; }
+      if (ch === '\r') { out += '\\r'; continue; }
+      if (ch === '\t') { out += '\\t'; continue; }
+      if (code < 0x20) { out += '\\u' + code.toString(16).padStart(4, '0'); continue; }
+    }
+    out += ch;
+  }
+  return out;
 }
 
 // Single entry point. Picks Workers AI (free, default) or BYOK Anthropic
@@ -552,23 +579,63 @@ async function callWorkersAI(env, { system, user }) {
       ],
       max_tokens: 4000,
     });
-    // env.AI.run returns either { response: <string> } or a raw string
-    // depending on the model. Normalize, then parse JSON from the text.
+    // env.AI.run for chat models returns one of three shapes depending on
+    // the model + how strictly it followed the JSON instruction:
+    //   1. { response: "<string>" }                        — text mode
+    //   2. { response: { title, slug, html, ... } }        — structured-output mode (Workers AI parses it for us)
+    //   3. just a raw string                               — older models
+    // For case 2 we skip JSON.parse entirely and use the object as-is.
     const raw = result.response ?? result;
-    const text = typeof raw === 'string' ? raw : (raw && raw.text) || String(raw);
+    if (raw && typeof raw === 'object' && !Array.isArray(raw) && (raw.title || raw.html || raw.slug)) {
+      return {
+        ok: true,
+        content: raw,
+        tokens: { input: result.usage?.prompt_tokens || 0, output: result.usage?.completion_tokens || 0 },
+        model: WORKERS_AI_MODEL,
+      };
+    }
+    // Coerce to a string we can JSON.parse. JSON.stringify on an object is
+    // safer than String() because it produces valid JSON in most cases and
+    // gives a readable diagnostic for the cases it doesn't.
+    let text;
+    if (typeof raw === 'string') text = raw;
+    else if (raw && typeof raw === 'object') text = raw.text || raw.content || JSON.stringify(raw);
+    else text = String(raw);
     const cleaned = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
     let parsed;
     try { parsed = JSON.parse(cleaned); }
     catch (err) {
-      // Some models wrap or prepend prose despite the JSON instruction; try to
-      // extract the first balanced { ... } block.
-      const match = cleaned.match(/\{[\s\S]*\}/);
-      if (match) {
-        try { parsed = JSON.parse(match[0]); }
-        catch { return { ok: false, error: `Workers AI returned non-JSON: ${err.message}`, raw: cleaned.slice(0, 500) }; }
-      } else {
-        return { ok: false, error: `Workers AI returned non-JSON: ${err.message}`, raw: cleaned.slice(0, 500) };
+      // Workers AI 8B models sometimes emit literal newlines / tabs / other
+      // control chars inside JSON string values (the html field is the usual
+      // offender). Strict JSON.parse rejects them. Try three repair passes
+      // before giving up: extract the first {...} block, then escape
+      // unescaped control chars inside string literals, then both combined.
+      const candidates = [];
+      const blockMatch = cleaned.match(/\{[\s\S]*\}/);
+      if (blockMatch) candidates.push(blockMatch[0]);
+      candidates.push(escapeUnescapedControlChars(cleaned));
+      if (blockMatch) candidates.push(escapeUnescapedControlChars(blockMatch[0]));
+      let recovered = null;
+      for (const c of candidates) {
+        try { recovered = JSON.parse(c); break; } catch { /* try next */ }
       }
+      if (!recovered) {
+        // Diagnostic: surface the bytes around the failure so we can tell
+        // exactly what the model emitted that none of the repairs handled.
+        const pos = (err.message.match(/position (\d+)/) || [])[1];
+        const ctx = pos ? cleaned.slice(Math.max(0, pos - 60), Math.min(cleaned.length, +pos + 60)) : cleaned.slice(0, 200);
+        const bytesView = ctx.split('').map((c) => {
+          const code = c.charCodeAt(0);
+          if (code < 0x20) return `[U+${code.toString(16).padStart(4, '0')}]`;
+          return c;
+        }).join('');
+        return {
+          ok: false,
+          error: `Workers AI returned non-JSON: ${err.message}. Context around pos: «${bytesView}». Total len: ${cleaned.length}`,
+          raw: cleaned.slice(0, 500),
+        };
+      }
+      parsed = recovered;
     }
     return {
       ok: true,
@@ -685,7 +752,7 @@ function utf8FromB64(b64) {
   return new TextDecoder().decode(bytes);
 }
 
-function blogPostHTML({ site, article, faqHtml }) {
+function blogPostHTML({ site, article, faqHtml, imageUrl }) {
   // Minimal blog post template. Includes /assets/site-chrome.{css,js} so if
   // the customer's repo has them (like phoenixmethodseo.com does), the page
   // automatically inherits their site's nav + footer + design tokens. If
@@ -695,6 +762,13 @@ function blogPostHTML({ site, article, faqHtml }) {
   const titleEsc = escape(article.title || '');
   const descEsc = escape(article.metaDescription || '');
   const canonical = `${site.url.replace(/\/+$/, '')}/${site.blogPath || 'blog'}/${article.slug}.html`;
+  const absImage = imageUrl ? `${site.url.replace(/\/+$/, '')}${imageUrl}` : '';
+  const ogImage = absImage
+    ? `<meta property="og:image" content="${absImage}">\n<meta property="og:image:width" content="1024">\n<meta property="og:image:height" content="1024">\n<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:image" content="${absImage}">`
+    : '';
+  const heroFigure = imageUrl
+    ? `<figure class="hero"><img src="${imageUrl}" alt="${titleEsc}" loading="eager" width="1024" height="1024"></figure>`
+    : '';
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -707,10 +781,13 @@ function blogPostHTML({ site, article, faqHtml }) {
 <meta property="og:description" content="${descEsc}">
 <meta property="og:url" content="${canonical}">
 <meta property="og:type" content="article">
+${ogImage}
 <link rel="stylesheet" href="/assets/site-chrome.css">
 <style>
   body { font-family: 'Outfit', system-ui, sans-serif; line-height: 1.7; background: #07070D; color: #E8E8F0; margin: 0; }
   .blog-post { max-width: 720px; margin: 60px auto; padding: 0 24px; }
+  .blog-post .hero { margin: 0 0 28px; }
+  .blog-post .hero img { width: 100%; height: auto; border-radius: 12px; display: block; }
   .blog-post h1 { font-family: 'Cinzel', serif; font-size: 2rem; margin-bottom: 8px; }
   .blog-post .meta { color: #8888A0; font-size: 0.88rem; margin-bottom: 32px; }
   .blog-post h2 { font-family: 'Cinzel', serif; margin-top: 36px; margin-bottom: 12px; }
@@ -727,6 +804,7 @@ function blogPostHTML({ site, article, faqHtml }) {
 <p class="back"><a href="/${site.blogPath || 'blog'}/">← All articles</a></p>
 <h1>${titleEsc}</h1>
 <p class="meta">Published ${new Date().toISOString().slice(0, 10)} · ${(article.tags || []).slice(0, 4).map(escape).join(' · ')}</p>
+${heroFigure}
 ${article.html || ''}
 ${faqHtml}
 </main>
@@ -739,7 +817,10 @@ ${faqHtml}
 
 function blogIndexHTML({ site, articles }) {
   const escape = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const items = articles.map((a) => `<li><a href="/${site.blogPath || 'blog'}/${a.slug}.html"><h2>${escape(a.title)}</h2><p>${escape(a.metaDescription || '')}</p><p class="meta">${a.publishedAt ? a.publishedAt.slice(0, 10) : ''}</p></a></li>`).join('\n');
+  const items = articles.map((a) => {
+    const thumb = a.imageUrl ? `<img src="${a.imageUrl}" alt="" loading="lazy" width="240" height="240">` : '';
+    return `<li><a href="/${site.blogPath || 'blog'}/${a.slug}.html">${thumb}<div class="entry-text"><h2>${escape(a.title)}</h2><p>${escape(a.metaDescription || '')}</p><p class="meta">${a.publishedAt ? a.publishedAt.slice(0, 10) : ''}</p></div></a></li>`;
+  }).join('\n');
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -754,11 +835,14 @@ function blogIndexHTML({ site, articles }) {
   .blog-index > h1 { font-family: 'Cinzel', serif; font-size: 2.2rem; margin-bottom: 32px; }
   .blog-index ul { list-style: none; padding: 0; }
   .blog-index li { border-bottom: 1px solid rgba(255,255,255,0.08); padding: 22px 0; }
-  .blog-index li a { display: block; color: inherit; text-decoration: none; }
+  .blog-index li a { display: grid; grid-template-columns: 120px 1fr; gap: 18px; color: inherit; text-decoration: none; align-items: center; }
+  .blog-index li a:not(:has(img)) { grid-template-columns: 1fr; }
+  .blog-index li img { width: 120px; height: 120px; object-fit: cover; border-radius: 8px; }
   .blog-index li h2 { font-family: 'Cinzel', serif; font-size: 1.3rem; margin-bottom: 6px; }
   .blog-index li p { color: #8888A0; margin: 0 0 4px; }
   .blog-index li .meta { font-size: 0.82rem; color: #555570; }
   .blog-index li a:hover h2 { color: #FF8C00; }
+  @media (max-width: 540px) { .blog-index li a { grid-template-columns: 1fr; } .blog-index li img { width: 100%; height: 200px; } }
 </style>
 </head>
 <body>
@@ -809,6 +893,49 @@ async function ghPutFile(token, owner, repo, branch, filePath, body, message, sh
   return { ok: true };
 }
 
+// Same as ghPutFile but the caller passes already-base64-encoded content
+// (e.g., the raw output from a Workers AI image model). Saves a decode/encode
+// round-trip on binary payloads.
+async function ghPutBase64File(token, owner, repo, branch, filePath, base64Body, message, sha) {
+  const url = `${GITHUB_API}/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/contents/${filePath}`;
+  const payload = { message, content: base64Body, branch };
+  if (sha) payload.sha = sha;
+  const res = await fetch(url, { method: 'PUT', headers: ghHeaders(token), body: JSON.stringify(payload) });
+  if (!res.ok) {
+    const errBody = await res.text().catch(() => '');
+    return { ok: false, error: `github ${res.status} on PUT (binary) ${filePath}: ${errBody.slice(0, 300)}` };
+  }
+  return { ok: true };
+}
+
+// ──────────────────────────────────────────────────────────────
+// Hero image generation (Workers AI FLUX.1 schnell). Free, fast (~5-10s),
+// 1024x1024 PNG. The LLM produces an imagePrompt as part of the article
+// JSON; if it's missing we fall back to a generic editorial prompt built
+// from the article title.
+
+async function generateHeroImage(env, article) {
+  const prompt = (article.imagePrompt && article.imagePrompt.trim())
+    || `Editorial hero illustration for an article titled "${article.title}". Clean, professional, soft natural lighting, minimal composition. No text, no faces, no logos.`;
+  try {
+    const response = await env.AI.run('@cf/black-forest-labs/flux-1-schnell', { prompt });
+    // Workers AI returns { image: "<base64 jpg>" } for FLUX in 2026. Defensively
+    // also handle ArrayBuffer / Uint8Array shapes (older response formats).
+    if (response && typeof response.image === 'string') {
+      return { ok: true, base64: response.image, contentType: 'image/jpeg' };
+    }
+    if (response instanceof ArrayBuffer || response instanceof Uint8Array) {
+      const bytes = response instanceof Uint8Array ? response : new Uint8Array(response);
+      let bin = '';
+      for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+      return { ok: true, base64: btoa(bin), contentType: 'image/png' };
+    }
+    return { ok: false, error: 'unexpected FLUX response shape' };
+  } catch (err) {
+    return { ok: false, error: `FLUX error: ${String(err.message || err).slice(0, 200)}` };
+  }
+}
+
 async function githubPagesPublish(env, site, article, status = 'draft') {
   if (status === 'draft') {
     // requireApproval — article stays in our KV with status=draft, no commit
@@ -820,10 +947,40 @@ async function githubPagesPublish(env, site, article, status = 'draft') {
   if (!site.repoOwner || !site.repoName) return { ok: false, error: 'missing GitHub repo coordinates for this site' };
   const branch = site.branch || 'main';
   const blogPath = site.blogPath || 'blog';
+
+  // 0. Generate + commit hero image (FLUX). Skipped if site.imageGeneration === 'off'.
+  // Image failure is non-fatal: the article still publishes, just without a hero.
+  // We only re-generate if no image file exists for this slug yet (idempotent
+  // re-runs don't burn FLUX time or shuffle visuals on the customer's blog).
+  let imageUrl = null;
+  const imgMode = site.imageGeneration || 'flux';
+  if (imgMode === 'flux') {
+    const imgPath = `${blogPath}/images/${article.slug}.jpg`;
+    const existingImg = await ghGetFile(token, site.repoOwner, site.repoName, branch, imgPath);
+    if (existingImg.ok && existingImg.exists) {
+      imageUrl = `/${imgPath}`;
+    } else if (existingImg.ok) {
+      const img = await generateHeroImage(env, article);
+      if (img.ok) {
+        const imgPut = await ghPutBase64File(
+          token, site.repoOwner, site.repoName, branch, imgPath, img.base64,
+          `Phoenix AI: hero image for ${article.slug}`,
+        );
+        if (imgPut.ok) {
+          imageUrl = `/${imgPath}`;
+        } else {
+          await audit(env, site.id, 'pipeline.image.commit_failed', { slug: article.slug, error: imgPut.error });
+        }
+      } else {
+        await audit(env, site.id, 'pipeline.image.gen_failed', { slug: article.slug, error: img.error });
+      }
+    }
+  }
+
   const faqHtml = (article.faqs && article.faqs.length)
     ? '<h2>Frequently Asked Questions</h2>' + article.faqs.map((f) => `<h3>${String(f.q || '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]))}</h3><p>${String(f.a || '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]))}</p>`).join('')
     : '';
-  const postHtml = blogPostHTML({ site, article, faqHtml });
+  const postHtml = blogPostHTML({ site, article, faqHtml, imageUrl });
   const postPath = `${blogPath}/${article.slug}.html`;
 
   // 1. Check if the article file already exists (re-publish/edit case).
@@ -850,6 +1007,7 @@ async function githubPagesPublish(env, site, article, status = 'draft') {
     title: article.title,
     metaDescription: article.metaDescription || '',
     publishedAt: nowIso(),
+    imageUrl,
   }, ...filtered].slice(0, 200);
   const newIndex = blogIndexHTML({ site, articles: updated });
   const idxPut = await ghPutFile(
@@ -861,7 +1019,7 @@ async function githubPagesPublish(env, site, article, status = 'draft') {
 
   const publicUrl = `${site.url.replace(/\/+$/, '')}/${blogPath}/${article.slug}.html`;
   const editUrl = `https://github.com/${site.repoOwner}/${site.repoName}/edit/${branch}/${postPath}`;
-  return { ok: true, publicUrl, wpEditUrl: editUrl, wpPostId: null };
+  return { ok: true, publicUrl, wpEditUrl: editUrl, wpPostId: null, imageUrl };
 }
 
 // ──────────────────────────────────────────────────────────────
@@ -928,6 +1086,8 @@ async function runPipeline(env, site, opts = {}) {
     wpPostId: wpResult.wpPostId || null,
     wpEditUrl: wpResult.wpEditUrl || null,
     publicUrl: wpResult.publicUrl || null,
+    imageUrl: wpResult.imageUrl || null,
+    imagePrompt: article.imagePrompt || null,
     publishError: wpResult.ok ? null : wpResult.error,
     generatedAt: startedAt,
     publishedAt: wpResult.ok ? nowIso() : null,
@@ -1274,6 +1434,7 @@ async function apiRouter(request, env, url, path) {
       branch: cms === 'github-pages' ? branch : '',
       blogPath: cms === 'github-pages' ? blogPath : '',
       githubToken: cms === 'github-pages' ? await encryptSecret(githubTokenPlain, env.SESSION_SECRET) : '',
+      imageGeneration: cms === 'github-pages' ? 'flux' : 'off',
       niche: learned.niche,
       brandVoice: learned.brandVoice,
       brandVoiceOverride,
@@ -1348,6 +1509,7 @@ async function apiRouter(request, env, url, path) {
           const trimmed = body.githubToken.trim();
           site.githubToken = trimmed ? await encryptSecret(trimmed, env.SESSION_SECRET) : '';
         }
+        if (['flux', 'off'].includes(body.imageGeneration)) site.imageGeneration = body.imageGeneration;
       }
       await saveSite(env, site);
       await audit(env, siteId, 'site.updated', {
@@ -1663,7 +1825,17 @@ function dashboardHTML() {
     const trialBanner = document.getElementById('trialBanner');
     const topbarEmail = document.getElementById('topbarEmail');
 
-    function showBanner(msg, kind) { banner.textContent = msg; banner.className = 'status-banner show ' + kind; setTimeout(() => banner.classList.remove('show'), 8000); }
+    function showBanner(msg, kind) {
+      banner.textContent = msg;
+      banner.className = 'status-banner show ' + kind;
+      banner.style.cursor = 'pointer';
+      banner.title = 'Click to dismiss';
+      banner.onclick = () => banner.classList.remove('show');
+      // Success/info auto-hide after 8s. Errors stay until clicked or 60s,
+      // since they may contain long diagnostic info that takes time to read.
+      const hideAfter = kind === 'error' ? 60000 : 8000;
+      setTimeout(() => banner.classList.remove('show'), hideAfter);
+    }
 
     function escapeHTML(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
     function formatDate(iso) { if (!iso) return '—'; const d = new Date(iso); return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }
@@ -1840,6 +2012,11 @@ function dashboardHTML() {
                 '<label style="font-size:0.7rem;margin-top:10px;">GitHub fine-grained PAT</label>' +
                 '<input type="password" name="githubToken" placeholder="' + (site.hasGithubToken ? '••• token already set — paste to replace, leave blank to keep' : 'github_pat_…') + '" style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);">' +
                 '<p class="help" style="margin-top:6px;">Scope: Contents: read &amp; write on the single repo above. Created at <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a>.</p>' +
+                '<label style="font-size:0.7rem;margin-top:14px;">Hero image generation</label>' +
+                '<div style="display:grid;gap:6px;margin-top:6px;">' +
+                  '<label style="display:flex;gap:8px;align-items:center;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.9rem;color:var(--text);"><input type="radio" name="imageGeneration" value="flux"' + ((site.imageGeneration || 'flux') === 'flux' ? ' checked' : '') + '> FLUX.1 schnell — AI-generated editorial illustration per article (free via Workers AI, ~5-10s)</label>' +
+                  '<label style="display:flex;gap:8px;align-items:center;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.9rem;color:var(--text);"><input type="radio" name="imageGeneration" value="off"' + (site.imageGeneration === 'off' ? ' checked' : '') + '> Off — no hero image</label>' +
+                '</div>' +
               '</div>'
             ) : '') +
             '<label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);">' +
@@ -1948,6 +2125,8 @@ function dashboardHTML() {
             patch.blogPath = form.querySelector('input[name=blogPath]').value.trim();
             const ghToken = form.querySelector('input[name=githubToken]').value.trim();
             if (ghToken) patch.githubToken = ghToken;
+            const imgRadio = form.querySelector('input[name=imageGeneration]:checked');
+            if (imgRadio) patch.imageGeneration = imgRadio.value;
           }
           await api('PATCH', '/api/sites/' + siteId, patch);
           showBanner('Settings saved.', 'success');
