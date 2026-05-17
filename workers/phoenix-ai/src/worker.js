@@ -157,12 +157,13 @@ async function listSitesForOwner(env, email) {
   return sites.filter(Boolean).map(stripSiteSecrets);
 }
 function stripSiteSecrets(site) {
-  const { appPassword, gsc, anthropicApiKey, ...safe } = site;
+  const { appPassword, gsc, anthropicApiKey, githubToken, ...safe } = site;
   return {
     ...safe,
-    hasCredentials: Boolean(appPassword) || site.cms === 'manual',
+    hasCredentials: Boolean(appPassword) || site.cms === 'manual' || (site.cms === 'github-pages' && Boolean(githubToken)),
     gsc: gsc ? { property: gsc.property || '', connected: true, connectedAt: gsc.connectedAt || null } : null,
     hasAnthropicKey: Boolean(anthropicApiKey),
+    hasGithubToken: Boolean(githubToken),
   };
 }
 async function getSite(env, siteId, owner) {
@@ -654,6 +655,216 @@ async function wpPublish(env, site, article, status = 'draft') {
 }
 
 // ──────────────────────────────────────────────────────────────
+// Pipeline: GitHub Pages publish (commits /blog/<slug>.html + updates /blog/index.html
+// in the customer's repo via the GitHub Contents API). GitHub Pages auto-rebuilds.
+
+const GITHUB_API = 'https://api.github.com';
+
+function ghHeaders(token) {
+  return {
+    'Authorization': `Bearer ${token}`,
+    'Accept': 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28',
+    'User-Agent': 'phoenix-ai',
+    'Content-Type': 'application/json',
+  };
+}
+
+// btoa() in workers handles latin1 only; this safely base64s UTF-8 text.
+function b64utf8(str) {
+  let bin = '';
+  const bytes = new TextEncoder().encode(str);
+  for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+  return btoa(bin);
+}
+function utf8FromB64(b64) {
+  const clean = b64.replace(/\s+/g, '');
+  const bin = atob(clean);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+
+function blogPostHTML({ site, article, faqHtml }) {
+  // Minimal blog post template. Includes /assets/site-chrome.{css,js} so if
+  // the customer's repo has them (like phoenixmethodseo.com does), the page
+  // automatically inherits their site's nav + footer + design tokens. If
+  // those files don't exist in the repo, the inline fallback styles still
+  // produce a readable page.
+  const escape = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const titleEsc = escape(article.title || '');
+  const descEsc = escape(article.metaDescription || '');
+  const canonical = `${site.url.replace(/\/+$/, '')}/${site.blogPath || 'blog'}/${article.slug}.html`;
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${titleEsc}</title>
+<meta name="description" content="${descEsc}">
+<link rel="canonical" href="${canonical}">
+<meta property="og:title" content="${titleEsc}">
+<meta property="og:description" content="${descEsc}">
+<meta property="og:url" content="${canonical}">
+<meta property="og:type" content="article">
+<link rel="stylesheet" href="/assets/site-chrome.css">
+<style>
+  body { font-family: 'Outfit', system-ui, sans-serif; line-height: 1.7; background: #07070D; color: #E8E8F0; margin: 0; }
+  .blog-post { max-width: 720px; margin: 60px auto; padding: 0 24px; }
+  .blog-post h1 { font-family: 'Cinzel', serif; font-size: 2rem; margin-bottom: 8px; }
+  .blog-post .meta { color: #8888A0; font-size: 0.88rem; margin-bottom: 32px; }
+  .blog-post h2 { font-family: 'Cinzel', serif; margin-top: 36px; margin-bottom: 12px; }
+  .blog-post h3 { font-family: 'Outfit', sans-serif; margin-top: 24px; margin-bottom: 8px; }
+  .blog-post p { margin-bottom: 16px; }
+  .blog-post a { color: #FF8C00; }
+  .blog-post ul, .blog-post ol { margin: 0 0 16px 24px; }
+  .blog-post .back { display: inline-block; margin-bottom: 24px; color: #8888A0; }
+</style>
+</head>
+<body>
+<div id="pm-nav"></div>
+<main class="blog-post">
+<p class="back"><a href="/${site.blogPath || 'blog'}/">← All articles</a></p>
+<h1>${titleEsc}</h1>
+<p class="meta">Published ${new Date().toISOString().slice(0, 10)} · ${(article.tags || []).slice(0, 4).map(escape).join(' · ')}</p>
+${article.html || ''}
+${faqHtml}
+</main>
+<div id="pm-footer"></div>
+<script src="/assets/site-chrome.js" defer></script>
+</body>
+</html>
+`;
+}
+
+function blogIndexHTML({ site, articles }) {
+  const escape = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const items = articles.map((a) => `<li><a href="/${site.blogPath || 'blog'}/${a.slug}.html"><h2>${escape(a.title)}</h2><p>${escape(a.metaDescription || '')}</p><p class="meta">${a.publishedAt ? a.publishedAt.slice(0, 10) : ''}</p></a></li>`).join('\n');
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog</title>
+<meta name="description" content="Articles, guides, and updates.">
+<link rel="stylesheet" href="/assets/site-chrome.css">
+<style>
+  body { font-family: 'Outfit', system-ui, sans-serif; line-height: 1.7; background: #07070D; color: #E8E8F0; margin: 0; }
+  .blog-index { max-width: 720px; margin: 60px auto; padding: 0 24px; }
+  .blog-index > h1 { font-family: 'Cinzel', serif; font-size: 2.2rem; margin-bottom: 32px; }
+  .blog-index ul { list-style: none; padding: 0; }
+  .blog-index li { border-bottom: 1px solid rgba(255,255,255,0.08); padding: 22px 0; }
+  .blog-index li a { display: block; color: inherit; text-decoration: none; }
+  .blog-index li h2 { font-family: 'Cinzel', serif; font-size: 1.3rem; margin-bottom: 6px; }
+  .blog-index li p { color: #8888A0; margin: 0 0 4px; }
+  .blog-index li .meta { font-size: 0.82rem; color: #555570; }
+  .blog-index li a:hover h2 { color: #FF8C00; }
+</style>
+</head>
+<body>
+<div id="pm-nav"></div>
+<main class="blog-index">
+<h1>Blog</h1>
+<!--PHOENIX-AI-MANIFEST:${b64utf8(JSON.stringify(articles))}:END-->
+<ul>
+${items}
+</ul>
+</main>
+<div id="pm-footer"></div>
+<script src="/assets/site-chrome.js" defer></script>
+</body>
+</html>
+`;
+}
+
+function parseIndexManifest(html) {
+  // Returns the list previously embedded by blogIndexHTML, or [] if missing.
+  const m = html.match(/<!--PHOENIX-AI-MANIFEST:([A-Za-z0-9+/=]+):END-->/);
+  if (!m) return [];
+  try { return JSON.parse(utf8FromB64(m[1])); }
+  catch { return []; }
+}
+
+async function ghGetFile(token, owner, repo, branch, filePath) {
+  const url = `${GITHUB_API}/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/contents/${filePath}?ref=${encodeURIComponent(branch)}`;
+  const res = await fetch(url, { headers: ghHeaders(token) });
+  if (res.status === 404) return { ok: true, exists: false };
+  if (!res.ok) {
+    const body = await res.text().catch(() => '');
+    return { ok: false, error: `github ${res.status} on GET ${filePath}: ${body.slice(0, 300)}` };
+  }
+  const data = await res.json();
+  return { ok: true, exists: true, sha: data.sha, content: utf8FromB64(data.content || '') };
+}
+
+async function ghPutFile(token, owner, repo, branch, filePath, body, message, sha) {
+  const url = `${GITHUB_API}/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/contents/${filePath}`;
+  const payload = { message, content: b64utf8(body), branch };
+  if (sha) payload.sha = sha;
+  const res = await fetch(url, { method: 'PUT', headers: ghHeaders(token), body: JSON.stringify(payload) });
+  if (!res.ok) {
+    const errBody = await res.text().catch(() => '');
+    return { ok: false, error: `github ${res.status} on PUT ${filePath}: ${errBody.slice(0, 300)}` };
+  }
+  return { ok: true };
+}
+
+async function githubPagesPublish(env, site, article, status = 'draft') {
+  if (status === 'draft') {
+    // requireApproval — article stays in our KV with status=draft, no commit
+    // happens until the customer hits Approve. Mirrors WordPress behavior.
+    return { ok: true, publicUrl: null };
+  }
+  const token = await decryptSecret(site.githubToken, env.SESSION_SECRET);
+  if (!token) return { ok: false, error: 'missing GitHub PAT for this site' };
+  if (!site.repoOwner || !site.repoName) return { ok: false, error: 'missing GitHub repo coordinates for this site' };
+  const branch = site.branch || 'main';
+  const blogPath = site.blogPath || 'blog';
+  const faqHtml = (article.faqs && article.faqs.length)
+    ? '<h2>Frequently Asked Questions</h2>' + article.faqs.map((f) => `<h3>${String(f.q || '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]))}</h3><p>${String(f.a || '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]))}</p>`).join('')
+    : '';
+  const postHtml = blogPostHTML({ site, article, faqHtml });
+  const postPath = `${blogPath}/${article.slug}.html`;
+
+  // 1. Check if the article file already exists (re-publish/edit case).
+  const existing = await ghGetFile(token, site.repoOwner, site.repoName, branch, postPath);
+  if (!existing.ok) return existing;
+
+  // 2. PUT the article file.
+  const put = await ghPutFile(
+    token, site.repoOwner, site.repoName, branch, postPath, postHtml,
+    `Phoenix AI: ${existing.exists ? 'update' : 'publish'} ${article.slug}`,
+    existing.sha,
+  );
+  if (!put.ok) return put;
+
+  // 3. Update the blog index. Parse the embedded manifest, prepend the new
+  // article (or replace if same slug already there), re-render, PUT back.
+  const indexPath = `${blogPath}/index.html`;
+  const idx = await ghGetFile(token, site.repoOwner, site.repoName, branch, indexPath);
+  if (!idx.ok) return idx;
+  const prev = idx.exists ? parseIndexManifest(idx.content) : [];
+  const filtered = prev.filter((a) => a.slug !== article.slug);
+  const updated = [{
+    slug: article.slug,
+    title: article.title,
+    metaDescription: article.metaDescription || '',
+    publishedAt: nowIso(),
+  }, ...filtered].slice(0, 200);
+  const newIndex = blogIndexHTML({ site, articles: updated });
+  const idxPut = await ghPutFile(
+    token, site.repoOwner, site.repoName, branch, indexPath, newIndex,
+    `Phoenix AI: update blog index (${article.slug})`,
+    idx.sha,
+  );
+  if (!idxPut.ok) return idxPut;
+
+  const publicUrl = `${site.url.replace(/\/+$/, '')}/${blogPath}/${article.slug}.html`;
+  const editUrl = `https://github.com/${site.repoOwner}/${site.repoName}/edit/${branch}/${postPath}`;
+  return { ok: true, publicUrl, wpEditUrl: editUrl, wpPostId: null };
+}
+
+// ──────────────────────────────────────────────────────────────
 // Pipeline: full run
 
 async function runPipeline(env, site, opts = {}) {
@@ -684,14 +895,18 @@ async function runPipeline(env, site, opts = {}) {
   }
   const article = llmResult.content;
 
-  // 4. Publish to WordPress (or skip for manual-paste sites).
-  // requireApproval locks the site to draft-only — autoPublish has no effect
-  // when this is on. Used for YMYL (healthcare, finance, legal) clients where
-  // every article must be reviewed before going live.
+  // 4. Publish to the configured destination. requireApproval locks the site
+  // to draft-only — autoPublish has no effect when this is on. Used for YMYL
+  // (healthcare, finance, legal) clients where every article must be reviewed
+  // before going live. The publish step's return shape is the same across
+  // CMS adapters: { ok, publicUrl?, wpPostId?, wpEditUrl?, error? }.
   let publishStatus, wpResult;
   if (site.cms === 'manual') {
     publishStatus = 'ready';
-    wpResult = { ok: true };  // success = "article is ready to copy/paste"
+    wpResult = { ok: true };
+  } else if (site.cms === 'github-pages') {
+    publishStatus = (!site.requireApproval && site.autoPublish) ? 'publish' : 'draft';
+    wpResult = await githubPagesPublish(env, site, article, publishStatus);
   } else {
     publishStatus = (!site.requireApproval && site.autoPublish) ? 'publish' : 'draft';
     wpResult = await wpPublish(env, site, article, publishStatus);
@@ -826,7 +1041,12 @@ export default {
       const raw = await env.SITES.get(k.name);
       if (!raw) continue;
       const site = JSON.parse(raw);
-      if (site.status !== 'active' || !site.appPassword) continue;
+      if (site.status !== 'active') continue;
+      // Skip sites missing the credentials their CMS needs. Manual sites have
+      // no credentials to check — every cron run produces a "ready" article
+      // the customer copy/pastes (intentional).
+      if (site.cms === 'wordpress' && !site.appPassword) continue;
+      if (site.cms === 'github-pages' && !site.githubToken) continue;
       try {
         await runPipeline(env, site, { manual: false });
       } catch (err) {
@@ -1010,7 +1230,7 @@ async function apiRouter(request, env, url, path) {
   if (path === '/api/sites' && request.method === 'POST') {
     let body; try { body = await request.json(); } catch { return json({ error: 'bad json' }, 400); }
     const siteUrl = (body.url || '').toString().trim().replace(/\/+$/, '');
-    const cms = body.cms === 'manual' ? 'manual' : 'wordpress';
+    const cms = ['manual', 'github-pages', 'wordpress'].includes(body.cms) ? body.cms : 'wordpress';
     const appUsername = (body.appUsername || '').toString().trim();
     const appPasswordPlain = (body.appPassword || '').toString().trim();
     const brandVoiceOverride = (body.brandVoiceOverride || '').toString().trim().slice(0, 4000);
@@ -1020,6 +1240,15 @@ async function apiRouter(request, env, url, path) {
     if (!/^https?:\/\//.test(siteUrl)) return json({ error: 'site URL must start with http(s)://' }, 400);
     if (cms === 'wordpress' && (!appUsername || !appPasswordPlain)) {
       return json({ error: 'WordPress username and application password are required' }, 400);
+    }
+    // GitHub Pages mode requires repo coordinates + a fine-grained PAT.
+    const repoOwner = (body.repoOwner || '').toString().trim();
+    const repoName = (body.repoName || '').toString().trim();
+    const branch = ((body.branch || '').toString().trim() || 'main');
+    const blogPath = ((body.blogPath || '').toString().trim() || 'blog').replace(/^\/+|\/+$/g, '');
+    const githubTokenPlain = (body.githubToken || '').toString().trim();
+    if (cms === 'github-pages' && (!repoOwner || !repoName || !githubTokenPlain)) {
+      return json({ error: 'GitHub Pages mode requires repo owner, repo name, and a fine-grained PAT with Contents:write' }, 400);
     }
 
     const learned = await learnSite(siteUrl);
@@ -1040,6 +1269,11 @@ async function apiRouter(request, env, url, path) {
       cms,
       appUsername: cms === 'wordpress' ? appUsername : '',
       appPassword: cms === 'wordpress' ? await encryptSecret(appPasswordPlain, env.SESSION_SECRET) : '',
+      repoOwner: cms === 'github-pages' ? repoOwner : '',
+      repoName: cms === 'github-pages' ? repoName : '',
+      branch: cms === 'github-pages' ? branch : '',
+      blogPath: cms === 'github-pages' ? blogPath : '',
+      githubToken: cms === 'github-pages' ? await encryptSecret(githubTokenPlain, env.SESSION_SECRET) : '',
       niche: learned.niche,
       brandVoice: learned.brandVoice,
       brandVoiceOverride,
@@ -1103,6 +1337,18 @@ async function apiRouter(request, env, url, path) {
       // If the customer clears their Anthropic key but llmProvider is still
       // 'anthropic', downgrade them to workers-ai so generation doesn't break.
       if (site.llmProvider === 'anthropic' && !site.anthropicApiKey) site.llmProvider = 'workers-ai';
+      // GitHub Pages publishing config — only meaningful when cms is github-pages.
+      // Repo/branch/path are public values; the PAT is the only secret.
+      if (site.cms === 'github-pages') {
+        if (typeof body.repoOwner === 'string') site.repoOwner = body.repoOwner.trim();
+        if (typeof body.repoName === 'string') site.repoName = body.repoName.trim();
+        if (typeof body.branch === 'string') site.branch = body.branch.trim() || 'main';
+        if (typeof body.blogPath === 'string') site.blogPath = (body.blogPath.trim() || 'blog').replace(/^\/+|\/+$/g, '');
+        if (typeof body.githubToken === 'string') {
+          const trimmed = body.githubToken.trim();
+          site.githubToken = trimmed ? await encryptSecret(trimmed, env.SESSION_SECRET) : '';
+        }
+      }
       await saveSite(env, site);
       await audit(env, siteId, 'site.updated', {
         requireApproval: site.requireApproval,
@@ -1110,6 +1356,7 @@ async function apiRouter(request, env, url, path) {
         keywordSource: site.keywordSource,
         llmProvider: site.llmProvider,
         hasAnthropicKey: Boolean(site.anthropicApiKey),
+        hasGithubToken: Boolean(site.githubToken),
         brandVoiceOverrideLen: (site.brandVoiceOverride || '').length,
       });
       return json({ ok: true, site: stripSiteSecrets(site) });
@@ -1343,6 +1590,10 @@ function dashboardHTML() {
             <span><strong>WordPress (autopilot)</strong><br><span style="color:var(--muted);font-size:0.85rem;">Articles are pushed as drafts (or live, if you allow) directly to your WP blog.</span></span>
           </label>
           <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);">
+            <input type="radio" name="cms" value="github-pages" style="margin-top:4px;">
+            <span><strong>GitHub Pages (autopilot)</strong><br><span style="color:var(--muted);font-size:0.85rem;">For sites built with Jekyll / Hugo / 11ty / Astro / plain HTML hosted on GitHub Pages. Phoenix AI commits articles directly to your repo and your site auto-rebuilds.</span></span>
+          </label>
+          <label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);">
             <input type="radio" name="cms" value="manual" style="margin-top:4px;">
             <span><strong>Manual paste (any CMS)</strong><br><span style="color:var(--muted);font-size:0.85rem;">Phoenix AI does the keyword research and writing. You copy the HTML into Squarespace / Wix / Ghost / wherever. For sites without a WordPress endpoint.</span></span>
           </label>
@@ -1360,6 +1611,29 @@ function dashboardHTML() {
         <label for="appPassword">Application password</label>
         <input type="password" id="appPassword" placeholder="xxxx xxxx xxxx xxxx xxxx xxxx">
         <p class="help" style="margin-top:6px;">Generate one at <em>WP Admin → Users → Profile → Application Passwords</em>. We store it encrypted; it never leaves the worker except to publish posts on your behalf. <a href="https://wordpress.org/documentation/article/application-passwords/" target="_blank" rel="noopener">Help</a></p>
+      </div>
+      <div data-cms-fields="github-pages" style="display:none;">
+        <label for="repoOwner">GitHub repo owner / org</label>
+        <input type="text" id="repoOwner" placeholder="KandyPhoenix">
+      </div>
+      <div data-cms-fields="github-pages" style="display:none;">
+        <label for="repoName">GitHub repo name</label>
+        <input type="text" id="repoName" placeholder="my-website">
+      </div>
+      <div data-cms-fields="github-pages" style="display:none;display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div>
+          <label for="branch">Branch</label>
+          <input type="text" id="branch" value="main" placeholder="main">
+        </div>
+        <div>
+          <label for="blogPath">Blog folder</label>
+          <input type="text" id="blogPath" value="blog" placeholder="blog">
+        </div>
+      </div>
+      <div data-cms-fields="github-pages" style="display:none;">
+        <label for="githubToken">GitHub fine-grained PAT</label>
+        <input type="password" id="githubToken" placeholder="github_pat_…">
+        <p class="help" style="margin-top:6px;">Create one at <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a> — scope it to the single repo you typed above with <strong>Contents: read &amp; write</strong>. We store it encrypted; it never leaves the worker except to commit posts.</p>
       </div>
       <details style="margin-top:4px;">
         <summary style="cursor:pointer;color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:0.82rem;letter-spacing:0.1em;text-transform:uppercase;">Advanced (optional)</summary>
@@ -1420,10 +1694,13 @@ function dashboardHTML() {
     function attachConnectForm(formEl) {
       const btn = formEl.querySelector('#connectBtn');
       const cmsRadios = formEl.querySelectorAll('input[name=cms]');
-      const wpFields = formEl.querySelectorAll('[data-cms-fields="wordpress"]');
       function syncCmsFields() {
         const cms = formEl.querySelector('input[name=cms]:checked').value;
-        wpFields.forEach(el => { el.style.display = cms === 'wordpress' ? '' : 'none'; });
+        ['wordpress', 'github-pages'].forEach((kind) => {
+          formEl.querySelectorAll('[data-cms-fields="' + kind + '"]').forEach((el) => {
+            el.style.display = cms === kind ? '' : 'none';
+          });
+        });
       }
       cmsRadios.forEach(r => r.addEventListener('change', syncCmsFields));
       syncCmsFields();
@@ -1433,11 +1710,20 @@ function dashboardHTML() {
         try {
           const cms = formEl.querySelector('input[name=cms]:checked').value;
           const url = formEl.querySelector('#siteUrl').value.trim();
-          const appUsername = formEl.querySelector('#appUsername').value.trim();
-          const appPassword = formEl.querySelector('#appPassword').value.trim();
           const brandVoiceOverride = (formEl.querySelector('#brandVoiceOverride').value || '').trim();
           const requireApproval = formEl.querySelector('#requireApproval').checked;
-          await api('POST', '/api/sites', { url, cms, appUsername, appPassword, brandVoiceOverride, requireApproval });
+          const payload = { url, cms, brandVoiceOverride, requireApproval };
+          if (cms === 'wordpress') {
+            payload.appUsername = formEl.querySelector('#appUsername').value.trim();
+            payload.appPassword = formEl.querySelector('#appPassword').value.trim();
+          } else if (cms === 'github-pages') {
+            payload.repoOwner = formEl.querySelector('#repoOwner').value.trim();
+            payload.repoName = formEl.querySelector('#repoName').value.trim();
+            payload.branch = formEl.querySelector('#branch').value.trim() || 'main';
+            payload.blogPath = formEl.querySelector('#blogPath').value.trim() || 'blog';
+            payload.githubToken = formEl.querySelector('#githubToken').value.trim();
+          }
+          await api('POST', '/api/sites', payload);
           showBanner('Site connected. Researching keywords now…', 'success');
           await load();
         } catch (err) {
@@ -1542,6 +1828,20 @@ function dashboardHTML() {
               '<input type="password" name="anthropicApiKey" placeholder="' + (site.hasAnthropicKey ? '••• key already set — paste to replace, leave blank to keep' : 'sk-ant-…') + '" style="width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:\\'Outfit\\',sans-serif;font-size:0.95rem;">' +
               '<p class="help" style="margin-top:6px;">Get one at <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a>. We store it encrypted and only use it for this site.</p>' +
             '</div>' +
+            (site.cms === 'github-pages' ? (
+              '<div>' +
+                '<label>GitHub Pages publishing</label>' +
+                '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;">' +
+                  '<div><label style="font-size:0.7rem;">Repo owner</label><input type="text" name="repoOwner" value="' + escapeHTML(site.repoOwner || '') + '" style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);"></div>' +
+                  '<div><label style="font-size:0.7rem;">Repo name</label><input type="text" name="repoName" value="' + escapeHTML(site.repoName || '') + '" style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);"></div>' +
+                  '<div><label style="font-size:0.7rem;">Branch</label><input type="text" name="branch" value="' + escapeHTML(site.branch || 'main') + '" style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);"></div>' +
+                  '<div><label style="font-size:0.7rem;">Blog folder</label><input type="text" name="blogPath" value="' + escapeHTML(site.blogPath || 'blog') + '" style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);"></div>' +
+                '</div>' +
+                '<label style="font-size:0.7rem;margin-top:10px;">GitHub fine-grained PAT</label>' +
+                '<input type="password" name="githubToken" placeholder="' + (site.hasGithubToken ? '••• token already set — paste to replace, leave blank to keep' : 'github_pat_…') + '" style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);">' +
+                '<p class="help" style="margin-top:6px;">Scope: Contents: read &amp; write on the single repo above. Created at <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a>.</p>' +
+              '</div>'
+            ) : '') +
             '<label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);">' +
               '<input type="checkbox" name="requireApproval"' + (site.requireApproval ? ' checked' : '') + ' style="margin-top:4px;">' +
               '<span><strong>Require approval on every article</strong><br><span style="color:var(--muted);font-size:0.85rem;">Locks this site to draft-only. Recommended for YMYL clients.</span></span>' +
@@ -1639,6 +1939,16 @@ function dashboardHTML() {
             manualKeywords,
           };
           if (keyValue) patch.anthropicApiKey = keyValue;
+          // GitHub Pages fields are only present on github-pages sites.
+          const repoOwnerEl = form.querySelector('input[name=repoOwner]');
+          if (repoOwnerEl) {
+            patch.repoOwner = repoOwnerEl.value.trim();
+            patch.repoName = form.querySelector('input[name=repoName]').value.trim();
+            patch.branch = form.querySelector('input[name=branch]').value.trim();
+            patch.blogPath = form.querySelector('input[name=blogPath]').value.trim();
+            const ghToken = form.querySelector('input[name=githubToken]').value.trim();
+            if (ghToken) patch.githubToken = ghToken;
+          }
           await api('PATCH', '/api/sites/' + siteId, patch);
           showBanner('Settings saved.', 'success');
           await load();
