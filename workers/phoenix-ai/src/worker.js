@@ -721,6 +721,24 @@ async function wpPublish(env, site, article, status = 'draft') {
   };
 }
 
+// Hard-delete a WordPress post (skip the trash). force=true is required;
+// without it WP just moves the post to the trash and the customer would still
+// see it in /wp-admin/edit.php?post_status=trash.
+async function wpDelete(env, site, postId) {
+  const appPassword = await decryptSecret(site.appPassword, env.SESSION_SECRET);
+  if (!appPassword || !site.appUsername) return { ok: false, error: 'missing WP credentials' };
+  const base = site.url.replace(/\/+$/, '');
+  const endpoint = `${base}/wp-json/wp/v2/posts/${postId}?force=true`;
+  const auth = 'Basic ' + btoa(`${site.appUsername}:${appPassword}`);
+  const res = await fetch(endpoint, { method: 'DELETE', headers: { Authorization: auth } });
+  if (res.ok) return { ok: true };
+  // 404 means the post was already gone on the WP side; treat as success so
+  // the customer can recover from a half-deleted state by re-clicking Delete.
+  if (res.status === 404) return { ok: true, alreadyGone: true };
+  const body = await res.text().catch(() => '');
+  return { ok: false, error: `wp ${res.status}: ${body.slice(0, 300)}` };
+}
+
 // ──────────────────────────────────────────────────────────────
 // Pipeline: GitHub Pages publish (commits /blog/<slug>.html + updates /blog/index.html
 // in the customer's repo via the GitHub Contents API). GitHub Pages auto-rebuilds.
@@ -893,6 +911,20 @@ async function ghPutFile(token, owner, repo, branch, filePath, body, message, sh
   return { ok: true };
 }
 
+async function ghDeleteFile(token, owner, repo, branch, filePath, sha, message) {
+  const url = `${GITHUB_API}/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/contents/${filePath}`;
+  const res = await fetch(url, {
+    method: 'DELETE',
+    headers: ghHeaders(token),
+    body: JSON.stringify({ message, sha, branch }),
+  });
+  if (!res.ok) {
+    const errBody = await res.text().catch(() => '');
+    return { ok: false, error: `github ${res.status} on DELETE ${filePath}: ${errBody.slice(0, 300)}` };
+  }
+  return { ok: true };
+}
+
 // Same as ghPutFile but the caller passes already-base64-encoded content
 // (e.g., the raw output from a Workers AI image model). Saves a decode/encode
 // round-trip on binary payloads.
@@ -1020,6 +1052,70 @@ async function githubPagesPublish(env, site, article, status = 'draft') {
   const publicUrl = `${site.url.replace(/\/+$/, '')}/${blogPath}/${article.slug}.html`;
   const editUrl = `https://github.com/${site.repoOwner}/${site.repoName}/edit/${branch}/${postPath}`;
   return { ok: true, publicUrl, wpEditUrl: editUrl, wpPostId: null, imageUrl };
+}
+
+// Hard-delete an article we previously committed to a GitHub Pages repo:
+// remove the post HTML file, remove the hero image file (if we created one),
+// and rewrite the blog index with the article entry filtered out of the
+// manifest. Each step is best-effort and idempotent — missing files are
+// treated as success (someone may have deleted them manually).
+async function githubPagesDelete(env, site, article) {
+  const token = await decryptSecret(site.githubToken, env.SESSION_SECRET);
+  if (!token) return { ok: false, error: 'missing GitHub PAT for this site' };
+  if (!site.repoOwner || !site.repoName) return { ok: false, error: 'missing GitHub repo coordinates' };
+  const branch = site.branch || 'main';
+  const blogPath = site.blogPath || 'blog';
+  const results = {};
+
+  // 1. Delete the post file.
+  const postPath = `${blogPath}/${article.slug}.html`;
+  const postFile = await ghGetFile(token, site.repoOwner, site.repoName, branch, postPath);
+  if (postFile.ok && postFile.exists) {
+    results.post = await ghDeleteFile(
+      token, site.repoOwner, site.repoName, branch, postPath, postFile.sha,
+      `Phoenix AI: delete ${article.slug}`,
+    );
+  } else {
+    results.post = { ok: true, alreadyGone: true };
+  }
+
+  // 2. Delete the hero image file (if the post had one). Path stored on the
+  // article record at publish time as imageUrl, leading slash.
+  if (article.imageUrl) {
+    const imgPath = article.imageUrl.replace(/^\//, '');
+    const imgFile = await ghGetFile(token, site.repoOwner, site.repoName, branch, imgPath);
+    if (imgFile.ok && imgFile.exists) {
+      results.image = await ghDeleteFile(
+        token, site.repoOwner, site.repoName, branch, imgPath, imgFile.sha,
+        `Phoenix AI: delete image for ${article.slug}`,
+      );
+    } else {
+      results.image = { ok: true, alreadyGone: true };
+    }
+  }
+
+  // 3. Rewrite the blog index without this article in the manifest.
+  const indexPath = `${blogPath}/index.html`;
+  const idx = await ghGetFile(token, site.repoOwner, site.repoName, branch, indexPath);
+  if (idx.ok && idx.exists) {
+    const prev = parseIndexManifest(idx.content);
+    const filtered = prev.filter((a) => a.slug !== article.slug);
+    // Only rewrite if the manifest actually changed; avoids a no-op commit
+    // when the article being deleted was never in the index (drafts).
+    if (filtered.length !== prev.length) {
+      const newIndex = blogIndexHTML({ site, articles: filtered });
+      results.index = await ghPutFile(
+        token, site.repoOwner, site.repoName, branch, indexPath, newIndex,
+        `Phoenix AI: remove ${article.slug} from index`,
+        idx.sha,
+      );
+    } else {
+      results.index = { ok: true, unchanged: true };
+    }
+  }
+
+  const allOk = Object.values(results).every((r) => r.ok);
+  return allOk ? { ok: true, results } : { ok: false, error: 'partial delete', results };
 }
 
 // ──────────────────────────────────────────────────────────────
@@ -1590,6 +1686,35 @@ async function apiRouter(request, env, url, path) {
       if (!raw) return json({ error: 'not found' }, 404);
       return json({ article: JSON.parse(raw) });
     }
+
+    if (articleMatch && request.method === 'DELETE') {
+      const articleId = articleMatch[1];
+      const raw = await env.ARTICLES.get(`art:${siteId}:${articleId}`);
+      if (!raw) return json({ error: 'not found' }, 404);
+      const article = JSON.parse(raw);
+
+      // If the article was published to a destination CMS, try to remove it
+      // from there too. CMS failure does NOT block the local delete — the
+      // customer wants it gone from Phoenix AI either way and can manually
+      // clean up the destination side if our automated delete failed.
+      let cmsDelete = { ok: true, skipped: true };
+      const wasPublished = article.status === 'publish' || article.publishedAt;
+      if (wasPublished) {
+        if (site.cms === 'wordpress' && article.wpPostId) {
+          cmsDelete = await wpDelete(env, site, article.wpPostId);
+        } else if (site.cms === 'github-pages') {
+          cmsDelete = await githubPagesDelete(env, site, article);
+        }
+      }
+
+      // Always remove from our KV (both the article record and the index entry).
+      await env.ARTICLES.delete(`art:${siteId}:${articleId}`);
+      const indexRaw = await env.ARTICLES.get(`list:${siteId}`);
+      const ids = indexRaw ? JSON.parse(indexRaw) : [];
+      await env.ARTICLES.put(`list:${siteId}`, JSON.stringify(ids.filter((id) => id !== articleId)));
+      await audit(env, siteId, 'article.deleted', { articleId, slug: article.slug, wasPublished, cmsDelete });
+      return json({ ok: true, cmsDelete });
+    }
   }
 
   return json({ error: 'not found' }, 404);
@@ -1911,12 +2036,14 @@ function dashboardHTML() {
         const link = a.publicUrl ? a.publicUrl : (a.wpEditUrl || '');
         const viewBtn = '<button class="link-like" data-action="view-article" data-site="' + site.id + '" data-article="' + a.id + '">View / copy</button>';
         const openLink = link ? ' &middot; <a href="' + link + '" target="_blank" rel="noopener">Open ↗</a>' : '';
+        const wasPublished = a.status === 'publish' || a.publishedAt;
+        const delBtn = ' &middot; <button class="link-like" data-action="delete-article" data-site="' + site.id + '" data-article="' + a.id + '" data-published="' + (wasPublished ? '1' : '0') + '" data-cms="' + escapeHTML(site.cms || '') + '" data-title="' + escapeHTML(a.title || a.slug || 'this article') + '" style="color:var(--deep);">Delete</button>';
         const badgeClass = a.status === 'publish' ? 'publish' : a.status === 'failed' ? 'failed' : a.status === 'ready' ? 'ready' : 'draft';
         return '<tr>' +
           '<td>' + escapeHTML(a.title || '—') + '<div style="color:var(--deep);font-size:0.82rem;margin-top:2px;">' + escapeHTML(a.keyword || '') + '</div></td>' +
           '<td><span class="badge ' + badgeClass + '">' + escapeHTML(a.status || 'draft') + '</span></td>' +
           '<td>' + escapeHTML(formatDate(a.generatedAt)) + '</td>' +
-          '<td>' + viewBtn + openLink + '</td>' +
+          '<td>' + viewBtn + openLink + delBtn + '</td>' +
         '</tr>';
       }).join('') : '<tr><td colspan="4" style="color:var(--deep);text-align:center;padding:24px;">No articles yet. Click <em>Generate Article Now</em> above to create your first.</td></tr>';
 
@@ -2237,6 +2364,34 @@ function dashboardHTML() {
       const siteId = btn.dataset.site;
       if (action === 'view-article') {
         return openArticleModal(siteId, btn.dataset.article);
+      }
+      if (action === 'delete-article') {
+        const articleId = btn.dataset.article;
+        const wasPublished = btn.dataset.published === '1';
+        const cms = btn.dataset.cms;
+        const title = btn.dataset.title;
+        const cmsLabel = cms === 'wordpress' ? 'WordPress site' : cms === 'github-pages' ? 'GitHub repo (committed files + blog index)' : 'destination';
+        const msg = wasPublished
+          ? 'Delete "' + title + '"?\\n\\nThis removes the article from Phoenix AI AND from your ' + cmsLabel + '. This cannot be undone.'
+          : 'Delete "' + title + '"?\\n\\nThis is a draft — nothing was published. Removes from Phoenix AI only.';
+        if (!window.confirm(msg)) return;
+        btn.disabled = true; btn.textContent = 'Deleting…';
+        try {
+          const res = await api('DELETE', '/api/sites/' + siteId + '/articles/' + articleId);
+          const cmsResult = res.cmsDelete || {};
+          if (cmsResult.skipped) {
+            showBanner('Deleted "' + title + '".', 'success');
+          } else if (cmsResult.ok) {
+            showBanner('Deleted "' + title + '" from Phoenix AI and your ' + cmsLabel + '.', 'success');
+          } else {
+            showBanner('Removed from Phoenix AI, but the ' + cmsLabel + ' delete failed: ' + (cmsResult.error || 'unknown error') + '. You may need to remove it manually.', 'error');
+          }
+          await load();
+        } catch (err) {
+          btn.disabled = false; btn.textContent = 'Delete';
+          showBanner('Delete failed: ' + err.message, 'error');
+        }
+        return;
       }
       if (action === 'gsc-connect') {
         // Full-page redirect to start the OAuth flow on the worker.
