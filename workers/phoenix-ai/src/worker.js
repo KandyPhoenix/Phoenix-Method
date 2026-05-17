@@ -567,7 +567,14 @@ async function callLLM(env, site, { system, user }) {
 // articles but routinely exceeds 30s and gets canceled. When we move article
 // generation to a queue/durable-object (async, no time limit), the default
 // can move back to the 70B model.
-const WORKERS_AI_MODEL = '@cf/meta/llama-3.1-8b-instruct-fast';
+// Llama 3.3 70B is the strongest free chat model on Workers AI as of mid-2026
+// — noticeably better article quality than 8B at the same near-zero cost. We
+// can use it now because generation runs via ctx.waitUntil() and isn't bounded
+// by the request-response timeout (PM-248). If 70B becomes unavailable in a
+// region, the LLM call returns ok:false and the job is marked failed; the
+// customer can retry. We don't auto-fall-back to 8B because that would
+// silently degrade quality without telling the customer.
+const WORKERS_AI_MODEL = '@cf/meta/llama-3.3-70b-instruct-fp8-fast';
 
 async function callWorkersAI(env, { system, user }) {
   if (!env.AI) return { ok: false, error: 'Workers AI binding is not configured on this worker' };
@@ -1119,6 +1126,58 @@ async function githubPagesDelete(env, site, article) {
 }
 
 // ──────────────────────────────────────────────────────────────
+// Async job runner. Generation now happens via ctx.waitUntil() after the
+// request response has been sent, so it isn't bounded by the 30-ish-second
+// edge response timeout. The customer sees a "generating…" row immediately
+// and the dashboard polls /api/jobs/:id every 2s to learn when it's done.
+//
+// Job state lives in the ARTICLES KV under prefix job:<jobId>. TTL is 1h
+// — enough for the dashboard to surface success/failure, then auto-expires
+// so the namespace doesn't accumulate stale records.
+
+const JOB_TTL_SECONDS = 3600;
+
+async function saveJob(env, job) {
+  await env.ARTICLES.put(`job:${job.id}`, JSON.stringify(job), { expirationTtl: JOB_TTL_SECONDS });
+}
+
+async function getJob(env, jobId) {
+  const raw = await env.ARTICLES.get(`job:${jobId}`);
+  return raw ? JSON.parse(raw) : null;
+}
+
+// runPipelineJob wraps runPipeline with status updates. Safe to call from
+// ctx.waitUntil() — never throws (errors are captured into the job record).
+async function runPipelineJob(env, site, jobId, opts = {}) {
+  try {
+    await saveJob(env, { id: jobId, siteId: site.id, status: 'generating', queuedAt: opts.queuedAt || nowIso(), startedAt: nowIso() });
+    const result = await runPipeline(env, site, opts);
+    if (result.ok) {
+      await saveJob(env, {
+        id: jobId, siteId: site.id, status: 'done',
+        queuedAt: opts.queuedAt || nowIso(), startedAt: nowIso(), finishedAt: nowIso(),
+        articleId: result.article && result.article.id,
+        indexWarning: result.article && result.article.indexWarning,
+      });
+    } else {
+      await saveJob(env, {
+        id: jobId, siteId: site.id, status: 'failed',
+        queuedAt: opts.queuedAt || nowIso(), startedAt: nowIso(), finishedAt: nowIso(),
+        error: result.error || 'unknown error',
+      });
+    }
+  } catch (err) {
+    // Belt-and-suspenders — runPipeline shouldn't throw, but if it does,
+    // we still want a job record so the dashboard can show something useful.
+    await saveJob(env, {
+      id: jobId, siteId: site.id, status: 'failed',
+      queuedAt: opts.queuedAt || nowIso(), startedAt: nowIso(), finishedAt: nowIso(),
+      error: `unhandled exception: ${String(err.message || err).slice(0, 300)}`,
+    });
+  }
+}
+
+// ──────────────────────────────────────────────────────────────
 // Pipeline: full run
 
 async function runPipeline(env, site, opts = {}) {
@@ -1271,7 +1330,7 @@ export default {
     if (path === '/auth/google/start') return await handleGoogleStart(request, env, url);
     if (path === '/auth/google/callback') return await handleGoogleCallback(request, env, url);
 
-    if (path.startsWith('/api/')) return cors(await apiRouter(request, env, url, path), request);
+    if (path.startsWith('/api/')) return cors(await apiRouter(request, env, url, path, ctx), request);
 
     if (path === '/app' || path === '/app/' || path.startsWith('/app/')) {
       return new Response(dashboardHTML(), { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } });
@@ -1288,9 +1347,13 @@ export default {
   },
 
   async scheduled(event, env, ctx) {
-    // Phase 2 entry point: walk every active site and run the pipeline once.
-    // Phase 1 leaves this as a no-op so we don't burn API credits before the
-    // dashboard is ready.
+    // Phase 2 entry point: walk every active site and spawn an async job per
+    // site. Sites generate in parallel via ctx.waitUntil() — the cron itself
+    // returns within a few seconds; each generation continues running for as
+    // long as it needs to (up to the worker's wall-clock limit). Job records
+    // are written to KV the same way the manual generate endpoint does, so
+    // any future dashboard widget can surface daily-cron status by reading
+    // job:* keys directly.
     if (env.CRON_ENABLED !== 'true') return;
     const list = await env.SITES.list({ prefix: 'site:' });
     for (const k of list.keys) {
@@ -1303,11 +1366,10 @@ export default {
       // the customer copy/pastes (intentional).
       if (site.cms === 'wordpress' && !site.appPassword) continue;
       if (site.cms === 'github-pages' && !site.githubToken) continue;
-      try {
-        await runPipeline(env, site, { manual: false });
-      } catch (err) {
-        await audit(env, site.id, 'pipeline.crash', { error: String(err) });
-      }
+      const jobId = uuid();
+      const queuedAt = nowIso();
+      await saveJob(env, { id: jobId, siteId: site.id, status: 'queued', queuedAt, source: 'cron' });
+      ctx.waitUntil(runPipelineJob(env, site, jobId, { manual: false, queuedAt }));
     }
   },
 };
@@ -1472,7 +1534,7 @@ function oauthErrorHTML(msg) {
 // ──────────────────────────────────────────────────────────────
 // API router (all routes require a session)
 
-async function apiRouter(request, env, url, path) {
+async function apiRouter(request, env, url, path, ctx) {
   const session = await currentSession(request, env);
   if (!session) return json({ error: 'unauthorized' }, 401);
   const email = session.email;
@@ -1481,6 +1543,16 @@ async function apiRouter(request, env, url, path) {
     const customer = await getOrCreateCustomer(env, email);
     const sites = await listSitesForOwner(env, email);
     return json({ customer, sites });
+  }
+
+  const jobMatch = path.match(/^\/api\/jobs\/([a-z0-9-]+)$/i);
+  if (jobMatch && request.method === 'GET') {
+    const job = await getJob(env, jobMatch[1]);
+    if (!job) return json({ error: 'not found' }, 404);
+    // Authz: the job must belong to a site this user owns.
+    const site = await getSite(env, job.siteId);
+    if (!site || site.ownerEmail !== email) return json({ error: 'unauthorized' }, 403);
+    return json({ job });
   }
 
   if (path === '/api/sites' && request.method === 'POST') {
@@ -1659,11 +1731,16 @@ async function apiRouter(request, env, url, path) {
     }
 
     if (sub === 'generate' && request.method === 'POST') {
-      // Long-running — Cloudflare gives us ~30s of CPU/IO per request which
-      // is enough for one LLM call. If we need more, we'd offload to a
-      // queue + websocket; not in Phase 1.
-      const result = await runPipeline(env, site, { manual: true });
-      return result.ok ? json({ ok: true, article: result.article }) : json({ ok: false, error: result.error }, 500);
+      // Generation runs via ctx.waitUntil() so we're not bounded by the
+      // edge response timeout. Returns HTTP 202 with a jobId immediately;
+      // dashboard polls /api/jobs/:id to learn when it's done. This is
+      // what unlocks using the 70B model — generation can take 30-60s
+      // wall clock without the customer ever seeing a timeout.
+      const jobId = uuid();
+      const queuedAt = nowIso();
+      await saveJob(env, { id: jobId, siteId, status: 'queued', queuedAt });
+      ctx.waitUntil(runPipelineJob(env, site, jobId, { manual: true, queuedAt }));
+      return json({ ok: true, jobId, status: 'queued' }, 202);
     }
 
     if (sub === 'articles' && request.method === 'GET') {
@@ -2406,8 +2483,39 @@ function dashboardHTML() {
       btn.innerHTML = '<span class="loader"></span>' + originalText;
       try {
         if (action === 'generate') {
+          // Generation runs in the background (ctx.waitUntil) so the API
+          // returns a jobId immediately. We poll /api/jobs/:id every 2s
+          // until status flips to done or failed. Wall-clock for 70B + FLUX
+          // is typically 30-60s; we cap at 5min before giving up on the poll
+          // (the job itself keeps running in the worker; the customer can
+          // refresh the dashboard to see it land).
           const out = await api('POST', '/api/sites/' + siteId + '/generate');
-          showBanner('Article generated: "' + (out.article.title || '') + '" — open it from the table below.', 'success');
+          showBanner('Generating with Llama 3.3 70B + FLUX hero image — this takes 30-60s. The dashboard will update automatically.', 'info');
+          btn.innerHTML = '<span class="loader"></span>Generating…';
+          const jobId = out.jobId;
+          const startedPolling = Date.now();
+          const POLL_MS = 2000;
+          const TIMEOUT_MS = 5 * 60 * 1000;
+          let final = null, timedOut = false, lostTrack = false;
+          while (true) {
+            await new Promise((r) => setTimeout(r, POLL_MS));
+            let j;
+            try { j = await api('GET', '/api/jobs/' + jobId); }
+            catch (err) { lostTrack = err.message; break; }
+            const s = j.job && j.job.status;
+            if (s === 'done' || s === 'failed') { final = j.job; break; }
+            if (Date.now() - startedPolling > TIMEOUT_MS) { timedOut = true; break; }
+          }
+          if (lostTrack) {
+            showBanner('Lost track of the generation job: ' + lostTrack + '. Refresh in a minute to see if it landed.', 'error');
+          } else if (timedOut) {
+            showBanner('Generation is taking longer than 5 minutes — it may still complete in the background. Refresh the dashboard in a minute.', 'info');
+          } else if (final.status === 'failed') {
+            showBanner('Generation failed: ' + (final.error || 'unknown error'), 'error');
+          } else {
+            const extra = final.indexWarning ? ' (heads up — your hand-curated blog index was preserved; the article row has details on adding markers.)' : '';
+            showBanner('Article generated — see the table below.' + extra, 'success');
+          }
         } else if (action === 'research') {
           const out = await api('POST', '/api/sites/' + siteId + '/research');
           const isFallback = (out.source || '').endsWith('-seed-fallback');
