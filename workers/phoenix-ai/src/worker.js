@@ -602,7 +602,20 @@ async function callWorkersAI(env, { system, user }) {
         try { recovered = JSON.parse(c); break; } catch { /* try next */ }
       }
       if (!recovered) {
-        return { ok: false, error: `Workers AI returned non-JSON: ${err.message}`, raw: cleaned.slice(0, 500) };
+        // Diagnostic: surface the bytes around the failure so we can tell
+        // exactly what the model emitted that none of the repairs handled.
+        const pos = (err.message.match(/position (\d+)/) || [])[1];
+        const ctx = pos ? cleaned.slice(Math.max(0, pos - 60), Math.min(cleaned.length, +pos + 60)) : cleaned.slice(0, 200);
+        const bytesView = ctx.split('').map((c) => {
+          const code = c.charCodeAt(0);
+          if (code < 0x20) return `[U+${code.toString(16).padStart(4, '0')}]`;
+          return c;
+        }).join('');
+        return {
+          ok: false,
+          error: `Workers AI returned non-JSON: ${err.message}. Context around pos: «${bytesView}». Total len: ${cleaned.length}`,
+          raw: cleaned.slice(0, 500),
+        };
       }
       parsed = recovered;
     }
