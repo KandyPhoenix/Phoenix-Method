@@ -1,6 +1,6 @@
 # Phoenix AI — SEO Content Autopilot
 
-A self-serve SaaS that researches keywords, writes SEO articles, and publishes them to a customer's WordPress site.
+A self-serve SaaS that researches keywords, writes SEO articles, and publishes them to a customer's WordPress site, GitHub Pages repo, or back to the dashboard for manual copy/paste.
 
 The marketing page is at `phoenixmethod.com/phoenix-ai/` (in this repo at `/phoenix-ai/index.html`). The product runs as a single Cloudflare Worker in this directory.
 
@@ -30,7 +30,11 @@ pick next unpicked keyword
 LLM (JSON-mode prompt) → {title, slug, meta, html, faqs, tags}
         │
         ▼
-WordPress REST: POST /wp-json/wp/v2/posts (Basic auth = appUser:appPassword)
+publish via the site's configured CMS adapter:
+  • wordpress     → POST /wp-json/wp/v2/posts (Basic auth = appUser:appPassword)
+  • github-pages  → PUT /repos/{owner}/{repo}/contents/{blogPath}/{slug}.html
+                     + update {blogPath}/index.html via the GitHub Contents API
+  • manual        → no-op; article record marked "ready" for copy/paste
         │
         ▼
 KV: art:<siteId>:<articleId>  ←  full record (html, status, wpEditUrl)
@@ -183,10 +187,25 @@ The worker is reachable at `https://phoenix-ai.phoenixmethod.workers.dev/`. The 
 
 ---
 
+## CMS adapters
+
+Three publishing destinations supported. Picked per-site at connect time and editable later in Settings.
+
+| CMS | What it is | Auth | Best for |
+|---|---|---|---|
+| **`wordpress`** | POSTs articles to `/wp-json/wp/v2/posts` as drafts or published posts. | WordPress username + application password (encrypted). | Customers running WordPress. |
+| **`github-pages`** | Commits `/<blogPath>/<slug>.html` and rewrites `/<blogPath>/index.html` in the customer's GitHub repo via the Contents API. GitHub Pages auto-rebuilds. The post template includes `/assets/site-chrome.{css,js}` references so customers who use the Phoenix Method site-chrome pattern inherit their site's nav/footer automatically. | GitHub fine-grained PAT (encrypted), scoped to one repo with Contents: read & write. | Customers on GitHub Pages, Jekyll, Hugo, 11ty, Astro, or any static site backed by a GitHub repo. |
+| **`manual`** | No publish step — article record is marked `ready` and the customer copies the HTML out of the dashboard. | None. | Squarespace, Wix, Ghost, Shopify, or any platform without a first-class adapter yet. |
+
+The blog index is managed via a JSON manifest embedded in an HTML comment in `index.html` (`<!--PHOENIX-AI-MANIFEST:<base64>:END-->`), so each publish reads the existing list, prepends or replaces the new entry, and writes it back idempotently.
+
+`requireApproval: true` blocks the actual publish step across all adapters — article record is stored with `status: 'draft'` and waits for the customer to explicitly approve it from the dashboard.
+
+---
+
 ## Phase 1 limitations
 
-- WordPress only.
-- One LLM call per article — Cloudflare's 30s request limit means we can't chain steps in a single request. Internal linking and image generation are deferred for that reason.
+- One LLM call per article — Cloudflare's 30s request limit means we can't chain steps in a single request. Internal linking and image generation are deferred for that reason. ([PM-248](https://phoenixmethod.atlassian.net/browse/PM-248) moves generation to a queue to unlock this.)
 - No queueing system; "Generate Now" is synchronous from the dashboard.
 - Trial is honor-system. Billing isn't wired up.
 - No email notifications on article generation (only the magic-link email).
