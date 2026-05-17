@@ -489,7 +489,7 @@ Style guardrails:
 - Match the brand voice sample given to you in word choice, sentence rhythm, and POV.
 - Use proper H-hierarchy: one H1 (matches title), 4–8 H2s, optional H3s.
 - Open with a punchy 2–3 sentence intro that answers the core question immediately.
-- Include a "Frequently Asked Questions" section with exactly 3 Q&As at the end. Each answer should be 2–3 sentences. Make the FAQ section concise enough to always fit within the response.
+- Do NOT include an FAQ or "Frequently Asked Questions" section in the html field. The Q&As go in the separate faqs JSON field below — the dashboard renders them visually beneath the article. Putting them in both places wastes tokens and risks truncation.
 - Cite a source by name when stating a statistic (don't fabricate numbers — if you don't know one, drop the stat).
 - Never use the word "delve". Avoid corporate buzzwords ("leverage", "synergy", "unlock", "elevate").
 - No em-dash overuse. No bullet-list spam — only when listing actual discrete items.
@@ -499,9 +499,9 @@ You MUST respond with a single JSON object (no prose, no code fences) matching t
   "title":        string  // SEO meta title, 50–60 chars
   "slug":         string  // url-safe slug
   "metaDescription": string  // 140–160 chars
-  "html":         string  // article body as HTML (no <html>/<head>/<body>, just content starting with <p> or <h2>)
+  "html":         string  // article body as HTML (no <html>/<head>/<body>, no FAQ section, just content starting with <p> or <h2>)
   "tags":         string[]  // 3–6 tags
-  "faqs":         [{ "q": string, "a": string }]  // matches the FAQ section in html
+  "faqs":         [{ "q": string, "a": string }]  // exactly 3 entries; rendered by the dashboard, NOT in the html field above
 }`,
     user: `Write the article for this target:
 
@@ -1684,9 +1684,23 @@ function dashboardHTML() {
       if (!currentArticle) return;
       const a = currentArticle;
       if (currentTab === 'preview') {
-        modalBody.innerHTML = '<div class="article-render"><h1 style="font-family:Cinzel,serif;font-size:1.6rem;margin-bottom:6px;">' + escapeHTML(a.title || '') + '</h1>' + (a.metaDescription ? '<p style="color:var(--muted);margin-bottom:18px;">' + escapeHTML(a.metaDescription) + '</p>' : '') + (a.html || '') + '</div>';
+        // FAQs come from the structured JSON, not the HTML body. We append
+        // them visually here so the customer sees a complete article in the
+        // Preview tab — and so older articles that have the FAQ section
+        // already inlined (legacy generations) still look fine.
+        const faqHtml = (a.faqs && a.faqs.length)
+          ? '<h2 style="margin-top:32px;">Frequently Asked Questions</h2>' +
+            a.faqs.map(f => '<div style="margin-bottom:18px;"><h3 style="font-family:Outfit,sans-serif;text-transform:none;letter-spacing:0;color:var(--text);font-size:1.05rem;margin-bottom:6px;">' + escapeHTML(f.q) + '</h3><p style="margin:0;">' + escapeHTML(f.a) + '</p></div>').join('')
+          : '';
+        modalBody.innerHTML = '<div class="article-render"><h1 style="font-family:Cinzel,serif;font-size:1.6rem;margin-bottom:6px;">' + escapeHTML(a.title || '') + '</h1>' + (a.metaDescription ? '<p style="color:var(--muted);margin-bottom:18px;">' + escapeHTML(a.metaDescription) + '</p>' : '') + (a.html || '') + faqHtml + '</div>';
       } else if (currentTab === 'html') {
-        modalBody.innerHTML = '<pre class="modal-pre">' + escapeHTML(a.html || '') + '</pre>';
+        // Show the same composed output the customer would copy/paste: body
+        // HTML plus the FAQ section rendered from JSON.
+        const faqHtmlSrc = (a.faqs && a.faqs.length)
+          ? '\n\n<h2>Frequently Asked Questions</h2>\n' +
+            a.faqs.map(f => '<h3>' + escapeHTML(f.q) + '</h3>\n<p>' + escapeHTML(f.a) + '</p>').join('\n')
+          : '';
+        modalBody.innerHTML = '<pre class="modal-pre">' + escapeHTML((a.html || '') + faqHtmlSrc) + '</pre>';
       } else if (currentTab === 'meta') {
         const tags = (a.tags || []).map(t => '<span class="keyword-chip">' + escapeHTML(t) + '</span>').join(' ');
         const faqs = (a.faqs || []).map(f => '<div style="margin-bottom:14px;"><strong>' + escapeHTML(f.q) + '</strong><br><span style="color:var(--muted);">' + escapeHTML(f.a) + '</span></div>').join('') || '<span style="color:var(--deep);">No FAQs.</span>';
