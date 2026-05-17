@@ -270,14 +270,21 @@ async function researchAndStoreKeywords(env, site) {
     if (site.gsc && site.gsc.property) {
       raw = await gscKeywords(env, site);
     } else {
-      // GSC not yet connected — fall back to manual seeds (or stub niche-derived
-      // keywords) so the customer still has SOMETHING to look at on first load.
       raw = await manualKeywords(site, []);
+      usedSource = 'seed';
     }
   } else if (source === 'ahrefs') {
     raw = await ahrefsKeywords(env, site.niche, new URL(site.url).hostname);
   } else if (source === 'manual') {
     raw = await manualKeywords(site, site.manualKeywords || []);
+  }
+  // Universal fallback: if the primary source produced nothing (new GSC with
+  // no rank-eligible queries, Ahrefs API quota, empty manual list…), seed the
+  // queue with niche-derived keywords. Better to give the customer something
+  // to look at and a working Generate button than a blank queue.
+  if (!raw.length) {
+    raw = await manualKeywords(site, []);
+    usedSource = source + '-seed-fallback';
   }
   const ranked = raw
     .map((k) => ({ ...k, score: scoreKeyword(k), picked: false, pickedAt: null }))
@@ -285,7 +292,7 @@ async function researchAndStoreKeywords(env, site) {
     .slice(0, 25);
   await env.KEYWORDS.put(`kws:${site.id}`, JSON.stringify(ranked));
   await audit(env, site.id, 'keywords.refreshed', { count: ranked.length, source: usedSource });
-  return ranked;
+  return { list: ranked, source: usedSource };
 }
 
 async function manualKeywords(site, seeds) {
@@ -436,9 +443,15 @@ async function gscKeywords(env, site) {
     return [];
   }
   const data = await res.json();
-  const rows = data.rows || [];
+  const allRows = data.rows || [];
+  // Tiered filter — start with the ideal "missed clicks" sweet spot (rank 5–20
+  // with real impression volume), then progressively broaden if the site is
+  // too new/small to surface anything at that threshold. Better to give the
+  // customer some real GSC data than nothing.
+  let rows = allRows.filter((r) => r.position >= 5 && r.position <= 20 && r.impressions >= 10);
+  if (!rows.length) rows = allRows.filter((r) => r.position >= 3 && r.position <= 30 && r.impressions >= 3);
+  if (!rows.length) rows = allRows.filter((r) => r.impressions >= 1);
   return rows
-    .filter((r) => r.position >= 5 && r.position <= 20 && r.impressions >= 10)
     .map((r) => {
       const ctr = r.ctr || 0;
       // Keep our schema consistent: keyword/volume/kd/intent/score-style fields.
@@ -449,7 +462,7 @@ async function gscKeywords(env, site) {
         volume: Math.round(r.impressions),
         kd: Math.round(r.position),
         intent: 'informational',
-        opportunity: Math.round(r.impressions * (1 - ctr)),
+        opportunity: Math.round(Math.max(1, r.impressions) * (1 - ctr)),
       };
     })
     .sort((a, b) => b.opportunity - a.opportunity)
@@ -661,7 +674,8 @@ async function runPipeline(env, site, opts = {}) {
   let kwListRaw = await env.KEYWORDS.get(`kws:${site.id}`);
   let kwList = kwListRaw ? JSON.parse(kwListRaw) : [];
   if (!kwList.length || kwList.every((k) => k.picked)) {
-    kwList = await researchAndStoreKeywords(env, site);
+    const refreshed = await researchAndStoreKeywords(env, site);
+    kwList = refreshed.list;
   }
 
   // 2. Pick the next keyword.
@@ -1112,8 +1126,8 @@ async function apiRouter(request, env, url, path) {
     }
 
     if (sub === 'research' && request.method === 'POST') {
-      const list = await researchAndStoreKeywords(env, site);
-      return json({ ok: true, count: list.length, keywords: list, source: site.keywordSource || 'gsc' });
+      const result = await researchAndStoreKeywords(env, site);
+      return json({ ok: true, count: result.list.length, keywords: result.list, source: result.source });
     }
 
     if (sub === 'gsc/properties' && request.method === 'GET') {
@@ -1748,7 +1762,12 @@ function dashboardHTML() {
           showBanner('Article generated: "' + (out.article.title || '') + '" — open it from the table below.', 'success');
         } else if (action === 'research') {
           const out = await api('POST', '/api/sites/' + siteId + '/research');
-          showBanner('Refreshed — ' + out.count + ' keywords queued (' + (out.source || 'gsc') + ').', 'success');
+          const isFallback = (out.source || '').endsWith('-seed-fallback');
+          if (isFallback) {
+            showBanner('Refreshed — ' + out.count + ' seed keywords queued. (Your primary source returned nothing; using niche-derived starters. Add a few manual keywords in Settings for better results.)', 'info');
+          } else {
+            showBanner('Refreshed — ' + out.count + ' keywords queued (' + (out.source || 'gsc') + ').', 'success');
+          }
         } else if (action === 'gsc-disconnect') {
           if (!confirm('Disconnect Google Search Console for this site? Already-collected keywords stay until you refresh.')) { btn.disabled = false; btn.textContent = originalText; return; }
           await api('DELETE', '/api/sites/' + siteId + '/gsc');
