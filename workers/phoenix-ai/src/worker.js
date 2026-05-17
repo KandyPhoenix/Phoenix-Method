@@ -1697,8 +1697,8 @@ function dashboardHTML() {
         // Show the same composed output the customer would copy/paste: body
         // HTML plus the FAQ section rendered from JSON.
         const faqHtmlSrc = (a.faqs && a.faqs.length)
-          ? '\n\n<h2>Frequently Asked Questions</h2>\n' +
-            a.faqs.map(f => '<h3>' + escapeHTML(f.q) + '</h3>\n<p>' + escapeHTML(f.a) + '</p>').join('\n')
+          ? '\\n\\n<h2>Frequently Asked Questions</h2>\\n' +
+            a.faqs.map(f => '<h3>' + escapeHTML(f.q) + '</h3>\\n<p>' + escapeHTML(f.a) + '</p>').join('\\n')
           : '';
         modalBody.innerHTML = '<pre class="modal-pre">' + escapeHTML((a.html || '') + faqHtmlSrc) + '</pre>';
       } else if (currentTab === 'meta') {
