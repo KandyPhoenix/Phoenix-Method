@@ -489,7 +489,7 @@ Style guardrails:
 - Match the brand voice sample given to you in word choice, sentence rhythm, and POV.
 - Use proper H-hierarchy: one H1 (matches title), 4–8 H2s, optional H3s.
 - Open with a punchy 2–3 sentence intro that answers the core question immediately.
-- Include a "Frequently Asked Questions" section with 4–6 Q&As at the end.
+- Include a "Frequently Asked Questions" section with exactly 3 Q&As at the end. Each answer should be 2–3 sentences. Make the FAQ section concise enough to always fit within the response.
 - Cite a source by name when stating a statistic (don't fabricate numbers — if you don't know one, drop the stat).
 - Never use the word "delve". Avoid corporate buzzwords ("leverage", "synergy", "unlock", "elevate").
 - No em-dash overuse. No bullet-list spam — only when listing actual discrete items.
@@ -549,7 +549,7 @@ async function callWorkersAI(env, { system, user }) {
         { role: 'system', content: system },
         { role: 'user', content: user },
       ],
-      max_tokens: 2500,
+      max_tokens: 4000,
     });
     // env.AI.run returns either { response: <string> } or a raw string
     // depending on the model. Normalize, then parse JSON from the text.
