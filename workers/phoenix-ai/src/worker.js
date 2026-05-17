@@ -524,6 +524,32 @@ Return only the JSON object.`,
   };
 }
 
+// Repair pass for LLM-emitted JSON: walks the string tracking quote/escape
+// state, and inside string literals replaces raw control chars (0x00-0x1F)
+// with their valid JSON escape (\n, \r, \t, or \uXXXX). Llama 8B routinely
+// emits raw newlines inside the html string field, which makes strict
+// JSON.parse fail at the first newline.
+function escapeUnescapedControlChars(s) {
+  let out = '';
+  let inString = false;
+  let escaped = false;
+  for (let i = 0; i < s.length; i++) {
+    const ch = s[i];
+    if (escaped) { out += ch; escaped = false; continue; }
+    if (ch === '\\') { out += ch; escaped = true; continue; }
+    if (ch === '"') { inString = !inString; out += ch; continue; }
+    if (inString) {
+      const code = ch.charCodeAt(0);
+      if (ch === '\n') { out += '\\n'; continue; }
+      if (ch === '\r') { out += '\\r'; continue; }
+      if (ch === '\t') { out += '\\t'; continue; }
+      if (code < 0x20) { out += '\\u' + code.toString(16).padStart(4, '0'); continue; }
+    }
+    out += ch;
+  }
+  return out;
+}
+
 // Single entry point. Picks Workers AI (free, default) or BYOK Anthropic
 // based on what the site is configured for. Never falls back to a
 // worker-paid provider — Phoenix AI's business model is that customer
@@ -561,15 +587,24 @@ async function callWorkersAI(env, { system, user }) {
     let parsed;
     try { parsed = JSON.parse(cleaned); }
     catch (err) {
-      // Some models wrap or prepend prose despite the JSON instruction; try to
-      // extract the first balanced { ... } block.
-      const match = cleaned.match(/\{[\s\S]*\}/);
-      if (match) {
-        try { parsed = JSON.parse(match[0]); }
-        catch { return { ok: false, error: `Workers AI returned non-JSON: ${err.message}`, raw: cleaned.slice(0, 500) }; }
-      } else {
+      // Workers AI 8B models sometimes emit literal newlines / tabs / other
+      // control chars inside JSON string values (the html field is the usual
+      // offender). Strict JSON.parse rejects them. Try three repair passes
+      // before giving up: extract the first {...} block, then escape
+      // unescaped control chars inside string literals, then both combined.
+      const candidates = [];
+      const blockMatch = cleaned.match(/\{[\s\S]*\}/);
+      if (blockMatch) candidates.push(blockMatch[0]);
+      candidates.push(escapeUnescapedControlChars(cleaned));
+      if (blockMatch) candidates.push(escapeUnescapedControlChars(blockMatch[0]));
+      let recovered = null;
+      for (const c of candidates) {
+        try { recovered = JSON.parse(c); break; } catch { /* try next */ }
+      }
+      if (!recovered) {
         return { ok: false, error: `Workers AI returned non-JSON: ${err.message}`, raw: cleaned.slice(0, 500) };
       }
+      parsed = recovered;
     }
     return {
       ok: true,
