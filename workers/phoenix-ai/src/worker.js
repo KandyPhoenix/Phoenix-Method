@@ -833,12 +833,33 @@ ${faqHtml}
 `;
 }
 
-function blogIndexHTML({ site, articles }) {
+// Marker pair that scopes Phoenix AI's article-list block inside a customer's
+// hand-curated index.html. Anything outside the markers is preserved untouched.
+const PHOENIX_LIST_START = '<!--PHOENIX-AI-LIST-START-->';
+const PHOENIX_LIST_END = '<!--PHOENIX-AI-LIST-END-->';
+
+// Inner block injected between the markers. Minimal semantic markup using
+// phoenix-ai-* class names so the customer's CSS can style it however they
+// want. The JSON manifest comment lives inside this block so we can read it
+// back on the next publish without scanning the rest of the file.
+function buildArticleListBlock({ site, articles }) {
   const escape = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const blogPath = site.blogPath || 'blog';
   const items = articles.map((a) => {
     const thumb = a.imageUrl ? `<img src="${a.imageUrl}" alt="" loading="lazy" width="240" height="240">` : '';
-    return `<li><a href="/${site.blogPath || 'blog'}/${a.slug}.html">${thumb}<div class="entry-text"><h2>${escape(a.title)}</h2><p>${escape(a.metaDescription || '')}</p><p class="meta">${a.publishedAt ? a.publishedAt.slice(0, 10) : ''}</p></div></a></li>`;
+    const date = a.publishedAt ? a.publishedAt.slice(0, 10) : '';
+    return `  <li class="phoenix-ai-article"><a href="/${blogPath}/${a.slug}.html">${thumb}<h3>${escape(a.title)}</h3><p>${escape(a.metaDescription || '')}</p>${date ? `<time datetime="${date}">${date}</time>` : ''}</a></li>`;
   }).join('\n');
+  return `<!--PHOENIX-AI-MANIFEST:${b64utf8(JSON.stringify(articles))}:END-->
+<ul class="phoenix-ai-articles">
+${items}
+</ul>`;
+}
+
+function blogIndexHTML({ site, articles }) {
+  // Default template used only when the customer has no /blog/index.html yet.
+  // Wraps the article-list block in the markers so future publishes go through
+  // the marker-aware injection path uniformly.
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -851,26 +872,25 @@ function blogIndexHTML({ site, articles }) {
   body { font-family: 'Outfit', system-ui, sans-serif; line-height: 1.7; background: #07070D; color: #E8E8F0; margin: 0; }
   .blog-index { max-width: 720px; margin: 60px auto; padding: 0 24px; }
   .blog-index > h1 { font-family: 'Cinzel', serif; font-size: 2.2rem; margin-bottom: 32px; }
-  .blog-index ul { list-style: none; padding: 0; }
-  .blog-index li { border-bottom: 1px solid rgba(255,255,255,0.08); padding: 22px 0; }
-  .blog-index li a { display: grid; grid-template-columns: 120px 1fr; gap: 18px; color: inherit; text-decoration: none; align-items: center; }
-  .blog-index li a:not(:has(img)) { grid-template-columns: 1fr; }
-  .blog-index li img { width: 120px; height: 120px; object-fit: cover; border-radius: 8px; }
-  .blog-index li h2 { font-family: 'Cinzel', serif; font-size: 1.3rem; margin-bottom: 6px; }
-  .blog-index li p { color: #8888A0; margin: 0 0 4px; }
-  .blog-index li .meta { font-size: 0.82rem; color: #555570; }
-  .blog-index li a:hover h2 { color: #FF8C00; }
-  @media (max-width: 540px) { .blog-index li a { grid-template-columns: 1fr; } .blog-index li img { width: 100%; height: 200px; } }
+  .phoenix-ai-articles { list-style: none; padding: 0; }
+  .phoenix-ai-article { border-bottom: 1px solid rgba(255,255,255,0.08); padding: 22px 0; }
+  .phoenix-ai-article a { display: grid; grid-template-columns: 120px 1fr; gap: 18px; color: inherit; text-decoration: none; align-items: center; }
+  .phoenix-ai-article a:not(:has(img)) { grid-template-columns: 1fr; }
+  .phoenix-ai-article img { width: 120px; height: 120px; object-fit: cover; border-radius: 8px; grid-row: span 3; }
+  .phoenix-ai-article h3 { font-family: 'Cinzel', serif; font-size: 1.3rem; margin-bottom: 6px; }
+  .phoenix-ai-article p { color: #8888A0; margin: 0 0 4px; }
+  .phoenix-ai-article time { font-size: 0.82rem; color: #555570; }
+  .phoenix-ai-article a:hover h3 { color: #FF8C00; }
+  @media (max-width: 540px) { .phoenix-ai-article a { grid-template-columns: 1fr; } .phoenix-ai-article img { width: 100%; height: 200px; } }
 </style>
 </head>
 <body>
 <div id="pm-nav"></div>
 <main class="blog-index">
 <h1>Blog</h1>
-<!--PHOENIX-AI-MANIFEST:${b64utf8(JSON.stringify(articles))}:END-->
-<ul>
-${items}
-</ul>
+${PHOENIX_LIST_START}
+${buildArticleListBlock({ site, articles })}
+${PHOENIX_LIST_END}
 </main>
 <div id="pm-footer"></div>
 <script src="/assets/site-chrome.js" defer></script>
@@ -880,11 +900,55 @@ ${items}
 }
 
 function parseIndexManifest(html) {
-  // Returns the list previously embedded by blogIndexHTML, or [] if missing.
+  // Returns the list previously embedded by buildArticleListBlock, or [] if
+  // missing. Works whether the manifest is inside the marker block or not.
   const m = html.match(/<!--PHOENIX-AI-MANIFEST:([A-Za-z0-9+/=]+):END-->/);
   if (!m) return [];
   try { return JSON.parse(utf8FromB64(m[1])); }
   catch { return []; }
+}
+
+// Decides what to do with the customer's existing /blog/index.html when we
+// need to refresh the article list. Three modes:
+//
+//   1. 'markers'  — file has the PHOENIX-AI-LIST-START/END markers. We replace
+//                   only the content between them. Customer keeps full control
+//                   of everything else (hero, custom CSS, schema, CTA cards).
+//
+//   2. 'managed'  — file has PHOENIX-AI-MANIFEST signature but no markers. It
+//                   was generated by a previous version of Phoenix AI before
+//                   the marker pattern existed. Safe to fully rewrite using
+//                   the default template (which embeds markers going forward).
+//
+//   3. 'new'      — no existing file. Generate from the default template.
+//
+//   skipped       — file exists but has neither markers nor a Phoenix-AI
+//                   signature. It's hand-curated and we refuse to touch it.
+//                   Article publish still succeeds; dashboard surfaces a
+//                   warning telling the customer to add the marker block.
+function injectArticleList({ existingHtml, exists, site, articles }) {
+  if (!exists) {
+    return { ok: true, mode: 'new', html: blogIndexHTML({ site, articles }) };
+  }
+  const startIdx = existingHtml.indexOf(PHOENIX_LIST_START);
+  const endIdx = existingHtml.indexOf(PHOENIX_LIST_END);
+  if (startIdx !== -1 && endIdx !== -1 && endIdx > startIdx) {
+    const before = existingHtml.slice(0, startIdx + PHOENIX_LIST_START.length);
+    const after = existingHtml.slice(endIdx);
+    const inner = '\n' + buildArticleListBlock({ site, articles }) + '\n';
+    return { ok: true, mode: 'markers', html: before + inner + after };
+  }
+  // Legacy: previous Phoenix-AI-generated index without markers. Full rewrite
+  // is safe because no human curation lives in there.
+  if (/<!--PHOENIX-AI-MANIFEST:/.test(existingHtml)) {
+    return { ok: true, mode: 'managed', html: blogIndexHTML({ site, articles }) };
+  }
+  // Hand-curated file with no opt-in markers. Refuse to overwrite.
+  return {
+    ok: false,
+    skipped: true,
+    reason: `Your /${site.blogPath || 'blog'}/index.html is hand-curated and has no Phoenix AI marker block. The article was published, but not added to the index. Paste <!--PHOENIX-AI-LIST-START--><!--PHOENIX-AI-LIST-END--> into the index file where you want articles listed, then re-publish or wait for the next article.`,
+  };
 }
 
 async function ghGetFile(token, owner, repo, branch, filePath) {
@@ -1028,7 +1092,8 @@ async function githubPagesPublish(env, site, article, status = 'draft') {
   if (!put.ok) return put;
 
   // 3. Update the blog index. Parse the embedded manifest, prepend the new
-  // article (or replace if same slug already there), re-render, PUT back.
+  // article (or replace if same slug already there), then ask injectArticleList
+  // to decide whether to rewrite the file or refuse (hand-curated, no markers).
   const indexPath = `${blogPath}/index.html`;
   const idx = await ghGetFile(token, site.repoOwner, site.repoName, branch, indexPath);
   if (!idx.ok) return idx;
@@ -1041,16 +1106,30 @@ async function githubPagesPublish(env, site, article, status = 'draft') {
     publishedAt: nowIso(),
     imageUrl,
   }, ...filtered].slice(0, 200);
-  const newIndex = blogIndexHTML({ site, articles: updated });
+  const inject = injectArticleList({
+    existingHtml: idx.content || '',
+    exists: Boolean(idx.exists),
+    site,
+    articles: updated,
+  });
+
+  const publicUrl = `${site.url.replace(/\/+$/, '')}/${blogPath}/${article.slug}.html`;
+  const editUrl = `https://github.com/${site.repoOwner}/${site.repoName}/edit/${branch}/${postPath}`;
+
+  if (inject.skipped) {
+    // Hand-curated index — article published but not added to the list. The
+    // pipeline surfaces inject.reason to the customer via the article record.
+    await audit(env, site.id, 'pipeline.index.skipped', { slug: article.slug, reason: inject.reason });
+    return { ok: true, publicUrl, wpEditUrl: editUrl, wpPostId: null, imageUrl, indexWarning: inject.reason };
+  }
+
   const idxPut = await ghPutFile(
-    token, site.repoOwner, site.repoName, branch, indexPath, newIndex,
+    token, site.repoOwner, site.repoName, branch, indexPath, inject.html,
     `Phoenix AI: update blog index (${article.slug})`,
     idx.sha,
   );
   if (!idxPut.ok) return idxPut;
 
-  const publicUrl = `${site.url.replace(/\/+$/, '')}/${blogPath}/${article.slug}.html`;
-  const editUrl = `https://github.com/${site.repoOwner}/${site.repoName}/edit/${branch}/${postPath}`;
   return { ok: true, publicUrl, wpEditUrl: editUrl, wpPostId: null, imageUrl };
 }
 
@@ -1103,12 +1182,27 @@ async function githubPagesDelete(env, site, article) {
     // Only rewrite if the manifest actually changed; avoids a no-op commit
     // when the article being deleted was never in the index (drafts).
     if (filtered.length !== prev.length) {
-      const newIndex = blogIndexHTML({ site, articles: filtered });
-      results.index = await ghPutFile(
-        token, site.repoOwner, site.repoName, branch, indexPath, newIndex,
-        `Phoenix AI: remove ${article.slug} from index`,
-        idx.sha,
-      );
+      const inject = injectArticleList({
+        existingHtml: idx.content,
+        exists: true,
+        site,
+        articles: filtered,
+      });
+      if (inject.skipped) {
+        // Hand-curated index without markers — we never touched it on publish,
+        // so we don't touch it on delete either. The post file and image are
+        // already gone above; the only thing left is whatever stale link the
+        // customer manually added to their curated cards (which we can't know
+        // about). Surface this back to the caller so the dashboard banner can
+        // mention it.
+        results.index = { ok: true, skipped: true, reason: inject.reason };
+      } else {
+        results.index = await ghPutFile(
+          token, site.repoOwner, site.repoName, branch, indexPath, inject.html,
+          `Phoenix AI: remove ${article.slug} from index`,
+          idx.sha,
+        );
+      }
     } else {
       results.index = { ok: true, unchanged: true };
     }
@@ -1184,6 +1278,7 @@ async function runPipeline(env, site, opts = {}) {
     publicUrl: wpResult.publicUrl || null,
     imageUrl: wpResult.imageUrl || null,
     imagePrompt: article.imagePrompt || null,
+    indexWarning: wpResult.indexWarning || null,
     publishError: wpResult.ok ? null : wpResult.error,
     generatedAt: startedAt,
     publishedAt: wpResult.ok ? nowIso() : null,
@@ -2039,8 +2134,9 @@ function dashboardHTML() {
         const wasPublished = a.status === 'publish' || a.publishedAt;
         const delBtn = ' &middot; <button class="link-like" data-action="delete-article" data-site="' + site.id + '" data-article="' + a.id + '" data-published="' + (wasPublished ? '1' : '0') + '" data-cms="' + escapeHTML(site.cms || '') + '" data-title="' + escapeHTML(a.title || a.slug || 'this article') + '" style="color:var(--deep);">Delete</button>';
         const badgeClass = a.status === 'publish' ? 'publish' : a.status === 'failed' ? 'failed' : a.status === 'ready' ? 'ready' : 'draft';
+        const indexWarning = a.indexWarning ? '<div style="margin-top:6px;padding:8px 10px;background:rgba(255,170,0,0.08);border-left:3px solid #FF8C00;border-radius:4px;font-size:0.82rem;color:#FFB800;line-height:1.5;">⚠ ' + escapeHTML(a.indexWarning) + '</div>' : '';
         return '<tr>' +
-          '<td>' + escapeHTML(a.title || '—') + '<div style="color:var(--deep);font-size:0.82rem;margin-top:2px;">' + escapeHTML(a.keyword || '') + '</div></td>' +
+          '<td>' + escapeHTML(a.title || '—') + '<div style="color:var(--deep);font-size:0.82rem;margin-top:2px;">' + escapeHTML(a.keyword || '') + '</div>' + indexWarning + '</td>' +
           '<td><span class="badge ' + badgeClass + '">' + escapeHTML(a.status || 'draft') + '</span></td>' +
           '<td>' + escapeHTML(formatDate(a.generatedAt)) + '</td>' +
           '<td>' + viewBtn + openLink + delBtn + '</td>' +
