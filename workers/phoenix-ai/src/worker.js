@@ -157,11 +157,12 @@ async function listSitesForOwner(env, email) {
   return sites.filter(Boolean).map(stripSiteSecrets);
 }
 function stripSiteSecrets(site) {
-  const { appPassword, gsc, ...safe } = site;
+  const { appPassword, gsc, anthropicApiKey, ...safe } = site;
   return {
     ...safe,
     hasCredentials: Boolean(appPassword) || site.cms === 'manual',
     gsc: gsc ? { property: gsc.property || '', connected: true, connectedAt: gsc.connectedAt || null } : null,
+    hasAnthropicKey: Boolean(anthropicApiKey),
   };
 }
 async function getSite(env, siteId, owner) {
@@ -269,14 +270,21 @@ async function researchAndStoreKeywords(env, site) {
     if (site.gsc && site.gsc.property) {
       raw = await gscKeywords(env, site);
     } else {
-      // GSC not yet connected — fall back to manual seeds (or stub niche-derived
-      // keywords) so the customer still has SOMETHING to look at on first load.
       raw = await manualKeywords(site, []);
+      usedSource = 'seed';
     }
   } else if (source === 'ahrefs') {
     raw = await ahrefsKeywords(env, site.niche, new URL(site.url).hostname);
   } else if (source === 'manual') {
     raw = await manualKeywords(site, site.manualKeywords || []);
+  }
+  // Universal fallback: if the primary source produced nothing (new GSC with
+  // no rank-eligible queries, Ahrefs API quota, empty manual list…), seed the
+  // queue with niche-derived keywords. Better to give the customer something
+  // to look at and a working Generate button than a blank queue.
+  if (!raw.length) {
+    raw = await manualKeywords(site, []);
+    usedSource = source + '-seed-fallback';
   }
   const ranked = raw
     .map((k) => ({ ...k, score: scoreKeyword(k), picked: false, pickedAt: null }))
@@ -284,7 +292,7 @@ async function researchAndStoreKeywords(env, site) {
     .slice(0, 25);
   await env.KEYWORDS.put(`kws:${site.id}`, JSON.stringify(ranked));
   await audit(env, site.id, 'keywords.refreshed', { count: ranked.length, source: usedSource });
-  return ranked;
+  return { list: ranked, source: usedSource };
 }
 
 async function manualKeywords(site, seeds) {
@@ -435,9 +443,15 @@ async function gscKeywords(env, site) {
     return [];
   }
   const data = await res.json();
-  const rows = data.rows || [];
+  const allRows = data.rows || [];
+  // Tiered filter — start with the ideal "missed clicks" sweet spot (rank 5–20
+  // with real impression volume), then progressively broaden if the site is
+  // too new/small to surface anything at that threshold. Better to give the
+  // customer some real GSC data than nothing.
+  let rows = allRows.filter((r) => r.position >= 5 && r.position <= 20 && r.impressions >= 10);
+  if (!rows.length) rows = allRows.filter((r) => r.position >= 3 && r.position <= 30 && r.impressions >= 3);
+  if (!rows.length) rows = allRows.filter((r) => r.impressions >= 1);
   return rows
-    .filter((r) => r.position >= 5 && r.position <= 20 && r.impressions >= 10)
     .map((r) => {
       const ctr = r.ctr || 0;
       // Keep our schema consistent: keyword/volume/kd/intent/score-style fields.
@@ -448,7 +462,7 @@ async function gscKeywords(env, site) {
         volume: Math.round(r.impressions),
         kd: Math.round(r.position),
         intent: 'informational',
-        opportunity: Math.round(r.impressions * (1 - ctr)),
+        opportunity: Math.round(Math.max(1, r.impressions) * (1 - ctr)),
       };
     })
     .sort((a, b) => b.opportunity - a.opportunity)
@@ -470,12 +484,12 @@ function buildArticlePrompt({ keyword, site }) {
     system: `You are a senior SEO content writer at Phoenix Method, a working SEO agency. Your job is to write a single long-form article that ranks on Google and converts readers.
 
 Style guardrails:
-- 1,500–2,500 words.
+- 1,200–1,600 words.
 - Plain English, no SEO-speak, no keyword stuffing, no marketing fluff.
 - Match the brand voice sample given to you in word choice, sentence rhythm, and POV.
 - Use proper H-hierarchy: one H1 (matches title), 4–8 H2s, optional H3s.
 - Open with a punchy 2–3 sentence intro that answers the core question immediately.
-- Include a "Frequently Asked Questions" section with 4–6 Q&As at the end.
+- Do NOT include an FAQ or "Frequently Asked Questions" section in the html field. The Q&As go in the separate faqs JSON field below — the dashboard renders them visually beneath the article. Putting them in both places wastes tokens and risks truncation.
 - Cite a source by name when stating a statistic (don't fabricate numbers — if you don't know one, drop the stat).
 - Never use the word "delve". Avoid corporate buzzwords ("leverage", "synergy", "unlock", "elevate").
 - No em-dash overuse. No bullet-list spam — only when listing actual discrete items.
@@ -485,9 +499,9 @@ You MUST respond with a single JSON object (no prose, no code fences) matching t
   "title":        string  // SEO meta title, 50–60 chars
   "slug":         string  // url-safe slug
   "metaDescription": string  // 140–160 chars
-  "html":         string  // article body as HTML (no <html>/<head>/<body>, just content starting with <p> or <h2>)
+  "html":         string  // article body as HTML (no <html>/<head>/<body>, no FAQ section, just content starting with <p> or <h2>)
   "tags":         string[]  // 3–6 tags
-  "faqs":         [{ "q": string, "a": string }]  // matches the FAQ section in html
+  "faqs":         [{ "q": string, "a": string }]  // exactly 3 entries; rendered by the dashboard, NOT in the html field above
 }`,
     user: `Write the article for this target:
 
@@ -508,28 +522,75 @@ Return only the JSON object.`,
   };
 }
 
-async function callLLM(env, { system, user }) {
-  if (!env.AI_API_KEY) {
-    // Dev fallback so the pipeline is testable without secrets configured.
-    const stub = {
-      title: 'Sample article generated without AI_API_KEY',
-      slug: 'sample-article',
-      metaDescription: 'This is a stub article. Set the AI_API_KEY secret on the worker to generate real content.',
-      html: '<p>This is a stub. The Phoenix AI worker generated this article without an AI_API_KEY configured. Add the secret and re-run.</p>',
-      tags: ['phoenix-ai', 'stub'],
-      faqs: [{ q: 'Why is this article a stub?', a: 'Because AI_API_KEY is not set on the worker yet.' }],
+// Single entry point. Picks Workers AI (free, default) or BYOK Anthropic
+// based on what the site is configured for. Never falls back to a
+// worker-paid provider — Phoenix AI's business model is that customer
+// generation never costs Kandy uncapped tokens.
+async function callLLM(env, site, { system, user }) {
+  const provider = site.llmProvider === 'anthropic' && site.anthropicApiKey
+    ? 'anthropic' : 'workers-ai';
+  if (provider === 'anthropic') return callAnthropic(env, site, { system, user });
+  return callWorkersAI(env, { system, user });
+}
+
+// Llama 3.1 8B Instruct Fast is widely available across Workers AI accounts
+// and completes within Cloudflare's 30s worker CPU budget for our prompt size
+// (~1500-2000 word article). Llama 3.3 70B fp8-fast produces higher-quality
+// articles but routinely exceeds 30s and gets canceled. When we move article
+// generation to a queue/durable-object (async, no time limit), the default
+// can move back to the 70B model.
+const WORKERS_AI_MODEL = '@cf/meta/llama-3.1-8b-instruct-fast';
+
+async function callWorkersAI(env, { system, user }) {
+  if (!env.AI) return { ok: false, error: 'Workers AI binding is not configured on this worker' };
+  try {
+    const result = await env.AI.run(WORKERS_AI_MODEL, {
+      messages: [
+        { role: 'system', content: system },
+        { role: 'user', content: user },
+      ],
+      max_tokens: 4000,
+    });
+    // env.AI.run returns either { response: <string> } or a raw string
+    // depending on the model. Normalize, then parse JSON from the text.
+    const raw = result.response ?? result;
+    const text = typeof raw === 'string' ? raw : (raw && raw.text) || String(raw);
+    const cleaned = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
+    let parsed;
+    try { parsed = JSON.parse(cleaned); }
+    catch (err) {
+      // Some models wrap or prepend prose despite the JSON instruction; try to
+      // extract the first balanced { ... } block.
+      const match = cleaned.match(/\{[\s\S]*\}/);
+      if (match) {
+        try { parsed = JSON.parse(match[0]); }
+        catch { return { ok: false, error: `Workers AI returned non-JSON: ${err.message}`, raw: cleaned.slice(0, 500) }; }
+      } else {
+        return { ok: false, error: `Workers AI returned non-JSON: ${err.message}`, raw: cleaned.slice(0, 500) };
+      }
+    }
+    return {
+      ok: true,
+      content: parsed,
+      tokens: { input: result.usage?.prompt_tokens || 0, output: result.usage?.completion_tokens || 0 },
+      model: WORKERS_AI_MODEL,
     };
-    return { ok: true, content: stub, tokens: { input: 0, output: 0 }, model: 'stub' };
+  } catch (err) {
+    return { ok: false, error: `Workers AI error: ${err.message || err}` };
   }
-  const model = env.AI_MODEL_ID;
-  const apiUrl = env.AI_API_URL;
-  const versionHeader = env.AI_API_VERSION;
-  if (!model || !apiUrl) return { ok: false, error: 'AI_MODEL_ID and AI_API_URL must be set as worker secrets' };
-  const headers = { 'x-api-key': env.AI_API_KEY, 'Content-Type': 'application/json' };
-  if (versionHeader) headers['anthropic-version'] = versionHeader;
-  const res = await fetch(apiUrl, {
+}
+
+async function callAnthropic(env, site, { system, user }) {
+  const apiKey = await decryptSecret(site.anthropicApiKey, env.SESSION_SECRET);
+  if (!apiKey) return { ok: false, error: 'BYOK Anthropic key is missing or unreadable for this site' };
+  const model = site.anthropicModel || 'claude-opus-4-7';
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
-    headers,
+    headers: {
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify({
       model,
       max_tokens: 8000,
@@ -539,16 +600,20 @@ async function callLLM(env, { system, user }) {
   });
   if (!res.ok) {
     const errBody = await res.text().catch(() => '');
-    return { ok: false, error: `llm ${res.status}: ${errBody.slice(0, 400)}` };
+    return { ok: false, error: `Anthropic ${res.status}: ${errBody.slice(0, 400)}` };
   }
   const data = await res.json();
   const text = (data.content || []).map((c) => c.text || '').join('').trim();
-  // Strip code fences if the model added them despite our instructions.
   const cleaned = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
   let parsed;
   try { parsed = JSON.parse(cleaned); }
   catch (err) { return { ok: false, error: `failed to parse model output: ${err.message}`, raw: text.slice(0, 500) }; }
-  return { ok: true, content: parsed, tokens: { input: data.usage?.input_tokens || 0, output: data.usage?.output_tokens || 0 }, model };
+  return {
+    ok: true,
+    content: parsed,
+    tokens: { input: data.usage?.input_tokens || 0, output: data.usage?.output_tokens || 0 },
+    model,
+  };
 }
 
 // ──────────────────────────────────────────────────────────────
@@ -599,7 +664,8 @@ async function runPipeline(env, site, opts = {}) {
   let kwListRaw = await env.KEYWORDS.get(`kws:${site.id}`);
   let kwList = kwListRaw ? JSON.parse(kwListRaw) : [];
   if (!kwList.length || kwList.every((k) => k.picked)) {
-    kwList = await researchAndStoreKeywords(env, site);
+    const refreshed = await researchAndStoreKeywords(env, site);
+    kwList = refreshed.list;
   }
 
   // 2. Pick the next keyword.
@@ -611,7 +677,7 @@ async function runPipeline(env, site, opts = {}) {
 
   // 3. Generate article via the LLM.
   const prompt = buildArticlePrompt({ keyword, site });
-  const llmResult = await callLLM(env, prompt);
+  const llmResult = await callLLM(env, site, prompt);
   if (!llmResult.ok) {
     await audit(env, site.id, 'pipeline.error', { stage: 'llm', error: llmResult.error });
     return { ok: false, error: llmResult.error };
@@ -726,15 +792,15 @@ export default {
     const path = url.pathname;
 
     // Permissive CORS for the marketing page calling /auth/request from phoenixmethodseo.com.
-    if (request.method === 'OPTIONS') return cors(new Response(null, { status: 204 }));
+    if (request.method === 'OPTIONS') return cors(new Response(null, { status: 204 }), request);
 
-    if (path === '/auth/request' && request.method === 'POST') return cors(await handleAuthRequest(request, env, url));
+    if (path === '/auth/request' && request.method === 'POST') return cors(await handleAuthRequest(request, env, url), request);
     if (path === '/auth/verify') return await handleAuthVerify(request, env, url);
     if (path === '/auth/logout') return logout();
     if (path === '/auth/google/start') return await handleGoogleStart(request, env, url);
     if (path === '/auth/google/callback') return await handleGoogleCallback(request, env, url);
 
-    if (path.startsWith('/api/')) return cors(await apiRouter(request, env, url, path));
+    if (path.startsWith('/api/')) return cors(await apiRouter(request, env, url, path), request);
 
     if (path === '/app' || path === '/app/' || path.startsWith('/app/')) {
       return new Response(dashboardHTML(), { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } });
@@ -770,9 +836,19 @@ export default {
   },
 };
 
-function cors(res) {
+const ALLOWED_ORIGINS = new Set([
+  'https://phoenixmethodseo.com',
+  'https://www.phoenixmethodseo.com',
+]);
+
+function cors(res, request) {
+  const origin = request && request.headers ? request.headers.get('Origin') : null;
   const h = new Headers(res.headers);
-  h.set('Access-Control-Allow-Origin', 'https://phoenixmethodseo.com');
+  // Echo back whichever allowed origin the browser is on (bare domain vs www).
+  // GitHub Pages canonically redirects to www, but bookmarks etc. may still
+  // hit the bare host.
+  h.set('Access-Control-Allow-Origin', ALLOWED_ORIGINS.has(origin) ? origin : 'https://www.phoenixmethodseo.com');
+  h.set('Vary', 'Origin');
   h.set('Access-Control-Allow-Methods', 'GET,POST,PATCH,DELETE,OPTIONS');
   h.set('Access-Control-Allow-Headers', 'Content-Type');
   h.set('Access-Control-Allow-Credentials', 'true');
@@ -952,6 +1028,11 @@ async function apiRouter(request, env, url, path) {
     // customers are nudged toward the free option. They'll click Connect GSC
     // from the dashboard before any real research runs against it.
     const keywordSource = ['gsc', 'ahrefs', 'manual'].includes(body.keywordSource) ? body.keywordSource : 'gsc';
+    // LLM provider: 'workers-ai' (free default) or 'anthropic' (BYOK premium).
+    // Phoenix AI never pays for customer tokens — Anthropic mode requires the
+    // customer to paste their own API key, stored encrypted per-site.
+    const llmProvider = body.llmProvider === 'anthropic' ? 'anthropic' : 'workers-ai';
+    const anthropicKeyPlain = (body.anthropicApiKey || '').toString().trim();
     const site = {
       id,
       ownerEmail: email,
@@ -967,6 +1048,8 @@ async function apiRouter(request, env, url, path) {
       keywordSource,
       gsc: null,
       manualKeywords: Array.isArray(body.manualKeywords) ? body.manualKeywords.slice(0, 50) : [],
+      llmProvider,
+      anthropicApiKey: anthropicKeyPlain ? await encryptSecret(anthropicKeyPlain, env.SESSION_SECRET) : '',
       status: 'active',
       createdAt: nowIso(),
     };
@@ -1010,19 +1093,31 @@ async function apiRouter(request, env, url, path) {
       }
       if (['gsc', 'ahrefs', 'manual'].includes(body.keywordSource)) site.keywordSource = body.keywordSource;
       if (Array.isArray(body.manualKeywords)) site.manualKeywords = body.manualKeywords.slice(0, 50);
+      if (['workers-ai', 'anthropic'].includes(body.llmProvider)) site.llmProvider = body.llmProvider;
+      // Set anthropicApiKey ONLY if a non-empty string is provided; pass an
+      // empty string to clear it (e.g., when the customer wants to revoke).
+      if (typeof body.anthropicApiKey === 'string') {
+        const trimmed = body.anthropicApiKey.trim();
+        site.anthropicApiKey = trimmed ? await encryptSecret(trimmed, env.SESSION_SECRET) : '';
+      }
+      // If the customer clears their Anthropic key but llmProvider is still
+      // 'anthropic', downgrade them to workers-ai so generation doesn't break.
+      if (site.llmProvider === 'anthropic' && !site.anthropicApiKey) site.llmProvider = 'workers-ai';
       await saveSite(env, site);
       await audit(env, siteId, 'site.updated', {
         requireApproval: site.requireApproval,
         autoPublish: site.autoPublish,
         keywordSource: site.keywordSource,
+        llmProvider: site.llmProvider,
+        hasAnthropicKey: Boolean(site.anthropicApiKey),
         brandVoiceOverrideLen: (site.brandVoiceOverride || '').length,
       });
       return json({ ok: true, site: stripSiteSecrets(site) });
     }
 
     if (sub === 'research' && request.method === 'POST') {
-      const list = await researchAndStoreKeywords(env, site);
-      return json({ ok: true, count: list.length, keywords: list, source: site.keywordSource || 'gsc' });
+      const result = await researchAndStoreKeywords(env, site);
+      return json({ ok: true, count: result.list.length, keywords: result.list, source: result.source });
     }
 
     if (sub === 'gsc/properties' && request.method === 'GET') {
@@ -1115,8 +1210,8 @@ function dashboardHTML() {
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Rajdhani:wght@500;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root { --bg:#07070D; --surface:#0E0E18; --card:#131320; --border:rgba(255,255,255,0.08); --text:#F0EDE6; --muted:#A8A49C; --deep:#6B6860; --fire-s:#FF4D00; --fire-m:#FF8C00; --fire-e:#FFB800; --danger:#ff7373; }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
+  * { box-sizing: border-box; margin: 0; padding: 0; min-width: 0; }
+  body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; overflow-wrap: break-word; word-wrap: break-word; }
   a { color: var(--fire-m); text-decoration: none; }
   a:hover { color: var(--fire-e); }
   header.topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
@@ -1129,9 +1224,16 @@ function dashboardHTML() {
   h2 { font-family: 'Cinzel', serif; font-weight: 700; font-size: 1.25rem; margin: 32px 0 14px; }
   h3 { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
   .lede { color: var(--muted); margin-bottom: 24px; }
-  .panel { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; margin-bottom: 20px; }
+  .panel { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; margin-bottom: 20px; overflow: hidden; overflow-wrap: break-word; word-wrap: break-word; }
   .panel.empty { text-align: center; padding: 40px 24px; }
   .panel.empty h2 { margin-top: 0; }
+  .panel h2, .panel h3, .panel p, .panel a, .panel label, .panel pre, .panel summary { overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; max-width: 100%; }
+  .panel table { width: 100%; table-layout: auto; }
+  .panel table td { overflow-wrap: break-word; word-break: break-word; max-width: 0; }
+  .panel pre, .panel code { white-space: pre-wrap; word-break: break-all; }
+  .panel .site-meta { word-break: break-word; }
+  .row-actions { flex-wrap: wrap; }
+  textarea, input[type=text], input[type=url], input[type=password], input[type=email] { max-width: 100%; }
   .btn { display: inline-block; padding: 12px 22px; border-radius: 8px; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.88rem; letter-spacing: 0.1em; text-transform: uppercase; border: none; cursor: pointer; transition: transform .15s, box-shadow .2s; }
   .btn-primary { background: linear-gradient(135deg, var(--fire-s), var(--fire-m)); color: #fff; }
   .btn-primary:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(255,140,0,0.25); }
@@ -1420,7 +1522,25 @@ function dashboardHTML() {
             '</div>' +
             '<div data-keyword-source-fields="manual" style="display:' + (keywordSource === 'manual' ? 'block' : 'none') + ';">' +
               '<label>Manual keyword list (one per line)</label>' +
-              '<textarea name="manualKeywords" rows="6" placeholder="best dental clinic seattle\nteeth whitening cost\npediatric dentist near me" style="width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:\\'Outfit\\',sans-serif;font-size:0.95rem;resize:vertical;">' + escapeHTML((site.manualKeywords || []).map(k => typeof k === 'string' ? k : k.keyword).join('\\n')) + '</textarea>' +
+              '<textarea name="manualKeywords" rows="6" placeholder="one keyword per line: best dental clinic seattle, teeth whitening cost, pediatric dentist near me" style="width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:\\'Outfit\\',sans-serif;font-size:0.95rem;resize:vertical;">' + escapeHTML((site.manualKeywords || []).map(k => typeof k === 'string' ? k : k.keyword).join('\\n')) + '</textarea>' +
+            '</div>' +
+            '<div>' +
+              '<label>AI provider</label>' +
+              '<div style="display:grid;gap:8px;margin-top:8px;">' +
+                '<label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);">' +
+                  '<input type="radio" name="llmProvider" value="workers-ai"' + ((site.llmProvider || 'workers-ai') === 'workers-ai' ? ' checked' : '') + ' style="margin-top:4px;">' +
+                  '<span><strong>Cloudflare Workers AI (Llama 3.3 70B)</strong> <span class="badge publish" style="font-size:0.62rem;">Default · Free</span><br><span style="color:var(--muted);font-size:0.85rem;">Runs on Cloudflare\\'s infra. Included free up to ~10 articles/day, then sub-cent per article.</span></span>' +
+                '</label>' +
+                '<label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);">' +
+                  '<input type="radio" name="llmProvider" value="anthropic"' + (site.llmProvider === 'anthropic' ? ' checked' : '') + ' style="margin-top:4px;">' +
+                  '<span><strong>Anthropic Claude (BYOK)</strong> <span class="badge draft" style="font-size:0.62rem;">Premium</span><br><span style="color:var(--muted);font-size:0.85rem;">Higher-quality brand-voice matching. <em>You</em> pay your own Anthropic bill — paste your API key below.</span></span>' +
+                '</label>' +
+              '</div>' +
+            '</div>' +
+            '<div data-llm-provider-fields="anthropic" style="display:' + (site.llmProvider === 'anthropic' ? 'block' : 'none') + ';">' +
+              '<label>Anthropic API key</label>' +
+              '<input type="password" name="anthropicApiKey" placeholder="' + (site.hasAnthropicKey ? '••• key already set — paste to replace, leave blank to keep' : 'sk-ant-…') + '" style="width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:\\'Outfit\\',sans-serif;font-size:0.95rem;">' +
+              '<p class="help" style="margin-top:6px;">Get one at <a href="https://console.anthropic.com" target="_blank" rel="noopener">console.anthropic.com</a>. We store it encrypted and only use it for this site.</p>' +
             '</div>' +
             '<label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);">' +
               '<input type="checkbox" name="requireApproval"' + (site.requireApproval ? ' checked' : '') + ' style="margin-top:4px;">' +
@@ -1489,6 +1609,13 @@ function dashboardHTML() {
           if (manualField) manualField.style.display = r.checked && r.value === 'manual' ? 'block' : 'none';
         });
       });
+      // Show/hide Anthropic key field when provider toggles
+      form.querySelectorAll('input[name=llmProvider]').forEach((r) => {
+        r.addEventListener('change', () => {
+          const keyField = form.querySelector('[data-llm-provider-fields=anthropic]');
+          if (keyField) keyField.style.display = r.checked && r.value === 'anthropic' ? 'block' : 'none';
+        });
+      });
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const siteId = form.dataset.settingsSite;
@@ -1496,15 +1623,23 @@ function dashboardHTML() {
         btn.disabled = true; btn.innerHTML = '<span class="loader"></span>Saving…';
         try {
           const sourceRadio = form.querySelector('input[name=keywordSource]:checked');
+          const providerRadio = form.querySelector('input[name=llmProvider]:checked');
           const manualText = (form.querySelector('textarea[name=manualKeywords]') || {}).value || '';
           const manualKeywords = manualText.split(/\\n+/).map(s => s.trim()).filter(Boolean).slice(0, 50);
-          await api('PATCH', '/api/sites/' + siteId, {
+          // Only send anthropicApiKey if the field has content. Empty string
+          // means "keep what's stored" — don't accidentally clear it.
+          const keyField = form.querySelector('input[name=anthropicApiKey]');
+          const keyValue = keyField ? keyField.value.trim() : '';
+          const patch = {
             brandVoiceOverride: form.querySelector('textarea[name=brandVoiceOverride]').value,
             requireApproval: form.querySelector('input[name=requireApproval]').checked,
             autoPublish: form.querySelector('input[name=autoPublish]').checked,
             keywordSource: sourceRadio ? sourceRadio.value : undefined,
+            llmProvider: providerRadio ? providerRadio.value : undefined,
             manualKeywords,
-          });
+          };
+          if (keyValue) patch.anthropicApiKey = keyValue;
+          await api('PATCH', '/api/sites/' + siteId, patch);
           showBanner('Settings saved.', 'success');
           await load();
         } catch (err) {
@@ -1549,9 +1684,23 @@ function dashboardHTML() {
       if (!currentArticle) return;
       const a = currentArticle;
       if (currentTab === 'preview') {
-        modalBody.innerHTML = '<div class="article-render"><h1 style="font-family:Cinzel,serif;font-size:1.6rem;margin-bottom:6px;">' + escapeHTML(a.title || '') + '</h1>' + (a.metaDescription ? '<p style="color:var(--muted);margin-bottom:18px;">' + escapeHTML(a.metaDescription) + '</p>' : '') + (a.html || '') + '</div>';
+        // FAQs come from the structured JSON, not the HTML body. We append
+        // them visually here so the customer sees a complete article in the
+        // Preview tab — and so older articles that have the FAQ section
+        // already inlined (legacy generations) still look fine.
+        const faqHtml = (a.faqs && a.faqs.length)
+          ? '<h2 style="margin-top:32px;">Frequently Asked Questions</h2>' +
+            a.faqs.map(f => '<div style="margin-bottom:18px;"><h3 style="font-family:Outfit,sans-serif;text-transform:none;letter-spacing:0;color:var(--text);font-size:1.05rem;margin-bottom:6px;">' + escapeHTML(f.q) + '</h3><p style="margin:0;">' + escapeHTML(f.a) + '</p></div>').join('')
+          : '';
+        modalBody.innerHTML = '<div class="article-render"><h1 style="font-family:Cinzel,serif;font-size:1.6rem;margin-bottom:6px;">' + escapeHTML(a.title || '') + '</h1>' + (a.metaDescription ? '<p style="color:var(--muted);margin-bottom:18px;">' + escapeHTML(a.metaDescription) + '</p>' : '') + (a.html || '') + faqHtml + '</div>';
       } else if (currentTab === 'html') {
-        modalBody.innerHTML = '<pre class="modal-pre">' + escapeHTML(a.html || '') + '</pre>';
+        // Show the same composed output the customer would copy/paste: body
+        // HTML plus the FAQ section rendered from JSON.
+        const faqHtmlSrc = (a.faqs && a.faqs.length)
+          ? '\\n\\n<h2>Frequently Asked Questions</h2>\\n' +
+            a.faqs.map(f => '<h3>' + escapeHTML(f.q) + '</h3>\\n<p>' + escapeHTML(f.a) + '</p>').join('\\n')
+          : '';
+        modalBody.innerHTML = '<pre class="modal-pre">' + escapeHTML((a.html || '') + faqHtmlSrc) + '</pre>';
       } else if (currentTab === 'meta') {
         const tags = (a.tags || []).map(t => '<span class="keyword-chip">' + escapeHTML(t) + '</span>').join(' ');
         const faqs = (a.faqs || []).map(f => '<div style="margin-bottom:14px;"><strong>' + escapeHTML(f.q) + '</strong><br><span style="color:var(--muted);">' + escapeHTML(f.a) + '</span></div>').join('') || '<span style="color:var(--deep);">No FAQs.</span>';
@@ -1617,7 +1766,12 @@ function dashboardHTML() {
           showBanner('Article generated: "' + (out.article.title || '') + '" — open it from the table below.', 'success');
         } else if (action === 'research') {
           const out = await api('POST', '/api/sites/' + siteId + '/research');
-          showBanner('Refreshed — ' + out.count + ' keywords queued (' + (out.source || 'gsc') + ').', 'success');
+          const isFallback = (out.source || '').endsWith('-seed-fallback');
+          if (isFallback) {
+            showBanner('Refreshed — ' + out.count + ' seed keywords queued. (Your primary source returned nothing; using niche-derived starters. Add a few manual keywords in Settings for better results.)', 'info');
+          } else {
+            showBanner('Refreshed — ' + out.count + ' keywords queued (' + (out.source || 'gsc') + ').', 'success');
+          }
         } else if (action === 'gsc-disconnect') {
           if (!confirm('Disconnect Google Search Console for this site? Already-collected keywords stay until you refresh.')) { btn.disabled = false; btn.textContent = originalText; return; }
           await api('DELETE', '/api/sites/' + siteId + '/gsc');
