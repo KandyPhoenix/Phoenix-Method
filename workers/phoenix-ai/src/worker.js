@@ -2760,22 +2760,48 @@ function dashboardHTML() {
         const wasPublished = btn.dataset.published === '1';
         const cms = btn.dataset.cms;
         const title = btn.dataset.title;
-        const cmsLabel = cms === 'wordpress' ? 'WordPress site' : cms === 'github-pages' ? 'GitHub repo (committed files + blog index)' : 'destination';
-        const msg = wasPublished
-          ? 'Delete "' + title + '"?\\n\\nThis removes the article from Phoenix AI AND from your ' + cmsLabel + '. This cannot be undone.'
-          : 'Delete "' + title + '"?\\n\\nThis is a draft — nothing was published. Removes from Phoenix AI only.';
-        if (!window.confirm(msg)) return;
+        // Confirm-dialog copy is CMS-specific so the customer knows exactly
+        // what will happen on the destination side before they click OK.
+        let confirmMsg;
+        if (!wasPublished) {
+          confirmMsg = 'Delete "' + title + '"?\\n\\nThis is a draft — nothing was published anywhere. Removes from Phoenix AI only.';
+        } else if (cms === 'github-pages') {
+          confirmMsg = 'Delete "' + title + '"?\\n\\nThis will:\\n  • Remove the article from Phoenix AI\\n  • Commit 3 deletions to your GitHub repo (post HTML, hero image, blog index entry)\\n  • Your live site will reflect this in ~1 minute (GitHub Pages rebuild)\\n\\nCannot be undone.';
+        } else if (cms === 'wordpress') {
+          confirmMsg = 'Delete "' + title + '"?\\n\\nThis will:\\n  • Remove the article from Phoenix AI\\n  • Permanently delete the post from your WordPress site (skips trash — gone for good)\\n  • Visitors will get a 404 immediately\\n\\nCannot be undone.';
+        } else {
+          confirmMsg = 'Delete "' + title + '"?\\n\\nRemoves from Phoenix AI only. If you copied this article into your CMS (Squarespace / Wix / etc.) you\\'ll need to remove it there yourself.';
+        }
+        if (!window.confirm(confirmMsg)) return;
         btn.disabled = true; btn.textContent = 'Deleting…';
         try {
           const res = await api('DELETE', '/api/sites/' + siteId + '/articles/' + articleId);
           const cmsResult = res.cmsDelete || {};
+          // Success-banner copy is also CMS-specific. Tells the customer
+          // exactly what got cleaned up, where to look to verify, and how
+          // long until they'll see the change on their live site.
+          let banner, kind = 'success';
           if (cmsResult.skipped) {
-            showBanner('Deleted "' + title + '".', 'success');
+            banner = 'Deleted "' + title + '" from Phoenix AI. It was a draft — nothing was ever published.';
           } else if (cmsResult.ok) {
-            showBanner('Deleted "' + title + '" from Phoenix AI and your ' + cmsLabel + '.', 'success');
+            if (cms === 'github-pages') {
+              banner = 'Deleted "' + title + '". Removed from Phoenix AI + 3 commits to your GitHub repo (post, image, index entry). Live site updates in ~1 minute.';
+            } else if (cms === 'wordpress') {
+              banner = 'Deleted "' + title + '". Removed from Phoenix AI + permanently deleted from your WordPress site. Visitors will see a 404 now.';
+            } else {
+              banner = 'Deleted "' + title + '" from Phoenix AI.' + (wasPublished ? ' If you previously copied this article into another CMS, remove it there yourself.' : '');
+            }
           } else {
-            showBanner('Removed from Phoenix AI, but the ' + cmsLabel + ' delete failed: ' + (cmsResult.error || 'unknown error') + '. You may need to remove it manually.', 'error');
+            kind = 'error';
+            if (cms === 'github-pages') {
+              banner = 'Removed "' + title + '" from Phoenix AI, but at least one GitHub commit failed: ' + (cmsResult.error || 'unknown error') + '. Open your repo, delete the post HTML + image in /blog/, and remove the entry from blog/index.html.';
+            } else if (cms === 'wordpress') {
+              banner = 'Removed "' + title + '" from Phoenix AI, but the WordPress delete failed: ' + (cmsResult.error || 'unknown error') + '. Log in to /wp-admin/, find the post, click Delete Permanently.';
+            } else {
+              banner = 'Removed "' + title + '" from Phoenix AI, but the destination cleanup failed: ' + (cmsResult.error || 'unknown error') + '.';
+            }
           }
+          showBanner(banner, kind);
           await load();
         } catch (err) {
           btn.disabled = false; btn.textContent = 'Delete';
