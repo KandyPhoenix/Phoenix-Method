@@ -2413,7 +2413,7 @@ function dashboardHTML() {
           '<div><h2 style="margin:0;display:inline;">' + escapeHTML(site.url) + '</h2>' + approvalBadge +
           '<div class="site-meta">' + (site.niche ? escapeHTML(site.niche.slice(0, 140)) : '<em>Niche learning…</em>') + '</div></div>' +
           '<div class="row-actions">' +
-            '<button class="btn btn-primary" data-action="generate" data-site="' + site.id + '">Generate Article</button>' +
+            '<button class="btn btn-primary" data-action="generate" data-site="' + site.id + '" data-cms="' + escapeHTML(site.cms || '') + '" data-autopublish="' + (site.autoPublish ? '1' : '0') + '">Generate Article</button>' +
             '<button class="btn btn-ghost" data-action="research" data-site="' + site.id + '">Refresh keywords</button>' +
             (gscConnected
               ? '<button class="btn btn-ghost" data-action="gsc-disconnect" data-site="' + site.id + '">Disconnect GSC</button>'
@@ -2746,7 +2746,11 @@ function dashboardHTML() {
             showBanner('"' + title + '" was already published.', 'info');
           } else {
             const extra = res.article && res.article.indexWarning ? ' (heads up — your hand-curated blog index was preserved; see the article row for marker setup.)' : '';
-            showBanner('Published "' + title + '" to your ' + cmsLabel + '.' + extra, 'success');
+            // GitHub Pages rebuilds the site after each commit — typically
+            // 30-90 seconds. If the customer clicks Open ↗ during that
+            // window they'll see a 404 and think we're broken. Call it out.
+            const buildLag = cms === 'github-pages' ? ' Your live URL works in 1-2 minutes (GitHub Pages rebuild).' : '';
+            showBanner('Published "' + title + '" to your ' + cmsLabel + '.' + buildLag + extra, 'success');
           }
           await load();
         } catch (err) {
@@ -2827,7 +2831,12 @@ function dashboardHTML() {
             showBanner('Generation failed: ' + (final.error || 'unknown error'), 'error');
           } else {
             const extra = final.indexWarning ? ' (heads up — your hand-curated blog index was preserved; the article row has details on adding markers.)' : '';
-            showBanner('Article generated — see the table below.' + extra, 'success');
+            // If this site auto-publishes to github-pages, the customer will
+            // try to click Open ↗ immediately and hit a 404 during the
+            // GitHub Pages rebuild window. Forewarn.
+            const willAutoPublish = btn.dataset.cms === 'github-pages' && btn.dataset.autopublish === '1';
+            const buildLag = willAutoPublish ? ' Your live URL works in 1-2 minutes (GitHub Pages rebuild).' : '';
+            showBanner('Article generated — see the table below.' + buildLag + extra, 'success');
           }
         } else if (action === 'research') {
           const out = await api('POST', '/api/sites/' + siteId + '/research');
