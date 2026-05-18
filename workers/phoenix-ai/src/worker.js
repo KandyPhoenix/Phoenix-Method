@@ -570,12 +570,17 @@ function buildArticlePrompt({ keyword, site }) {
   return {
     system: `You are a senior SEO content writer at Phoenix Method, a working SEO agency. Your job is to write a single long-form article that ranks on Google and converts readers.
 
+Length requirement (hard floor):
+- Minimum 1,500 words in the html body. Maximum 2,200.
+- This is non-negotiable. Articles under 1,500 words don't rank for competitive terms.
+- Each H2 section gets at least 250-350 words. Don't write a section heading you can't substantively fill.
+- If you finish a section early, expand it with: a concrete example, a step-by-step breakdown, a comparison to alternatives, a common mistake to avoid, or a specific data point.
+
 Style guardrails:
-- 1,200–1,600 words.
 - Plain English, no SEO-speak, no keyword stuffing, no marketing fluff.
 - Match the brand voice sample given to you in word choice, sentence rhythm, and POV.
-- Use proper H-hierarchy: one H1 (matches title), 4–8 H2s, optional H3s.
-- Open with a punchy 2–3 sentence intro that answers the core question immediately.
+- Use proper H-hierarchy: one H1 (matches title), 5-8 H2s, optional H3s within H2s.
+- Open with a punchy 2-3 sentence intro that answers the core question immediately.
 - Do NOT include an FAQ or "Frequently Asked Questions" section in the html field. The Q&As go in the separate faqs JSON field below — the dashboard renders them visually beneath the article. Putting them in both places wastes tokens and risks truncation.
 - Cite a source by name when stating a statistic (don't fabricate numbers — if you don't know one, drop the stat).
 - Never use the word "delve". Avoid corporate buzzwords ("leverage", "synergy", "unlock", "elevate").
@@ -874,12 +879,58 @@ function blogPostHTML({ site, article, faqHtml, imageUrl }) {
   const descEsc = escape(article.metaDescription || '');
   const canonical = `${site.url.replace(/\/+$/, '')}/${site.blogPath || 'blog'}/${article.slug}.html`;
   const absImage = imageUrl ? `${site.url.replace(/\/+$/, '')}${imageUrl}` : '';
+  // FLUX now generates 1280x720 (16:9 banner). Reflect that in og:image
+  // dimensions so social previews don't crop weirdly.
   const ogImage = absImage
-    ? `<meta property="og:image" content="${absImage}">\n<meta property="og:image:width" content="1024">\n<meta property="og:image:height" content="1024">\n<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:image" content="${absImage}">`
+    ? `<meta property="og:image" content="${absImage}">\n<meta property="og:image:width" content="1280">\n<meta property="og:image:height" content="720">\n<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:image" content="${absImage}">`
     : '';
   const heroFigure = imageUrl
-    ? `<figure class="hero"><img src="${imageUrl}" alt="${titleEsc}" loading="eager" width="1024" height="1024"></figure>`
+    ? `<figure class="hero"><img src="${imageUrl}" alt="${titleEsc}" loading="eager" width="1280" height="720"></figure>`
     : '';
+  // JSON-LD structured data: Article + BreadcrumbList + FAQPage. Google uses
+  // these for rich results (article cards, breadcrumb display in SERPs, FAQ
+  // expansion). Skips FAQPage if the article has no FAQs.
+  const blogPath = site.blogPath || 'blog';
+  const publishedIso = new Date().toISOString();
+  const jsonEscape = (s) => String(s == null ? '' : s).replace(/[\\" -]/g, (c) => {
+    if (c === '\\' || c === '"') return '\\' + c;
+    if (c === '\n') return '\\n';
+    if (c === '\r') return '\\r';
+    if (c === '\t') return '\\t';
+    return '\\u' + c.charCodeAt(0).toString(16).padStart(4, '0');
+  });
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: article.title || '',
+    description: article.metaDescription || '',
+    image: absImage || undefined,
+    datePublished: publishedIso,
+    dateModified: publishedIso,
+    author: { '@type': 'Organization', name: 'Phoenix Method', url: site.url.replace(/\/+$/, '') },
+    publisher: { '@type': 'Organization', name: 'Phoenix Method', url: site.url.replace(/\/+$/, '') },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+  };
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: site.url.replace(/\/+$/, '') + '/' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: `${site.url.replace(/\/+$/, '')}/${blogPath}/` },
+      { '@type': 'ListItem', position: 3, name: article.title || '', item: canonical },
+    ],
+  };
+  const faqSchema = (article.faqs && article.faqs.length) ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: article.faqs.map((f) => ({
+      '@type': 'Question',
+      name: String(f.q || ''),
+      acceptedAnswer: { '@type': 'Answer', text: String(f.a || '') },
+    })),
+  } : null;
+  const schemaTags = [articleSchema, breadcrumbSchema, faqSchema].filter(Boolean).map((s) =>
+    `<script type="application/ld+json">${JSON.stringify(s)}</script>`).join('\n');
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -893,12 +944,13 @@ function blogPostHTML({ site, article, faqHtml, imageUrl }) {
 <meta property="og:url" content="${canonical}">
 <meta property="og:type" content="article">
 ${ogImage}
+${schemaTags}
 <link rel="stylesheet" href="/assets/site-chrome.css">
 <style>
   body { font-family: 'Outfit', system-ui, sans-serif; line-height: 1.7; background: #07070D; color: #E8E8F0; margin: 0; }
   .blog-post { max-width: 720px; margin: 60px auto; padding: 0 24px; }
   .blog-post .hero { margin: 0 0 28px; }
-  .blog-post .hero img { width: 100%; height: auto; border-radius: 12px; display: block; }
+  .blog-post .hero img { width: 100%; aspect-ratio: 16/9; object-fit: cover; max-height: 360px; border-radius: 12px; display: block; }
   .blog-post h1 { font-family: 'Cinzel', serif; font-size: 2rem; margin-bottom: 8px; }
   .blog-post .meta { color: #8888A0; font-size: 0.88rem; margin-bottom: 32px; }
   .blog-post h2 { font-family: 'Cinzel', serif; margin-top: 36px; margin-bottom: 12px; }
@@ -1107,7 +1159,10 @@ async function generateHeroImage(env, article) {
   const prompt = (article.imagePrompt && article.imagePrompt.trim())
     || `Editorial hero illustration for an article titled "${article.title}". Clean, professional, soft natural lighting, minimal composition. No text, no faces, no logos.`;
   try {
-    const response = await env.AI.run('@cf/black-forest-labs/flux-1-schnell', { prompt });
+    // Request 16:9 banner dimensions instead of the 1024x1024 default. A
+    // square hero takes up the entire viewport on mobile; a banner is what
+    // blog readers expect at the top of a post.
+    const response = await env.AI.run('@cf/black-forest-labs/flux-1-schnell', { prompt, width: 1280, height: 720 });
     // Workers AI returns { image: "<base64 jpg>" } for FLUX in 2026. Defensively
     // also handle ArrayBuffer / Uint8Array shapes (older response formats).
     if (response && typeof response.image === 'string') {
