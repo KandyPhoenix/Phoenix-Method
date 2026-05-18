@@ -1964,11 +1964,12 @@ function dashboardHTML() {
   .panel h2, .panel h3, .panel p, .panel a, .panel label, .panel pre, .panel summary { overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; max-width: 100%; }
   .panel table { width: 100%; table-layout: auto; }
   .panel table td { overflow-wrap: break-word; word-break: break-word; max-width: 0; }
+  .panel table td.actions-cell { max-width: none; word-break: normal; overflow-wrap: normal; }
   .panel pre, .panel code { white-space: pre-wrap; word-break: break-all; }
   .panel .site-meta { word-break: break-word; }
   .row-actions { flex-wrap: wrap; }
   textarea, input[type=text], input[type=url], input[type=password], input[type=email] { max-width: 100%; }
-  .btn { display: inline-block; padding: 12px 22px; border-radius: 8px; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.88rem; letter-spacing: 0.1em; text-transform: uppercase; border: none; cursor: pointer; transition: transform .15s, box-shadow .2s; }
+  .btn { display: inline-block; padding: 12px 22px; border-radius: 8px; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 0.88rem; letter-spacing: 0.1em; text-transform: uppercase; border: none; cursor: pointer; transition: transform .15s, box-shadow .2s; white-space: nowrap; }
   .btn-primary { background: linear-gradient(135deg, var(--fire-s), var(--fire-m)); color: #fff; }
   .btn-primary:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(255,140,0,0.25); }
   .btn-ghost { background: transparent; color: var(--fire-m); border: 1px solid var(--fire-m); }
@@ -2009,9 +2010,15 @@ function dashboardHTML() {
   .site-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
   .site-meta { font-size: 0.88rem; color: var(--muted); margin-top: 4px; }
   table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 0.92rem; }
-  table th, table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  table th, table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
   table th { font-family: 'Rajdhani', sans-serif; font-size: 0.74rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--deep); font-weight: 600; }
   table tr:last-child td { border-bottom: none; }
+  /* Article-row actions cell: each action is a pill that never breaks
+     mid-word; cells wrap as a flex container instead of inline text. */
+  td.actions-cell { white-space: normal; max-width: none; }
+  td.actions-cell .actions { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; }
+  td.actions-cell .actions > * { white-space: nowrap; display: inline-flex; align-items: center; }
+  td.actions-cell .actions .action-sep { color: var(--border); user-select: none; }
   .keyword-chip { display: inline-block; padding: 4px 10px; margin: 3px; background: var(--bg); border: 1px solid var(--border); border-radius: 999px; font-size: 0.82rem; }
   .keyword-chip.picked { opacity: 0.5; text-decoration: line-through; }
   .status-banner { padding: 12px 16px; border-radius: 8px; margin-bottom: 14px; font-size: 0.92rem; display: none; }
@@ -2234,23 +2241,22 @@ function dashboardHTML() {
     function renderSite(site, keywords, articles) {
       const articleRows = articles.length ? articles.map(a => {
         const link = a.publicUrl ? a.publicUrl : (a.wpEditUrl || '');
-        const viewBtn = '<button class="link-like" data-action="view-article" data-site="' + site.id + '" data-article="' + a.id + '">View / copy</button>';
-        const openLink = link ? ' &middot; <a href="' + link + '" target="_blank" rel="noopener">Open ↗</a>' : '';
         const wasPublished = a.status === 'publish' || a.publishedAt;
-        const delBtn = ' &middot; <button class="link-like" data-action="delete-article" data-site="' + site.id + '" data-article="' + a.id + '" data-published="' + (wasPublished ? '1' : '0') + '" data-cms="' + escapeHTML(site.cms || '') + '" data-title="' + escapeHTML(a.title || a.slug || 'this article') + '" style="color:var(--deep);">Delete</button>';
-        // Publish button only shows for draft articles (status === 'draft' or
-        // 'failed'). Already-published / 'ready' (manual) articles don't get
-        // the button — there's nothing left to do.
         const canPublish = a.status === 'draft' || a.status === 'failed';
-        const pubBtn = canPublish
-          ? ' &middot; <button class="link-like" data-action="publish-article" data-site="' + site.id + '" data-article="' + a.id + '" data-cms="' + escapeHTML(site.cms || '') + '" data-title="' + escapeHTML(a.title || a.slug || 'this article') + '" style="color:var(--fire);font-weight:600;">Publish</button>'
-          : '';
+        const cmsAttr = escapeHTML(site.cms || '');
+        const titleAttr = escapeHTML(a.title || a.slug || 'this article');
+        const actionParts = [];
+        actionParts.push('<button class="link-like" data-action="view-article" data-site="' + site.id + '" data-article="' + a.id + '">View / copy</button>');
+        if (link) actionParts.push('<a href="' + link + '" target="_blank" rel="noopener">Open ↗</a>');
+        if (canPublish) actionParts.push('<button class="link-like" data-action="publish-article" data-site="' + site.id + '" data-article="' + a.id + '" data-cms="' + cmsAttr + '" data-title="' + titleAttr + '" style="color:var(--fire);font-weight:600;">Publish</button>');
+        actionParts.push('<button class="link-like" data-action="delete-article" data-site="' + site.id + '" data-article="' + a.id + '" data-published="' + (wasPublished ? '1' : '0') + '" data-cms="' + cmsAttr + '" data-title="' + titleAttr + '" style="color:var(--deep);">Delete</button>');
+        const actionsHtml = actionParts.join('<span class="action-sep">·</span>');
         const badgeClass = a.status === 'publish' ? 'publish' : a.status === 'failed' ? 'failed' : a.status === 'ready' ? 'ready' : 'draft';
         return '<tr>' +
           '<td>' + escapeHTML(a.title || '—') + '<div style="color:var(--deep);font-size:0.82rem;margin-top:2px;">' + escapeHTML(a.keyword || '') + '</div></td>' +
           '<td><span class="badge ' + badgeClass + '">' + escapeHTML(a.status || 'draft') + '</span></td>' +
           '<td>' + escapeHTML(formatDate(a.generatedAt)) + '</td>' +
-          '<td>' + viewBtn + openLink + pubBtn + delBtn + '</td>' +
+          '<td class="actions-cell"><div class="actions">' + actionsHtml + '</div></td>' +
         '</tr>';
       }).join('') : '<tr><td colspan="4" style="color:var(--deep);text-align:center;padding:24px;">No articles yet. Click <em>Generate Article Now</em> above to create your first.</td></tr>';
 
@@ -2284,12 +2290,12 @@ function dashboardHTML() {
           '<div><h2 style="margin:0;display:inline;">' + escapeHTML(site.url) + '</h2>' + approvalBadge +
           '<div class="site-meta">' + (site.niche ? escapeHTML(site.niche.slice(0, 140)) : '<em>Niche learning…</em>') + '</div></div>' +
           '<div class="row-actions">' +
-            '<button class="btn btn-primary" data-action="generate" data-site="' + site.id + '">Generate Article Now</button>' +
+            '<button class="btn btn-primary" data-action="generate" data-site="' + site.id + '">Generate Article</button>' +
             '<button class="btn btn-ghost" data-action="research" data-site="' + site.id + '">Refresh keywords</button>' +
             (gscConnected
               ? '<button class="btn btn-ghost" data-action="gsc-disconnect" data-site="' + site.id + '">Disconnect GSC</button>'
               : '<button class="btn btn-ghost" data-action="gsc-connect" data-site="' + site.id + '">Connect GSC</button>') +
-            '<button class="btn btn-danger" data-action="disconnect" data-site="' + site.id + '">Disconnect</button>' +
+            '<button class="btn btn-danger" data-action="disconnect" data-site="' + site.id + '" style="margin-left:auto;">Disconnect site</button>' +
           '</div>' +
         '</div>' +
         keywordSourceBanner +
