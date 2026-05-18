@@ -1870,6 +1870,51 @@ async function apiRouter(request, env, url, path, ctx) {
       await audit(env, siteId, 'article.deleted', { articleId, slug: article.slug, wasPublished, cmsDelete });
       return json({ ok: true, cmsDelete });
     }
+
+    // POST /api/sites/:siteId/articles/:articleId/publish — flip a draft to
+    // published. Idempotent: already-published articles return their existing
+    // record without re-publishing. Failure path keeps the article as a draft
+    // with the new publishError surfaced.
+    const publishMatch = sub.match(/^articles\/([a-z0-9-]+)\/publish$/i);
+    if (publishMatch && request.method === 'POST') {
+      const articleId = publishMatch[1];
+      const raw = await env.ARTICLES.get(`art:${siteId}:${articleId}`);
+      if (!raw) return json({ error: 'not found' }, 404);
+      const article = JSON.parse(raw);
+      if (article.status === 'publish' || article.status === 'ready') {
+        return json({ ok: true, article, alreadyPublished: true });
+      }
+      let publishResult;
+      if (site.cms === 'manual') {
+        publishResult = { ok: true };
+        article.status = 'ready';
+      } else if (site.cms === 'github-pages') {
+        publishResult = await githubPagesPublish(env, site, article, 'publish');
+        if (publishResult.ok) article.status = 'publish';
+      } else {
+        publishResult = await wpPublish(env, site, article, 'publish');
+        if (publishResult.ok) article.status = 'publish';
+      }
+      if (publishResult.ok) {
+        article.publicUrl = publishResult.publicUrl || article.publicUrl;
+        article.wpEditUrl = publishResult.wpEditUrl || article.wpEditUrl;
+        article.wpPostId = publishResult.wpPostId || article.wpPostId;
+        article.imageUrl = publishResult.imageUrl || article.imageUrl;
+        article.indexWarning = publishResult.indexWarning || null;
+        article.publishError = null;
+        article.publishedAt = nowIso();
+      } else {
+        article.publishError = publishResult.error || 'unknown publish error';
+      }
+      await env.ARTICLES.put(`art:${siteId}:${articleId}`, JSON.stringify(article));
+      await audit(env, siteId, 'article.publish', {
+        articleId, slug: article.slug, cms: site.cms,
+        ok: publishResult.ok, error: publishResult.error,
+      });
+      return publishResult.ok
+        ? json({ ok: true, article })
+        : json({ ok: false, error: publishResult.error, article }, 500);
+    }
   }
 
   return json({ error: 'not found' }, 404);
@@ -2193,12 +2238,19 @@ function dashboardHTML() {
         const openLink = link ? ' &middot; <a href="' + link + '" target="_blank" rel="noopener">Open ↗</a>' : '';
         const wasPublished = a.status === 'publish' || a.publishedAt;
         const delBtn = ' &middot; <button class="link-like" data-action="delete-article" data-site="' + site.id + '" data-article="' + a.id + '" data-published="' + (wasPublished ? '1' : '0') + '" data-cms="' + escapeHTML(site.cms || '') + '" data-title="' + escapeHTML(a.title || a.slug || 'this article') + '" style="color:var(--deep);">Delete</button>';
+        // Publish button only shows for draft articles (status === 'draft' or
+        // 'failed'). Already-published / 'ready' (manual) articles don't get
+        // the button — there's nothing left to do.
+        const canPublish = a.status === 'draft' || a.status === 'failed';
+        const pubBtn = canPublish
+          ? ' &middot; <button class="link-like" data-action="publish-article" data-site="' + site.id + '" data-article="' + a.id + '" data-cms="' + escapeHTML(site.cms || '') + '" data-title="' + escapeHTML(a.title || a.slug || 'this article') + '" style="color:var(--fire);font-weight:600;">Publish</button>'
+          : '';
         const badgeClass = a.status === 'publish' ? 'publish' : a.status === 'failed' ? 'failed' : a.status === 'ready' ? 'ready' : 'draft';
         return '<tr>' +
           '<td>' + escapeHTML(a.title || '—') + '<div style="color:var(--deep);font-size:0.82rem;margin-top:2px;">' + escapeHTML(a.keyword || '') + '</div></td>' +
           '<td><span class="badge ' + badgeClass + '">' + escapeHTML(a.status || 'draft') + '</span></td>' +
           '<td>' + escapeHTML(formatDate(a.generatedAt)) + '</td>' +
-          '<td>' + viewBtn + openLink + delBtn + '</td>' +
+          '<td>' + viewBtn + openLink + pubBtn + delBtn + '</td>' +
         '</tr>';
       }).join('') : '<tr><td colspan="4" style="color:var(--deep);text-align:center;padding:24px;">No articles yet. Click <em>Generate Article Now</em> above to create your first.</td></tr>';
 
@@ -2533,6 +2585,31 @@ function dashboardHTML() {
       const siteId = btn.dataset.site;
       if (action === 'view-article') {
         return openArticleModal(siteId, btn.dataset.article);
+      }
+      if (action === 'publish-article') {
+        const articleId = btn.dataset.article;
+        const cms = btn.dataset.cms;
+        const title = btn.dataset.title;
+        const cmsLabel = cms === 'wordpress' ? 'WordPress site' : cms === 'github-pages' ? 'GitHub repo' : 'destination';
+        const msg = cms === 'manual'
+          ? 'Mark "' + title + '" as ready for copy/paste? (Manual sites have no automated publish step — this just flips the status.)'
+          : 'Publish "' + title + '" to your ' + cmsLabel + '? This goes live immediately.';
+        if (!window.confirm(msg)) return;
+        btn.disabled = true; btn.textContent = 'Publishing…';
+        try {
+          const res = await api('POST', '/api/sites/' + siteId + '/articles/' + articleId + '/publish');
+          if (res.alreadyPublished) {
+            showBanner('"' + title + '" was already published.', 'info');
+          } else {
+            const extra = res.article && res.article.indexWarning ? ' (heads up — your hand-curated blog index was preserved; see the article row for marker setup.)' : '';
+            showBanner('Published "' + title + '" to your ' + cmsLabel + '.' + extra, 'success');
+          }
+          await load();
+        } catch (err) {
+          btn.disabled = false; btn.textContent = 'Publish';
+          showBanner('Publish failed: ' + err.message, 'error');
+        }
+        return;
       }
       if (action === 'delete-article') {
         const articleId = btn.dataset.article;
