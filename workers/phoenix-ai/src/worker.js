@@ -167,13 +167,14 @@ async function listSitesForOwner(env, email) {
   return sites.filter(Boolean).map(stripSiteSecrets);
 }
 function stripSiteSecrets(site) {
-  const { appPassword, gsc, anthropicApiKey, githubToken, ...safe } = site;
+  const { appPassword, gsc, anthropicApiKey, githubToken, serpBearApiKey, ...safe } = site;
   return {
     ...safe,
     hasCredentials: Boolean(appPassword) || site.cms === 'manual' || (site.cms === 'github-pages' && Boolean(githubToken)),
     gsc: gsc ? { property: gsc.property || '', connected: true, connectedAt: gsc.connectedAt || null } : null,
     hasAnthropicKey: Boolean(anthropicApiKey),
     hasGithubToken: Boolean(githubToken),
+    hasSerpBearKey: Boolean(serpBearApiKey),
   };
 }
 async function getSite(env, siteId, owner) {
@@ -266,6 +267,66 @@ async function ahrefsKeywords(env, niche, domain) {
   })).filter((k) => k.keyword);
 }
 
+// SerpBear (self-hosted rank tracker, free + open-source) keyword source.
+// Customer adds their SerpBear URL + API key + tracked domain in Settings;
+// we pull all keywords for that domain and shape into our schema. SerpBear
+// doesn't have keyword difficulty (KD) so we leave it at 0; intent is
+// heuristically guessed from the keyword text since SerpBear doesn't track
+// it either. Volume comes from SerpBear's optional volume integration.
+//
+// API shape (SerpBear >= 1.2): GET <baseUrl>/api/keywords?domain=<domain>
+// Auth: header `Authorization: <apiKey>` (no "Bearer" prefix — SerpBear uses
+// the raw key value). On 401 we surface a clear error to the audit log.
+async function serpBearKeywords(env, site) {
+  if (!site.serpBearUrl || !site.serpBearApiKey) {
+    await audit(env, site.id, 'keywords.serpbear.misconfigured', { hasUrl: Boolean(site.serpBearUrl), hasKey: Boolean(site.serpBearApiKey) });
+    return [];
+  }
+  const apiKey = await decryptSecret(site.serpBearApiKey, env.SESSION_SECRET);
+  const baseUrl = site.serpBearUrl.replace(/\/+$/, '');
+  const domain = site.serpBearDomain || (() => { try { return new URL(site.url).hostname.replace(/^www\./, ''); } catch { return ''; } })();
+  if (!domain) {
+    await audit(env, site.id, 'keywords.serpbear.no_domain', {});
+    return [];
+  }
+  const url = `${baseUrl}/api/keywords?domain=${encodeURIComponent(domain)}`;
+  let res;
+  try {
+    res = await fetch(url, { headers: { 'Authorization': apiKey, 'Accept': 'application/json' } });
+  } catch (err) {
+    await audit(env, site.id, 'keywords.serpbear.network_error', { error: String(err.message || err).slice(0, 200) });
+    return [];
+  }
+  if (!res.ok) {
+    const body = await res.text().catch(() => '');
+    await audit(env, site.id, 'keywords.serpbear.http_error', { status: res.status, body: body.slice(0, 300) });
+    return [];
+  }
+  const data = await res.json().catch(() => null);
+  // SerpBear returns either an array directly or { keywords: [...] } depending
+  // on version. Handle both shapes.
+  const items = Array.isArray(data) ? data : (data && Array.isArray(data.keywords) ? data.keywords : []);
+  return items
+    .map((it) => {
+      const kw = String(it.keyword || '').trim();
+      if (!kw) return null;
+      const text = kw.toLowerCase();
+      // Cheap intent heuristic — SerpBear doesn't tag intent, so we infer
+      // from the keyword text. Good enough for the keyword filter + prompt.
+      let intent = 'informational';
+      if (/\b(buy|price|pricing|cost|cheap|deal|coupon)\b/.test(text)) intent = 'commercial';
+      else if (/\b(best|top|vs|versus|compare|review)\b/.test(text)) intent = 'commercial';
+      else if (/\b(login|sign in|download|app)\b/.test(text)) intent = 'navigational';
+      return {
+        keyword: kw,
+        volume: Number(it.volume) || 0,
+        kd: 0, // SerpBear doesn't track difficulty
+        intent,
+      };
+    })
+    .filter(Boolean);
+}
+
 function scoreKeyword(k) {
   // Buyer-intent first, then opportunity (high volume / low difficulty).
   const intentBonus = k.intent === 'commercial' || k.intent === 'transactional' ? 50 : 0;
@@ -286,6 +347,8 @@ async function researchAndStoreKeywords(env, site) {
     }
   } else if (source === 'ahrefs') {
     raw = await ahrefsKeywords(env, site.niche, new URL(site.url).hostname);
+  } else if (source === 'serpbear') {
+    raw = await serpBearKeywords(env, site);
   } else if (source === 'manual') {
     raw = await manualKeywords(site, site.manualKeywords || []);
   }
@@ -1837,7 +1900,7 @@ async function apiRouter(request, env, url, path, ctx) {
     // Allow keywordSource to be set at connect time; default to 'gsc' so new
     // customers are nudged toward the free option. They'll click Connect GSC
     // from the dashboard before any real research runs against it.
-    const keywordSource = ['gsc', 'ahrefs', 'manual'].includes(body.keywordSource) ? body.keywordSource : 'gsc';
+    const keywordSource = ['gsc', 'ahrefs', 'serpbear', 'manual'].includes(body.keywordSource) ? body.keywordSource : 'gsc';
     // LLM provider: 'workers-ai' (free default) or 'anthropic' (BYOK premium).
     // Phoenix AI never pays for customer tokens — Anthropic mode requires the
     // customer to paste their own API key, stored encrypted per-site.
@@ -1857,6 +1920,9 @@ async function apiRouter(request, env, url, path, ctx) {
       githubToken: cms === 'github-pages' ? await encryptSecret(githubTokenPlain, env.SESSION_SECRET) : '',
       imageGeneration: cms === 'github-pages' ? 'flux' : 'off',
       keywordFilter: 'auto',
+      serpBearUrl: '',
+      serpBearApiKey: '',
+      serpBearDomain: '',
       niche: learned.niche,
       brandVoice: learned.brandVoice,
       brandVoiceOverride,
@@ -1908,7 +1974,14 @@ async function apiRouter(request, env, url, path, ctx) {
         // Honor the lock — can't flip autoPublish on while requireApproval is true.
         site.autoPublish = site.requireApproval ? false : body.autoPublish;
       }
-      if (['gsc', 'ahrefs', 'manual'].includes(body.keywordSource)) site.keywordSource = body.keywordSource;
+      if (['gsc', 'ahrefs', 'serpbear', 'manual'].includes(body.keywordSource)) site.keywordSource = body.keywordSource;
+      // SerpBear connection fields. URL + domain are public values; API key is the only secret.
+      if (typeof body.serpBearUrl === 'string') site.serpBearUrl = body.serpBearUrl.trim().replace(/\/+$/, '');
+      if (typeof body.serpBearDomain === 'string') site.serpBearDomain = body.serpBearDomain.trim().replace(/^https?:\/\//, '').replace(/\/+$/, '');
+      if (typeof body.serpBearApiKey === 'string') {
+        const trimmed = body.serpBearApiKey.trim();
+        site.serpBearApiKey = trimmed ? await encryptSecret(trimmed, env.SESSION_SECRET) : '';
+      }
       if (Array.isArray(body.manualKeywords)) site.manualKeywords = body.manualKeywords.slice(0, 50);
       if (['workers-ai', 'anthropic'].includes(body.llmProvider)) site.llmProvider = body.llmProvider;
       // Set anthropicApiKey ONLY if a non-empty string is provided; pass an
@@ -2497,6 +2570,10 @@ function dashboardHTML() {
                   '<span><strong>Ahrefs</strong><br><span style="color:var(--muted);font-size:0.85rem;">Discovers brand-new keywords for sites with no traffic yet. Requires AHREFS_API_KEY on the worker.</span></span>' +
                 '</label>' +
                 '<label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);">' +
+                  '<input type="radio" name="keywordSource" value="serpbear"' + (keywordSource === 'serpbear' ? ' checked' : '') + ' style="margin-top:4px;">' +
+                  '<span><strong>SerpBear</strong> <span class="badge ready" style="font-size:0.62rem;">Self-hosted</span><br><span style="color:var(--muted);font-size:0.85rem;">Pulls keywords from your own SerpBear instance. Free + open-source; no Ahrefs / Semrush bill.</span></span>' +
+                '</label>' +
+                '<label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);">' +
                   '<input type="radio" name="keywordSource" value="manual"' + (keywordSource === 'manual' ? ' checked' : '') + ' style="margin-top:4px;">' +
                   '<span><strong>Manual paste</strong><br><span style="color:var(--muted);font-size:0.85rem;">You paste 10–30 starter keywords below. Best for brand-new sites with no GSC data.</span></span>' +
                 '</label>' +
@@ -2505,6 +2582,16 @@ function dashboardHTML() {
             '<div data-keyword-source-fields="manual" style="display:' + (keywordSource === 'manual' ? 'block' : 'none') + ';">' +
               '<label>Manual keyword list (one per line)</label>' +
               '<textarea name="manualKeywords" rows="6" placeholder="one keyword per line: best dental clinic seattle, teeth whitening cost, pediatric dentist near me" style="width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:\\'Outfit\\',sans-serif;font-size:0.95rem;resize:vertical;">' + escapeHTML((site.manualKeywords || []).map(k => typeof k === 'string' ? k : k.keyword).join('\\n')) + '</textarea>' +
+            '</div>' +
+            '<div data-keyword-source-fields="serpbear" style="display:' + (keywordSource === 'serpbear' ? 'block' : 'none') + ';">' +
+              '<label>SerpBear connection</label>' +
+              '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px;">' +
+                '<div><label style="font-size:0.7rem;">Base URL</label><input type="url" name="serpBearUrl" value="' + escapeHTML(site.serpBearUrl || '') + '" placeholder="https://serpbear.yourdomain.com" style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);"></div>' +
+                '<div><label style="font-size:0.7rem;">Tracked domain</label><input type="text" name="serpBearDomain" value="' + escapeHTML(site.serpBearDomain || '') + '" placeholder="yourdomain.com (defaults to site host)" style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);"></div>' +
+              '</div>' +
+              '<label style="font-size:0.7rem;margin-top:10px;">API key</label>' +
+              '<input type="password" name="serpBearApiKey" placeholder="' + (site.hasSerpBearKey ? '••• key already set — paste to replace, leave blank to keep' : 'paste your SerpBear API key') + '" style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);">' +
+              '<p class="help" style="margin-top:6px;">Generate at <em>SerpBear Settings → API key</em>. Stored AES-encrypted; only used to GET keyword lists for this site.</p>' +
             '</div>' +
             '<div>' +
               '<label>Keyword relevance filter</label>' +
@@ -2625,11 +2712,14 @@ function dashboardHTML() {
     }
 
     function attachSettingsForm(form) {
-      // Show/hide manual-keywords textarea when source toggles
+      // Show/hide source-specific conditional fields as the radio toggles.
       form.querySelectorAll('input[name=keywordSource]').forEach((r) => {
         r.addEventListener('change', () => {
-          const manualField = form.querySelector('[data-keyword-source-fields=manual]');
-          if (manualField) manualField.style.display = r.checked && r.value === 'manual' ? 'block' : 'none';
+          if (!r.checked) return;
+          ['manual', 'serpbear'].forEach((kind) => {
+            const block = form.querySelector('[data-keyword-source-fields=' + kind + ']');
+            if (block) block.style.display = r.value === kind ? 'block' : 'none';
+          });
         });
       });
       // Show/hide Anthropic key field when provider toggles
@@ -2663,6 +2753,14 @@ function dashboardHTML() {
             manualKeywords,
           };
           if (keyValue) patch.anthropicApiKey = keyValue;
+          // SerpBear fields appear when keywordSource is serpbear.
+          const sbUrlEl = form.querySelector('input[name=serpBearUrl]');
+          if (sbUrlEl) {
+            patch.serpBearUrl = sbUrlEl.value.trim();
+            patch.serpBearDomain = form.querySelector('input[name=serpBearDomain]').value.trim();
+            const sbKey = form.querySelector('input[name=serpBearApiKey]').value.trim();
+            if (sbKey) patch.serpBearApiKey = sbKey;
+          }
           // GitHub Pages fields are only present on github-pages sites.
           const repoOwnerEl = form.querySelector('input[name=repoOwner]');
           if (repoOwnerEl) {
@@ -2920,12 +3018,21 @@ function dashboardHTML() {
             showBanner('Article generated — see the table below.' + buildLag + extra, 'success');
           }
         } else if (action === 'research') {
+          // Research now runs an LLM relevance judge (PM-253) which adds
+          // 10-15s. Show an immediate in-progress banner so the customer
+          // can see the request fired and isn't confused by the wait.
+          showBanner('Researching keywords + LLM relevance filtering — this takes 15-30s. The chip list above will refresh when done.', 'info');
           const out = await api('POST', '/api/sites/' + siteId + '/research');
           const isFallback = (out.source || '').endsWith('-seed-fallback');
+          const rejectedCount = (out.keywords || []).filter((k) => k.rejected).length;
+          const availableCount = (out.keywords || []).filter((k) => !k.rejected).length;
           if (isFallback) {
-            showBanner('Refreshed — ' + out.count + ' seed keywords queued. (Your primary source returned nothing; using niche-derived starters. Add a few manual keywords in Settings for better results.)', 'info');
+            showBanner('Refreshed — your primary source returned nothing, so we seeded ' + out.count + ' niche-derived starters. Add a few manual keywords in Settings for better results.', 'info');
           } else {
-            showBanner('Refreshed — ' + out.count + ' keywords queued (' + (out.source || 'gsc') + ').', 'success');
+            let detail = 'Refreshed — ' + out.count + ' keywords from ' + (out.source || 'gsc') + '.';
+            if (rejectedCount) detail += ' ' + rejectedCount + ' rejected as off-niche (struck through in the chip list), ' + availableCount + ' available for article gen.';
+            else detail += ' All on-niche, ready for article gen.';
+            showBanner(detail, 'success');
           }
         } else if (action === 'gsc-disconnect') {
           if (!confirm('Disconnect Google Search Console for this site? Already-collected keywords stay until you refresh.')) { btn.disabled = false; btn.textContent = originalText; return; }
