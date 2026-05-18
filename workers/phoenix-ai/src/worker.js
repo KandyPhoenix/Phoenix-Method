@@ -287,13 +287,87 @@ async function researchAndStoreKeywords(env, site) {
     raw = await manualKeywords(site, []);
     usedSource = source + '-seed-fallback';
   }
+  // PM-253: LLM-based relevance gate. Rejects off-niche keywords (e.g. "phoenix
+  // internet services" for an SEO-consulting site whose brand happens to share
+  // a word with "Phoenix"). Verdicts are stored on each keyword record so the
+  // dashboard can display rejections with reasons. Fail-open — if the judge
+  // errors, we keep all candidates rather than blocking research entirely.
+  const filterMode = site.keywordFilter || 'auto';
+  let verdicts = {};
+  if (filterMode === 'auto' && raw.length) {
+    verdicts = await judgeKeywordRelevance(env, site, raw.map((k) => k.keyword));
+  }
   const ranked = raw
-    .map((k) => ({ ...k, score: scoreKeyword(k), picked: false, pickedAt: null }))
+    .map((k) => {
+      const v = verdicts[k.keyword] || { relevant: true, reason: '' };
+      return {
+        ...k,
+        score: scoreKeyword(k),
+        picked: false,
+        pickedAt: null,
+        rejected: !v.relevant,
+        rejectionReason: v.relevant ? null : (v.reason || 'Off-niche'),
+      };
+    })
     .sort((a, b) => b.score - a.score)
     .slice(0, 25);
   await env.KEYWORDS.put(`kws:${site.id}`, JSON.stringify(ranked));
-  await audit(env, site.id, 'keywords.refreshed', { count: ranked.length, source: usedSource });
+  const rejectedCount = ranked.filter((k) => k.rejected).length;
+  await audit(env, site.id, 'keywords.refreshed', { count: ranked.length, source: usedSource, rejected: rejectedCount });
   return { list: ranked, source: usedSource };
+}
+
+// Single batched LLM call that judges relevance of every candidate keyword
+// against the site's niche. Returns { [keyword]: { relevant, reason } } map.
+// Fail-open: any error → all keywords treated as relevant. The dashboard will
+// still surface the audit log so we can spot a systematically-broken judge.
+async function judgeKeywordRelevance(env, site, candidates) {
+  if (!candidates || !candidates.length) return {};
+  const voiceSample = (site.brandVoiceOverride || site.brandVoice || '').slice(0, 800);
+  const niche = site.niche || new URL(site.url).hostname;
+  const list = candidates.map((k, i) => `${i + 1}. ${k}`).join('\n');
+  const prompt = {
+    system: `You judge whether candidate SEO keywords are on-topic for a specific website. You are conservative — when in doubt, accept the keyword. You only reject keywords that are CLEARLY about a different industry, a different brand that shares a word with this site's name, or geographic noise from people searching for unrelated local services.
+
+Respond with a single JSON object matching this schema exactly:
+{
+  "verdicts": [
+    { "keyword": string, "relevant": boolean, "reason": string }
+  ]
+}
+
+The reason field should be short (1 sentence). For relevant=true, reason can be empty. For relevant=false, explain why concretely (don't just say "off-topic").`,
+    user: `Site niche: ${niche}
+Site URL: ${site.url}
+
+Brand voice sample:
+"""
+${voiceSample}
+"""
+
+Candidate keywords:
+${list}
+
+Return verdicts for all ${candidates.length} candidates in the same order.`,
+  };
+  try {
+    const result = await callLLM(env, site, prompt);
+    if (!result.ok) {
+      await audit(env, site.id, 'keywords.judge.error', { error: result.error });
+      return {};
+    }
+    const out = {};
+    const verdicts = (result.content && result.content.verdicts) || [];
+    for (const v of verdicts) {
+      if (v && typeof v.keyword === 'string') {
+        out[v.keyword] = { relevant: v.relevant !== false, reason: String(v.reason || '').slice(0, 200) };
+      }
+    }
+    return out;
+  } catch (err) {
+    await audit(env, site.id, 'keywords.judge.error', { error: String(err.message || err) });
+    return {};
+  }
 }
 
 async function manualKeywords(site, seeds) {
@@ -322,7 +396,9 @@ async function pickNextKeyword(env, siteId) {
   const raw = await env.KEYWORDS.get(`kws:${siteId}`);
   if (!raw) return null;
   const list = JSON.parse(raw);
-  const next = list.find((k) => !k.picked);
+  // Skip rejected entries — they stay on the record (visible in the dashboard
+  // with strikethrough + reason) but never get fed to the article generator.
+  const next = list.find((k) => !k.picked && !k.rejected);
   if (!next) return null;
   next.picked = true;
   next.pickedAt = nowIso();
@@ -1603,6 +1679,7 @@ async function apiRouter(request, env, url, path, ctx) {
       blogPath: cms === 'github-pages' ? blogPath : '',
       githubToken: cms === 'github-pages' ? await encryptSecret(githubTokenPlain, env.SESSION_SECRET) : '',
       imageGeneration: cms === 'github-pages' ? 'flux' : 'off',
+      keywordFilter: 'auto',
       niche: learned.niche,
       brandVoice: learned.brandVoice,
       brandVoiceOverride,
@@ -1666,6 +1743,7 @@ async function apiRouter(request, env, url, path, ctx) {
       // If the customer clears their Anthropic key but llmProvider is still
       // 'anthropic', downgrade them to workers-ai so generation doesn't break.
       if (site.llmProvider === 'anthropic' && !site.anthropicApiKey) site.llmProvider = 'workers-ai';
+      if (['auto', 'off'].includes(body.keywordFilter)) site.keywordFilter = body.keywordFilter;
       // GitHub Pages publishing config — only meaningful when cms is github-pages.
       // Repo/branch/path are public values; the PAT is the only secret.
       if (site.cms === 'github-pages') {
@@ -2124,8 +2202,14 @@ function dashboardHTML() {
         '</tr>';
       }).join('') : '<tr><td colspan="4" style="color:var(--deep);text-align:center;padding:24px;">No articles yet. Click <em>Generate Article Now</em> above to create your first.</td></tr>';
 
-      const keywordChips = keywords.length ? keywords.slice(0, 20).map(k =>
-        '<span class="keyword-chip' + (k.picked ? ' picked' : '') + '" title="vol ' + k.volume + ' / KD ' + k.kd + ' / ' + escapeHTML(k.intent) + '">' + escapeHTML(k.keyword) + '</span>'
+      const keywordChips = keywords.length ? keywords.slice(0, 20).map(k => {
+        const cls = 'keyword-chip' + (k.picked ? ' picked' : '') + (k.rejected ? ' rejected' : '');
+        const style = k.rejected ? ' style="text-decoration:line-through;opacity:0.55;cursor:help;"' : '';
+        const tooltip = k.rejected
+          ? 'Rejected: ' + (k.rejectionReason || 'off-niche')
+          : 'vol ' + k.volume + ' / KD ' + k.kd + ' / ' + (k.intent || '');
+        return '<span class="' + cls + '"' + style + ' title="' + escapeHTML(tooltip) + '">' + escapeHTML(k.keyword) + '</span>';
+      }
       ).join('') : '<span style="color:var(--deep);">No keywords yet. Click <em>Refresh keywords</em>.</span>';
 
       const approvalBadge = site.requireApproval
@@ -2185,6 +2269,13 @@ function dashboardHTML() {
             '<div data-keyword-source-fields="manual" style="display:' + (keywordSource === 'manual' ? 'block' : 'none') + ';">' +
               '<label>Manual keyword list (one per line)</label>' +
               '<textarea name="manualKeywords" rows="6" placeholder="one keyword per line: best dental clinic seattle, teeth whitening cost, pediatric dentist near me" style="width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:\\'Outfit\\',sans-serif;font-size:0.95rem;resize:vertical;">' + escapeHTML((site.manualKeywords || []).map(k => typeof k === 'string' ? k : k.keyword).join('\\n')) + '</textarea>' +
+            '</div>' +
+            '<div>' +
+              '<label>Keyword relevance filter</label>' +
+              '<div style="display:grid;gap:6px;margin-top:6px;">' +
+                '<label style="display:flex;gap:8px;align-items:center;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.9rem;color:var(--text);"><input type="radio" name="keywordFilter" value="auto"' + ((site.keywordFilter || "auto") === "auto" ? ' checked' : '') + '> Auto-filter — Llama 3.3 70B rejects off-niche keywords (e.g. brand-name geo noise) before they reach the article generator. Rejected terms stay visible in the queue with reasons.</label>' +
+                '<label style="display:flex;gap:8px;align-items:center;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.9rem;color:var(--text);"><input type="radio" name="keywordFilter" value="off"' + (site.keywordFilter === "off" ? ' checked' : '') + '> Off — every keyword from your source goes straight into the queue, no filtering.</label>' +
+              '</div>' +
             '</div>' +
             '<div>' +
               '<label>AI provider</label>' +
@@ -2316,6 +2407,7 @@ function dashboardHTML() {
             requireApproval: form.querySelector('input[name=requireApproval]').checked,
             autoPublish: form.querySelector('input[name=autoPublish]').checked,
             keywordSource: sourceRadio ? sourceRadio.value : undefined,
+            keywordFilter: (form.querySelector('input[name=keywordFilter]:checked') || {}).value,
             llmProvider: providerRadio ? providerRadio.value : undefined,
             manualKeywords,
           };
