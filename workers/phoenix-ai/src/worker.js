@@ -141,10 +141,20 @@ async function getOrCreateCustomer(env, email) {
     email,
     plan: env.DEFAULT_PLAN || 'trial',
     trialEnds: new Date(Date.now() + trialDays * 86400e3).toISOString(),
+    siteLimit: 1, // billing not live yet — every customer gets 1 site. Operator
+                  // can bump via direct KV edit for paid customers.
     createdAt: nowIso(),
   };
   await env.CUSTOMERS.put(email, JSON.stringify(customer));
   return customer;
+}
+
+// How many sites this customer is allowed to connect. Defaults to 1 so
+// existing customer records (which don't have the field) inherit the same
+// limit without a migration. Operator can flip per-customer via KV edit
+// when billing is wired up.
+function siteLimitFor(customer) {
+  return Number.isFinite(customer && customer.siteLimit) ? customer.siteLimit : 1;
 }
 
 async function listSitesForOwner(env, email) {
@@ -1618,7 +1628,10 @@ async function apiRouter(request, env, url, path, ctx) {
   if (path === '/api/me' && request.method === 'GET') {
     const customer = await getOrCreateCustomer(env, email);
     const sites = await listSitesForOwner(env, email);
-    return json({ customer, sites });
+    // Resolve the effective limit here so the frontend doesn't have to
+    // duplicate the default-fallback logic. siteLimit on the customer
+    // record can be missing on records created before paywall shipped.
+    return json({ customer: { ...customer, siteLimit: siteLimitFor(customer) }, sites });
   }
 
   const jobMatch = path.match(/^\/api\/jobs\/([a-z0-9-]+)$/i);
@@ -1633,6 +1646,20 @@ async function apiRouter(request, env, url, path, ctx) {
 
   if (path === '/api/sites' && request.method === 'POST') {
     let body; try { body = await request.json(); } catch { return json({ error: 'bad json' }, 400); }
+    // Per-site billing gate. Each customer gets siteLimit sites; default 1
+    // until billing portal is live. Enforced server-side so it can't be
+    // bypassed by curling the API directly.
+    const customer = await getOrCreateCustomer(env, email);
+    const existingSites = await listSitesForOwner(env, email);
+    const limit = siteLimitFor(customer);
+    if (existingSites.length >= limit) {
+      return json({
+        error: 'site limit reached',
+        message: `Your plan includes ${limit} site${limit === 1 ? '' : 's'}. To add more, email hello@phoenixmethodseo.com — pricing is per-site per month.`,
+        currentCount: existingSites.length,
+        limit,
+      }, 402);
+    }
     const siteUrl = (body.url || '').toString().trim().replace(/\/+$/, '');
     const cms = ['manual', 'github-pages', 'wordpress'].includes(body.cms) ? body.cms : 'wordpress';
     const appUsername = (body.appUsername || '').toString().trim();
@@ -2416,13 +2443,28 @@ function dashboardHTML() {
         }));
 
         const sitesHtml = details.map(d => renderSite(d.site, d.keywords, d.articles)).join('');
+        // Paywall: each customer's plan includes a fixed number of sites
+        // (default 1). When they're at the cap, hide the connect form and
+        // show a contact-to-upgrade card instead. Backend enforces the same
+        // limit so curling the API can't bypass it.
+        const limit = me.customer.siteLimit || 1;
+        const atLimit = me.sites.length >= limit;
+        const connectPanel = atLimit
+          ? '<div class="panel" style="background:linear-gradient(135deg,rgba(255,77,0,0.06),rgba(255,184,0,0.03));border-color:rgba(255,140,0,0.25);">' +
+              '<h3 style="margin-top:0;">Want articles for another site?</h3>' +
+              '<p style="margin:0 0 14px;color:var(--muted);">Your plan includes <strong>' + limit + ' site' + (limit === 1 ? '' : 's') + '</strong>. Each additional site is billed separately so we can keep generating articles, doing keyword research, and committing to your repo daily without burning your budget on sites you\\'re not actively working on.</p>' +
+              '<a href="mailto:hello@phoenixmethodseo.com?subject=Add%20another%20site%20to%20Phoenix%20AI&body=I%27d%20like%20to%20add%20another%20site%20to%20my%20Phoenix%20AI%20account.%20My%20current%20site%20is%3A%20" class="btn btn-primary">Email to add a site</a>' +
+            '</div>'
+          : '<div class="panel"><h3 style="margin-top:0;">Connect Another Site</h3><div id="connectFormSlot"></div></div>';
         root.innerHTML = '<h1>Your Sites</h1><p class="lede">Manage your connected sites, refresh keyword research, and ship articles.</p>' +
           sitesHtml +
-          '<div class="panel"><h3 style="margin-top:0;">Connect Another Site</h3><div id="connectFormSlot"></div></div>';
+          connectPanel;
 
-        const form = document.getElementById('connectFormTemplate').content.cloneNode(true);
-        document.getElementById('connectFormSlot').appendChild(form);
-        attachConnectForm(document.getElementById('connectForm'));
+        if (!atLimit) {
+          const form = document.getElementById('connectFormTemplate').content.cloneNode(true);
+          document.getElementById('connectFormSlot').appendChild(form);
+          attachConnectForm(document.getElementById('connectForm'));
+        }
 
         root.addEventListener('click', onAction, { once: false });
         root.querySelectorAll('form[data-settings-site]').forEach(attachSettingsForm);
