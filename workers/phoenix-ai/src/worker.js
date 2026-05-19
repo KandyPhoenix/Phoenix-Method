@@ -360,6 +360,13 @@ async function researchAndStoreKeywords(env, site) {
     raw = await manualKeywords(site, []);
     usedSource = source + '-seed-fallback';
   }
+  // PM-263: per-site blocklist. Anything the customer has explicitly removed
+  // from the chip list is filtered out here, before scoring + LLM judging, so
+  // it never comes back on refresh regardless of source.
+  if (Array.isArray(site.keywordBlocklist) && site.keywordBlocklist.length) {
+    const block = new Set(site.keywordBlocklist.map((s) => String(s).toLowerCase().trim()));
+    raw = raw.filter((k) => !block.has(String(k.keyword || '').toLowerCase().trim()));
+  }
   // PM-253: LLM-based relevance gate. Rejects off-niche keywords (e.g. "phoenix
   // internet services" for an SEO-consulting site whose brand happens to share
   // a word with "Phoenix"). Verdicts are stored on each keyword record so the
@@ -1931,6 +1938,7 @@ async function apiRouter(request, env, url, path, ctx) {
       keywordSource,
       gsc: null,
       manualKeywords: Array.isArray(body.manualKeywords) ? body.manualKeywords.slice(0, 50) : [],
+      keywordBlocklist: [],
       llmProvider,
       anthropicApiKey: anthropicKeyPlain ? await encryptSecret(anthropicKeyPlain, env.SESSION_SECRET) : '',
       status: 'active',
@@ -2056,6 +2064,25 @@ async function apiRouter(request, env, url, path, ctx) {
     if (sub === 'keywords' && request.method === 'GET') {
       const raw = await env.KEYWORDS.get(`kws:${siteId}`);
       return json({ keywords: raw ? JSON.parse(raw) : [] });
+    }
+
+    // PM-263: remove a keyword from the chip list AND add it to the persistent
+    // per-site blocklist so research never re-suggests it. Lowercased on both
+    // store and compare so casing variants collapse.
+    if (sub === 'keywords/remove' && request.method === 'POST') {
+      let body; try { body = await request.json(); } catch { return json({ error: 'bad json' }, 400); }
+      const keyword = String(body.keyword || '').trim().toLowerCase();
+      if (!keyword) return json({ error: 'keyword required' }, 400);
+      const blocklist = Array.isArray(site.keywordBlocklist) ? site.keywordBlocklist.slice() : [];
+      if (!blocklist.includes(keyword)) blocklist.unshift(keyword);
+      site.keywordBlocklist = blocklist.slice(0, 200);
+      await saveSite(env, site);
+      const rawList = await env.KEYWORDS.get(`kws:${siteId}`);
+      const list = rawList ? JSON.parse(rawList) : [];
+      const next = list.filter((k) => String(k.keyword || '').toLowerCase().trim() !== keyword);
+      await env.KEYWORDS.put(`kws:${siteId}`, JSON.stringify(next));
+      await audit(env, siteId, 'keywords.removed', { keyword, blocklistSize: site.keywordBlocklist.length });
+      return json({ ok: true, keywords: next, blocklist: site.keywordBlocklist });
     }
 
     if (sub === 'generate' && request.method === 'POST') {
@@ -2269,8 +2296,12 @@ function dashboardHTML() {
   td.actions-cell .actions { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; }
   td.actions-cell .actions > * { white-space: nowrap; display: inline-flex; align-items: center; }
   td.actions-cell .actions .action-sep { color: var(--border); user-select: none; }
-  .keyword-chip { display: inline-block; padding: 4px 10px; margin: 3px; background: var(--bg); border: 1px solid var(--border); border-radius: 999px; font-size: 0.82rem; }
+  .keyword-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px 4px 12px; margin: 3px; background: var(--bg); border: 1px solid var(--border); border-radius: 999px; font-size: 0.82rem; }
   .keyword-chip.picked { opacity: 0.5; text-decoration: line-through; }
+  .keyword-chip-text { line-height: 1.4; }
+  .keyword-chip-remove { background: none; border: none; color: var(--deep); cursor: pointer; padding: 0 2px; font-size: 1.05rem; line-height: 1; opacity: 0.55; transition: opacity 0.15s ease, color 0.15s ease; }
+  .keyword-chip-remove:hover { opacity: 1; color: var(--danger); }
+  .keyword-chip-remove:disabled { opacity: 0.3; cursor: wait; }
   .status-banner { padding: 12px 16px; border-radius: 8px; margin-bottom: 14px; font-size: 0.92rem; display: none; }
   .status-banner.show { display: block; }
   .status-banner.success { background: rgba(120,220,140,0.08); border: 1px solid rgba(120,220,140,0.3); color: #b3edc1; }
@@ -2513,11 +2544,14 @@ function dashboardHTML() {
 
       const keywordChips = keywords.length ? keywords.slice(0, 20).map(k => {
         const cls = 'keyword-chip' + (k.picked ? ' picked' : '') + (k.rejected ? ' rejected' : '');
-        const style = k.rejected ? ' style="text-decoration:line-through;opacity:0.55;cursor:help;"' : '';
+        const textStyle = k.rejected ? ' style="text-decoration:line-through;opacity:0.55;"' : '';
         const tooltip = k.rejected
           ? 'Rejected: ' + (k.rejectionReason || 'off-niche')
           : 'vol ' + k.volume + ' / KD ' + k.kd + ' / ' + (k.intent || '');
-        return '<span class="' + cls + '"' + style + ' title="' + escapeHTML(tooltip) + '">' + escapeHTML(k.keyword) + '</span>';
+        return '<span class="' + cls + '" title="' + escapeHTML(tooltip) + '">' +
+          '<span class="keyword-chip-text"' + textStyle + '>' + escapeHTML(k.keyword) + '</span>' +
+          '<button type="button" class="keyword-chip-remove" data-action="remove-keyword" data-site="' + site.id + '" data-keyword="' + escapeHTML(k.keyword) + '" title="Remove and block from future research" aria-label="Remove keyword">×</button>' +
+        '</span>';
       }
       ).join('') : '<span style="color:var(--deep);">No keywords yet. Click <em>Refresh keywords</em>.</span>';
 
@@ -2973,6 +3007,21 @@ function dashboardHTML() {
       }
       if (action === 'gsc-pick') {
         return pickGscProperty(siteId);
+      }
+      if (action === 'remove-keyword') {
+        const keyword = btn.dataset.keyword;
+        if (!keyword) return;
+        if (!window.confirm('Remove "' + keyword + '"?\\n\\nIt will be excluded from future keyword research for this site. Contact support to restore it later.')) return;
+        btn.disabled = true;
+        try {
+          await api('POST', '/api/sites/' + siteId + '/keywords/remove', { keyword });
+          showBanner('Removed "' + keyword + '" and blocked from future research.', 'info');
+          await load();
+        } catch (err) {
+          btn.disabled = false;
+          showBanner('Remove failed: ' + err.message, 'error');
+        }
+        return;
       }
       btn.disabled = true;
       const originalText = btn.textContent;
