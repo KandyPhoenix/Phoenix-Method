@@ -1487,18 +1487,22 @@ async function runPipelineJob(env, site, jobId, opts = {}) {
 
 async function runPipeline(env, site, opts = {}) {
   const startedAt = nowIso();
-  await audit(env, site.id, 'pipeline.start', { manual: Boolean(opts.manual) });
+  await audit(env, site.id, 'pipeline.start', { manual: Boolean(opts.manual), explicit: Boolean(opts.keyword) });
 
-  // 1. Make sure we have keywords to pick from.
-  let kwListRaw = await env.KEYWORDS.get(`kws:${site.id}`);
-  let kwList = kwListRaw ? JSON.parse(kwListRaw) : [];
-  if (!kwList.length || kwList.every((k) => k.picked)) {
-    const refreshed = await researchAndStoreKeywords(env, site);
-    kwList = refreshed.list;
+  // 1. Make sure we have keywords to pick from — unless the caller passed
+  // an explicit keyword override (PM-264), in which case the lookup +
+  // mark-picked already happened at the route layer.
+  if (!opts.keyword) {
+    let kwListRaw = await env.KEYWORDS.get(`kws:${site.id}`);
+    let kwList = kwListRaw ? JSON.parse(kwListRaw) : [];
+    if (!kwList.length || kwList.every((k) => k.picked)) {
+      const refreshed = await researchAndStoreKeywords(env, site);
+      kwList = refreshed.list;
+    }
   }
 
-  // 2. Pick the next keyword.
-  const keyword = await pickNextKeyword(env, site.id);
+  // 2. Pick the next keyword (or use the explicit override).
+  const keyword = opts.keyword || await pickNextKeyword(env, site.id);
   if (!keyword) {
     await audit(env, site.id, 'pipeline.error', { reason: 'no keywords available' });
     return { ok: false, error: 'No keywords available for this site.' };
@@ -2091,11 +2095,31 @@ async function apiRouter(request, env, url, path, ctx) {
       // dashboard polls /api/jobs/:id to learn when it's done. This is
       // what unlocks using the 70B model — generation can take 30-60s
       // wall clock without the customer ever seeing a timeout.
+      //
+      // PM-264: optional body { keyword } lets the customer pick which
+      // keyword to write on (from a chip). When provided, we validate it's
+      // in the queue and not rejected, mark it picked here, and pass it
+      // to the pipeline so pickNextKeyword is bypassed.
+      let keywordOverride = null;
+      let body = null;
+      try { body = await request.json(); } catch { /* empty body is fine — falls back to auto-pick */ }
+      if (body && typeof body.keyword === 'string' && body.keyword.trim()) {
+        const wanted = body.keyword.trim().toLowerCase();
+        const rawList = await env.KEYWORDS.get(`kws:${siteId}`);
+        const list = rawList ? JSON.parse(rawList) : [];
+        const target = list.find((k) => String(k.keyword || '').toLowerCase().trim() === wanted);
+        if (!target) return json({ error: "That keyword isn't in this site's queue. Refresh keywords and try again." }, 400);
+        if (target.rejected) return json({ error: 'That keyword is marked off-niche. Pick a different one.' }, 400);
+        target.picked = true;
+        target.pickedAt = nowIso();
+        await env.KEYWORDS.put(`kws:${siteId}`, JSON.stringify(list));
+        keywordOverride = target;
+      }
       const jobId = uuid();
       const queuedAt = nowIso();
       await saveJob(env, { id: jobId, siteId, status: 'queued', queuedAt });
-      ctx.waitUntil(runPipelineJob(env, site, jobId, { manual: true, queuedAt }));
-      return json({ ok: true, jobId, status: 'queued' }, 202);
+      ctx.waitUntil(runPipelineJob(env, site, jobId, { manual: true, queuedAt, keyword: keywordOverride }));
+      return json({ ok: true, jobId, status: 'queued', keyword: keywordOverride ? keywordOverride.keyword : null }, 202);
     }
 
     if (sub === 'articles' && request.method === 'GET') {
@@ -2302,6 +2326,9 @@ function dashboardHTML() {
   .keyword-chip-remove { background: none; border: none; color: var(--deep); cursor: pointer; padding: 0 2px; font-size: 1.05rem; line-height: 1; opacity: 0.55; transition: opacity 0.15s ease, color 0.15s ease; }
   .keyword-chip-remove:hover { opacity: 1; color: var(--danger); }
   .keyword-chip-remove:disabled { opacity: 0.3; cursor: wait; }
+  .keyword-chip-action { background: none; border: none; color: var(--fire-m); cursor: pointer; padding: 0 4px; font-size: 0.72rem; line-height: 1; font-family: 'Rajdhani', sans-serif; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; opacity: 0.75; transition: opacity 0.15s ease; }
+  .keyword-chip-action:hover { opacity: 1; text-decoration: underline; }
+  .keyword-chip-action:disabled { opacity: 0.4; cursor: wait; }
   .status-banner { padding: 12px 16px; border-radius: 8px; margin-bottom: 14px; font-size: 0.92rem; display: none; }
   .status-banner.show { display: block; }
   .status-banner.success { background: rgba(120,220,140,0.08); border: 1px solid rgba(120,220,140,0.3); color: #b3edc1; }
@@ -2548,8 +2575,13 @@ function dashboardHTML() {
         const tooltip = k.rejected
           ? 'Rejected: ' + (k.rejectionReason || 'off-niche')
           : 'vol ' + k.volume + ' / KD ' + k.kd + ' / ' + (k.intent || '');
+        // PM-264: Write button on non-rejected chips fires gen on this exact keyword.
+        const writeBtn = k.rejected
+          ? ''
+          : '<button type="button" class="keyword-chip-action" data-action="generate-keyword" data-site="' + site.id + '" data-keyword="' + escapeHTML(k.keyword) + '" title="Generate an article on this keyword">Write</button>';
         return '<span class="' + cls + '" title="' + escapeHTML(tooltip) + '">' +
           '<span class="keyword-chip-text"' + textStyle + '>' + escapeHTML(k.keyword) + '</span>' +
+          writeBtn +
           '<button type="button" class="keyword-chip-remove" data-action="remove-keyword" data-site="' + site.id + '" data-keyword="' + escapeHTML(k.keyword) + '" title="Remove and block from future research" aria-label="Remove keyword">×</button>' +
         '</span>';
       }
@@ -3020,6 +3052,50 @@ function dashboardHTML() {
         } catch (err) {
           btn.disabled = false;
           showBanner('Remove failed: ' + err.message, 'error');
+        }
+        return;
+      }
+      if (action === 'generate-keyword') {
+        // PM-264: explicit per-keyword article gen. Same job + polling flow
+        // as the site-level Generate button, but with the chosen keyword
+        // sent in the body so the backend skips pickNextKeyword.
+        const keyword = btn.dataset.keyword;
+        if (!keyword) return;
+        if (!window.confirm('Generate an article on "' + keyword + '"?\\n\\nPhoenix AI will use your site\\'s default length, tone, and image settings. Takes 30-60s.')) return;
+        const originalLabel = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = '…';
+        try {
+          const out = await api('POST', '/api/sites/' + siteId + '/generate', { keyword });
+          showBanner('Generating "' + keyword + '" with Llama 3.3 70B + FLUX hero image — 30-60s. The dashboard updates automatically.', 'info');
+          const jobId = out.jobId;
+          const startedPolling = Date.now();
+          const POLL_MS = 2000;
+          const TIMEOUT_MS = 5 * 60 * 1000;
+          let final = null, timedOut = false, lostTrack = false;
+          while (true) {
+            await new Promise((r) => setTimeout(r, POLL_MS));
+            let j;
+            try { j = await api('GET', '/api/jobs/' + jobId); }
+            catch (err) { lostTrack = err.message; break; }
+            const s = j.job && j.job.status;
+            if (s === 'done' || s === 'failed') { final = j.job; break; }
+            if (Date.now() - startedPolling > TIMEOUT_MS) { timedOut = true; break; }
+          }
+          if (lostTrack) {
+            showBanner('Lost track of the generation job: ' + lostTrack + '. Refresh in a minute to see if it landed.', 'error');
+          } else if (timedOut) {
+            showBanner('Generation is taking longer than 5 minutes — it may still complete in the background. Refresh the dashboard in a minute.', 'info');
+          } else if (final.status === 'failed') {
+            showBanner('Generation failed: ' + (final.error || 'unknown error'), 'error');
+          } else {
+            showBanner('Article on "' + keyword + '" generated — see the table below.', 'success');
+          }
+          await load();
+        } catch (err) {
+          btn.disabled = false;
+          btn.textContent = originalLabel;
+          showBanner('Generate failed: ' + err.message, 'error');
         }
         return;
       }
