@@ -342,12 +342,17 @@ async function researchAndStoreKeywords(env, site) {
   const source = site.keywordSource || 'gsc';
   let raw = [];
   let usedSource = source;
+  let seedKind = null;
   if (source === 'gsc') {
     if (site.gsc && site.gsc.property) {
       raw = await gscKeywords(env, site);
     } else {
-      raw = await manualKeywords(site, []);
-      usedSource = 'seed';
+      // PM-269: LLM seed when GSC is selected but not yet connected, so the
+      // customer sees a real, varied chip list on first dashboard load.
+      const seeded = await seedKeywords(env, site);
+      raw = seeded.keywords;
+      seedKind = seeded.kind;
+      usedSource = seeded.kind === 'llm' ? 'llm-seed' : 'seed';
     }
   } else if (source === 'ahrefs') {
     raw = await ahrefsKeywords(env, site.niche, new URL(site.url).hostname);
@@ -375,11 +380,13 @@ async function researchAndStoreKeywords(env, site) {
   }
   // Universal fallback: if the primary source produced nothing (new GSC with
   // no rank-eligible queries, Ahrefs API quota, empty manual list…), seed the
-  // queue with niche-derived keywords. Better to give the customer something
-  // to look at and a working Generate button than a blank queue.
+  // queue. PM-269: prefer LLM-generated candidates over the static niche
+  // template so the chip list is varied + actually useful.
   if (!raw.length) {
-    raw = await manualKeywords(site, []);
-    usedSource = source + '-seed-fallback';
+    const seeded = await seedKeywords(env, site);
+    raw = seeded.keywords;
+    seedKind = seeded.kind;
+    usedSource = source + (seeded.kind === 'llm' ? '-llm-seed-fallback' : '-seed-fallback');
   }
   // PM-263: per-site blocklist. Anything the customer has explicitly removed
   // from the chip list is filtered out here, before scoring + LLM judging, so
@@ -418,8 +425,8 @@ async function researchAndStoreKeywords(env, site) {
   await env.KEYWORDS.put(`kws:${site.id}`, JSON.stringify(ranked));
   const rejectedCount = ranked.filter((k) => k.rejected).length;
   const manualCount = ranked.filter((k) => k.isManual).length;
-  await audit(env, site.id, 'keywords.refreshed', { count: ranked.length, source: usedSource, rejected: rejectedCount, manual: manualCount });
-  return { list: ranked, source: usedSource };
+  await audit(env, site.id, 'keywords.refreshed', { count: ranked.length, source: usedSource, rejected: rejectedCount, manual: manualCount, seedKind });
+  return { list: ranked, source: usedSource, seedKind };
 }
 
 // Single batched LLM call that judges relevance of every candidate keyword
@@ -495,6 +502,75 @@ async function manualKeywords(site, seeds) {
     { keyword: `${niche} pricing guide`, volume: 0, kd: 0, intent: 'commercial' },
     { keyword: `${niche} checklist`, volume: 0, kd: 0, intent: 'informational' },
   ];
+}
+
+// PM-269: dynamic LLM-driven seed keywords. Called from researchAndStoreKeywords
+// in the two paths where we have no real source data: (a) GSC selected but not
+// yet connected, (b) universal fallback when the primary source returned
+// nothing. Returns 15-25 long-tail candidates tailored to the site's URL /
+// niche / brand voice. Falls back to staticNicheSeeds on any LLM error / empty.
+async function seedKeywords(env, site) {
+  try {
+    const llm = await llmSeedKeywords(env, site);
+    if (llm && llm.length) return { keywords: llm, kind: 'llm' };
+  } catch (err) {
+    await audit(env, site.id, 'keywords.seed.llm_error', { error: String(err.message || err).slice(0, 200) });
+  }
+  return { keywords: staticNicheSeeds(site), kind: 'static' };
+}
+
+function staticNicheSeeds(site) {
+  // The pre-PM-269 fallback. Used when the LLM seed call errors or returns
+  // nothing usable. Deterministic niche-templated keywords so the pipeline
+  // always has something to chew on.
+  const niche = (site.niche || new URL(site.url).hostname || 'business').toLowerCase().replace(/[^a-z0-9 ]/g, '').split(/\s+/).filter(Boolean).slice(0, 4).join(' ') || 'small business';
+  return [
+    { keyword: `best ${niche} services`, volume: 0, kd: 0, intent: 'commercial' },
+    { keyword: `how to choose a ${niche} provider`, volume: 0, kd: 0, intent: 'informational' },
+    { keyword: `${niche} pricing guide`, volume: 0, kd: 0, intent: 'commercial' },
+    { keyword: `${niche} checklist`, volume: 0, kd: 0, intent: 'informational' },
+  ];
+}
+
+async function llmSeedKeywords(env, site) {
+  const voiceSample = (site.brandVoiceOverride || site.brandVoice || '').slice(0, 800);
+  const niche = site.niche || new URL(site.url).hostname || 'this business';
+  const prompt = {
+    system: `You generate SEO-promising long-tail keyword candidates (3-5 words each) for a website. Mix commercial-intent (buyer-ready: "buy", "best", "compare", "vs", "pricing", "review") with informational-intent (top-of-funnel: "how", "what", "guide", "checklist", "tips"). Avoid brand names. Avoid duplicates. All keywords lowercase.
+
+Respond with a single JSON object matching this schema exactly:
+{
+  "keywords": [
+    { "keyword": string, "intent": "commercial" | "informational" | "transactional" }
+  ]
+}
+
+Return 15-25 keywords total.`,
+    user: `Site URL: ${site.url}
+Site niche: ${niche}
+
+Brand voice sample:
+"""
+${voiceSample}
+"""
+
+Generate 15-25 long-tail SEO keyword candidates this site has a reasonable chance to rank for. Mix commercial and informational intent.`,
+  };
+  const result = await callLLM(env, site, prompt);
+  if (!result.ok) {
+    await audit(env, site.id, 'keywords.seed.llm_error', { error: result.error });
+    return [];
+  }
+  const candidates = (result.content && result.content.keywords) || [];
+  return candidates
+    .map((c) => ({
+      keyword: String((c && c.keyword) || '').trim().toLowerCase(),
+      volume: 0,
+      kd: 0,
+      intent: ['commercial', 'informational', 'transactional'].includes(c && c.intent) ? c.intent : 'informational',
+    }))
+    .filter((k) => k.keyword && k.keyword.length <= 100)
+    .slice(0, 25);
 }
 
 async function pickNextKeyword(env, siteId) {
@@ -2059,7 +2135,7 @@ async function apiRouter(request, env, url, path, ctx) {
 
     if (sub === 'research' && request.method === 'POST') {
       const result = await researchAndStoreKeywords(env, site);
-      return json({ ok: true, count: result.list.length, keywords: result.list, source: result.source });
+      return json({ ok: true, count: result.list.length, keywords: result.list, source: result.source, seedKind: result.seedKind });
     }
 
     if (sub === 'gsc/properties' && request.method === 'GET') {
@@ -3176,10 +3252,13 @@ function dashboardHTML() {
           // can see the request fired and isn't confused by the wait.
           showBanner('Researching keywords + LLM relevance filtering — this takes 15-30s. The chip list above will refresh when done.', 'info');
           const out = await api('POST', '/api/sites/' + siteId + '/research');
-          const isFallback = (out.source || '').endsWith('-seed-fallback');
+          const isFallback = (out.source || '').includes('seed');
           const rejectedCount = (out.keywords || []).filter((k) => k.rejected).length;
           const availableCount = (out.keywords || []).filter((k) => !k.rejected).length;
-          if (isFallback) {
+          if (isFallback && out.seedKind === 'llm') {
+            // PM-269: LLM-generated seeds — varied, fresh candidates.
+            showBanner('Refreshed — your primary source had no data, so we asked the AI for ' + out.count + ' fresh keyword candidates tailored to your site. Connect GSC or paste a manual list in Settings for the most targeted results.', 'info');
+          } else if (isFallback) {
             showBanner('Refreshed — your primary source returned nothing, so we seeded ' + out.count + ' niche-derived starters. Add a few manual keywords in Settings for better results.', 'info');
           } else {
             let detail = 'Refreshed — ' + out.count + ' keywords from ' + (out.source || 'gsc') + '.';
