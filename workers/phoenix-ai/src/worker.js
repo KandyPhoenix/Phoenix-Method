@@ -157,6 +157,36 @@ function siteLimitFor(customer) {
   return Number.isFinite(customer && customer.siteLimit) ? customer.siteLimit : 1;
 }
 
+// PM-271: plan helpers. Existing customer records may carry no plan field
+// or the legacy 'trial' value — both are normalized here so the rest of the
+// codebase can treat plan as a closed set: 'trial' | 'starter' | 'pro'.
+const VALID_PLANS = ['trial', 'starter', 'pro'];
+function customerPlan(customer) {
+  const explicit = customer && customer.plan;
+  if (VALID_PLANS.includes(explicit)) return explicit;
+  // Back-compat for legacy records: active trial → 'trial', otherwise 'starter'.
+  if (customer && customer.trialEnds && new Date(customer.trialEnds).getTime() > Date.now()) return 'trial';
+  return 'starter';
+}
+
+// True when Phoenix Method covers the Ahrefs API bill for this customer.
+// Today: Pro plan only. (Lower tiers can still use Ahrefs via BYOK key.)
+function canUseSystemAhrefs(customer) {
+  return customerPlan(customer) === 'pro';
+}
+
+// Resolves which Ahrefs key (if any) should be used for this customer. BYOK
+// wins on any tier — the customer pays the bill. Otherwise system key, but
+// only for Pro. Returns null when the customer can't use Ahrefs at all.
+async function resolveAhrefsKey(env, customer) {
+  if (customer && customer.ahrefsApiKey) {
+    try { return await decryptSecret(customer.ahrefsApiKey, env.SESSION_SECRET); }
+    catch { return null; }
+  }
+  if (canUseSystemAhrefs(customer) && env.AHREFS_API_KEY) return env.AHREFS_API_KEY;
+  return null;
+}
+
 async function listSitesForOwner(env, email) {
   const idsRaw = await env.SITES.get(`owner:${email}`);
   const ids = idsRaw ? JSON.parse(idsRaw) : [];
@@ -225,11 +255,13 @@ async function learnSite(siteUrl) {
 // ──────────────────────────────────────────────────────────────
 // Pipeline: keyword research (Ahrefs API v3)
 
-async function ahrefsKeywords(env, niche, domain) {
-  if (!env.AHREFS_API_KEY) {
-    // Fallback: stubbed keyword list derived from niche so the pipeline still
-    // works in dev environments without an Ahrefs key. Real keys produce real
-    // research; this is just enough to keep the article generator unblocked.
+async function ahrefsKeywords(env, niche, domain, apiKey) {
+  if (!apiKey) {
+    // No usable Ahrefs key for this customer (no BYOK + not Pro, or local dev
+    // with no env key). Return a stub list derived from the niche so the
+    // pipeline isn't blocked. Caller's empty-result path / LLM seed (PM-269)
+    // will normally take over if this returns 0 items, so we keep this just
+    // for dev environments.
     const seed = (niche || domain || 'business').toLowerCase().replace(/[^a-z0-9 ]/g, '').split(/\s+/).filter(Boolean).slice(0, 4);
     const base = seed.join(' ') || 'small business';
     return [
@@ -251,7 +283,7 @@ async function ahrefsKeywords(env, niche, domain) {
     order_by: 'volume:desc',
   });
   const res = await fetch(`https://api.ahrefs.com/v3/keywords-explorer/matching-terms?${params}`, {
-    headers: { 'Authorization': `Bearer ${env.AHREFS_API_KEY}`, 'Accept': 'application/json' },
+    headers: { 'Authorization': `Bearer ${apiKey}`, 'Accept': 'application/json' },
   });
   if (!res.ok) {
     console.error('ahrefs failed', res.status, await res.text().catch(() => ''));
@@ -350,7 +382,17 @@ async function researchAndStoreKeywords(env, site) {
       usedSource = 'seed';
     }
   } else if (source === 'ahrefs') {
-    raw = await ahrefsKeywords(env, site.niche, new URL(site.url).hostname);
+    // PM-271: resolve Ahrefs key. BYOK wins on any plan; system key only for
+    // Pro. When neither is available, the empty-result fallback (LLM seed or
+    // static seed via PM-269) covers the customer rather than 500ing.
+    const customer = await getOrCreateCustomer(env, site.ownerEmail);
+    const ahrefsKey = await resolveAhrefsKey(env, customer);
+    if (!ahrefsKey) {
+      await audit(env, site.id, 'keywords.ahrefs.unauthorized', { plan: customerPlan(customer), hasBYOK: Boolean(customer.ahrefsApiKey) });
+      raw = [];
+    } else {
+      raw = await ahrefsKeywords(env, site.niche, new URL(site.url).hostname, ahrefsKey);
+    }
   } else if (source === 'serpbear') {
     raw = await serpBearKeywords(env, site);
   } else if (source === 'manual') {
@@ -1877,10 +1919,53 @@ async function apiRouter(request, env, url, path, ctx) {
   if (path === '/api/me' && request.method === 'GET') {
     const customer = await getOrCreateCustomer(env, email);
     const sites = await listSitesForOwner(env, email);
-    // Resolve the effective limit here so the frontend doesn't have to
-    // duplicate the default-fallback logic. siteLimit on the customer
-    // record can be missing on records created before paywall shipped.
-    return json({ customer: { ...customer, siteLimit: siteLimitFor(customer) }, sites });
+    // Resolve effective fields here so the frontend doesn't have to duplicate
+    // default-fallback / plan-inference logic. PM-271 also strips the encrypted
+    // ahrefsApiKey blob and exposes derived booleans the SPA can gate on.
+    const plan = customerPlan(customer);
+    const hasAhrefsKey = Boolean(customer.ahrefsApiKey);
+    const systemAhrefs = canUseSystemAhrefs(customer);
+    const { ahrefsApiKey: _omit, ...safeCustomer } = customer;
+    return json({
+      customer: {
+        ...safeCustomer,
+        plan,
+        siteLimit: siteLimitFor(customer),
+        hasAhrefsKey,
+        canUseSystemAhrefs: systemAhrefs,
+        canUseAhrefs: hasAhrefsKey || systemAhrefs,
+      },
+      sites,
+    });
+  }
+
+  // PM-271: PATCH /api/me — for now, the only editable field is the BYOK
+  // Ahrefs API key. Pass an empty string to clear. The key is AES-encrypted
+  // before storage; the GET response never includes the encrypted blob.
+  if (path === '/api/me' && request.method === 'PATCH') {
+    let body; try { body = await request.json(); } catch { return json({ error: 'bad json' }, 400); }
+    const customer = await getOrCreateCustomer(env, email);
+    if (typeof body.ahrefsApiKey === 'string') {
+      const trimmed = body.ahrefsApiKey.trim();
+      customer.ahrefsApiKey = trimmed ? await encryptSecret(trimmed, env.SESSION_SECRET) : '';
+      await env.CUSTOMERS.put(email, JSON.stringify(customer));
+      await audit(env, `customer:${email}`, trimmed ? 'customer.ahrefs_key.set' : 'customer.ahrefs_key.cleared', {});
+    }
+    const plan = customerPlan(customer);
+    const hasAhrefsKey = Boolean(customer.ahrefsApiKey);
+    const systemAhrefs = canUseSystemAhrefs(customer);
+    const { ahrefsApiKey: _omit, ...safeCustomer } = customer;
+    return json({
+      ok: true,
+      customer: {
+        ...safeCustomer,
+        plan,
+        siteLimit: siteLimitFor(customer),
+        hasAhrefsKey,
+        canUseSystemAhrefs: systemAhrefs,
+        canUseAhrefs: hasAhrefsKey || systemAhrefs,
+      },
+    });
   }
 
   const jobMatch = path.match(/^\/api\/jobs\/([a-z0-9-]+)$/i);
@@ -1937,6 +2022,12 @@ async function apiRouter(request, env, url, path, ctx) {
     // customers are nudged toward the free option. They'll click Connect GSC
     // from the dashboard before any real research runs against it.
     const keywordSource = ['gsc', 'ahrefs', 'serpbear', 'manual'].includes(body.keywordSource) ? body.keywordSource : 'gsc';
+    // PM-271: server-side Ahrefs eligibility gate. The SPA disables the radio
+    // for ineligible customers, but the API has to enforce it too in case of
+    // direct curl or stale UI state.
+    if (keywordSource === 'ahrefs' && !customer.ahrefsApiKey && !canUseSystemAhrefs(customer)) {
+      return json({ error: 'Ahrefs source requires Pro plan or your own Ahrefs API key. Add a key in Account settings, then connect this site.' }, 403);
+    }
     // LLM provider: 'workers-ai' (free default) or 'anthropic' (BYOK premium).
     // Phoenix AI never pays for customer tokens — Anthropic mode requires the
     // customer to paste their own API key, stored encrypted per-site.
@@ -2011,7 +2102,17 @@ async function apiRouter(request, env, url, path, ctx) {
         // Honor the lock — can't flip autoPublish on while requireApproval is true.
         site.autoPublish = site.requireApproval ? false : body.autoPublish;
       }
-      if (['gsc', 'ahrefs', 'serpbear', 'manual'].includes(body.keywordSource)) site.keywordSource = body.keywordSource;
+      if (['gsc', 'ahrefs', 'serpbear', 'manual'].includes(body.keywordSource)) {
+        // PM-271: same Ahrefs gate as the POST handler — UI disables the radio
+        // for ineligible customers but the API enforces it server-side too.
+        if (body.keywordSource === 'ahrefs') {
+          const customer = await getOrCreateCustomer(env, email);
+          if (!customer.ahrefsApiKey && !canUseSystemAhrefs(customer)) {
+            return json({ error: 'Ahrefs source requires Pro plan or your own Ahrefs API key. Add a key in Account settings first.' }, 403);
+          }
+        }
+        site.keywordSource = body.keywordSource;
+      }
       // SerpBear connection fields. URL + domain are public values; API key is the only secret.
       if (typeof body.serpBearUrl === 'string') site.serpBearUrl = body.serpBearUrl.trim().replace(/\/+$/, '');
       if (typeof body.serpBearDomain === 'string') site.serpBearDomain = body.serpBearDomain.trim().replace(/^https?:\/\//, '').replace(/\/+$/, '');
@@ -2571,7 +2672,44 @@ function dashboardHTML() {
       });
     }
 
-    function renderSite(site, keywords, articles) {
+    // PM-271: Account panel sits above the per-site cards. Today it carries
+    // the plan badge + the BYOK Ahrefs key input; future account-wide settings
+    // belong here too.
+    function renderAccountPanel(customer) {
+      const plan = (customer && customer.plan) || 'starter';
+      const planLabels = { trial: 'Trial', starter: 'Starter', pro: 'Pro' };
+      const planLabel = planLabels[plan] || plan;
+      const planBadge = plan === 'pro' ? 'publish' : plan === 'starter' ? 'ready' : 'draft';
+      const hasAhrefsKey = Boolean(customer && customer.hasAhrefsKey);
+      const canUseSystem = Boolean(customer && customer.canUseSystemAhrefs);
+      const ahrefsLine = canUseSystem
+        ? 'Ahrefs is included with your Pro plan — Phoenix Method covers the bill. Paste a personal key below only if you want your own Ahrefs account credited.'
+        : hasAhrefsKey
+          ? 'Your Ahrefs key is on file — Ahrefs is unlocked as a keyword source for any of your sites.'
+          : 'Paste an Ahrefs API key to unlock the Ahrefs keyword source on any site, on any plan. Or upgrade to Pro and we cover it.';
+      return '<details class="panel" style="margin-bottom:24px;">' +
+        '<summary style="cursor:pointer;font-family:Cinzel,serif;font-size:1.05rem;letter-spacing:0.02em;display:flex;align-items:center;gap:10px;">' +
+          'Account · <span class="badge ' + planBadge + '" style="font-size:0.7rem;">' + escapeHTML(planLabel) + ' plan</span>' +
+        '</summary>' +
+        '<form data-account-form="1" style="display:grid;gap:14px;margin-top:14px;max-width:640px;">' +
+          '<div>' +
+            '<label>Ahrefs API key</label>' +
+            '<input type="password" name="ahrefsApiKey" placeholder="' + (hasAhrefsKey ? '••• key already on file — paste to replace, leave blank to keep' : 'Paste your Ahrefs API key (optional)') + '" style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);">' +
+            '<p class="help" style="margin-top:6px;">' + ahrefsLine + '</p>' +
+            (hasAhrefsKey ? '<button type="button" class="link-like" data-action="clear-ahrefs-key" style="margin-top:6px;color:var(--danger);">Remove key</button>' : '') +
+          '</div>' +
+          '<div><button type="submit" class="btn btn-primary">Save account settings</button></div>' +
+        '</form>' +
+      '</details>';
+    }
+
+    function renderSite(site, keywords, articles, customer) {
+      // PM-271: Ahrefs is gated. BYOK customers can use it on any plan; system
+      // key is included on Pro. The radio disables when neither path applies,
+      // with help copy explaining how to unlock.
+      const canUseAhrefs = Boolean(customer && customer.canUseAhrefs);
+      const ahrefsViaSystem = Boolean(customer && customer.canUseSystemAhrefs);
+      const ahrefsViaBYOK = Boolean(customer && customer.hasAhrefsKey);
       const articleRows = articles.length ? articles.map(a => {
         const link = a.publicUrl ? a.publicUrl : (a.wpEditUrl || '');
         const wasPublished = a.status === 'publish' || a.publishedAt;
@@ -2656,9 +2794,17 @@ function dashboardHTML() {
                   '<input type="radio" name="keywordSource" value="gsc"' + (keywordSource === 'gsc' ? ' checked' : '') + ' style="margin-top:4px;">' +
                   '<span><strong>Google Search Console</strong> <span class="badge publish" style="font-size:0.62rem;">Recommended</span><br><span style="color:var(--muted);font-size:0.85rem;">Free. Pulls "low-hanging fruit" queries the site already ranks position 5–20 for.</span></span>' +
                 '</label>' +
-                '<label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);">' +
-                  '<input type="radio" name="keywordSource" value="ahrefs"' + (keywordSource === 'ahrefs' ? ' checked' : '') + ' style="margin-top:4px;">' +
-                  '<span><strong>Ahrefs</strong><br><span style="color:var(--muted);font-size:0.85rem;">Discovers brand-new keywords for sites with no traffic yet. Requires AHREFS_API_KEY on the worker.</span></span>' +
+                '<label style="display:flex;gap:10px;align-items:flex-start;cursor:' + (canUseAhrefs ? 'pointer' : 'not-allowed') + ';text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);' + (canUseAhrefs ? '' : 'opacity:0.6;') + '">' +
+                  '<input type="radio" name="keywordSource" value="ahrefs"' + (keywordSource === 'ahrefs' ? ' checked' : '') + (canUseAhrefs ? '' : ' disabled') + ' style="margin-top:4px;">' +
+                  '<span><strong>Ahrefs</strong>' +
+                    (ahrefsViaSystem ? ' <span class="badge publish" style="font-size:0.62rem;">Included with Pro</span>' : ahrefsViaBYOK ? ' <span class="badge ready" style="font-size:0.62rem;">Your key</span>' : ' <span class="badge draft" style="font-size:0.62rem;">Locked</span>') +
+                    '<br><span style="color:var(--muted);font-size:0.85rem;">Discovers brand-new keywords for sites with no traffic yet. ' +
+                      (ahrefsViaSystem
+                        ? 'Phoenix Method covers the Ahrefs bill on your Pro plan.'
+                        : ahrefsViaBYOK
+                          ? 'Using your Ahrefs API key from Account settings.'
+                          : 'Requires the Pro plan, or paste your own Ahrefs API key in the Account section above.') +
+                    '</span></span>' +
                 '</label>' +
                 '<label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);">' +
                   '<input type="radio" name="keywordSource" value="serpbear"' + (keywordSource === 'serpbear' ? ' checked' : '') + ' style="margin-top:4px;">' +
@@ -2772,7 +2918,7 @@ function dashboardHTML() {
           return { site: s, keywords: k.keywords || [], articles: a.articles || [] };
         }));
 
-        const sitesHtml = details.map(d => renderSite(d.site, d.keywords, d.articles)).join('');
+        const sitesHtml = details.map(d => renderSite(d.site, d.keywords, d.articles, me.customer)).join('');
         // Paywall: each customer's plan includes a fixed number of sites
         // (default 1). When they're at the cap, hide the connect form and
         // show a contact-to-upgrade card instead. Backend enforces the same
@@ -2787,6 +2933,7 @@ function dashboardHTML() {
             '</div>'
           : '<div class="panel"><h3 style="margin-top:0;">Connect Another Site</h3><div id="connectFormSlot"></div></div>';
         root.innerHTML = '<h1>Your Sites</h1><p class="lede">Manage your connected sites, refresh keyword research, and ship articles.</p>' +
+          renderAccountPanel(me.customer) +
           sitesHtml +
           connectPanel;
 
@@ -2798,9 +2945,42 @@ function dashboardHTML() {
 
         root.addEventListener('click', onAction, { once: false });
         root.querySelectorAll('form[data-settings-site]').forEach(attachSettingsForm);
+        // PM-271: Account panel form (BYOK Ahrefs key) lives above the sites.
+        const acctForm = root.querySelector('form[data-account-form]');
+        if (acctForm) attachAccountForm(acctForm);
       } catch (err) {
         root.innerHTML = '<div class="panel"><h2>Couldn\\'t load your dashboard</h2><p class="lede">' + escapeHTML(err.message) + '</p><a class="btn btn-primary" href="/">Reload</a></div>';
       }
+    }
+
+    // PM-271: Account form (BYOK Ahrefs key). Empty submission keeps the
+    // existing key; pasting a new one replaces; the "Remove key" link clears.
+    function attachAccountForm(form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = form.querySelector('button[type=submit]');
+        const keyInput = form.querySelector('input[name=ahrefsApiKey]');
+        const keyValue = keyInput ? keyInput.value.trim() : '';
+        btn.disabled = true; btn.innerHTML = '<span class="loader"></span>Saving…';
+        try {
+          // Only send the field when the customer typed something — empty
+          // string means "keep what's stored" (matches the Anthropic key
+          // pattern in per-site Settings).
+          const patch = {};
+          if (keyValue) patch.ahrefsApiKey = keyValue;
+          if (!Object.keys(patch).length) {
+            showBanner('Nothing to save — paste a new Ahrefs key, or use Remove key to clear it.', 'info');
+            btn.disabled = false; btn.textContent = 'Save account settings';
+            return;
+          }
+          await api('PATCH', '/api/me', patch);
+          showBanner('Account settings saved.', 'success');
+          await load();
+        } catch (err) {
+          showBanner('Save failed: ' + err.message, 'error');
+          btn.disabled = false; btn.textContent = 'Save account settings';
+        }
+      });
     }
 
     function attachSettingsForm(form) {
@@ -3067,6 +3247,20 @@ function dashboardHTML() {
       }
       if (action === 'gsc-pick') {
         return pickGscProperty(siteId);
+      }
+      if (action === 'clear-ahrefs-key') {
+        // PM-271: clear the BYOK Ahrefs key. PATCH /api/me with empty string.
+        if (!window.confirm('Remove your Ahrefs API key?\\n\\nIf you\\'re on Pro your sites keep using Ahrefs (system key). If you\\'re not on Pro the Ahrefs source will lock.')) return;
+        btn.disabled = true;
+        try {
+          await api('PATCH', '/api/me', { ahrefsApiKey: '' });
+          showBanner('Ahrefs key removed.', 'info');
+          await load();
+        } catch (err) {
+          btn.disabled = false;
+          showBanner('Couldn\\'t remove key: ' + err.message, 'error');
+        }
+        return;
       }
       if (action === 'remove-keyword') {
         const keyword = btn.dataset.keyword;
