@@ -329,9 +329,13 @@ async function serpBearKeywords(env, site) {
 
 function scoreKeyword(k) {
   // Buyer-intent first, then opportunity (high volume / low difficulty).
+  // PM-267: manual (customer-curated) keywords get a fixed boost so they sort
+  // above low-volume scraped results — if the customer explicitly added it,
+  // they want it written about.
   const intentBonus = k.intent === 'commercial' || k.intent === 'transactional' ? 50 : 0;
+  const manualBonus = k.isManual ? 100 : 0;
   const kd = Math.max(1, k.kd || 1);
-  return intentBonus + Math.log2((k.volume || 0) + 1) * 10 - kd;
+  return manualBonus + intentBonus + Math.log2((k.volume || 0) + 1) * 10 - kd;
 }
 
 async function researchAndStoreKeywords(env, site) {
@@ -350,7 +354,24 @@ async function researchAndStoreKeywords(env, site) {
   } else if (source === 'serpbear') {
     raw = await serpBearKeywords(env, site);
   } else if (source === 'manual') {
-    raw = await manualKeywords(site, site.manualKeywords || []);
+    // PM-267: mark manual-as-primary entries so they get the score boost +
+    // skip the LLM relevance judge consistently with additive manual entries.
+    raw = (await manualKeywords(site, site.manualKeywords || [])).map((k) => ({ ...k, isManual: true }));
+  }
+  // PM-267: manual keywords are additive on top of GSC / Ahrefs / SerpBear.
+  // When the primary source is one of those, merge the customer's manual list
+  // in (deduped against the source results by lowercased keyword text).
+  // Skipped when source === 'manual' since that path already loaded them.
+  if (source !== 'manual' && Array.isArray(site.manualKeywords) && site.manualKeywords.length) {
+    const additions = (await manualKeywords(site, site.manualKeywords)).map((k) => ({ ...k, isManual: true }));
+    const seen = new Set(raw.map((k) => String(k.keyword || '').toLowerCase().trim()));
+    for (const m of additions) {
+      const key = String(m.keyword || '').toLowerCase().trim();
+      if (key && !seen.has(key)) {
+        raw.push(m);
+        seen.add(key);
+      }
+    }
   }
   // Universal fallback: if the primary source produced nothing (new GSC with
   // no rank-eligible queries, Ahrefs API quota, empty manual list…), seed the
@@ -367,19 +388,22 @@ async function researchAndStoreKeywords(env, site) {
     const block = new Set(site.keywordBlocklist.map((s) => String(s).toLowerCase().trim()));
     raw = raw.filter((k) => !block.has(String(k.keyword || '').toLowerCase().trim()));
   }
-  // PM-253: LLM-based relevance gate. Rejects off-niche keywords (e.g. "phoenix
-  // internet services" for an SEO-consulting site whose brand happens to share
-  // a word with "Phoenix"). Verdicts are stored on each keyword record so the
-  // dashboard can display rejections with reasons. Fail-open — if the judge
-  // errors, we keep all candidates rather than blocking research entirely.
+  // PM-253 + PM-267: LLM-based relevance gate. Skips manual entries — if the
+  // customer explicitly added a keyword, we trust their judgement and don't
+  // let the LLM reject it. Verdicts are stored on each (non-manual) keyword
+  // record so the dashboard can display rejections with reasons. Fail-open:
+  // if the judge errors, we keep all candidates rather than blocking research.
   const filterMode = site.keywordFilter || 'auto';
   let verdicts = {};
   if (filterMode === 'auto' && raw.length) {
-    verdicts = await judgeKeywordRelevance(env, site, raw.map((k) => k.keyword));
+    const toJudge = raw.filter((k) => !k.isManual).map((k) => k.keyword);
+    if (toJudge.length) verdicts = await judgeKeywordRelevance(env, site, toJudge);
   }
   const ranked = raw
     .map((k) => {
-      const v = verdicts[k.keyword] || { relevant: true, reason: '' };
+      const v = k.isManual
+        ? { relevant: true, reason: '' }
+        : (verdicts[k.keyword] || { relevant: true, reason: '' });
       return {
         ...k,
         score: scoreKeyword(k),
@@ -393,7 +417,8 @@ async function researchAndStoreKeywords(env, site) {
     .slice(0, 25);
   await env.KEYWORDS.put(`kws:${site.id}`, JSON.stringify(ranked));
   const rejectedCount = ranked.filter((k) => k.rejected).length;
-  await audit(env, site.id, 'keywords.refreshed', { count: ranked.length, source: usedSource, rejected: rejectedCount });
+  const manualCount = ranked.filter((k) => k.isManual).length;
+  await audit(env, site.id, 'keywords.refreshed', { count: ranked.length, source: usedSource, rejected: rejectedCount, manual: manualCount });
   return { list: ranked, source: usedSource };
 }
 
@@ -2641,13 +2666,14 @@ function dashboardHTML() {
                 '</label>' +
                 '<label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);">' +
                   '<input type="radio" name="keywordSource" value="manual"' + (keywordSource === 'manual' ? ' checked' : '') + ' style="margin-top:4px;">' +
-                  '<span><strong>Manual paste</strong><br><span style="color:var(--muted);font-size:0.85rem;">You paste 10–30 starter keywords below. Best for brand-new sites with no GSC data.</span></span>' +
+                  '<span><strong>Manual only</strong><br><span style="color:var(--muted);font-size:0.85rem;">No upstream source — only use your manual list below. Best for brand-new sites with no GSC data yet. (Manual keywords are also additive for the three sources above — you don\\'t have to pick this just to use your list.)</span></span>' +
                 '</label>' +
               '</div>' +
             '</div>' +
-            '<div data-keyword-source-fields="manual" style="display:' + (keywordSource === 'manual' ? 'block' : 'none') + ';">' +
-              '<label>Manual keyword list (one per line)</label>' +
+            '<div>' +
+              '<label>Manual keywords (always included)</label>' +
               '<textarea name="manualKeywords" rows="6" placeholder="one keyword per line: best dental clinic seattle, teeth whitening cost, pediatric dentist near me" style="width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:\\'Outfit\\',sans-serif;font-size:0.95rem;resize:vertical;">' + escapeHTML((site.manualKeywords || []).map(k => typeof k === 'string' ? k : k.keyword).join('\\n')) + '</textarea>' +
+              '<p class="help" style="margin-top:6px;">Optional. One per line, up to 50. These get merged on top of your primary source (deduped) and are exempt from the LLM off-niche filter — anything you paste here is trusted and sorted to the top of the chip list.</p>' +
             '</div>' +
             '<div data-keyword-source-fields="serpbear" style="display:' + (keywordSource === 'serpbear' ? 'block' : 'none') + ';">' +
               '<label>SerpBear connection</label>' +
@@ -2779,10 +2805,12 @@ function dashboardHTML() {
 
     function attachSettingsForm(form) {
       // Show/hide source-specific conditional fields as the radio toggles.
+      // PM-267: 'manual' is no longer source-conditional — the manual list is
+      // always visible and additive. Only SerpBear has source-only fields now.
       form.querySelectorAll('input[name=keywordSource]').forEach((r) => {
         r.addEventListener('change', () => {
           if (!r.checked) return;
-          ['manual', 'serpbear'].forEach((kind) => {
+          ['serpbear'].forEach((kind) => {
             const block = form.querySelector('[data-keyword-source-fields=' + kind + ']');
             if (block) block.style.display = r.value === kind ? 'block' : 'none';
           });
