@@ -233,6 +233,7 @@
         .status-planned  { background: rgba(52,152,219,0.15); color: #3498db; }
         .status-writing  { background: rgba(255,140,0,0.15);  color: #C9922A; }
         .status-published { background: rgba(39,174,96,0.15);  color: #27ae60; }
+        .status-used     { background: rgba(240,192,64,0.15);  color: #b8942a; }
 
         /* ── MONTHLY CONTENT CHOICE ── */
         .choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -626,8 +627,8 @@ function buildPortal(d) {
     const topics = d.blog_topics || [];
     const blogTopicsHtml = topics.length
         ? topics.map((t, i) => {
-            const sc = t.status === 'published' ? 'status-published' : t.status === 'writing' ? 'status-writing' : 'status-planned';
-            const sl = t.status === 'published' ? 'Published' : t.status === 'writing' ? 'Writing' : 'Suggested';
+            const sc = t.status === 'published' ? 'status-published' : t.status === 'writing' ? 'status-writing' : t.status === 'used' ? 'status-used' : 'status-planned';
+            const sl = t.status === 'published' ? 'Published' : t.status === 'writing' ? 'Writing' : t.status === 'used' ? (t.month_used || 'Used') : 'Suggested';
             return `<div class="topic-item">
                 <span class="topic-num">${i + 1}</span>
                 <div style="flex:1;min-width:0">

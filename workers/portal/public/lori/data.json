@@ -8,7 +8,7 @@
   "hours_used": 1,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-05-12",
+  "updated": "2026-05-18",
   "next_invoice": {
     "date": "June 1, 2026",
     "amount": "$575.00"
@@ -319,16 +319,17 @@
     }
   ],
   "content_choice": {
-    "chosen": null,
+    "chosen": "blog",
     "blog": {
-      "title": null,
-      "keyword": null,
-      "status": "pending"
+      "title": "Does Insurance Cover Therapy in Washington State? (Premera, Aetna, Kaiser)",
+      "keyword": "does insurance cover therapy Washington",
+      "status": "in-progress",
+      "wp_post_id": 50610
     },
     "page": {
-      "title": "Natalie Kim Bio — SEO Treatment",
-      "url": "lorikimmerly.com/natalie-kim/",
-      "keyword": "natalie kim therapist",
+      "title": "Lori Kimmerly Bio — SEO Treatment",
+      "url": "lorikimmerly.com/lori-kimmerly/",
+      "keyword": "IFS therapist Renton WA",
       "status": "suggested"
     }
   },
@@ -336,7 +337,7 @@
     {
       "title": "How to Find a Therapist in Renton WA (What to Look For)",
       "keyword": "therapist Renton WA",
-      "status": "suggested"
+      "status": "in-progress"
     },
     {
       "title": "IFS Therapy for Anxiety: How Internal Family Systems Helps You Heal",
@@ -366,7 +367,9 @@
     {
       "title": "Does Insurance Cover Therapy in Washington State? (Premera, Aetna, Kaiser)",
       "keyword": "does Premera cover therapy",
-      "status": "suggested"
+      "status": "used",
+      "month_used": "May",
+      "wp_post_id": 50610
     },
     {
       "title": "Depression vs. Anxiety: How to Tell the Difference and Get the Right Help",
@@ -396,6 +399,12 @@
       "date": "May 1, 2026",
       "icon": "✍️",
       "url": "/lori/reports/lori-blog-topics-2026-05.pdf"
+    },
+    {
+      "name": "Blog Topic Menu — May 2026",
+      "date": "May 1, 2026",
+      "icon": "📋",
+      "url": "/lori/reports/blog-topic-menu-may2026.pdf"
     }
   ],
   "roadmap": [
