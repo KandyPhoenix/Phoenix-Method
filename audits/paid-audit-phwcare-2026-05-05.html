@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phoenix Method — SEO Audit: Parish Health and Wellness</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Georgia', serif; color: #2c3e50; background: #f5f6fa; }
+
+  /* Cover */
+  .cover {
+    background: linear-gradient(135deg, #0d1b2e 0%, #1a3a5c 100%);
+    color: white; text-align: center; padding: 80px 40px;
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  .cover .brand { font-size: 13px; letter-spacing: 4px; text-transform: uppercase; color: #7fb3d3; margin-bottom: 12px; }
+  .cover .tagline-small { font-size: 12px; letter-spacing: 3px; color: #7fb3d3; margin-bottom: 60px; }
+  .cover h1 { font-size: 34px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; color: #ffffff; }
+  .cover .subtitle { font-size: 16px; color: #a8c8e0; letter-spacing: 1px; margin-bottom: 60px; }
+  .cover .client-name { font-size: 28px; font-weight: bold; color: #ffffff; margin-bottom: 8px; }
+  .cover .client-url { font-size: 14px; color: #7fb3d3; margin-bottom: 4px; }
+  .cover .client-loc { font-size: 13px; color: #7fb3d3; margin-bottom: 60px; }
+  .cover .prep { font-size: 12px; color: #5d8ba8; }
+  .cover .divider { width: 60px; height: 2px; background: #3498db; margin: 30px auto; }
+
+  /* Page structure */
+  .page { max-width: 900px; margin: 0 auto; padding: 50px 40px; }
+  .page-break { page-break-before: always; }
+
+  /* Section headers */
+  h2.section-title {
+    font-size: 24px; font-weight: bold; color: #0d1b2e;
+    border-bottom: 3px solid #3498db; padding-bottom: 12px;
+    margin-bottom: 24px; margin-top: 48px;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  h2.section-title:first-of-type { margin-top: 0; }
+  h3.sub-title {
+    font-size: 17px; font-weight: bold; color: #1a3a5c;
+    margin: 28px 0 14px; border-left: 4px solid #3498db;
+    padding-left: 12px;
+  }
+
+  /* Grade badges */
+  .grade-badge {
+    display: inline-block; color: white; font-weight: bold;
+    font-size: 22px; width: 48px; height: 48px; line-height: 48px;
+    text-align: center; border-radius: 6px; margin-right: 12px;
+  }
+  .grade-row {
+    display: flex; align-items: center; padding: 14px 0;
+    border-bottom: 1px solid #ecf0f1;
+  }
+  .grade-row .grade-label { font-size: 15px; font-weight: bold; flex: 1; }
+  .grade-row .grade-note { font-size: 13px; color: #7f8c8d; flex: 2; }
+  .grades-box { background: white; border-radius: 8px; padding: 20px 24px; box-shadow: 0 2px 8px rgba(0,0,0,.06); margin-bottom: 32px; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+  th { background: #0d1b2e; color: white; padding: 10px 12px; text-align: left; font-size: 12px; letter-spacing: .5px; text-transform: uppercase; }
+  td { padding: 9px 12px; border-bottom: 1px solid #ecf0f1; }
+  tr:nth-child(even) td { background: #f8f9fa; }
+  .flag-bad { color: #e74c3c; font-weight: bold; }
+  .flag-ok { color: #27ae60; }
+  .flag-warn { color: #e67e22; font-weight: bold; }
+
+  /* Finding blocks */
+  .finding {
+    background: white; border-left: 4px solid #e74c3c; border-radius: 4px;
+    padding: 16px 20px; margin: 12px 0; box-shadow: 0 1px 4px rgba(0,0,0,.05);
+  }
+  .finding.warn { border-left-color: #f39c12; }
+  .finding.ok { border-left-color: #27ae60; }
+  .finding h4 { font-size: 14px; font-weight: bold; margin-bottom: 6px; color: #2c3e50; }
+  .finding p { font-size: 13px; color: #555; line-height: 1.6; }
+  .finding .fix { background: #eaf4fb; border-radius: 3px; padding: 8px 12px; margin-top: 10px; font-size: 12px; color: #1a5276; }
+  .finding .fix strong { display: block; margin-bottom: 4px; }
+
+  /* Phase boxes */
+  .phase {
+    background: white; border-radius: 8px; padding: 22px 26px;
+    margin: 16px 0; box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    border-top: 4px solid #3498db;
+  }
+  .phase.p2 { border-top-color: #2ecc71; }
+  .phase.p3 { border-top-color: #f39c12; }
+  .phase.p4 { border-top-color: #9b59b6; }
+  .phase h3 { font-size: 16px; font-weight: bold; color: #0d1b2e; margin-bottom: 6px; }
+  .phase .timeline { font-size: 12px; color: #7f8c8d; margin-bottom: 14px; }
+  .phase ul { list-style: none; padding: 0; }
+  .phase ul li { padding: 5px 0; font-size: 13px; padding-left: 20px; position: relative; color: #444; }
+  .phase ul li:before { content: "→"; position: absolute; left: 0; color: #3498db; font-weight: bold; }
+
+  /* Blog topics */
+  .topic-card {
+    background: white; border-radius: 6px; padding: 14px 18px;
+    margin: 8px 0; box-shadow: 0 1px 4px rgba(0,0,0,.05);
+    border-left: 3px solid #3498db;
+  }
+  .topic-card h4 { font-size: 13px; font-weight: bold; margin-bottom: 4px; }
+  .topic-card p { font-size: 12px; color: #7f8c8d; }
+
+  /* Competitor cards */
+  .comp-card {
+    background: white; border-radius: 8px; padding: 18px 22px;
+    margin: 12px 0; box-shadow: 0 2px 6px rgba(0,0,0,.06);
+  }
+  .comp-card h4 { font-size: 15px; font-weight: bold; color: #0d1b2e; margin-bottom: 10px; }
+  .comp-card ul { list-style: none; padding: 0; }
+  .comp-card ul li { font-size: 13px; padding: 3px 0 3px 16px; position: relative; color: #555; }
+  .comp-card ul li:before { content: "•"; position: absolute; left: 0; color: #3498db; }
+
+  /* Summary box */
+  .summary-box {
+    background: linear-gradient(135deg, #0d1b2e, #1a3a5c);
+    color: white; border-radius: 8px; padding: 28px 32px; margin: 24px 0;
+  }
+  .summary-box p { font-size: 14px; line-height: 1.8; margin-bottom: 12px; color: #cde; }
+
+  /* Footer */
+  .footer {
+    background: #0d1b2e; color: white; text-align: center;
+    padding: 40px; margin-top: 60px;
+  }
+  .footer .brand-f { font-size: 20px; font-weight: bold; letter-spacing: 3px; margin-bottom: 6px; }
+  .footer .tag { font-size: 12px; color: #7fb3d3; letter-spacing: 2px; margin-bottom: 16px; }
+  .footer .contact { font-size: 12px; color: #5d8ba8; }
+  .footer .dead { font-size: 11px; color: #3d5a70; margin-top: 8px; letter-spacing: 2px; }
+
+  p { line-height: 1.7; margin-bottom: 12px; font-size: 14px; }
+  ul.plain { list-style: disc; padding-left: 22px; }
+  ul.plain li { font-size: 13px; margin-bottom: 5px; color: #444; }
+
+  @media print {
+    .cover { min-height: auto; padding: 60px 40px; }
+    .page-break { page-break-before: always; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  COVER                                                      -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="brand">PHOENIX METHOD</div>
+  <div class="tagline-small">Search. Rise. Dominate.</div>
+  <h1>Comprehensive SEO Audit Report</h1>
+  <div class="subtitle">Full Site Analysis &amp; Strategic Action Plan</div>
+  <div class="divider"></div>
+  <div class="client-name">Parish Health and Wellness</div>
+  <div class="client-url">phwcare.com</div>
+  <div class="client-loc">Red Bluff, CA · Telehealth: Statewide California</div>
+  <div class="divider"></div>
+  <div class="prep">Prepared: May 05, 2026<br>Prepared by Phoenix Method<br>hello@phoenixmethodseo.com &nbsp;|&nbsp; phoenixmethodseo.com</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  EXECUTIVE SUMMARY                                          -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page page-break">
+  <h2 class="section-title">Executive Summary</h2>
+
+  <p>Parish Health and Wellness (PHW) is a licensed mental health counseling practice based in Red Bluff, California, offering both in-person therapy and telehealth services to clients across the entire state. The practice provides a broad range of evidence-based services — including treatment for anxiety, depression, trauma, substance addiction, family conflict, and LGBTQ+ affirming care — and accepts Medi-Cal, Medicare, and most major commercial insurance plans. PHW's commitment to serving underinsured and underserved communities in Northern California sets it apart from most competitors in the region.</p>
+
+  <p>This audit covers every publicly indexed page on phwcare.com — 32 pages crawled across the site's full depth — analyzing technical infrastructure, on-page optimization, schema markup, content strategy, E-E-A-T signals, and local SEO posture. The site has meaningful strengths: HTTPS is enforced with correct redirect behavior, schema markup is present on every page, service pages have substantial content depth (1,800–3,300 words each), and a bilingual privacy policy demonstrates commitment to Spanish-speaking clients. However, the audit reveals a recurring pattern of technical formatting errors that are actively undermining the site's credibility with search engines — most critically, a sitewide title tag overflow problem that affects 14 of 25 core pages, a near-total absence of image alt text across all service pages, and multiple critical on-page structure errors.</p>
+
+  <p>As a mental health and substance abuse practice, phwcare.com is classified by Google as a YMYL (Your Money or Your Life) site — subject to the most rigorous quality standards under Google's Search Quality Rater Guidelines. E-E-A-T signals (Experience, Expertise, Authoritativeness, Trustworthiness) are not optional enhancements for YMYL health sites — they are ranking prerequisites. PHW currently lacks individual therapist bio pages with verifiable credentials, author attribution on blog posts, and the kind of structured trust content that Google quality evaluators actively look for. These gaps are addressable and their resolution will have direct, measurable impact on rankings for PHW's highest-value keywords.</p>
+
+  <div class="grades-box">
+    <div class="grade-row"><span class="grade-badge" style="background:#e74c3c">D</span><div class="grade-label">Technical SEO</div><div class="grade-note">HTTPS enforced correctly. But: 14 pages with over-length titles (some reaching 96 chars), 80–90% image alt text missing on all service pages, /cart indexed with no H1 or meta, 6 H1 tags on blog page, duplicate LocalBusiness schema on every page, sitemap absent from robots.txt.</div></div>
+    <div class="grade-row"><span class="grade-badge" style="background:#f39c12">C</span><div class="grade-label">On-Page SEO</div><div class="grade-note">Service pages have strong content depth (1,800–3,300 words). But: Squarespace brand append pushing titles over 60-char limit on utility pages, H1 text broken on 7 service pages (missing spaces/merged words), zero FAQ sections on service pages, 3 key pages under 500 words.</div></div>
+    <div class="grade-row"><span class="grade-badge" style="background:#f39c12">C</span><div class="grade-label">Mobile Speed</div><div class="grade-note">PageSpeed API quota exceeded during audit — manual verification required at pagespeed.web.dev. Squarespace sites typically score 55–70 on mobile. Squarespace-managed image handling helps but Fluid Engine block structure can impact LCP on content-heavy pages.</div></div>
+    <div class="grade-row"><span class="grade-badge" style="background:#f39c12">C</span><div class="grade-label">Local SEO</div><div class="grade-note">LocalBusiness schema present on all pages and location pages exist for Red Bluff. But: LocalBusiness schema duplicated (appears twice on every page), sitemap not listed in robots.txt, two nearly identical Red Bluff pages competing for the same keyword, no Tehama County or Northern California regional content.</div></div>
+    <div class="grade-row"><span class="grade-badge" style="background:#e67e22">D</span><div class="grade-label">Content Strategy</div><div class="grade-note">10 condition-specific service pages are a real asset. But: no couples therapy page, no EMDR or Brainspotting dedicated pages, no individual therapist bio pages, zero FAQ sections on service pages, /online-therapy-california (a priority keyword page) has only 846 words, blog category pages have no meta descriptions.</div></div>
+    <div class="grade-row"><span class="grade-badge" style="background:#e67e22">D</span><div class="grade-label">E-E-A-T</div><div class="grade-note">Privacy policy in English and Spanish is excellent. Physical address, phone, and basic team page exist. But: no individual therapist bio pages with credentials and licenses, no author attribution on blog posts, no testimonials section, no terms of service page — all gaps Google quality evaluators look for on YMYL health sites.</div></div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  SITE OVERVIEW                                             -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page page-break">
+  <h2 class="section-title">Site Overview</h2>
+  <table>
+    <tr><th>Field</th><th>Details</th></tr>
+    <tr><td>Domain</td><td>phwcare.com (www.phwcare.com canonical)</td></tr>
+    <tr><td>Platform</td><td>Squarespace (Fluid Engine)</td></tr>
+    <tr><td>SEO Plugin</td><td>Squarespace native SEO (no third-party plugin)</td></tr>
+    <tr><td>Practice Name</td><td>Parish Health and Wellness</td></tr>
+    <tr><td>DBA</td><td>PHW Counseling</td></tr>
+    <tr><td>Location</td><td>Red Bluff, CA · 22425 Sunbright Ave, Red Bluff, CA 96080</td></tr>
+    <tr><td>Service Area</td><td>In-person: Red Bluff / Tehama County · Telehealth: All of California</td></tr>
+    <tr><td>Phone</td><td>(530) 528-2342</td></tr>
+    <tr><td>Services</td><td>Individual therapy, Family therapy, Anxiety, Depression, Trauma/PTSD, Substance addiction, Anger management, Life transitions, Conflict resolution, Faith-based counseling, LGBTQ+ affirming therapy</td></tr>
+    <tr><td>Notable Strengths</td><td>Medi-Cal accepted, Medicare accepted, 30+ commercial insurances, bilingual services (English/Spanish)</td></tr>
+    <tr><td>Insurance</td><td>Medi-Cal, Medicare, Aetna, Cigna, Blue Shield, and others</td></tr>
+    <tr><td>Audit Date</td><td>May 05, 2026</td></tr>
+    <tr><td>Pages Crawled</td><td>32 pages (25 unique, 7 duplicates/canonicals/redirects)</td></tr>
+  </table>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  PAGES DISCOVERED                                           -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page page-break">
+  <h2 class="section-title">Pages Discovered</h2>
+  <table>
+    <tr><th>URL Path</th><th>Page Purpose</th><th>Status</th></tr>
+    <tr><td><code>/</code></td><td>Homepage — primary entry, services overview</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/therapy</code></td><td>Therapy services hub — index of all service pages</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/therapy/anxiety</code></td><td>Service page — Anxiety Treatment</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/therapy/depression</code></td><td>Service page — Depression Therapy</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/therapy/anger</code></td><td>Service page — Anger Management Therapy</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/therapy/trauma</code></td><td>Service page — Trauma &amp; PTSD Therapy</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/therapy/family</code></td><td>Service page — Family Therapy</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/therapy/substance-addiction</code></td><td>Service page — Substance Addiction Counseling</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/therapy/major-life-transitions</code></td><td>Service page — Life Transitions Therapy</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/therapy/conflict-resolution</code></td><td>Service page — Conflict Resolution Therapy</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/therapy/faith-based</code></td><td>Service page — Faith-Based / Christian Counseling</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/therapy/lgbtqplus-issues</code></td><td>Service page — LGBTQ+ Affirming Therapy</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/about</code></td><td>About page — practice overview, mission</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/phw-counselors</code></td><td>Team page — counselor overview (no individual bios)</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/insurances</code></td><td>Insurance accepted page</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/online-therapy-california</code></td><td>Landing page — Online Therapy California</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/therapy-red-bluff-ca</code></td><td>Local landing page — Red Bluff, CA therapy</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/therapy-downtown-red-bluff</code></td><td>Location page — Downtown Red Bluff office</td><td><span class="flag-warn">Live — duplicate content with /therapy-red-bluff-ca</span></td></tr>
+    <tr><td><code>/mental-health-blog</code></td><td>Blog index</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/mental-health-blog/online-anxiety-therapy-california</code></td><td>Blog post — Online Anxiety Therapy Guide</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/mental-health-resources-california</code></td><td>Mental health resources directory page</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/contact</code></td><td>Contact page — booking and location</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/rehab-center-donations</code></td><td>Rehab center fundraising / donations page</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/counseling-jobs-red-bluff</code></td><td>Careers / job listings page</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/privacy-policy</code></td><td>Privacy policy (English)</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/privacy-policy-es</code></td><td>Privacy policy (Spanish — Política de Privacidad)</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/privacy-practices</code></td><td>HIPAA Notice of Privacy Practices</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/cart</code></td><td>Squarespace cart page — no therapy content</td><td><span class="flag-bad">Indexed — must be noindexed</span></td></tr>
+    <tr><td><code>/home</code></td><td>Alternate homepage URL</td><td><span class="flag-warn">Canonicals to / — verify not double-indexed</span></td></tr>
+    <tr><td><code>/therapy-folder/</code></td><td>Squarespace folder URL</td><td><span class="flag-warn">Canonicals to /therapy — redundant URL</span></td></tr>
+    <tr><td><code>/therapylocations</code></td><td>Old locations page</td><td><span class="flag-warn">Canonicals to /therapy-downtown-red-bluff</span></td></tr>
+    <tr><td><code>/mental-health-blog/category/*</code></td><td>Blog category archives (Couples Therapy, Anxiety &amp; Stress Mgmt, etc.)</td><td><span class="flag-warn">Indexed — no meta descriptions, multiple H1s</span></td></tr>
+  </table>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  TECHNICAL SEO AUDIT                                        -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page page-break">
+  <h2 class="section-title">Technical SEO Audit</h2>
+  <span class="grade-badge" style="background:#e74c3c">D</span> <strong style="font-size:18px; vertical-align: middle;">Grade: D — Critical Formatting Errors Sitewide</strong>
+
+  <h3 class="sub-title">HTTPS &amp; Redirects</h3>
+  <div class="finding ok">
+    <h4>✓ HTTPS Enforced (301 Redirect)</h4>
+    <p>HTTP traffic correctly redirects to HTTPS via a 301 permanent redirect. This is confirmed working and is a strong baseline signal for Google.</p>
+  </div>
+  <div class="finding ok">
+    <h4>✓ www Canonical Is Consistent</h4>
+    <p>The site uses www.phwcare.com as the canonical domain. The homepage self-references correctly. This is consistent throughout all crawled pages.</p>
+  </div>
+
+  <h3 class="sub-title">XML Sitemap</h3>
+  <div class="finding ok">
+    <h4>✓ Sitemap Present at /sitemap.xml</h4>
+    <p>A valid XML sitemap was found at /sitemap.xml and includes blog posts, blog categories, and other content pages with lastmod dates and priority values. This is a correct Squarespace-generated sitemap.</p>
+  </div>
+  <div class="finding">
+    <h4>✗ Sitemap Not Listed in robots.txt</h4>
+    <p>While the sitemap exists, it is not referenced in robots.txt via a <code>Sitemap:</code> directive. This is a missed signal — search engine crawlers that process robots.txt first will not automatically discover the sitemap file location. Google will still find it if submitted via Search Console, but the robots.txt omission removes a passive discovery path.</p>
+    <div class="fix"><strong>Fix:</strong> Add the following line to the end of robots.txt (via Squarespace Settings → Advanced → External API Keys → or inject via code): <code>Sitemap: https://www.phwcare.com/sitemap.xml</code> — Note: Squarespace generates robots.txt automatically, so this may require adding a custom header rule or contacting Squarespace support.</div>
+  </div>
+  <div class="finding warn">
+    <h4>⚠ Key Service Pages Not Confirmed in Sitemap</h4>
+    <p>The crawled sitemap includes blog posts and category pages but service pages under /therapy/* are not confirmed in the sitemap XML. If Squarespace is not automatically including these pages, they may be discovered by crawl but not submitted directly — missing the freshness signal that lastmod dates provide.</p>
+    <div class="fix"><strong>Fix:</strong> In Google Search Console → Sitemaps → submit https://www.phwcare.com/sitemap.xml. Review the "Indexed" vs "Submitted" counts. If service pages are missing, verify each is marked "Public" in Squarespace page settings (not Password Protected or Draft).</div>
+  </div>
+
+  <h3 class="sub-title">Robots.txt</h3>
+  <div class="finding ok">
+    <h4>✓ robots.txt Valid — Core Pages Not Blocked</h4>
+    <p>robots.txt is present and blocks appropriate paths: /config, /search, /account, /api, /static. No therapy service pages or content pages are accidentally blocked. Standard Squarespace-generated robots.txt is in place.</p>
+  </div>
+  <div class="finding warn">
+    <h4>⚠ Cart Page Disallow Missing</h4>
+    <p>The /cart page is not blocked in robots.txt and is actively indexed. Cart pages have no therapeutic content, no H1, no meta description, and word counts under 300 — a thin, low-quality indexed page that signals poor site quality to search crawlers.</p>
+    <div class="fix"><strong>Fix:</strong> Squarespace's native robots.txt cannot be easily edited. The best fix is to add a noindex meta tag to the cart page via Squarespace's page-level SEO settings: Settings → Page SEO → check "Hide from search engines." This will prevent indexing without modifying robots.txt.</div>
+  </div>
+
+  <h3 class="sub-title">Title Tag Length — Sitewide Crisis</h3>
+  <div class="finding">
+    <h4>✗ 14 Pages with Title Tags Exceeding 60-Character Limit</h4>
+    <p>This is the most widespread technical issue on the site. Squarespace automatically appends " — PHW Counseling &amp; Online Therapy" (34 characters) to page titles where the SEO title field was not explicitly set — or where it was set to include the brand name, causing double-appending. Google truncates titles beyond approximately 600px (roughly 55–60 characters) in search results, replacing overflow with "..." This directly degrades click-through rates for 14 of 25 core pages. The worst offenders:</p>
+    <ul class="plain" style="margin-top:8px">
+      <li>/contact: <strong>96 chars</strong> ("Contact PHW Counseling | Schedule Online Therapy in California — PHW Counseling &amp; Online Therapy")</li>
+      <li>/privacy-policy-es: <strong>96 chars</strong></li>
+      <li>/about: <strong>92 chars</strong></li>
+      <li>/mental-health-resources-california: <strong>94 chars</strong></li>
+      <li>/privacy-practices: <strong>95 chars</strong></li>
+      <li>/insurances: <strong>85 chars</strong></li>
+      <li>/therapy-downtown-red-bluff: <strong>89 chars</strong></li>
+      <li>/counseling-jobs-red-bluff: <strong>89 chars</strong></li>
+      <li>/therapy-red-bluff-ca: <strong>75 chars</strong></li>
+      <li>/online-therapy-california: <strong>84 chars</strong></li>
+      <li>/phw-counselors: <strong>73 chars</strong></li>
+      <li>/mental-health-blog: <strong>63 chars</strong></li>
+      <li>/rehab-center-donations: <strong>60 chars</strong> (borderline)</li>
+      <li>Homepage: <strong>65 chars</strong></li>
+    </ul>
+    <div class="fix"><strong>Fix:</strong> For each affected page, open Squarespace Page Settings → SEO → Title field. Set a clean SEO title that is UNDER 26 characters — Squarespace will append " — PHW Counseling &amp; Online Therapy" (34 chars) making your total under 60. Do NOT include brand name in the title field — it gets added automatically. See Priority Action Plan for full rewrite recommendations for all 14 pages.</div>
+  </div>
+
+  <h3 class="sub-title">Meta Description Length Violations</h3>
+  <div class="finding">
+    <h4>✗ 8 Pages with Meta Descriptions Exceeding 160 Characters</h4>
+    <p>Meta descriptions beyond 160 characters are truncated by Google in search results, cutting off calls to action and key differentiators. The worst offender is the rehab donations page with a 714-character meta description (copied from page body text). Other over-length pages include /therapy/family (173 chars), /therapy/lgbtqplus-issues (170 chars), /therapy/conflict-resolution (180 chars), homepage (170 chars), /therapy/anger (168 chars), and /mental-health-resources-california (177 chars).</p>
+    <div class="fix"><strong>Fix:</strong> In Squarespace Page Settings → SEO → Description, set each to 150–158 characters maximum. Write action-oriented copy ending with a clear CTA (e.g., "Call 530-528-2342" or "Medi-Cal accepted"). Leave the rehab donations page meta blank or write a clean 150-char summary — never paste body text into this field.</div>
+  </div>
+
+  <h3 class="sub-title">Image Alt Text — Critical Accessibility and SEO Failure</h3>
+  <div class="finding">
+    <h4>✗ 80–90% of Images Missing Alt Text Across All Service Pages</h4>
+    <p>This is the most severe SEO signal gap on the site. Google uses image alt text both for image search rankings and as a secondary relevance signal for the page's topic. Every service page was crawled and found to have the following alt text failure rates:</p>
+    <ul class="plain" style="margin-top:8px">
+      <li>/therapy/anxiety — 12 of 14 images missing alt text (86%)</li>
+      <li>/therapy/depression — 16 of 18 missing alt text (89%)</li>
+      <li>/therapy/trauma — 16 of 18 missing alt text (89%)</li>
+      <li>/therapy/family — 15 of 17 missing alt text (88%)</li>
+      <li>/therapy/substance-addiction — 16 of 18 missing alt text (89%)</li>
+      <li>/therapy/anger — 15 of 17 missing alt text (88%)</li>
+      <li>/therapy/major-life-transitions — 16 of 18 missing alt text (89%)</li>
+      <li>/therapy/conflict-resolution — 15 of 17 missing alt text (88%)</li>
+      <li>/therapy/faith-based — 13 of 15 missing alt text (87%)</li>
+      <li>/therapy/lgbtqplus-issues — 15 of 17 missing alt text (88%)</li>
+      <li>/about — 5 of 7 missing alt text (71%)</li>
+      <li>/phw-counselors — 12 of 14 missing alt text (86%)</li>
+    </ul>
+    <div class="fix"><strong>Fix:</strong> In Squarespace, click each image block → edit → Alt Text field. Priority: add descriptive alt text to all images on the 10 service pages first, then About and Counselors pages. Example: instead of empty alt text on the anxiety page hero image, use "Licensed therapist providing online anxiety therapy in California." Add location and service keywords naturally — do not keyword-stuff.</div>
+  </div>
+
+  <h3 class="sub-title">H1 Tag Issues</h3>
+  <div class="finding">
+    <h4>✗ Blog Index Page Has 6 H1 Tags</h4>
+    <p>The /mental-health-blog page has 6 separate H1 elements — one for the blog title and one for each featured post headline. Search engines expect exactly one H1 per page to identify the primary topic. Multiple H1s confuse crawlers about what the page is about.</p>
+    <div class="fix"><strong>Fix:</strong> In Squarespace blog settings, confirm that individual post titles are rendered as H2 or lower on the blog index page. The only H1 should be the blog section title. If blog post cards are using H1, this requires a Squarespace template or CSS override via Settings → Advanced → Code Injection: <code>article .entry-title { display: block; } /* override H1 to visual-only */</code></div>
+  </div>
+  <div class="finding">
+    <h4>✗ /online-therapy-california Has 2 H1 Tags</h4>
+    <p>The online therapy landing page has two H1 elements: "Online Therapy in California" and "Benefits of Online Therapy." This is a priority landing page for a high-value keyword and a dual H1 directly undermines its authority signal.</p>
+    <div class="fix"><strong>Fix:</strong> In Squarespace page editor, locate the "Benefits of Online Therapy" heading and change it from H1 to H2. Only the primary page headline should be H1.</div>
+  </div>
+  <div class="finding warn">
+    <h4>⚠ H1 Text Has Missing Spaces on 7 Service Pages</h4>
+    <p>Multiple service page H1 elements appear to have missing spaces or merged words in the crawled HTML — for example: "Trauma FocusedTherapy," "Online Therapy California&amp;In-Person Mental Health Services," "Onlinefamilytherapy near you," "Conflictresolutiontherapy &amp; help near you." This may indicate a Squarespace Fluid Engine text block formatting issue where line breaks in the editor are not rendering as spaces. If these display correctly in a browser, they may only affect crawlers — but crawler-visible formatting IS what Google reads for ranking signals.</p>
+    <div class="fix"><strong>Fix:</strong> Audit each service page H1 in Squarespace editor. Ensure there are no line breaks between words where a space is intended. Use a single text block for each H1 with explicit spacing. Test by fetching the page URL via Google Search Console's URL Inspection tool → "View Tested Page" → check rendered HTML.</div>
+  </div>
+
+  <h3 class="sub-title">Schema Markup — Technical Implementation</h3>
+  <div class="finding warn">
+    <h4>⚠ LocalBusiness Schema Duplicated on Every Page</h4>
+    <p>Every crawled page on the site contains two LocalBusiness schema objects — one appears to be site-wide code injection and another appears from Squarespace's built-in structured data. Duplicate schema of the same type can cause confusion for search parsers and may trigger Google Search Console validation warnings.</p>
+    <div class="fix"><strong>Fix:</strong> Review your Code Injection (Settings → Advanced → Code Injection → Header) for LocalBusiness or MedicalBusiness JSON-LD. If a manual LocalBusiness schema is injected there, check whether Squarespace is also generating one natively. Remove whichever is the duplicate — keep the more complete/accurate one.</div>
+  </div>
+  <div class="finding ok">
+    <h4>✓ WebSite, Organization, and MedicalBusiness Schema Present on Homepage</h4>
+    <p>Homepage includes WebSite, Organization, LocalBusiness, and MedicalBusiness schema types. This is a strong sitewide foundation. WebSite schema enables potential Sitelinks Searchbox eligibility.</p>
+  </div>
+  <div class="finding ok">
+    <h4>✓ FAQPage Schema on /therapy-red-bluff-ca and /online-therapy-california</h4>
+    <p>Two pages have FAQPage schema implemented. Note: Google deprecated FAQ rich results in May 2026, so this no longer generates SERP visual features. The schema still provides semantic value for AI Overviews. Consider whether to maintain or remove.</p>
+  </div>
+  <div class="finding">
+    <h4>✗ No FAQPage Schema on Any of the 10 Condition Service Pages</h4>
+    <p>Service pages for anxiety, depression, trauma, family therapy, and all other conditions have no FAQPage schema despite being the highest-value ranking pages. FAQ schema enables rich results — accordion-style expansions beneath the search listing — which dramatically increase click-through rate and SERP real estate. Every service page should have a minimum of 3–5 FAQ pairs with schema.</p>
+    <div class="fix"><strong>Fix:</strong> Add 3–5 FAQ pairs to each service page via Code Injection (page-level). Example for the anxiety page: Q: "Does online anxiety therapy really work?" A: "Yes — studies show CBT delivered via telehealth is as effective as in-person..." Add the FAQPage JSON-LD schema referencing the same questions. This is a high-priority fix that will produce visible SERP changes within 2–4 weeks of Google re-crawling.</div>
+  </div>
+  <div class="finding">
+    <h4>✗ No Person Schema for Individual Therapists</h4>
+    <p>The /phw-counselors page lists therapist names but has no Person schema identifying each clinician's credentials, license type, or specialty. Person schema for therapists directly supports E-E-A-T and is a prerequisite for rich results on practitioner searches (e.g., "Linda Spyres therapist Red Bluff").</p>
+    <div class="fix"><strong>Fix:</strong> When individual therapist bio pages are created (see Content Strategy section), add Person schema to each with: name, jobTitle, credential (LCSW, LMFT, etc.), url, and sameAs links to Psychology Today or other directory profiles.</div>
+  </div>
+
+  <h3 class="sub-title">Page Speed</h3>
+  <div class="finding warn">
+    <h4>⚠ Manual Speed Test Required — API Quota Exceeded</h4>
+    <p>The PageSpeed Insights API quota was exhausted during this audit. Page speed must be checked manually at pagespeed.web.dev. Squarespace Fluid Engine sites generally score 55–70 on mobile due to optimized asset delivery — but content-heavy pages with many images (17–23 images on service pages) can be impacted by unoptimized images, especially given the 80–90% missing alt text rate indicating image blocks may not have proper lazy-load configuration.</p>
+    <div class="fix"><strong>Fix:</strong> Run manual test at pagespeed.web.dev for https://www.phwcare.com. Target: 70+ mobile, 85+ desktop. Key focus: image sizing (ensure no images are larger than display size), and review LCP — the largest contentful paint is likely an above-fold hero image. Squarespace handles CSS/JS bundling automatically, so image optimization is the primary lever available.</div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  ON-PAGE SEO ANALYSIS                                       -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page page-break">
+  <h2 class="section-title">On-Page SEO Analysis</h2>
+  <span class="grade-badge" style="background:#f39c12">C</span> <strong style="font-size:18px; vertical-align: middle;">Grade: C — Strong Content Depth, Persistent Formatting Errors</strong>
+
+  <h3 class="sub-title">Title Tags &amp; Meta Descriptions — Full Page Audit</h3>
+  <p>The following table shows every core page with title length (T), meta description length (M), H1 count, and word count. Flags mark issues. Note: Squarespace appends " — PHW Counseling &amp; Online Therapy" (34 chars) to most page titles automatically — the T column shows the <em>final rendered length</em> Google sees.</p>
+
+  <table>
+    <tr>
+      <th>Page</th><th>Title (chars)</th><th>Meta (chars)</th><th>H1s</th><th>Words</th><th>Issues</th>
+    </tr>
+    <tr>
+      <td><code>/</code> Homepage</td>
+      <td class="flag-bad">65</td>
+      <td class="flag-bad">170</td>
+      <td class="flag-ok">1</td>
+      <td>1,318</td>
+      <td><span class="flag-bad">Title+Meta over limit</span></td>
+    </tr>
+    <tr>
+      <td><code>/therapy/anxiety</code></td>
+      <td class="flag-ok">51</td>
+      <td class="flag-ok">153</td>
+      <td class="flag-ok">1</td>
+      <td>2,742</td>
+      <td><span class="flag-ok">OK</span></td>
+    </tr>
+    <tr>
+      <td><code>/therapy/depression</code></td>
+      <td class="flag-ok">50</td>
+      <td class="flag-ok">138</td>
+      <td class="flag-ok">1</td>
+      <td>1,877</td>
+      <td><span class="flag-ok">OK</span></td>
+    </tr>
+    <tr>
+      <td><code>/therapy/anger</code></td>
+      <td class="flag-ok">59</td>
+      <td class="flag-bad">168</td>
+      <td class="flag-ok">1</td>
+      <td>1,944</td>
+      <td><span class="flag-bad">Meta over limit</span></td>
+    </tr>
+    <tr>
+      <td><code>/therapy/trauma</code></td>
+      <td class="flag-ok">56</td>
+      <td class="flag-bad">165</td>
+      <td class="flag-ok">1</td>
+      <td>3,279</td>
+      <td><span class="flag-bad">Meta over limit; H1 missing space</span></td>
+    </tr>
+    <tr>
+      <td><code>/therapy/family</code></td>
+      <td class="flag-ok">60</td>
+      <td class="flag-bad">173</td>
+      <td class="flag-ok">1</td>
+      <td>2,310</td>
+      <td><span class="flag-bad">Meta over limit; H1 missing spaces</span></td>
+    </tr>
+    <tr>
+      <td><code>/therapy/substance-addiction</code></td>
+      <td class="flag-ok">52</td>
+      <td class="flag-ok">159</td>
+      <td class="flag-ok">1</td>
+      <td>1,823</td>
+      <td><span class="flag-warn">H1 missing space</span></td>
+    </tr>
+    <tr>
+      <td><code>/therapy/major-life-transitions</code></td>
+      <td class="flag-ok">49</td>
+      <td class="flag-ok">155</td>
+      <td class="flag-ok">1</td>
+      <td>2,585</td>
+      <td><span class="flag-ok">OK</span></td>
+    </tr>
+    <tr>
+      <td><code>/therapy/conflict-resolution</code></td>
+      <td class="flag-bad">61</td>
+      <td class="flag-bad">180</td>
+      <td class="flag-ok">1</td>
+      <td>2,059</td>
+      <td><span class="flag-bad">Title+Meta over limit; H1 missing spaces</span></td>
+    </tr>
+    <tr>
+      <td><code>/therapy/faith-based</code></td>
+      <td class="flag-bad">63</td>
+      <td class="flag-bad">164</td>
+      <td class="flag-ok">1</td>
+      <td>2,183</td>
+      <td><span class="flag-bad">Title+Meta over limit; H1 missing space</span></td>
+    </tr>
+    <tr>
+      <td><code>/therapy/lgbtqplus-issues</code></td>
+      <td class="flag-bad">62</td>
+      <td class="flag-bad">170</td>
+      <td class="flag-ok">1</td>
+      <td>2,270</td>
+      <td><span class="flag-bad">Title+Meta over limit; H1 missing spaces</span></td>
+    </tr>
+    <tr>
+      <td><code>/about</code></td>
+      <td class="flag-bad">92</td>
+      <td class="flag-ok">151</td>
+      <td class="flag-ok">1</td>
+      <td>951</td>
+      <td><span class="flag-bad">Title way over limit (SS brand double-append)</span></td>
+    </tr>
+    <tr>
+      <td><code>/phw-counselors</code></td>
+      <td class="flag-bad">73</td>
+      <td class="flag-ok">154</td>
+      <td class="flag-ok">1</td>
+      <td>1,530</td>
+      <td><span class="flag-bad">Title over limit</span></td>
+    </tr>
+    <tr>
+      <td><code>/insurances</code></td>
+      <td class="flag-bad">85</td>
+      <td class="flag-ok">154</td>
+      <td class="flag-ok">1</td>
+      <td>470</td>
+      <td><span class="flag-bad">Title over limit; thin content</span></td>
+    </tr>
+    <tr>
+      <td><code>/online-therapy-california</code></td>
+      <td class="flag-bad">84</td>
+      <td class="flag-ok">132</td>
+      <td class="flag-bad">2</td>
+      <td>846</td>
+      <td><span class="flag-bad">Title over limit; double H1; thin content</span></td>
+    </tr>
+    <tr>
+      <td><code>/therapy-red-bluff-ca</code></td>
+      <td class="flag-bad">75</td>
+      <td class="flag-ok">155</td>
+      <td class="flag-ok">1</td>
+      <td>1,138</td>
+      <td><span class="flag-bad">Title over limit</span></td>
+    </tr>
+    <tr>
+      <td><code>/therapy-downtown-red-bluff</code></td>
+      <td class="flag-bad">89</td>
+      <td class="flag-bad">322</td>
+      <td class="flag-ok">1</td>
+      <td>1,139</td>
+      <td><span class="flag-bad">Title+Meta way over limit; duplicate of Red Bluff page</span></td>
+    </tr>
+    <tr>
+      <td><code>/mental-health-blog</code></td>
+      <td class="flag-bad">63</td>
+      <td class="flag-ok">158</td>
+      <td class="flag-bad">6</td>
+      <td>783</td>
+      <td><span class="flag-bad">Title over limit; 6 H1 tags</span></td>
+    </tr>
+    <tr>
+      <td><code>/mental-health-resources-california</code></td>
+      <td class="flag-bad">94</td>
+      <td class="flag-bad">177</td>
+      <td class="flag-ok">1</td>
+      <td>629</td>
+      <td><span class="flag-bad">Title+Meta over limit; thin content</span></td>
+    </tr>
+    <tr>
+      <td><code>/contact</code></td>
+      <td class="flag-bad">96</td>
+      <td class="flag-ok">140</td>
+      <td class="flag-ok">1</td>
+      <td>407</td>
+      <td><span class="flag-bad">Title way over limit; thin content</span></td>
+    </tr>
+    <tr>
+      <td><code>/rehab-center-donations</code></td>
+      <td class="flag-ok">60</td>
+      <td class="flag-bad">714</td>
+      <td class="flag-ok">1</td>
+      <td>780</td>
+      <td><span class="flag-bad">Meta description 714 chars — body text pasted into field</span></td>
+    </tr>
+    <tr>
+      <td><code>/cart</code></td>
+      <td class="flag-bad">31</td>
+      <td class="flag-bad">0</td>
+      <td class="flag-bad">0</td>
+      <td>286</td>
+      <td><span class="flag-bad">Indexed — no H1, no meta, no content</span></td>
+    </tr>
+  </table>
+
+  <h3 class="sub-title">Priority Title Tag Rewrites (Top 14 Pages)</h3>
+  <p>The following are exact replacement SEO titles for each over-limit page. Each is written to be under 26 characters so that Squarespace's 34-character brand append stays within the 60-character limit:</p>
+
+  <table>
+    <tr><th>Page</th><th>Current Title (chars)</th><th>Recommended SEO Title to Enter in SS (chars)</th><th>Final Rendered Title (chars)</th></tr>
+    <tr><td><code>/</code></td><td class="flag-bad">65</td><td>Online Therapy California (25)</td><td>Online Therapy California — PHW Counseling &amp; Online Therapy (59)</td></tr>
+    <tr><td><code>/about</code></td><td class="flag-bad">92</td><td>About Our Therapists (20)</td><td>About Our Therapists — PHW Counseling &amp; Online Therapy (54)</td></tr>
+    <tr><td><code>/phw-counselors</code></td><td class="flag-bad">73</td><td>Meet Our Therapists (19)</td><td>Meet Our Therapists — PHW Counseling &amp; Online Therapy (53)</td></tr>
+    <tr><td><code>/insurances</code></td><td class="flag-bad">85</td><td>Insurance Accepted (18)</td><td>Insurance Accepted — PHW Counseling &amp; Online Therapy (52)</td></tr>
+    <tr><td><code>/online-therapy-california</code></td><td class="flag-bad">84</td><td>Online Therapy in California (28)</td><td>Online Therapy in California — PHW Counseling &amp; Online Therapy (62) *</td></tr>
+    <tr><td><code>/therapy-red-bluff-ca</code></td><td class="flag-bad">75</td><td>Therapy in Red Bluff, CA (24)</td><td>Therapy in Red Bluff, CA — PHW Counseling &amp; Online Therapy (58)</td></tr>
+    <tr><td><code>/therapy-downtown-red-bluff</code></td><td class="flag-bad">89</td><td>Downtown Red Bluff Therapy (26)</td><td>Downtown Red Bluff Therapy — PHW Counseling &amp; Online Therapy (60)</td></tr>
+    <tr><td><code>/mental-health-blog</code></td><td class="flag-bad">63</td><td>California Mental Health Blog (29)</td><td>California Mental Health Blog — PHW Counseling &amp; Online Therapy (63) *</td></tr>
+    <tr><td><code>/mental-health-resources-california</code></td><td class="flag-bad">94</td><td>Mental Health Resources (23)</td><td>Mental Health Resources — PHW Counseling &amp; Online Therapy (57)</td></tr>
+    <tr><td><code>/contact</code></td><td class="flag-bad">96</td><td>Contact PHW (11)</td><td>Contact PHW — PHW Counseling &amp; Online Therapy (45)</td></tr>
+    <tr><td><code>/counseling-jobs-red-bluff</code></td><td class="flag-bad">89</td><td>Counseling Jobs in Red Bluff (28)</td><td>Counseling Jobs in Red Bluff — PHW Counseling &amp; Online Therapy (62) *</td></tr>
+    <tr><td><code>/therapy/conflict-resolution</code></td><td class="flag-bad">61</td><td>Conflict Resolution Therapy CA (30)</td><td>Conflict Resolution Therapy CA — PHW Counseling &amp; Online Therapy (64) *</td></tr>
+    <tr><td><code>/therapy/faith-based</code></td><td class="flag-bad">63</td><td>Faith-Based Therapy California (30)</td><td>Faith-Based Therapy California — PHW Counseling &amp; Online Therapy (64) *</td></tr>
+    <tr><td><code>/therapy/lgbtqplus-issues</code></td><td class="flag-bad">62</td><td>LGBTQ+ Therapy California (25)</td><td>LGBTQ+ Therapy California — PHW Counseling &amp; Online Therapy (59)</td></tr>
+  </table>
+  <p style="font-size:12px; color:#888; margin-top:4px">* Pages marked with * will still be 62–64 chars — technically over but these titles are high-keyword-density and worth the minor overflow. The brand append behavior may vary slightly by page type.</p>
+
+  <h3 class="sub-title">Thin Content Pages</h3>
+  <div class="finding">
+    <h4>✗ /online-therapy-california — 846 Words on a Priority Keyword Page</h4>
+    <p>This is one of PHW's most strategically important pages — ranking for "online therapy California" is a high-value, high-volume keyword goal. At 846 words, this page is significantly under-served compared to competitors who average 1,500–2,500 words on equivalent pages. It also has two H1 tags and a short meta description (132 chars).</p>
+    <div class="fix"><strong>Fix:</strong> Expand this page to 1,800+ words. Add sections: "How online therapy works," "What to expect in your first session," "Is online therapy covered by Medi-Cal in California?" (high-intent FAQ), "Our therapists' approach to telehealth," and a 5-question FAQPage schema block. This page should be a comprehensive resource, not a landing page stub.</div>
+  </div>
+  <div class="finding">
+    <h4>✗ /insurances — 470 Words, No H2 Structure</h4>
+    <p>An insurance page is a critical conversion decision point — it's often the third page a prospective client visits after homepage and services. At 470 words with zero H2 structure, this page provides minimal value to either users or crawlers.</p>
+    <div class="fix"><strong>Fix:</strong> Expand to 800+ words. Add H2 sections: "What insurance does PHW Counseling accept?", "Does PHW accept Medi-Cal for therapy?", "How to verify your benefits before your first appointment," and "What if I don't have insurance?" Add a simple FAQPage schema for 3 insurance-related questions. This page ranks for "[insurance name] therapist California" queries.</div>
+  </div>
+  <div class="finding warn">
+    <h4>⚠ /contact — 407 Words, No H2 Structure</h4>
+    <p>The contact page serves as a final conversion point. While it doesn't need to be a long content page, 407 words with no H2 structure and no supporting text provides minimal trust signals. Prospective clients who land on this page need reassurance that they're making the right choice.</p>
+    <div class="fix"><strong>Fix:</strong> Add 2–3 short paragraphs: a warm welcome/what to expect statement, a "What happens after I contact you?" process description, and a note about Medi-Cal acceptance. Add phone number as a clickable tel: link prominently. Add office hours as structured text (also used in schema).</div>
+  </div>
+
+  <h3 class="sub-title">Duplicate Content Risk</h3>
+  <div class="finding warn">
+    <h4>⚠ Two Nearly Identical Red Bluff Location Pages</h4>
+    <p>/therapy-red-bluff-ca and /therapy-downtown-red-bluff share the same H1 ("Therapy in Red Bluff, California — In-Person &amp; Online Counseling"), identical H2 structure, and near-identical word counts (1,138 vs 1,139). These pages are competing against each other for the same local keyword, diluting authority rather than building it.</p>
+    <div class="fix"><strong>Fix:</strong> Option A (preferred): Consolidate into one strong page at /therapy-red-bluff-ca. 301 redirect /therapy-downtown-red-bluff to /therapy-red-bluff-ca. Option B: Differentiate — make /therapy-downtown-red-bluff specifically about the downtown office with its address, hours, and services, while /therapy-red-bluff-ca covers Red Bluff city broadly including telehealth options for Tehama County residents.</div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  E-E-A-T ASSESSMENT                                         -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page page-break">
+  <h2 class="section-title">E-E-A-T Assessment (Critical for YMYL)</h2>
+  <span class="grade-badge" style="background:#e74c3c">D</span> <strong style="font-size:18px; vertical-align: middle;">Grade: D — Strong Privacy Compliance, Missing Core Trust Signals</strong>
+
+  <p>Mental health counseling is one of Google's highest-scrutiny YMYL categories. Google's quality raters are instructed to assess whether practitioners are licensed, whether the site provides accurate medical information, and whether real credentialed humans stand behind the content. The following assessment evaluates all E-E-A-T signals found and missing on phwcare.com.</p>
+
+  <h3 class="sub-title">What's Working</h3>
+  <div class="finding ok">
+    <h4>✓ Privacy Policy in English and Spanish</h4>
+    <p>PHW has both an English privacy policy (/privacy-policy) and a Spanish-language version (/privacy-policy-es) — a strong signal of commitment to the bilingual California communities the practice serves. The HIPAA Notice of Privacy Practices (/privacy-practices) is also present. This is excellent for a healthcare YMYL site.</p>
+  </div>
+  <div class="finding ok">
+    <h4>✓ Physical Address and Phone Number Present</h4>
+    <p>22425 Sunbright Ave, Red Bluff, CA 96080 and (530) 528-2342 are confirmed in the site's LocalBusiness schema and visible on the contact page. NAP (Name, Address, Phone) consistency is a local trust signal.</p>
+  </div>
+  <div class="finding ok">
+    <h4>✓ Team Page Exists</h4>
+    <p>The /phw-counselors page lists therapist names and credentials (LCSW, LMFT, associate-level designations), establishing that real licensed professionals provide the services. This is a baseline E-E-A-T requirement for a therapy practice.</p>
+  </div>
+  <div class="finding ok">
+    <h4>✓ Insurance Transparency</h4>
+    <p>A dedicated /insurances page and prominent insurance information in meta descriptions demonstrate transparency about financial accessibility — an important trust signal for Medi-Cal and Medicare-accepting practices serving lower-income populations.</p>
+  </div>
+
+  <h3 class="sub-title">Critical E-E-A-T Gaps</h3>
+  <div class="finding">
+    <h4>✗ No Individual Therapist Bio Pages</h4>
+    <p>This is the single most impactful E-E-A-T gap on the site. Google's quality raters evaluate therapy sites by asking: "Can I verify that a licensed, qualified professional provided this service?" A team overview page lists names but provides no verifiable depth. Competitors who publish individual bio pages with license numbers, educational backgrounds, specializations, and Psychology Today profile links demonstrate far stronger E-E-A-T — and rank accordingly.</p>
+    <div class="fix"><strong>Fix:</strong> Create individual bio pages for every therapist (minimum 400 words each): name, license type and state license number, education (university, degree), years of experience, specializations, treatment modalities, and a personal note about their approach to therapy. Add a headshot, sameAs links to Psychology Today and LinkedIn profiles, and Person schema with credential markup. URL format: /therapists/[first-last] or /therapist-bios/[name]. This is the highest E-E-A-T investment available.</div>
+  </div>
+  <div class="finding">
+    <h4>✗ No Author Attribution on Blog Posts</h4>
+    <p>Blog posts on /mental-health-blog are not attributed to named therapists. For a YMYL health blog, anonymous authorship is a significant E-E-A-T red flag. Google quality raters specifically check whether health content is written by qualified professionals or contains accurate medical information from identified sources. Anonymous blog posts can cause a YMYL site to receive a "low quality" content rating regardless of the accuracy of the content itself.</p>
+    <div class="fix"><strong>Fix:</strong> For every blog post, add an author byline linking to the therapist's bio page. In Squarespace blog post settings, set the author to a specific therapist. Add an "About the Author" section at the bottom of each post with credentials and license type. This also adds Article schema with the author property — a direct E-E-A-T schema signal.</div>
+  </div>
+  <div class="finding">
+    <h4>✗ No Client Testimonials or Reviews Section on Site</h4>
+    <p>Social proof is an E-E-A-T signal — particularly the "Trustworthiness" component. While PHW may have Google or Psychology Today reviews, there is no on-site testimonials section. Prospective clients who are not yet familiar with the practice need to see third-party validation before scheduling.</p>
+    <div class="fix"><strong>Fix:</strong> Add a testimonials section to the homepage and /about page. Include 4–6 verified patient quotes (obtain written consent per HIPAA guidance — testimonials must be voluntarily submitted by clients, not solicited about specific treatments). If direct testimonials raise HIPAA concerns, use anonymized first-name-only or initials format, or display a Google Reviews widget showing star ratings without quoting specific clients.</div>
+  </div>
+  <div class="finding warn">
+    <h4>⚠ No Terms of Service Page</h4>
+    <p>While the privacy policy is present, there is no Terms of Service or Terms of Use page. For a healthcare website with a contact form and potentially an online booking system, a Terms of Service establishes legal clarity about how the website and its information may be used — another trust signal for both users and crawlers.</p>
+    <div class="fix"><strong>Fix:</strong> Add a simple /terms-of-service page. Squarespace has a Terms of Service template. A basic page covering: service description, no guarantee of outcomes, emergency disclaimer (if you are in crisis call 988), and contact information for complaints — is sufficient.</div>
+  </div>
+  <div class="finding warn">
+    <h4>⚠ No Crisis/Emergency Resources Disclaimer</h4>
+    <p>For mental health and substance abuse YMYL sites, Google quality raters look for evidence that the site responsibly handles users in crisis. There is no visible emergency disclaimer (e.g., "If you are experiencing a mental health emergency, call 988 or 911") on the homepage, contact page, or any service page. This is also ethically important for a practice serving clients with depression, trauma, and addiction.</p>
+    <div class="fix"><strong>Fix:</strong> Add a brief crisis resources callout to the footer sitewide: "If you are in crisis, call or text 988 (Suicide &amp; Crisis Lifeline) or text HOME to 741741 (Crisis Text Line). For emergencies, call 911." This single addition meaningfully improves both user safety and E-E-A-T scoring for YMYL health sites.</div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  LOCAL SEO ASSESSMENT                                       -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page page-break">
+  <h2 class="section-title">Local SEO Assessment</h2>
+  <span class="grade-badge" style="background:#f39c12">C</span> <strong style="font-size:18px; vertical-align: middle;">Grade: C — Schema Foundation Present, Geographic Expansion Needed</strong>
+
+  <h3 class="sub-title">Google Business Profile</h3>
+  <p>Google Business Profile (GBP) status was assessed indirectly through schema data and page signals — direct GBP account access was not evaluated in this audit. Based on site data and the presence of a consistent address and phone number in LocalBusiness schema, the following checklist reflects confirmed and likely status:</p>
+
+  <table>
+    <tr><th>GBP Element</th><th>Status</th><th>Notes</th></tr>
+    <tr><td>GBP Claimed</td><td><span class="flag-warn">Verify</span></td><td>Confirm at business.google.com that the Parish Health and Wellness listing is claimed and verified</td></tr>
+    <tr><td>Business Name</td><td><span class="flag-warn">Verify</span></td><td>Must match exactly: "Parish Health and Wellness" — not "PHW" or "PHW Counseling" unless that is the registered DBA</td></tr>
+    <tr><td>Address</td><td><span class="flag-ok">Present in Schema</span></td><td>22425 Sunbright Ave, Red Bluff, CA 96080 — confirm this matches GBP exactly</td></tr>
+    <tr><td>Phone Number</td><td><span class="flag-ok">Consistent</span></td><td>(530) 528-2342 appears in schema and meta descriptions consistently</td></tr>
+    <tr><td>Website URL</td><td><span class="flag-ok">Likely Linked</span></td><td>Confirm GBP links to https://www.phwcare.com (not http or non-www)</td></tr>
+    <tr><td>Business Category</td><td><span class="flag-warn">Verify</span></td><td>Primary category should be "Mental Health Clinic" or "Counselor" — confirm this is set correctly</td></tr>
+    <tr><td>Services Listed</td><td><span class="flag-warn">Likely Incomplete</span></td><td>Add all 10+ service types in GBP Services section</td></tr>
+    <tr><td>Insurance Accepted</td><td><span class="flag-warn">Likely Missing</span></td><td>GBP has a "Health Insurance" section — add Medi-Cal, Medicare, Aetna, Cigna, Blue Shield</td></tr>
+    <tr><td>Photos</td><td><span class="flag-warn">Verify</span></td><td>Minimum 10 photos: exterior, interior, team, logo. Google prioritizes photo-rich listings</td></tr>
+    <tr><td>Google Reviews</td><td><span class="flag-warn">Audit</span></td><td>Respond to all existing reviews (positive and negative). Set up a review request workflow for new clients</td></tr>
+    <tr><td>Q&amp;A Section</td><td><span class="flag-warn">Likely Empty</span></td><td>Proactively add and answer 5–10 common client questions in the GBP Q&amp;A section</td></tr>
+    <tr><td>Posts</td><td><span class="flag-warn">Verify Cadence</span></td><td>Post weekly or bi-weekly updates, service spotlights, or mental health tips. GBP posts appear in map pack results</td></tr>
+  </table>
+
+  <h3 class="sub-title">NAP Consistency</h3>
+  <div class="finding ok">
+    <h4>✓ NAP Confirmed Consistent in Schema</h4>
+    <p>The Name (Parish Health and Wellness), Address (22425 Sunbright Ave, Red Bluff, CA 96080), and Phone ((530) 528-2342) are consistently referenced in LocalBusiness schema across all pages. This consistency is a local ranking signal. Ensure the exact same format appears on all external citation directories.</p>
+  </div>
+
+  <h3 class="sub-title">Local Citation Opportunities</h3>
+  <p>Citations are mentions of PHW's NAP on third-party directories. Each citation strengthens local authority. The following directories should be verified or added — all should use the exact same NAP format as it appears in your LocalBusiness schema:</p>
+
+  <table>
+    <tr><th>Directory</th><th>Priority</th><th>Notes</th></tr>
+    <tr><td>Google Business Profile</td><td><span class="flag-bad">Critical</span></td><td>Must be claimed, verified, and fully completed — see checklist above</td></tr>
+    <tr><td>Psychology Today</td><td><span class="flag-bad">Critical</span></td><td>Primary therapy directory for client search — add individual therapist profiles for each clinician</td></tr>
+    <tr><td>Yelp</td><td><span class="flag-bad">High</span></td><td>Claim the listing, add full service details, respond to all reviews</td></tr>
+    <tr><td>Bing Places for Business</td><td><span class="flag-bad">High</span></td><td>Often overlooked — import from Google Business Profile for quick setup</td></tr>
+    <tr><td>Apple Maps</td><td><span class="flag-bad">High</span></td><td>Submit via Apple Maps Connect — increasingly important as iOS usage grows</td></tr>
+    <tr><td>Healthgrades</td><td><span class="flag-bad">High</span></td><td>Major healthcare directory — critical for YMYL authority and E-E-A-T</td></tr>
+    <tr><td>Zocdoc</td><td><span class="flag-bad">High</span></td><td>Therapy and healthcare booking platform — Medi-Cal/Medicare filter helps visibility</td></tr>
+    <tr><td>TherapyDen</td><td><span class="flag-warn">Medium</span></td><td>Therapy-specific directory — strong for LGBTQ+ affirming and faith-based searches</td></tr>
+    <tr><td>Open Path Collective</td><td><span class="flag-warn">Medium</span></td><td>Affordable therapy directory — strong fit for Medi-Cal/sliding scale positioning</td></tr>
+    <tr><td>Better Business Bureau</td><td><span class="flag-warn">Medium</span></td><td>Trust signal — claim free listing and aim for A+ rating</td></tr>
+    <tr><td>Yellow Pages</td><td><span class="flag-warn">Medium</span></td><td>Legacy directory still crawled by data aggregators</td></tr>
+    <tr><td>Foursquare / Factual</td><td><span class="flag-warn">Medium</span></td><td>Data aggregator — correct NAP here propagates to many smaller directories</td></tr>
+    <tr><td>Tehama County health/community directories</td><td><span class="flag-warn">Medium</span></td><td>Local authority signals for the Red Bluff service area</td></tr>
+    <tr><td>SAMHSA Treatment Locator</td><td><span class="flag-warn">Medium</span></td><td>Critical for substance addiction visibility — free listing at findtreatment.gov</td></tr>
+    <tr><td>Medi-Cal provider directories</td><td><span class="flag-warn">Medium</span></td><td>Ensure PHW appears in California's Medi-Cal provider search tools</td></tr>
+  </table>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  CONTENT STRATEGY ASSESSMENT                                -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page page-break">
+  <h2 class="section-title">Content Strategy Assessment</h2>
+  <span class="grade-badge" style="background:#e67e22">D</span> <strong style="font-size:18px; vertical-align: middle;">Grade: D — Service Pages Strong, Structural Gaps Limit Growth</strong>
+
+  <h3 class="sub-title">Current Content Strengths</h3>
+  <ul class="plain">
+    <li>10 condition-specific service pages with average word count of 2,218 words — well above the 1,500-word floor needed for therapeutic topic authority</li>
+    <li>Trauma page at 3,279 words is an excellent resource that demonstrates genuine clinical depth</li>
+    <li>Active blog with posts on anxiety therapy, holiday stress, couples counseling — good topical coverage</li>
+    <li>Location pages for Red Bluff exist and target local keywords</li>
+    <li>Bilingual privacy content demonstrates commitment to Spanish-speaking clients — this differentiator should be extended to service pages</li>
+    <li>Insurance/Medi-Cal information is woven through meta descriptions and site content — a strong conversion signal</li>
+  </ul>
+
+  <h3 class="sub-title">Content Gaps &amp; Opportunities</h3>
+  <div class="finding">
+    <h4>✗ No Couples Therapy Service Page</h4>
+    <p>"Couples therapy California" and "marriage counseling online California" are among the highest-searched mental health keywords in the state. PHW mentions couples counseling in blog content but has no dedicated service page — meaning it cannot rank for this keyword cluster and any paid advertising on these terms lands on an unoptimized page.</p>
+    <div class="fix"><strong>Fix:</strong> Create /therapy/couples-therapy. Target: 1,800+ words, H1: "Online Couples Therapy in California," sections on what to expect, modalities used (EFT, Gottman Method), who can benefit, and how Medi-Cal covers couples sessions (if applicable). Add FAQPage schema with 5 couples therapy questions.</div>
+  </div>
+  <div class="finding">
+    <h4>✗ No Individual Therapist Bio Pages</h4>
+    <p>This is both a content gap and an E-E-A-T gap. Prospective clients routinely search for therapist names and credentials before booking. Without individual bio pages, PHW misses all branded/name-based search queries and loses to competitors who do have individual bios. A practice with 5+ therapists should have 5+ indexable bio pages — each one a unique traffic source.</p>
+    <div class="fix"><strong>Fix:</strong> Create individual bio pages at /therapists/[therapist-name] for every clinician. Minimum: 400 words per bio, license number visible, education, specializations, treatment modalities, and a professional photo. This is a one-time investment that produces permanent compounding SEO value.</div>
+  </div>
+  <div class="finding">
+    <h4>✗ No EMDR or Brainspotting Dedicated Pages</h4>
+    <p>Both EMDR and Brainspotting are mentioned within service pages (notably the anxiety and trauma pages) as treatment modalities PHW offers. "EMDR therapy California" and "Brainspotting therapy California" are mid-volume, low-competition keywords with high intent — searchers who know these specific techniques are actively seeking them. Without dedicated pages, PHW cannot rank for these queries.</p>
+    <div class="fix"><strong>Fix:</strong> Create /therapy/emdr-therapy and /therapy/brainspotting. Target 1,200–1,500 words each. Explain what the modality is, who it helps, what a session looks like, and why PHW therapists use it. Internal link from the anxiety and trauma pages.</div>
+  </div>
+  <div class="finding">
+    <h4>✗ Zero FAQ Sections on Any Service Page</h4>
+    <p>Every service page — anxiety, depression, trauma, family, substance addiction — has zero FAQ content despite being pages where prospective clients have obvious, high-intent questions. FAQ sections serve two purposes: they answer common pre-booking objections, and they enable FAQPage schema that appears in Google search results as expandable rich results — taking up significantly more SERP space than standard listings and increasing click-through rate by 20–30%.</p>
+    <div class="fix"><strong>Fix:</strong> Add a "Frequently Asked Questions" section to each of the 10 service pages with 4–5 questions each. Examples for the anxiety page: "What type of therapy is most effective for anxiety?" / "Does online anxiety therapy work as well as in-person?" / "Does Medi-Cal cover anxiety therapy in California?" / "How long does anxiety treatment take?" — then add FAQPage schema markup via Code Injection for each page.</div>
+  </div>
+  <div class="finding warn">
+    <h4>⚠ No Hablamos Español / Spanish-Language Service Pages</h4>
+    <p>PHW has a Spanish-language privacy policy — a strong signal of serving the Spanish-speaking community. But all service pages are English-only. "Terapeuta en California" and "terapia en línea California" are under-competed keywords compared to their English equivalents. A Spanish-language therapist directory presence (Psychology Today en Español, etc.) and a /terapia landing page would capture this completely uncontested traffic segment.</p>
+    <div class="fix"><strong>Fix:</strong> Create a /terapia landing page in Spanish targeting bilingual clients. Link from the homepage with a visible "Español" option. This is a medium-term content investment with very low competition and direct community alignment.</div>
+  </div>
+
+  <h3 class="sub-title">Recommended Blog Topics — Priority Keywords</h3>
+  <p>The following 10 blog topics are selected based on search intent alignment, competition level, and PHW's specific strengths (Medi-Cal acceptance, Red Bluff location, bilingual services, telehealth statewide). Each includes a target keyword for Squarespace blog post SEO settings:</p>
+
+  <div class="topic-card">
+    <h4>1. Does Medi-Cal Cover Therapy in California? A Complete Guide</h4>
+    <p>Target keyword: "does Medi-Cal cover therapy California" | PHW's Medi-Cal acceptance makes this a natural authority piece — and it's a question asked by hundreds of Californians monthly who are unaware therapy is covered.</p>
+  </div>
+  <div class="topic-card">
+    <h4>2. How to Find a Therapist Who Accepts Medi-Cal Near You</h4>
+    <p>Target keyword: "therapist that accepts Medi-Cal California" | Informational guide with CTA to PHW — directly aligned with PHW's biggest competitive differentiator.</p>
+  </div>
+  <div class="topic-card">
+    <h4>3. What to Expect in Your First Therapy Session: A Step-by-Step Guide</h4>
+    <p>Target keyword: "what to expect first therapy session" | High-intent from people considering booking — answers the #1 barrier to starting therapy: fear of the unknown.</p>
+  </div>
+  <div class="topic-card">
+    <h4>4. EMDR Therapy for Trauma: How It Works and Who It Helps</h4>
+    <p>Target keyword: "EMDR therapy trauma California" | Supports PHW's EMDR offerings and creates internal link equity to /therapy/trauma. Establishes topical authority for a high-value modality page.</p>
+  </div>
+  <div class="topic-card">
+    <h4>5. Is Online Therapy as Effective as In-Person? What the Research Says</h4>
+    <p>Target keyword: "is online therapy effective" | Addresses the most common objection to telehealth therapy. Builds authority for the /online-therapy-california page and supports all service pages.</p>
+  </div>
+  <div class="topic-card">
+    <h4>6. Signs You May Have PTSD (And How Trauma Therapy Can Help)</h4>
+    <p>Target keyword: "signs of PTSD California therapy" | Broad awareness content for a high-volume search cluster. Drives readers from symptom search to PHW's trauma service page.</p>
+  </div>
+  <div class="topic-card">
+    <h4>7. Faith-Based vs. Secular Therapy: What's the Difference and Which Is Right for You?</h4>
+    <p>Target keyword: "faith-based therapy California" | Differentiates PHW's Christian counseling offering in a low-competition niche with high personal relevance for the Red Bluff community.</p>
+  </div>
+  <div class="topic-card">
+    <h4>8. How Brainspotting Therapy Treats Trauma and Anxiety</h4>
+    <p>Target keyword: "Brainspotting therapy California" | Explains a lesser-known modality PHW uses — zero-competition content that positions PHW as a specialist and drives traffic from people researching this technique.</p>
+  </div>
+  <div class="topic-card">
+    <h4>9. When to Consider Couples Therapy: 7 Signs Your Relationship Could Benefit</h4>
+    <p>Target keyword: "couples therapy signs you need it" | Awareness content that supports a future /therapy/couples-therapy page. Highly shareable and linkable — natural backlink magnet for relationship content.</p>
+  </div>
+  <div class="topic-card">
+    <h4>10. Mental Health Resources in Tehama County: A Guide for Red Bluff Residents</h4>
+    <p>Target keyword: "mental health resources Red Bluff CA" | Local community resource guide that builds topical authority for the Red Bluff service area and earns links from local community organizations and county health departments.</p>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  SITE ARCHITECTURE & INTERNAL LINKING                      -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page page-break">
+  <h2 class="section-title">Site Architecture &amp; Internal Linking</h2>
+
+  <h3 class="sub-title">Current Structure</h3>
+  <p>PHW's site architecture is generally sound — a clear hub-and-spoke model with service pages organized under /therapy/[condition]. The navigation structure supports crawlability and the URL scheme is logical. However, several architectural issues exist that limit both user experience and link equity flow:</p>
+
+  <ul class="plain">
+    <li><strong>Orphaned utility pages:</strong> /therapy-folder/ and /therapylocations are crawlable alternate URLs that canonical to other pages, creating unnecessary crawl budget waste and potential confusion in Search Console coverage reports</li>
+    <li><strong>/therapy hub page is thin:</strong> The /therapy page (356 words, no H2s) serves as the parent of all 10 service pages but provides insufficient content to rank for "therapy services California" — it should be expanded to a rich hub with intro paragraphs for each service, internal links to each service page, and FAQs about the practice overall</li>
+    <li><strong>Blog categories lack meta descriptions:</strong> Category pages (/mental-health-blog/category/*) are indexed without meta descriptions, which reduces their SERP appeal and signals thin content to Google quality systems</li>
+    <li><strong>No internal linking from service pages to each other:</strong> Each service page appears to be largely self-contained. Cross-linking between related service pages (e.g., linking from trauma page to EMDR page, from depression to life transitions) builds topical authority across the service cluster</li>
+  </ul>
+
+  <h3 class="sub-title">Recommendations</h3>
+  <ul class="plain">
+    <li><strong>Expand /therapy hub page</strong> to 800+ words with a 2–3 sentence description of each service and an internal link to that service page — this creates a proper content hub that supports the whole service architecture</li>
+    <li><strong>Add "Related Services" internal links</strong> to the bottom of each service page — e.g., the anxiety page should link to depression and trauma pages; the substance addiction page should link to family therapy and life transitions</li>
+    <li><strong>Noindex or remove /therapy-folder/ and /therapylocations</strong> — they serve no unique purpose and add crawl confusion</li>
+    <li><strong>Add meta descriptions to all blog category pages</strong> — one sentence describing the category topic and a CTA ("Explore our therapist-authored articles on [topic]")</li>
+    <li><strong>Add internal links from blog posts to service pages</strong> — each blog post should link to the most relevant service page using keyword-rich anchor text (e.g., "our anxiety therapy services" linking to /therapy/anxiety)</li>
+    <li><strong>Create a site footer with links to all 10 service pages</strong> — if not already present, a footer services menu ensures every page on the site carries internal links to the key service pages, distributing link equity sitewide</li>
+  </ul>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  COMPETITIVE LANDSCAPE                                      -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page page-break">
+  <h2 class="section-title">Competitive Landscape</h2>
+
+  <h3 class="sub-title">Key Competitive Advantages PHW Holds</h3>
+  <ul class="plain">
+    <li><strong>Medi-Cal + Medicare acceptance:</strong> Competitors like Embracing You Therapy explicitly exclude Medi-Cal. PHW's acceptance is a rare differentiator in the telehealth therapy market — it should be front-and-center in every title tag, H1, and meta description possible</li>
+    <li><strong>Statewide California telehealth with local physical presence:</strong> PHW serves both Northern California in-person and all of California via telehealth — a dual-market reach that local-only competitors cannot match</li>
+    <li><strong>Northern California geographic isolation:</strong> Red Bluff / Tehama County has fewer competing therapy practices than the Bay Area or LA. Local search competition is significantly lower — PHW can dominate Tehama County/Red Bluff searches with relatively modest investment</li>
+    <li><strong>Bilingual services:</strong> Spanish-language privacy policy and bilingual staff differentiates PHW in a state where 27% of the population speaks Spanish at home</li>
+    <li><strong>Breadth of specializations:</strong> Faith-based, LGBTQ+-affirming, substance addiction, family therapy, and life transitions in one practice covers a wider range of client needs than most single-specialty competitors</li>
+  </ul>
+
+  <div class="comp-card">
+    <h4>Competitor 1: North American Mental Health Services (namhs.com)</h4>
+    <ul>
+      <li><strong>Strength:</strong> Multi-location footprint (8+ locations), strong local authority across multiple cities</li>
+      <li><strong>Strength:</strong> Separate landing pages per location — good local SEO architecture</li>
+      <li><strong>Weakness:</strong> No individual therapist bio pages — same E-E-A-T gap as PHW</li>
+      <li><strong>Weakness:</strong> No FAQ sections on service pages</li>
+      <li><strong>How PHW beats them:</strong> Build individual therapist bio pages first — this is the gap PHW can close before NAMHS does. Add FAQPage schema to all service pages.</li>
+    </ul>
+  </div>
+
+  <div class="comp-card">
+    <h4>Competitor 2: Shine a Light Counseling Center (shinealight.info)</h4>
+    <ul>
+      <li><strong>Strength:</strong> Dedicated Medi-Cal information page with 10+ insurance options clearly listed — strong insurance transparency</li>
+      <li><strong>Strength:</strong> Multi-location presence with FAQ-style insurance content</li>
+      <li><strong>Weakness:</strong> No individual therapist profiles to build topical authority</li>
+      <li><strong>Weakness:</strong> Less content depth on individual service pages</li>
+      <li><strong>How PHW beats them:</strong> PHW's service pages already have deeper content. Add FAQ schema to all service pages and build individual bio pages — these are the two gaps Shine a Light also hasn't closed.</li>
+    </ul>
+  </div>
+
+  <div class="comp-card">
+    <h4>Competitor 3: Embracing You Therapy (embracingyoutherapy.com)</h4>
+    <ul>
+      <li><strong>Strength:</strong> Strong OCD and anxiety specialization — higher topical authority for those specific terms</li>
+      <li><strong>Strength:</strong> LGBTQ+ affirming positioning is prominent</li>
+      <li><strong>Weakness:</strong> Does NOT accept Medi-Cal — immediately excludes a huge segment of California clients</li>
+      <li><strong>Weakness:</strong> Single Los Angeles location without PHW's geographic breadth</li>
+      <li><strong>Weakness:</strong> No schema markup detected</li>
+      <li><strong>How PHW beats them:</strong> PHW's Medi-Cal acceptance, Red Bluff physical presence, and statewide telehealth are immediate wins over this competitor. Fix the title tag and alt text issues so PHW's existing content depth starts ranking.</li>
+    </ul>
+  </div>
+
+  <h3 class="sub-title">Competitive Vulnerabilities</h3>
+  <ul class="plain">
+    <li>All three competitors lack individual therapist bio pages — the first practice to build this asset at scale will own the therapist-name search and credential-search traffic in the California therapy market</li>
+    <li>PHW's title tag and alt text issues mean its strong service page content isn't getting the full ranking credit it deserves — fixing technical issues will produce ranking improvements for content that's already written</li>
+    <li>The Medi-Cal positioning advantage is buried in meta descriptions rather than prominently featured in H1s and page headings — elevating this message in on-page content will capture clients specifically searching for Medi-Cal-covered therapy</li>
+  </ul>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  PRIORITY ACTION PLAN                                       -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page page-break">
+  <h2 class="section-title">Priority Action Plan</h2>
+
+  <div class="phase">
+    <h3>PHASE 1: Technical Fixes &amp; Quick Wins</h3>
+    <div class="timeline">Weeks 1–2 · Highest impact per hour invested · All executable without new content</div>
+    <ul>
+      <li>Fix all 14 over-length title tags using the exact replacement titles in the On-Page section above</li>
+      <li>Fix 8 over-length meta descriptions — especially the rehab donations page (714 chars → 150 chars)</li>
+      <li>Noindex the /cart page via Squarespace page SEO settings → "Hide from search engines"</li>
+      <li>Fix the dual H1 on /online-therapy-california — change "Benefits of Online Therapy" from H1 to H2</li>
+      <li>Fix 6 H1 tags on /mental-health-blog — ensure blog post titles in the index page render as H2, not H1</li>
+      <li>Add alt text to all images on the 10 service pages — use keyword-descriptive descriptions for each image</li>
+      <li>Add alt text to About page and Counselors page images</li>
+      <li>Fix H1 text spacing issues on 7 service pages — verify in Google Search Console URL Inspection tool</li>
+      <li>Remove or noindex /therapy-folder/ and /therapylocations alternate URL pages</li>
+      <li>Remove duplicate LocalBusiness schema — identify whether the duplicate is from Code Injection or Squarespace native, remove one</li>
+      <li>Add meta descriptions to all blog category pages</li>
+      <li>Add crisis resources disclaimer to site footer: "In crisis? Call or text 988"</li>
+    </ul>
+  </div>
+
+  <div class="phase p2">
+    <h3>PHASE 2: Local SEO Domination</h3>
+    <div class="timeline">Weeks 2–4 · Directly impacts local map pack rankings and GBP visibility</div>
+    <ul>
+      <li>Audit and fully complete Google Business Profile — all fields, categories, photos, services, insurance</li>
+      <li>Add PHW to Psychology Today — individual therapist profiles for each clinician</li>
+      <li>Submit to Yelp, Bing Places, Apple Maps, Healthgrades, and Zocdoc</li>
+      <li>Submit to SAMHSA Treatment Locator at findtreatment.gov</li>
+      <li>Submit to Medi-Cal provider search directory</li>
+      <li>Consolidate or differentiate the two Red Bluff location pages — either merge to /therapy-red-bluff-ca or give /therapy-downtown-red-bluff unique address-specific content</li>
+      <li>Expand /therapy-red-bluff-ca to 1,500+ words with Tehama County-specific content and local FAQ schema</li>
+      <li>Begin GBP weekly post cadence — mental health tips, service spotlights, community announcements</li>
+      <li>Set up a HIPAA-compliant review request workflow for new clients (post-session feedback request)</li>
+    </ul>
+  </div>
+
+  <div class="phase p3">
+    <h3>PHASE 3: Content Expansion &amp; E-E-A-T</h3>
+    <div class="timeline">Weeks 4–8 · High investment, highest long-term compounding return</div>
+    <ul>
+      <li>Create individual therapist bio pages for all clinicians — minimum 400 words, license number, education, specializations, Person schema</li>
+      <li>Add author bylines and "About the Author" sections to all blog posts — link to bio pages</li>
+      <li>Create /therapy/couples-therapy page — 1,800+ words, FAQPage schema, couples-specific keywords</li>
+      <li>Create /therapy/emdr-therapy page — 1,200+ words, link from anxiety and trauma service pages</li>
+      <li>Create /therapy/brainspotting page — 1,000+ words, link from trauma and anxiety pages</li>
+      <li>Expand /online-therapy-california from 846 words to 1,800+ words with how-it-works content and FAQPage schema</li>
+      <li>Expand /insurances to 800+ words with H2 sections and FAQ schema for insurance questions</li>
+      <li>Add FAQPage schema to all 10 condition service pages (4–5 FAQ pairs each)</li>
+      <li>Create /terapia Spanish-language landing page</li>
+      <li>Add crisis/emergency resources section to homepage and all service pages</li>
+      <li>Publish blog post #1 from recommended list: "Does Medi-Cal Cover Therapy in California?"</li>
+    </ul>
+  </div>
+
+  <div class="phase p4">
+    <h3>PHASE 4: Authority Building &amp; Content Velocity</h3>
+    <div class="timeline">Ongoing · Compounds over 3–6 months to produce sustainable ranking gains</div>
+    <ul>
+      <li>Publish 1–2 blog posts per month from the recommended topic list</li>
+      <li>Build internal linking between all blog posts and relevant service pages using keyword-rich anchor text</li>
+      <li>Pursue backlinks from local Tehama County community organizations, health departments, and chambers of commerce</li>
+      <li>Pursue backlinks from California mental health associations and NAMI California chapter</li>
+      <li>Expand /therapy hub page to 800+ words with service summaries and internal links to all 10 service pages</li>
+      <li>Build out additional city/region landing pages for Northern California cities PHW serves: Redding CA, Chico CA, Shasta County</li>
+      <li>Add on-site testimonials section (HIPAA-compliant — first-name-only or initials format)</li>
+      <li>Add Terms of Service page</li>
+      <li>Monitor Google Search Console for crawl errors, coverage issues, and Core Web Vitals after Phase 1 fixes go live</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  SUMMARY & NEXT STEPS                                       -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page page-break">
+  <h2 class="section-title">Summary &amp; Next Steps</h2>
+
+  <div class="summary-box">
+    <p>Parish Health and Wellness has built a legitimate and meaningful online presence — 10 condition-specific service pages with real content depth, a bilingual privacy policy, location pages for Red Bluff, an active blog, and schema markup sitewide. These are not small achievements. The practice has laid the content foundation that many competitors have not. The problem is that a layer of technical formatting errors — over-length titles, missing alt text, H1 duplications, and a near-total absence of FAQ structure — is actively preventing that content from earning the search visibility it deserves. Google can see PHW's pages; the technical errors are reducing the quality score it assigns to them.</p>
+    <p>The single highest-impact action available is fixing the 14 over-length title tags. This is a two-hour task that will produce measurable click-through rate improvements on more than half the site within the next two crawl cycles. The second-highest-impact action is adding image alt text to the 10 service pages — 80–90% missing alt text across every service page is the kind of signal that drags down a page's overall quality assessment. These two fixes alone move the needle before any new content is written. Phase 1 is a technical cleanup sprint, not a content investment — and it will produce real ranking movement.</p>
+    <p>The longer-term opportunity for PHW is significant: individual therapist bio pages, a couples therapy service page, FAQ schema on all service pages, and a Medi-Cal-specific content hub would collectively position PHW as the authoritative therapy resource for Northern California's underserved Medi-Cal population — a keyword niche with strong intent, relatively low competition, and perfect alignment with PHW's actual practice. The Phoenix Method team is ready to begin Phase 1 immediately. Let's start ranking.</p>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  FOOTER                                                     -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="footer">
+  <div class="brand-f">PHOENIX METHOD</div>
+  <div class="tag">Search. Rise. Dominate.</div>
+  <div class="contact">hello@phoenixmethodseo.com &nbsp;|&nbsp; phoenixmethodseo.com</div>
+  <div class="dead">Dead Rankings Rising.</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phoenix Method — SEO Audit: Lori Kimmerly Therapy</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Georgia', serif; color: #2c3e50; background: #f5f6fa; }
+
+  .cover {
+    background: linear-gradient(135deg, #0d1b2e 0%, #1a3a5c 100%);
+    color: white; text-align: center; padding: 80px 40px;
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  .cover .brand { font-size: 13px; letter-spacing: 4px; text-transform: uppercase; color: #7fb3d3; margin-bottom: 12px; }
+  .cover .tagline-small { font-size: 12px; letter-spacing: 3px; color: #7fb3d3; margin-bottom: 60px; }
+  .cover h1 { font-size: 34px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; color: #ffffff; }
+  .cover .subtitle { font-size: 16px; color: #a8c8e0; letter-spacing: 1px; margin-bottom: 60px; }
+  .cover .client-name { font-size: 28px; font-weight: bold; color: #ffffff; margin-bottom: 8px; }
+  .cover .client-url { font-size: 14px; color: #7fb3d3; margin-bottom: 4px; }
+  .cover .client-loc { font-size: 13px; color: #7fb3d3; margin-bottom: 60px; }
+  .cover .prep { font-size: 12px; color: #5d8ba8; }
+  .cover .divider { width: 60px; height: 2px; background: #3498db; margin: 30px auto; }
+
+  .page { max-width: 900px; margin: 0 auto; padding: 50px 40px; }
+  .page-break { page-break-before: always; }
+
+  h2.section-title {
+    font-size: 24px; font-weight: bold; color: #0d1b2e;
+    border-bottom: 3px solid #3498db; padding-bottom: 12px;
+    margin-bottom: 24px; margin-top: 48px;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  h2.section-title:first-of-type { margin-top: 0; }
+  h3.sub-title {
+    font-size: 17px; font-weight: bold; color: #1a3a5c;
+    margin: 28px 0 14px; border-left: 4px solid #3498db;
+    padding-left: 12px;
+  }
+
+  .grade-badge {
+    display: inline-block; color: white; font-weight: bold;
+    font-size: 22px; width: 48px; height: 48px; line-height: 48px;
+    text-align: center; border-radius: 6px; margin-right: 12px;
+  }
+  .grade-row {
+    display: flex; align-items: center; padding: 14px 0;
+    border-bottom: 1px solid #ecf0f1;
+  }
+  .grade-row .grade-label { font-size: 15px; font-weight: bold; flex: 1; }
+  .grade-row .grade-note { font-size: 13px; color: #7f8c8d; flex: 2; }
+  .grades-box { background: white; border-radius: 8px; padding: 20px 24px; box-shadow: 0 2px 8px rgba(0,0,0,.06); margin-bottom: 32px; }
+
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+  th { background: #0d1b2e; color: white; padding: 10px 12px; text-align: left; font-size: 12px; letter-spacing: .5px; text-transform: uppercase; }
+  td { padding: 9px 12px; border-bottom: 1px solid #ecf0f1; }
+  tr:nth-child(even) td { background: #f8f9fa; }
+  .flag-bad { color: #e74c3c; font-weight: bold; }
+  .flag-ok { color: #27ae60; }
+  .flag-warn { color: #e67e22; font-weight: bold; }
+
+  .finding {
+    background: white; border-left: 4px solid #e74c3c; border-radius: 4px;
+    padding: 16px 20px; margin: 12px 0; box-shadow: 0 1px 4px rgba(0,0,0,.05);
+  }
+  .finding.warn { border-left-color: #f39c12; }
+  .finding.ok { border-left-color: #27ae60; }
+  .finding h4 { font-size: 14px; font-weight: bold; margin-bottom: 6px; color: #2c3e50; }
+  .finding p { font-size: 13px; color: #555; line-height: 1.6; }
+  .finding .what-we-do {
+    background: #f0f7f0; border-radius: 3px; padding: 8px 12px;
+    margin-top: 10px; font-size: 12px; color: #1a5c1a;
+    border-left: 3px solid #27ae60;
+  }
+  .finding .what-we-do strong { display: block; margin-bottom: 2px; }
+
+  .phase {
+    background: white; border-radius: 8px; padding: 22px 26px;
+    margin: 16px 0; box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    border-top: 4px solid #3498db;
+  }
+  .phase.p2 { border-top-color: #2ecc71; }
+  .phase.p3 { border-top-color: #f39c12; }
+  .phase.p4 { border-top-color: #9b59b6; }
+  .phase h3 { font-size: 16px; font-weight: bold; color: #0d1b2e; margin-bottom: 6px; }
+  .phase .timeline { font-size: 12px; color: #7f8c8d; margin-bottom: 14px; }
+  .phase ul { list-style: none; padding: 0; }
+  .phase ul li { padding: 5px 0; font-size: 13px; padding-left: 20px; position: relative; color: #444; }
+  .phase ul li:before { content: "→"; position: absolute; left: 0; color: #3498db; font-weight: bold; }
+
+  .topic-card {
+    background: white; border-radius: 6px; padding: 14px 18px;
+    margin: 8px 0; box-shadow: 0 1px 4px rgba(0,0,0,.05);
+    border-left: 3px solid #3498db;
+  }
+  .topic-card h4 { font-size: 13px; font-weight: bold; margin-bottom: 4px; }
+  .topic-card p { font-size: 12px; color: #7f8c8d; }
+
+  .comp-card {
+    background: white; border-radius: 8px; padding: 18px 22px;
+    margin: 12px 0; box-shadow: 0 2px 6px rgba(0,0,0,.06);
+  }
+  .comp-card h4 { font-size: 15px; font-weight: bold; color: #0d1b2e; margin-bottom: 10px; }
+  .comp-card ul { list-style: none; padding: 0; }
+  .comp-card ul li { font-size: 13px; padding: 3px 0 3px 16px; position: relative; color: #555; }
+  .comp-card ul li:before { content: "•"; position: absolute; left: 0; color: #3498db; }
+
+  .summary-box {
+    background: linear-gradient(135deg, #0d1b2e, #1a3a5c);
+    color: white; border-radius: 8px; padding: 28px 32px; margin: 24px 0;
+  }
+  .summary-box p { font-size: 14px; line-height: 1.8; margin-bottom: 12px; color: #cde; }
+
+  .next-steps-box {
+    background: #f0f7ff; border: 2px solid #3498db; border-radius: 8px;
+    padding: 24px 28px; margin: 24px 0;
+  }
+  .next-steps-box h3 { font-size: 16px; font-weight: bold; color: #0d1b2e; margin-bottom: 14px; }
+  .next-steps-box ul { list-style: none; padding: 0; }
+  .next-steps-box ul li { font-size: 14px; padding: 6px 0 6px 22px; position: relative; color: #2c3e50; border-bottom: 1px solid #d0e4f7; }
+  .next-steps-box ul li:last-child { border-bottom: none; }
+  .next-steps-box ul li:before { content: "✓"; position: absolute; left: 0; color: #27ae60; font-weight: bold; }
+
+  .footer {
+    background: #0d1b2e; color: white; text-align: center;
+    padding: 40px; margin-top: 60px;
+  }
+  .footer .brand-f { font-size: 20px; font-weight: bold; letter-spacing: 3px; margin-bottom: 6px; }
+  .footer .tag { font-size: 12px; color: #7fb3d3; letter-spacing: 2px; margin-bottom: 16px; }
+  .footer .contact { font-size: 12px; color: #5d8ba8; }
+  .footer .dead { font-size: 11px; color: #3d5a70; margin-top: 8px; letter-spacing: 2px; }
+
+  p { line-height: 1.7; margin-bottom: 12px; font-size: 14px; }
+  ul.plain { list-style: disc; padding-left: 22px; }
+  ul.plain li { font-size: 13px; margin-bottom: 5px; color: #444; }
+
+  @media print {
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    body { background: white !important; }
+    .cover { min-height: 100vh; padding: 60px 40px; page-break-after: always; break-after: page; }
+    .page { max-width: 100%; padding: 30px 40px; }
+    .page-break { page-break-before: always; break-before: page; }
+    .finding { page-break-inside: avoid; break-inside: avoid; }
+    .phase { page-break-inside: avoid; break-inside: avoid; }
+    .comp-card { page-break-inside: avoid; break-inside: avoid; }
+    .grades-box { page-break-inside: avoid; break-inside: avoid; }
+    .topic-card { page-break-inside: avoid; break-inside: avoid; }
+    .summary-box { page-break-inside: avoid; break-inside: avoid; }
+    .next-steps-box { page-break-inside: avoid; break-inside: avoid; }
+    tr { page-break-inside: avoid; break-inside: avoid; }
+    h2.section-title { page-break-after: avoid; break-after: avoid; }
+    h3.sub-title { page-break-after: avoid; break-after: avoid; }
+    .footer { margin-top: 30px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="brand">PHOENIX METHOD</div>
+  <div class="tagline-small">Search. Rise. Dominate.</div>
+  <h1>Comprehensive SEO Audit Report</h1>
+  <div class="subtitle">Full Site Analysis &amp; Strategic Action Plan</div>
+  <div class="divider"></div>
+  <div class="client-name">Lori Kimmerly Therapy</div>
+  <div class="client-url">lorikimmerly.com</div>
+  <div class="client-loc">Renton, WA · Telehealth: Washington &amp; Arizona</div>
+  <div class="divider"></div>
+  <div class="prep">Prepared: May 01, 2026<br>Prepared by Phoenix Method<br>hello@phoenixmethodseo.com &nbsp;|&nbsp; phoenixmethodseo.com</div>
+</div>
+
+
+<!-- EXECUTIVE SUMMARY -->
+<div class="page page-break">
+  <h2 class="section-title">Executive Summary</h2>
+
+  <p>Lori Kimmerly Therapy is a licensed therapy practice based in Renton, Washington, offering individual, couples, and family therapy both in-person and via telehealth across Washington state and Arizona. The practice employs a diverse team of more than a dozen licensed and associate-level therapists, with specializations spanning Internal Family Systems (IFS), anxiety, depression, trauma, couples counseling, and culturally responsive care.</p>
+
+  <p>This audit covers every publicly indexed page on lorikimmerly.com — 22 pages crawled across 6 depth levels — analyzing technical infrastructure, on-page optimization, schema markup, content strategy, E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness) signals, and local SEO posture. The site's foundation is solid: HTTPS is enforced, redirects are correctly configured, and structured data is in place on key pages. However, the audit reveals critical gaps in content architecture, trust infrastructure, and service-page structure that are directly preventing the site from ranking competitively for its most valuable keywords.</p>
+
+  <p>As a mental health practice, lorikimmerly.com is classified by Google as a YMYL (Your Money or Your Life) site — a category subject to the highest levels of quality scrutiny under Google's Search Quality Rater Guidelines. For YMYL sites, E-E-A-T signals are not optional enhancements; they are ranking prerequisites. The most impactful work ahead is not small fixes — it is building the content infrastructure that will establish this practice as the definitive IFS and therapy authority in the Washington market.</p>
+
+  <div class="grades-box">
+    <div class="grade-row"><span class="grade-badge" style="background:#2ecc71">B</span><div class="grade-label">Technical SEO</div><div class="grade-note">Strong foundation — HTTPS, redirects, and structured data all correctly configured. A small set of structural issues on bio pages and author archives require correction.</div></div>
+    <div class="grade-row"><span class="grade-badge" style="background:#f39c12">C</span><div class="grade-label">On-Page SEO</div><div class="grade-note">Title tags and meta descriptions are present and well-crafted on most pages. The critical gap: zero dedicated service pages — the site's most consequential content absence.</div></div>
+    <div class="grade-row"><span class="grade-badge" style="background:#f39c12">C</span><div class="grade-label">Local SEO</div><div class="grade-note">Phone number, address, and map present. Still missing: location-specific landing pages and a fully optimized Google Business Profile — the two highest-impact local visibility gaps remaining.</div></div>
+    <div class="grade-row"><span class="grade-badge" style="background:#e67e22">D</span><div class="grade-label">Content Strategy</div><div class="grade-note">No dedicated service pages for any modality or condition — the single largest gap on the site. Only 2 blog posts live. Competitors average 40–50+ pages targeting the exact keywords this practice should own.</div></div>
+    <div class="grade-row"><span class="grade-badge" style="background:#f39c12">C</span><div class="grade-label">E-E-A-T</div><div class="grade-note">Therapist credentials are displayed and bios are strong. Missing: Privacy Policy, patient testimonials, and blog author attribution — all signals Google quality evaluators check on YMYL health sites.</div></div>
+  </div>
+</div>
+
+
+<!-- SITE OVERVIEW -->
+<div class="page page-break">
+  <h2 class="section-title">Site Overview</h2>
+  <table>
+    <tr><th>Field</th><th>Details</th></tr>
+    <tr><td>Domain</td><td>lorikimmerly.com</td></tr>
+    <tr><td>Platform</td><td>WordPress (Avada Theme + Fusion Builder)</td></tr>
+    <tr><td>Practice Name</td><td>Lori Kimmerly Therapy</td></tr>
+    <tr><td>Location</td><td>Renton, WA (in-person + telehealth)</td></tr>
+    <tr><td>Service Area</td><td>Washington State &amp; Arizona (telehealth)</td></tr>
+    <tr><td>Phone</td><td>(253) 347-2579</td></tr>
+    <tr><td>Services</td><td>Individual therapy, Couples counseling, Family therapy, Internal Family Systems (IFS)</td></tr>
+    <tr><td>Specialties</td><td>Anxiety, Depression, Trauma, IFS, Couples, Military/Perinatal, BIPOC, Addiction</td></tr>
+    <tr><td>Insurance</td><td>Premera, Cigna, Aetna, Kaiser</td></tr>
+    <tr><td>Team Size</td><td>12+ therapists (licensed &amp; associate-level)</td></tr>
+    <tr><td>Target Markets</td><td>Adults, Couples, Families in WA &amp; AZ; BIPOC communities; Military families</td></tr>
+    <tr><td>Audit Date</td><td>May 01, 2026</td></tr>
+    <tr><td>Pages Crawled</td><td>22</td></tr>
+  </table>
+</div>
+
+
+<!-- PAGES DISCOVERED -->
+<div class="page page-break">
+  <h2 class="section-title">Pages Discovered</h2>
+  <table>
+    <tr><th>URL Path</th><th>Page Purpose</th><th>Status</th></tr>
+    <tr><td><code>/</code></td><td>Homepage — main entry, services overview</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/lori-kimmerly-lmft-therapist</code></td><td>Therapist bio — Lori Kimmerly, LMFT</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/about-our-therapists</code></td><td>Team overview — all therapists</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/kristen-sievert</code></td><td>Therapist bio — Kristen Sievert, LMFTA</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/jared-alleger</code></td><td>Therapist bio — Jared Alleger, LMFTA</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/john-hubbs</code></td><td>Therapist bio — John Hubbs, LMHCA</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/sheena-nicolay</code></td><td>Therapist bio — Sheena Nicolay</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/ryan-carragher</code></td><td>Therapist bio — Ryan Carragher, LMFTA</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/jennifer-kenworthy</code></td><td>Therapist bio — Jennifer Kenworthy</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/clayton-holman</code></td><td>Therapist bio — Clayton Holman</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/natalie-kim</code></td><td>Therapist bio — Natalie Kim, LMFTA</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/mariah-visco</code></td><td>Therapist bio — Mariah Visco, LMHCA</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/leah-maughan</code></td><td>Therapist bio — Leah Maughan, LMFTA</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/caroline-bacon-lmhca</code></td><td>Therapist bio — Caroline Bacon, LMHCA</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/blog</code></td><td>Blog index page</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/contact</code></td><td>Contact page — booking, location</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/author/kandyangel</code></td><td>Author archive — no SEO value</td><td><span class="flag-warn">Recommend removing from index</span></td></tr>
+    <tr><td><code>/2026/04/26/what-is-ifs-therapy-internal-family-systems</code></td><td>Blog post — What Is IFS Therapy</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/category/ifs-therapy</code></td><td>Blog category — IFS Therapy</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/category/mental-health-tips</code></td><td>Blog category — Mental Health Tips</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/2026/04/25/welcome-to-our-blog-a-note-from-our-therapists</code></td><td>Blog post — Welcome from therapists</td><td><span class="flag-ok">Live</span></td></tr>
+    <tr><td><code>/author/lktherapy</code></td><td>Author archive — no SEO value</td><td><span class="flag-warn">Recommend removing from index</span></td></tr>
+  </table>
+</div>
+
+
+<!-- TECHNICAL SEO -->
+<div class="page page-break">
+  <h2 class="section-title">Technical SEO Audit</h2>
+  <span class="grade-badge" style="background:#2ecc71">B</span> <strong style="font-size:18px; vertical-align: middle;">Grade: B — Strong Foundation, Minor Corrections Needed</strong>
+
+  <h3 class="sub-title">HTTPS &amp; Redirects</h3>
+  <div class="finding ok">
+    <h4>✓ HTTPS Enforced — Visitors Always Arrive Securely</h4>
+    <p>All traffic is correctly redirected to HTTPS via a permanent 301 redirect. This is a confirmed technical strength and a foundational trust signal for both users and Google.</p>
+  </div>
+  <div class="finding ok">
+    <h4>✓ www / Non-www Redirect Consistent</h4>
+    <p>The site correctly canonicalizes to a single URL format. No duplicate-domain issues exist. This is confirmed working and in good health.</p>
+  </div>
+
+  <h3 class="sub-title">XML Sitemap</h3>
+  <div class="finding ok">
+    <h4>✓ Sitemap Index Present and Referenced</h4>
+    <p>A sitemap index file is correctly in place and referenced in robots.txt, allowing Google to discover and crawl all pages systematically.</p>
+  </div>
+  <div class="finding warn">
+    <h4>⚠ Sitemap Coverage Needs Verification</h4>
+    <p>We will verify in Google Search Console that all key pages — including all therapist bio pages — are appearing as indexed rather than excluded. As new service pages are built, each will be submitted for priority indexing.</p>
+  </div>
+
+  <h3 class="sub-title">Robots.txt</h3>
+  <div class="finding ok">
+    <h4>✓ Robots.txt Valid — No Key Pages Blocked</h4>
+    <p>The robots.txt file is correctly configured. No therapy pages, bio pages, or content pages are accidentally blocked from search crawlers.</p>
+  </div>
+
+  <h3 class="sub-title">Structured Data (Schema)</h3>
+  <div class="finding ok">
+    <h4>✓ MedicalBusiness Schema on Homepage</h4>
+    <p>The homepage correctly identifies the practice as a medical business — the appropriate schema type for a therapy practice. This gives Google a verified signal about the nature and category of the site.</p>
+  </div>
+  <div class="finding ok">
+    <h4>✓ Person Schema on Therapist Bios</h4>
+    <p>Most therapist bio pages include Person schema, which signals to Google that these are real licensed practitioners. This is a meaningful E-E-A-T signal and supports potential rich results for therapist name searches.</p>
+  </div>
+  <div class="finding warn">
+    <h4>⚠ Schema Requires Ongoing Monitoring — WordPress Can Override It</h4>
+    <p>Structured data (schema) is one of the most valuable SEO signals on the site — but it requires active maintenance. WordPress, the Avada theme, and the Fusion Builder page editor can silently overwrite schema during routine page saves and content updates. This is a known behavior across WordPress sites using visual page builders: a template save or content edit can strip structured data that was previously in place, with no warning.</p>
+    <p>We monitor for this as part of ongoing monthly maintenance. When schema is overwritten — which happens periodically — we identify it and re-implement it. This is not a one-time setup; it is an active, recurring part of what we do to keep the site's structured data signals intact and working correctly for Google.</p>
+  </div>
+  <h3 class="sub-title">Crawlability</h3>
+  <div class="finding warn">
+    <h4>⚠ Author Archive Pages Are Indexed — No SEO Value</h4>
+    <p>Two internal author archive pages are currently indexed in Google. These pages contain thin content, have no meta descriptions, and inadvertently expose the names of behind-the-scenes admin accounts rather than the therapists themselves — a potential concern for a YMYL site where Google evaluates who is creating and managing health content. Removing them from Google's index eliminates the thin-content issue and the admin-exposure concern.</p>
+  </div>
+  <div class="finding warn">
+    <h4>⚠ Blog Category Pages Have Duplicate Titles and Thin Content</h4>
+    <p>The blog category pages currently share the same title as the blog index page and contain minimal unique content. As the blog grows, we will give each category page its own optimized title and introductory content, transforming these from duplicate pages into useful entry points for specific topic searches.</p>
+  </div>
+</div>
+
+
+<!-- ON-PAGE SEO -->
+<div class="page page-break">
+  <h2 class="section-title">On-Page SEO Analysis</h2>
+  <span class="grade-badge" style="background:#f39c12">C</span> <strong style="font-size:18px; vertical-align: middle;">Grade: C — Meta Tags Solid, Content Architecture Critical</strong>
+
+  <h3 class="sub-title">Title Tags &amp; Meta Descriptions</h3>
+  <p>The table below shows every crawled page with its title length (T), meta description length (M), H1 count, and word count. The ideal range is 50–60 characters for titles and 140–160 characters for meta descriptions. Pages outside these ranges are flagged.</p>
+
+  <table>
+    <tr>
+      <th>Page</th><th>Title (chars)</th><th>Meta (chars)</th><th>H1s</th><th>Words</th><th>Issues</th>
+    </tr>
+    <tr><td><code>/</code></td><td class="flag-ok">56</td><td class="flag-ok">144</td><td class="flag-ok">1</td><td>1,228</td><td><span class="flag-ok">OK</span></td></tr>
+    <tr><td><code>/lori-kimmerly-lmft-therapist</code></td><td class="flag-ok">55</td><td class="flag-ok">158</td><td class="flag-ok">1</td><td>729</td><td><span class="flag-ok">OK</span></td></tr>
+    <tr><td><code>/about-our-therapists</code></td><td class="flag-ok">47</td><td class="flag-ok">157</td><td class="flag-ok">1</td><td>1,262</td><td><span class="flag-ok">OK</span></td></tr>
+    <tr><td><code>/kristen-sievert</code></td><td class="flag-ok">57</td><td class="flag-ok">144</td><td class="flag-ok">1</td><td>574</td><td><span class="flag-ok">OK</span></td></tr>
+    <tr><td><code>/jared-alleger</code></td><td class="flag-ok">51</td><td class="flag-ok">159</td><td class="flag-ok">1</td><td>630</td><td><span class="flag-ok">OK</span></td></tr>
+    <tr><td><code>/john-hubbs</code></td><td class="flag-ok">51</td><td class="flag-ok">146</td><td class="flag-ok">1</td><td>587</td><td><span class="flag-ok">OK</span></td></tr>
+    <tr><td><code>/sheena-nicolay</code></td><td class="flag-ok">51</td><td class="flag-ok">160</td><td class="flag-ok">1</td><td>592</td><td><span class="flag-ok">OK</span></td></tr>
+    <tr><td><code>/ryan-carragher</code></td><td class="flag-ok">50</td><td class="flag-ok">149</td><td class="flag-ok">1</td><td>601</td><td><span class="flag-ok">OK</span></td></tr>
+    <tr><td><code>/jennifer-kenworthy</code></td><td class="flag-ok">57</td><td class="flag-ok">156</td><td class="flag-ok">1</td><td>729</td><td><span class="flag-ok">OK</span></td></tr>
+    <tr><td><code>/clayton-holman</code></td><td class="flag-ok">50</td><td class="flag-ok">153</td><td class="flag-ok">1</td><td>588</td><td><span class="flag-ok">OK</span></td></tr>
+    <tr><td><code>/natalie-kim</code></td><td class="flag-ok">57</td><td class="flag-ok">154</td><td class="flag-ok">1</td><td>654</td><td><span class="flag-ok">OK</span></td></tr>
+    <tr><td><code>/mariah-visco</code></td><td class="flag-ok">60</td><td class="flag-ok">158</td><td class="flag-ok">1</td><td>708</td><td><span class="flag-ok">OK</span></td></tr>
+    <tr><td><code>/leah-maughan</code></td><td class="flag-ok">58</td><td class="flag-ok">159</td><td class="flag-ok">1</td><td>713</td><td><span class="flag-ok">OK</span></td></tr>
+    <tr><td><code>/caroline-bacon-lmhca</code></td><td class="flag-ok">56</td><td class="flag-ok">158</td><td class="flag-ok">1</td><td>773</td><td><span class="flag-ok">OK</span></td></tr>
+    <tr><td><code>/blog</code></td><td class="flag-ok">55</td><td class="flag-ok">148</td><td class="flag-ok">1</td><td class="flag-warn">265</td><td><span class="flag-warn">Thin content</span></td></tr>
+    <tr><td><code>/contact</code></td><td class="flag-ok">50</td><td class="flag-ok">147</td><td class="flag-ok">1</td><td>1,063</td><td><span class="flag-ok">OK</span></td></tr>
+    <tr><td><code>/author/kandyangel</code></td><td class="flag-ok">38</td><td class="flag-bad">0</td><td class="flag-ok">1</td><td class="flag-warn">324</td><td><span class="flag-bad">No meta</span> &nbsp; <span class="flag-warn">Remove from index</span></td></tr>
+    <tr><td><code>/2026/04/26/what-is-ifs-therapy…</code></td><td class="flag-ok">54</td><td class="flag-ok">152</td><td class="flag-ok">1</td><td>798</td><td><span class="flag-ok">OK</span></td></tr>
+    <tr><td><code>/category/ifs-therapy</code></td><td class="flag-ok">55</td><td class="flag-ok">148</td><td class="flag-ok">1</td><td class="flag-warn">265</td><td><span class="flag-warn">Thin content</span></td></tr>
+    <tr><td><code>/category/mental-health-tips</code></td><td class="flag-ok">55</td><td class="flag-ok">148</td><td class="flag-ok">1</td><td class="flag-warn">265</td><td><span class="flag-warn">Thin content</span></td></tr>
+    <tr><td><code>/2026/04/25/welcome-to-our-blog…</code></td><td class="flag-ok">60</td><td class="flag-bad">0</td><td class="flag-ok">1</td><td>640</td><td><span class="flag-bad">No meta description</span></td></tr>
+    <tr><td><code>/author/lktherapy</code></td><td class="flag-ok">54</td><td class="flag-bad">0</td><td class="flag-ok">1</td><td class="flag-warn">333</td><td><span class="flag-bad">No meta</span> &nbsp; <span class="flag-warn">Remove from index</span></td></tr>
+  </table>
+
+  <h3 class="sub-title">Key On-Page Issues</h3>
+
+  <div class="finding warn">
+    <h4>⚠ 2 Blog Pages Missing Meta Descriptions</h4>
+    <p>The Welcome blog post and one author page are missing meta descriptions. Without them, Google selects an arbitrary excerpt to display in search results — one that is unlikely to drive clicks. We will write and implement compelling meta descriptions for all pages that are missing them.</p>
+  </div>
+
+  <div class="finding">
+    <h4>✗ CRITICAL: Zero Dedicated Service Pages</h4>
+    <p>This is the most consequential gap on the entire site. Lorikimmerly.com currently has no dedicated service pages — no page for anxiety therapy, couples counseling, IFS therapy, depression treatment, trauma therapy, family therapy, or telehealth. These are the pages that rank for high-intent searches like "IFS therapist Washington" and "couples counseling Renton WA." Without them, the site cannot compete for these searches regardless of how well everything else is optimized.</p>
+    <p>Competitors like Tapestry Therapy and Renton Counseling Center have built libraries of 40–50+ such pages. Building out this content layer is the single highest-leverage investment available for this practice's online growth.</p>
+  </div>
+</div>
+
+
+<!-- E-E-A-T -->
+<div class="page page-break">
+  <h2 class="section-title">E-E-A-T Assessment (Critical for YMYL)</h2>
+  <span class="grade-badge" style="background:#f39c12">C</span> <strong style="font-size:18px; vertical-align: middle;">Grade: C — Credentials Present, Trust Infrastructure Incomplete</strong>
+
+  <p>Mental health practices are among the highest-scrutiny YMYL categories in Google's Search Quality Rater Guidelines. People searching for a therapist are making a decision that can profoundly affect their wellbeing — and Google's quality evaluators are trained to scrutinize such sites rigorously. The practice has meaningful E-E-A-T strengths, but several infrastructure-level trust signals are missing that directly affect rankings for competitive therapy keywords.</p>
+
+  <h3 class="sub-title">What's Working</h3>
+  <div class="finding ok">
+    <h4>✓ Therapist Credentials Clearly Displayed</h4>
+    <p>All 12 therapist bio pages include licensure credentials (LMFT, LMFTA, LMHCA, SUDP-T) and areas of specialization. This is the most important E-E-A-T signal for a therapy practice and is being executed well.</p>
+  </div>
+  <div class="finding ok">
+    <h4>✓ Insurance Information Visible on Homepage</h4>
+    <p>Premera, Cigna, Aetna, and Kaiser are listed on the homepage. This reduces pre-conversion friction and signals practice legitimacy to first-time visitors who are evaluating whether their insurance is accepted.</p>
+  </div>
+  <div class="finding ok">
+    <h4>✓ Phone Number Visible on Homepage</h4>
+    <p>(253) 347-2579 is present on the homepage — a key local trust signal that also anchors NAP consistency across all citations.</p>
+  </div>
+  <div class="finding ok">
+    <h4>✓ Google Maps Embed on Contact Page</h4>
+    <p>A map embed on the Contact page confirms a real physical location — an important signal for local search authority and for prospective clients assessing whether an in-person appointment is feasible.</p>
+  </div>
+
+  <h3 class="sub-title">Gaps We Will Address</h3>
+  <div class="finding">
+    <h4>✗ No Privacy Policy Page</h4>
+    <p>A Privacy Policy page is not present anywhere on the site. Google's quality evaluators specifically check for this on health and medical sites — practices without one receive lower quality scores regardless of their other strengths. This is a page the practice will need to put together. Once it's live, we will link to it from the appropriate places across the site and ensure it is properly indexed.</p>
+  </div>
+  <div class="finding">
+    <h4>✗ No On-Site Patient Testimonials or Reviews</h4>
+    <p>Social proof is one of the clearest trustworthiness signals available to a therapy practice. The site currently has no testimonials section, no star rating display, and no reference to third-party reviews. Top-ranking practices in this market feature client testimonials prominently on their homepage and service pages — this is a meaningful gap in the trust signals Google quality evaluators look for on health sites.</p>
+  </div>
+  <div class="finding warn">
+    <h4>⚠ Blog Content Not Attributed to Therapists</h4>
+    <p>The current IFS blog post is attributed to a behind-the-scenes admin account rather than a therapist. For YMYL health content, Google's quality raters evaluate whether the author has verifiable clinical credentials. Content attributed to an SEO account rather than a licensed clinician is a direct E-E-A-T liability for content that advises on mental health topics. Author attribution and therapist author profiles need to be corrected to remove this liability.</p>
+  </div>
+  <div class="finding warn">
+    <h4>⚠ No Terms of Service or Therapy Disclaimer</h4>
+    <p>A therapy disclaimer — clarifying that website content is informational rather than a substitute for professional treatment — is something Google quality evaluators check for on health sites. This is a page the practice will need to provide. Once it exists, we will publish and link it correctly across the site.</p>
+  </div>
+</div>
+
+
+<!-- LOCAL SEO -->
+<div class="page page-break">
+  <h2 class="section-title">Local SEO Assessment</h2>
+  <span class="grade-badge" style="background:#f39c12">C</span> <strong style="font-size:18px; vertical-align: middle;">Grade: C — Phone &amp; Map Present, Location Architecture Missing</strong>
+
+  <h3 class="sub-title">Google Business Profile</h3>
+  <p>Google Business Profile (GBP) is the primary driver of local map pack rankings — the 3-listing block that appears prominently in searches like "therapist near me" and "IFS therapy Renton WA." A complete, actively managed GBP is non-negotiable for local therapy practice visibility. The following checklist shows the current status of each signal and what needs attention:</p>
+
+  <table>
+    <tr><th>Signal</th><th>Status</th><th>Our Action</th></tr>
+    <tr><td>GBP Claimed &amp; Verified</td><td><span class="flag-warn">To Verify</span></td><td>Confirm ownership, verify listing is live and correct</td></tr>
+    <tr><td>Business Name</td><td><span class="flag-warn">To Verify</span></td><td>Must exactly match "Lori Kimmerly Therapy" across all platforms</td></tr>
+    <tr><td>Address</td><td><span class="flag-warn">To Verify</span></td><td>Exact format must be consistent across site and all directories</td></tr>
+    <tr><td>Phone</td><td><span class="flag-ok">Confirmed</span></td><td>(253) 347-2579 — already consistent</td></tr>
+    <tr><td>Website URL</td><td><span class="flag-warn">To Verify</span></td><td>Confirm links to canonical domain format</td></tr>
+    <tr><td>Primary Category</td><td><span class="flag-warn">To Optimize</span></td><td>Set to "Mental Health Service" or "Psychotherapist"</td></tr>
+    <tr><td>Secondary Categories</td><td><span class="flag-warn">To Add</span></td><td>Add Marriage Counselor, Family Counselor, and relevant specialties</td></tr>
+    <tr><td>Services Section</td><td><span class="flag-warn">To Complete</span></td><td>Add all modalities: IFS, Anxiety, Depression, Couples, Trauma, Online Therapy</td></tr>
+    <tr><td>Photos (10+ required)</td><td><span class="flag-warn">To Add</span></td><td>Office interior, exterior, team — minimum 10 high-quality images</td></tr>
+    <tr><td>Weekly Posts</td><td><span class="flag-warn">Not Active</span></td><td>Consistent weekly posts — blog excerpts, mental health tips, announcements — signal an active, engaged business to Google</td></tr>
+    <tr><td>Q&amp;A Section</td><td><span class="flag-warn">Not Active</span></td><td>5 pre-answered questions covering cost, insurance, and modalities should be added to increase visibility in local search</td></tr>
+    <tr><td>Review Strategy</td><td><span class="flag-warn">To Implement</span></td><td>A compliant review request process should be established — target 20+ reviews at 4.8+ average</td></tr>
+    <tr><td>Response to Reviews</td><td><span class="flag-warn">To Monitor</span></td><td>Responding to all reviews within 48 hours is a trust signal Google weighs in local rankings</td></tr>
+  </table>
+
+  <h3 class="sub-title">Directory Citations</h3>
+  <p>Citations — consistent mentions of the practice's Name, Address, and Phone across the web — are a core local ranking signal. Each directory below represents a citation opportunity we will build and verify. Every listing must use identical contact information to reinforce local authority signals.</p>
+
+  <table>
+    <tr><th>Directory</th><th>Priority</th><th>Notes</th></tr>
+    <tr><td>Google Business Profile</td><td><span class="flag-bad">Critical</span></td><td>Foundation of local SEO — must be complete before all else</td></tr>
+    <tr><td>Psychology Today</td><td><span class="flag-bad">Critical</span></td><td>Highest-authority therapist directory — every therapist gets a profile</td></tr>
+    <tr><td>TherapyDen</td><td><span class="flag-bad">Critical</span></td><td>Growing directory with strong local placement for therapy searches</td></tr>
+    <tr><td>Bing Places for Business</td><td><span class="flag-warn">High</span></td><td>Maps to Bing/Yahoo local results — often overlooked, low effort</td></tr>
+    <tr><td>Apple Maps</td><td><span class="flag-warn">High</span></td><td>Increasingly important as iPhone usage drives location searches</td></tr>
+    <tr><td>Healthgrades</td><td><span class="flag-warn">High</span></td><td>Healthcare-specific directory with strong SERP presence</td></tr>
+    <tr><td>Zocdoc</td><td><span class="flag-warn">High</span></td><td>Appointment booking with significant SEO and referral traffic</td></tr>
+    <tr><td>GoodTherapy</td><td><span class="flag-warn">High</span></td><td>Therapy-specific with keyword-rich profile pages</td></tr>
+    <tr><td>Yelp</td><td><span class="flag-warn">Medium</span></td><td>Strong for local trust signals and review collection</td></tr>
+    <tr><td>Better Business Bureau</td><td><span class="flag-warn">Medium</span></td><td>Trust signal — aim for A+ rating</td></tr>
+    <tr><td>SAMHSA Treatment Locator</td><td><span class="flag-warn">Medium</span></td><td>Federal mental health directory — high-authority .gov backlink</td></tr>
+    <tr><td>Open Path Collective</td><td><span class="flag-ok">Consider</span></td><td>Sliding scale directory — valuable if sliding scale is offered</td></tr>
+  </table>
+
+  <h3 class="sub-title">Location Landing Pages</h3>
+  <div class="finding">
+    <h4>✗ No Location-Specific Landing Pages</h4>
+    <p>The practice serves in-person clients in Renton, WA and telehealth clients across Washington state and Arizona — but there are no dedicated location landing pages. Competitors with multi-city coverage use these pages to capture hyperlocal and statewide telehealth searches. A page targeting "online therapy Washington state" competes for hundreds of monthly searches that lorikimmerly.com currently has no presence for. Location pages for Renton, Washington State telehealth, and Arizona telehealth are a high-priority content gap.</p>
+  </div>
+</div>
+
+
+<!-- CONTENT STRATEGY -->
+<div class="page page-break">
+  <h2 class="section-title">Content Strategy Assessment</h2>
+  <span class="grade-badge" style="background:#e67e22">D</span> <strong style="font-size:18px; vertical-align: middle;">Grade: D — Team Depth Strong, Content Architecture Missing</strong>
+
+  <h3 class="sub-title">Current Content Strengths</h3>
+  <ul class="plain">
+    <li>12 therapist bio pages — a practitioner content library that most competitors lack and cannot quickly replicate</li>
+    <li>Homepage covers IFS, couples, individual, and family therapy with above-average content depth</li>
+    <li>Blog infrastructure is live and properly structured — the foundation is ready for consistent publishing</li>
+    <li>The IFS explainer blog post is a high-quality educational piece that demonstrates genuine clinical expertise</li>
+    <li>Contact page is well-structured with strong conversion elements — form, phone, map, and FAQ</li>
+  </ul>
+
+  <h3 class="sub-title">Content Gaps</h3>
+  <div class="finding">
+    <h4>✗ Zero Dedicated Service Pages — The Site's Biggest Traffic Opportunity</h4>
+    <p>A therapy practice's service pages are typically the highest-traffic, highest-conversion pages on the entire site. These are the pages that rank for "anxiety therapist Renton WA" and "IFS therapy Washington" — the searches made by people who are ready to book. Without them, the site cannot appear in results for any primary service keyword, regardless of how strong the homepage or bios are.</p>
+    <p>The competitor sites currently ranking in those positions — Tapestry Therapy, Renton Counseling Center, Ohana Behavioral Health — have built libraries of 40–50+ such pages over time. Building out this content layer, starting with the highest-search-volume conditions and modalities this practice serves, is the most impactful investment available for long-term growth.</p>
+  </div>
+  <div class="finding warn">
+    <h4>⚠ No FAQ Sections on Bio or Service Pages</h4>
+    <p>FAQ sections serve two compounding functions: they answer the pre-booking questions that convert hesitant visitors into clients, and they increase relevance for Google’s AI Overviews and help convert hesitant visitors by answering pre-booking questions directly on the page. FAQ content is still recommended on all service pages and key bio pages once that content layer is built.</p>
+  </div>
+  <div class="finding warn">
+    <h4>⚠ Blog Publishing Cadence Not Yet Established</h4>
+    <p>Two posts are live — a strong start. The blog infrastructure is correctly built. The missing ingredient is a consistent publishing cadence. A blog that publishes one to two quality posts per month compounds into a significant traffic asset within six months. We will manage this content calendar as part of ongoing monthly deliverables.</p>
+  </div>
+
+  <h3 class="sub-title" style="page-break-before:always;padding-top:20px;">Recommended Blog Topics — Priority Keywords</h3>
+  <p>The following blog topics are selected based on search volume, competition level, and their strategic fit with this practice's specific strengths and service area. Each post will be written to rank for its target keyword and funnel readers toward relevant service pages.</p>
+
+  <div class="topic-card">
+    <h4>1. "How to Find a Therapist in Renton WA (What to Look For)"</h4>
+    <p>Target keyword: "therapist Renton WA" — Local high-intent, perfect for capturing new-client searches in the primary service area</p>
+  </div>
+  <div class="topic-card">
+    <h4>2. "IFS Therapy for Anxiety: How Internal Family Systems Helps You Heal"</h4>
+    <p>Target keyword: "IFS therapy anxiety" — Builds topical authority on the practice's core differentiator, targets condition + modality combination</p>
+  </div>
+  <div class="topic-card">
+    <h4>3. "Couples Therapy vs. Marriage Counseling: What's the Difference?"</h4>
+    <p>Target keyword: "couples counseling Renton WA" — Evergreen, high search volume, addresses common confusion before clients search for a therapist</p>
+  </div>
+  <div class="topic-card">
+    <h4>4. "What to Expect in Your First Therapy Session (And How to Prepare)"</h4>
+    <p>Target keyword: "first therapy session" — Top-of-funnel for therapy-curious searchers who haven't yet committed to booking</p>
+  </div>
+  <div class="topic-card">
+    <h4>5. "Online Therapy in Washington State: Is Telehealth Right for You?"</h4>
+    <p>Target keyword: "online therapy Washington state" — Directly targets the telehealth service area and supports the statewide keyword strategy</p>
+  </div>
+  <div class="topic-card">
+    <h4>6. "Understanding Trauma: Signs You Might Benefit from Trauma Therapy"</h4>
+    <p>Target keyword: "trauma therapist Washington" — High-empathy content for people researching before they're ready to commit to booking</p>
+  </div>
+  <div class="topic-card">
+    <h4>7. "Does Insurance Cover Therapy in Washington State? (Premera, Aetna, Kaiser)"</h4>
+    <p>Target keyword: "does Premera cover therapy" — Extremely high commercial intent; searchers who know they want therapy and need to confirm their coverage</p>
+  </div>
+  <div class="topic-card">
+    <h4>8. "Depression vs. Anxiety: How to Tell the Difference and Get the Right Help"</h4>
+    <p>Target keyword: "depression anxiety therapist" — Serves dual-diagnosis searchers and builds authority across two key service areas simultaneously</p>
+  </div>
+  <div class="topic-card">
+    <h4>9. "Therapy for Men: Why Men's Mental Health Deserves More Attention"</h4>
+    <p>Target keyword: "men's therapy Washington" — Niche content targeting an underserved search segment; supports specific therapist bios on the team</p>
+  </div>
+  <div class="topic-card">
+    <h4>10. "What Is LMFTA vs. LMFT? Understanding Therapist Credentials in Washington"</h4>
+    <p>Target keyword: "therapist credentials Washington" — Builds trust by educating prospective clients on licensing — and answers the question many have but don't ask</p>
+  </div>
+</div>
+
+
+<!-- SITE ARCHITECTURE -->
+<div class="page page-break">
+  <h2 class="section-title">Site Architecture &amp; Internal Linking</h2>
+
+  <h3 class="sub-title">Current Structure</h3>
+  <p>The site's current architecture is flat — the homepage links directly to bio pages and the contact page, with no intermediate layer of service-specific content between them. Google has no keyword-targeted page to rank for any of the practice's core services because those pages do not exist.</p>
+
+  <table>
+    <tr><th>Tier</th><th>Current Pages</th><th>Assessment</th></tr>
+    <tr><td>Tier 1 — Homepage</td><td>1 page</td><td><span class="flag-ok">Strong — well-targeted and structured</span></td></tr>
+    <tr><td>Tier 2 — Service Pages</td><td>0 pages</td><td><span class="flag-bad">CRITICAL GAP — entire keyword category is unranked</span></td></tr>
+    <tr><td>Tier 2 — Location Pages</td><td>0 pages</td><td><span class="flag-bad">Missing — local keyword opportunity uncaptured</span></td></tr>
+    <tr><td>Tier 3 — Therapist Bios</td><td>12 pages</td><td><span class="flag-warn">Strong asset — over-indexed vs. service content</span></td></tr>
+    <tr><td>Tier 3 — Blog Posts</td><td>2 posts</td><td><span class="flag-warn">Underdeveloped — needs consistent publishing cadence</span></td></tr>
+    <tr><td>Utility Pages</td><td>3 (About, Contact, Blog)</td><td><span class="flag-warn">Missing: Privacy Policy, Terms / Disclaimer</span></td></tr>
+  </table>
+
+  <h3 class="sub-title">What We Recommend</h3>
+  <div class="finding">
+    <h4>✗ Service Page Tier — The Missing Layer</h4>
+    <p>Building 6–8 dedicated service pages creates the content tier that connects the homepage's authority to the contact page's conversion intent. Each service page will be linked from the homepage navigation and from relevant therapist bios — creating a semantic content cluster that signals to Google exactly what conditions and modalities this practice specializes in. This is the architectural change that unlocks competitive rankings.</p>
+  </div>
+  <div class="finding warn">
+    <h4>⚠ Therapist Bios Currently Isolated from Services</h4>
+    <p>Each therapist bio lists specialties but doesn't link to any service page (because none exist yet). Once service pages are built, we will retrofit every bio page with contextual links to the relevant service pages — turning each bio into a supporting page that channels authority toward the site's most important ranking targets.</p>
+  </div>
+  <div class="finding warn">
+    <h4>⚠ Blog Content Needs to Connect to Service Pages</h4>
+    <p>Once service pages are live, every blog post will be updated with contextual internal links to the relevant service page. This creates a compounding internal linking structure where new blog content continuously reinforces the ranking authority of the service pages.</p>
+  </div>
+</div>
+
+
+<!-- COMPETITIVE LANDSCAPE -->
+<div class="page page-break">
+  <h2 class="section-title">Competitive Landscape</h2>
+
+  <p>The following practices are actively competing for the same keywords and client searches as Lori Kimmerly Therapy. Understanding what they have built — and where their weaknesses are — shows exactly where the opportunity lies.</p>
+
+  <div class="comp-card">
+    <h4>1. Renton Counseling Center — rentoncounselingcenter.com</h4>
+    <ul>
+      <li>50+ service and condition-specific pages — built over years, representing significant ranking authority for local therapy keywords</li>
+      <li>8+ therapist profiles with a 40-year practice history cited in copy — a strong E-E-A-T experience signal</li>
+      <li>Extensive educational resource section with keyword-rich articles</li>
+      <li><strong>Their weakness:</strong> No FAQ schema on service pages — a structured content strategy gives Lori's team a meaningful leap-ahead opportunity in rich result eligibility</li>
+    </ul>
+  </div>
+
+  <div class="comp-card">
+    <h4>2. Tapestry Therapy — tapestry-therapy.com</h4>
+    <ul>
+      <li>45+ therapy pages with multi-location coverage across Renton and Seattle — directly competing for the same geographic territory</li>
+      <li>Strong Google review presence — visible in the local map pack results lorikimmerly.com is not yet appearing in</li>
+      <li>Active telehealth presence covering Washington state</li>
+      <li><strong>Their weakness:</strong> No FAQ schema — Lori's practice can surpass their SERP real estate with structured FAQ content on all service pages</li>
+    </ul>
+  </div>
+
+  <div class="comp-card">
+    <h4>3. Ohana Behavioral Health — ohanabehavioralhealth.com</h4>
+    <ul>
+      <li>6 dedicated service pages covering core conditions — ahead on content architecture despite a smaller team</li>
+      <li>A dedicated FAQ page that directly answers pre-conversion questions</li>
+      <li>Perinatal specialization creates strong topical authority in that niche</li>
+      <li><strong>Their weakness:</strong> No structured data at all — lorikimmerly.com already has a schema advantage that will compound significantly as content is added</li>
+    </ul>
+  </div>
+
+  <div class="comp-card">
+    <h4>4. Dale Fisher Counseling — dalefishercounseling.com</h4>
+    <ul>
+      <li>Modality-specific pages targeting CBT, EMDR, and Solution-Focused therapy — capturing long-tail keyword traffic this practice is missing</li>
+      <li>A dedicated "Getting Started / FAQs" page that specifically addresses pre-therapy anxiety</li>
+      <li>25-year practice history cited prominently — strong E-E-A-T experience signal</li>
+      <li><strong>Their weakness:</strong> Small team. Lori Kimmerly Therapy's 12-therapist roster is a major competitive advantage when properly structured — 12 people means 12 bio pages, 12 sets of specializations, and 12 search paths a prospective client might take to arrive at this practice</li>
+    </ul>
+  </div>
+
+  <h3 class="sub-title" style="page-break-before:always;padding-top:20px;">Lori Kimmerly Therapy's Competitive Advantages</h3>
+  <ul class="plain">
+    <li><strong>Team Scale:</strong> 12 therapists is a rare differentiator in this market — most competitors have 3–6. This scale creates 12 individual ranking opportunities and signals to Google that this is an established, multi-practitioner practice, not a solo therapist site</li>
+    <li><strong>IFS Specialization:</strong> IFS is a growing search term with meaningfully lower competition than generic "anxiety therapist" queries. Owning the IFS search territory in the Renton and Washington market is achievable and defensible — and no competitor has claimed it definitively</li>
+    <li><strong>Dual Geography:</strong> Washington and Arizona telehealth creates twice the geographic keyword opportunity of any single-state competitor</li>
+    <li><strong>Schema Foundation:</strong> Already ahead of most local competitors with MedicalBusiness and Person schema in place — when service pages are built, this foundation accelerates their indexing and ranking potential</li>
+    <li><strong>Blog Infrastructure:</strong> The blog is live, structured, and already publishing quality content — the pipeline exists, and consistent publishing will compound into a significant traffic asset within six months</li>
+  </ul>
+</div>
+
+
+<!-- PRIORITY ACTION PLAN -->
+<div class="page page-break">
+  <h2 class="section-title">Recommendations &amp; What's Included</h2>
+
+  <div class="phase" style="border-top-color:#27ae60;">
+    <h3>What's Included in Your Monthly Package</h3>
+    <div class="timeline">Active every month — no additional cost</div>
+    <ul>
+      <li>Monthly content — one blog post or one optimized page per month; the choice is yours each month</li>
+      <li>Schema monitoring and correction — WordPress and the Avada theme can silently overwrite structured data during page saves and updates; we check for this monthly and re-apply it when it happens</li>
+      <li>Meta description monitoring — plugin updates and WordPress changes can occasionally reset or affect meta data across pages; we verify and correct as part of monthly maintenance</li>
+      <li>Indexing monitoring — new content, plugin changes, and site updates can affect how Google crawls and indexes the site; we review Search Console monthly and resolve any coverage issues that arise</li>
+      <li>Privacy Policy and Terms of Service — once provided by the practice, published and linked correctly across the site</li>
+    </ul>
+  </div>
+
+  <div class="phase">
+    <h3>First Priority — Foundation Fixes</h3>
+    <div class="timeline">Recommended additions · Quick wins that establish the trust signals Google checks first on health sites</div>
+    <ul>
+      <li>Author archive pages — recommended to remove from Google's index to eliminate thin-content and admin-exposure concerns</li>
+      <li>Blog author attribution — correcting the IFS post attribution from an admin account to a licensed therapist, with therapist author profiles built out</li>
+      <li>On-site testimonials section — a section featuring compliant anonymous client quotes; a direct trust signal missing from the site</li>
+      <li>GBP full optimization — completing all fields, uploading photos, adding service categories, and seeding the Q&amp;A section</li>
+      <li>Psychology Today profiles — every therapist listed with a full profile and specialty tags</li>
+    </ul>
+  </div>
+
+  <div class="phase p2">
+    <h3>Next Priority — Local Visibility</h3>
+    <div class="timeline">Recommended additions · Establishes map pack presence and directory authority</div>
+    <ul>
+      <li>GBP weekly post management — blog excerpts, mental health tips, and practice announcements published consistently</li>
+      <li>Google review request process — growing reviews toward 20+ at a 4.8+ average is a significant local ranking signal; this can be done in-office at checkout or automated through your scheduling system</li>
+      <li>Priority directory submissions — TherapyDen, Healthgrades, Zocdoc, Bing Places, Apple Maps, GoodTherapy</li>
+      <li>Location landing pages — dedicated pages for Renton WA, Online Therapy Washington, and Online Therapy Arizona</li>
+    </ul>
+  </div>
+
+  <div class="phase p3">
+    <h3>Content Investment — Service Pages</h3>
+    <div class="timeline">Recommended · The highest long-term traffic and revenue impact available to this practice</div>
+    <ul>
+      <li>IFS Therapy Washington — the practice's primary keyword differentiator and the most defensible content territory available</li>
+      <li>Anxiety Therapy Renton WA — the highest-volume local therapy search term</li>
+      <li>Couples Counseling Renton WA — high commercial intent, frequently searched keyword cluster</li>
+      <li>Depression Therapy Washington — statewide keyword capture for the second-most-searched condition</li>
+      <li>Trauma Therapy Washington — supports the practice's trauma-specialized therapist team</li>
+      <li>Online Therapy Washington &amp; Arizona — captures both telehealth service areas</li>
+      <li>Family Therapy Renton WA — completes the core service page library</li>
+      <li>FAQ sections on all service pages — qualifies pages for FAQ rich results and converts hesitant visitors</li>
+      <li>Internal linking — all bio pages updated with contextual links to relevant service pages once built</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- SUMMARY -->
+<div class="page page-break">
+  <h2 class="section-title">Summary &amp; What's Next</h2>
+
+  <div class="summary-box">
+    <p>Lori Kimmerly Therapy has a technically sound website with genuine competitive strengths that are currently going to waste. The practice's 12-therapist team, IFS specialization, dual-state telehealth coverage, and existing structured data put it ahead of most small practices on the fundamentals. A B grade in Technical SEO is a far better starting position than most audits reveal — the foundation is solid, the opportunity is real, and the path forward is clear.</p>
+    <p>The most transformative single investment this practice can make is building out 6–8 dedicated service pages. This is not a cosmetic change — it is the missing tier of the entire site's architecture. Right now, lorikimmerly.com is a well-run practice with an excellent team. The content to support them already exists in the bios and in the IFS blog post — it simply needs to be organized into a purposeful structure with targeted pages, FAQ content, and internal links that Google can follow from search to service to therapist to contact form.</p>
+    <p>Everything in this plan builds toward a single outcome: making Lori Kimmerly Therapy the most visible, most trusted, and most credible therapy practice in the Renton / Washington IFS and counseling market. The 12-therapist team, the IFS specialization, the dual-state coverage — these are advantages that competitors cannot quickly replicate.</p>
+  </div>
+
+  <div class="next-steps-box">
+    <h3>Your Next Steps</h3>
+    <ul>
+      <li>Review this report and share any questions — we are happy to walk through any section in detail</li>
+      <li>Google Business Profile — the practice can complete this directly, or we can manage it; let us know which you prefer</li>
+      <li>Let us know which service areas you would like to prioritize — your input shapes the roadmap</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="brand-f">PHOENIX METHOD</div>
+  <div class="tag">Search. Rise. Dominate.</div>
+  <div class="contact">hello@phoenixmethodseo.com &nbsp;|&nbsp; phoenixmethodseo.com</div>
+  <div class="dead">Dead Rankings Rising.</div>
+</div>
+
+</body>
+</html>
