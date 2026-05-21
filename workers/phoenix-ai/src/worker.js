@@ -1574,10 +1574,11 @@ async function githubPagesDelete(env, site, article) {
 }
 
 // ──────────────────────────────────────────────────────────────
-// Async job runner. Generation now happens via ctx.waitUntil() after the
-// request response has been sent, so it isn't bounded by the 30-ish-second
-// edge response timeout. The customer sees a "generating…" row immediately
-// and the dashboard polls /api/jobs/:id every 2s to learn when it's done.
+// Job runner. Manual /generate awaits this inline (so the full request
+// wall-time window is available — ctx.waitUntil was being cancelled on
+// Workers Free before the LLM finished). Cron-driven generation still
+// fires runPipelineJob via ctx.waitUntil since scheduled handlers get
+// their own time budget separate from fetch handlers.
 //
 // Job state lives in the ARTICLES KV under prefix job:<jobId>. TTL is 1h
 // — enough for the dashboard to surface success/failure, then auto-expires
@@ -2292,11 +2293,14 @@ async function apiRouter(request, env, url, path, ctx) {
     }
 
     if (sub === 'generate' && request.method === 'POST') {
-      // Generation runs via ctx.waitUntil() so we're not bounded by the
-      // edge response timeout. Returns HTTP 202 with a jobId immediately;
-      // dashboard polls /api/jobs/:id to learn when it's done. This is
-      // what unlocks using the 70B model — generation can take 30-60s
-      // wall clock without the customer ever seeing a timeout.
+      // Runs the pipeline synchronously inside the request. ctx.waitUntil()
+      // was being cancelled on the Workers Free plan before the LLM + publish
+      // steps could finish (only a few seconds of post-response budget), so
+      // jobs silently died and the dashboard's poll never saw 'done' or
+      // 'failed'. Awaiting directly uses the full request wall-time window
+      // instead. Job state is still written to KV so the existing polling
+      // loop keeps working unchanged — the first poll just sees the final
+      // status immediately.
       //
       // PM-264: optional body { keyword } lets the customer pick which
       // keyword to write on (from a chip). When provided, we validate it's
@@ -2320,8 +2324,14 @@ async function apiRouter(request, env, url, path, ctx) {
       const jobId = uuid();
       const queuedAt = nowIso();
       await saveJob(env, { id: jobId, siteId, status: 'queued', queuedAt });
-      ctx.waitUntil(runPipelineJob(env, site, jobId, { manual: true, queuedAt, keyword: keywordOverride }));
-      return json({ ok: true, jobId, status: 'queued', keyword: keywordOverride ? keywordOverride.keyword : null }, 202);
+      await runPipelineJob(env, site, jobId, { manual: true, queuedAt, keyword: keywordOverride });
+      const finalJob = await getJob(env, jobId);
+      return json({
+        ok: true,
+        jobId,
+        status: finalJob ? finalJob.status : 'done',
+        keyword: keywordOverride ? keywordOverride.keyword : null,
+      });
     }
 
     if (sub === 'articles' && request.method === 'GET') {
@@ -3402,12 +3412,11 @@ function dashboardHTML() {
       btn.innerHTML = '<span class="loader"></span>' + originalText;
       try {
         if (action === 'generate') {
-          // Generation runs in the background (ctx.waitUntil) so the API
-          // returns a jobId immediately. We poll /api/jobs/:id every 2s
-          // until status flips to done or failed. Wall-clock for 70B + FLUX
-          // is typically 30-60s; we cap at 5min before giving up on the poll
-          // (the job itself keeps running in the worker; the customer can
-          // refresh the dashboard to see it land).
+          // The POST now runs the pipeline synchronously and returns when
+          // the job is done or failed (ctx.waitUntil was getting cancelled
+          // on Workers Free). We still poll /api/jobs/:id afterwards so the
+          // existing UX (loader → success/failure banner) doesn't change —
+          // the first poll just sees the final status straight away.
           const out = await api('POST', '/api/sites/' + siteId + '/generate');
           showBanner('Generating with Llama 3.3 70B + FLUX hero image — this takes 30-60s. The dashboard will update automatically.', 'info');
           btn.innerHTML = '<span class="loader"></span>Generating…';
