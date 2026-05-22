@@ -8,7 +8,7 @@
   "hours_used": 1,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-05-18",
+  "updated": "2026-05-21",
   "next_invoice": {
     "date": "June 1, 2026",
     "amount": "$575.00"
@@ -41,7 +41,7 @@
     },
     {
       "text": "Site Work — 1 Hr",
-      "status": "todo",
+      "status": "done",
       "label": "Included"
     },
     {
@@ -598,6 +598,11 @@
     }
   ],
   "messages": [
+    {
+      "from": "Kandy",
+      "date": "May 21, 2026",
+      "text": "Site maintenance session today covering two things. First: your contact form spam filter was rejecting real submissions with an error message — we replaced the old reCAPTCHA setup with a honeypot approach that stops bots without blocking clients. Both forms (main contact and the in-page booking form) are updated and tested. Second: fixed a layout issue on the Lori and Kristen bio pages — the hero card was rendering behind the navigation bar instead of below it, which was cutting off the top of each page. Root cause was a padding value set too low for the site's fixed header (155px tall). Updated both pages to match Jared's working layout, including the spacing between the schedule button and the bio card below it. All three therapist bios now match. (LOR-333)"
+    },
     {
       "from": "Kandy",
       "date": "May 10, 2026",
