@@ -1520,6 +1520,19 @@ async function githubPagesPublish(env, site, article, status = 'draft') {
   const branch = site.branch || 'main';
   const blogPath = site.blogPath || 'blog';
 
+  // Static-site-generator routing (pre-step). Customer can pin a result via
+  // site.ssgOverride: 'jekyll' | 'hugo' | 'none' (skips detection). If
+  // detection finds Jekyll or Hugo, we hand off to the SSG adapter so the
+  // post lands inside the customer's build pipeline (theme, sitemap, RSS,
+  // archive — all theirs). Otherwise we fall through to the standalone-HTML
+  // path that's been here since v1.
+  if (site.ssgOverride !== 'none') {
+    const ssg = site.ssgOverride && site.ssgOverride !== 'auto'
+      ? presetSSG(site.ssgOverride)
+      : await detectGithubPagesSSG(token, site.repoOwner, site.repoName, branch);
+    if (ssg) return publishSSGPost(env, site, article, ssg, token, branch);
+  }
+
   // 0. Generate + commit hero image (FLUX). Skipped if site.imageGeneration === 'off'.
   // Image failure is non-fatal: the article still publishes, just without a hero.
   // We only re-generate if no image file exists for this slug yet (idempotent
@@ -1644,6 +1657,226 @@ async function postPublishSEO(env, site, token, branch, publicUrl, manifestArtic
   } catch (err) {
     await audit(env, site.id, 'pipeline.indexnow.failed', { error: String(err.message || err).slice(0, 200) });
   }
+}
+
+// ──────────────────────────────────────────────────────────────
+// Static site generator (Jekyll / Hugo) detection + publish.
+//
+// Most github-pages blogs use a static site generator (Jekyll is the default;
+// Hugo is the popular alternative). When we commit raw HTML to those repos,
+// the post bypasses the build pipeline and ends up with no theme styling, no
+// nav/footer, no sitemap entry, no RSS, no archive page — orphaned in the
+// repo tree. The fix is to commit a content file (markdown or HTML with
+// front-matter) into the directory the generator watches; their build then
+// renders the post with the customer's own theme and wires it into RSS +
+// archives automatically.
+//
+// Detection is conservative — we require multiple signals to classify so a
+// stray _config.yml or config.toml on a non-SSG repo can't false-positive
+// us into writing to a directory that doesn't exist.
+//
+// Today: Jekyll + Hugo. 11ty/Astro/Gatsby are next if needed.
+
+// Hardcoded SSG presets — used when the customer manually pins
+// site.ssgOverride. Skips the auto-detection probes (faster + works on repos
+// where the detection heuristic guesses wrong).
+function presetSSG(type) {
+  if (type === 'jekyll') return { type: 'jekyll', postsDir: '_posts', imageDir: 'assets/blog', imageUrlPrefix: '/assets/blog' };
+  if (type === 'hugo') return { type: 'hugo', postsDir: 'content/posts', imageDir: 'static/blog', imageUrlPrefix: '/blog' };
+  return null;
+}
+
+async function detectGithubPagesSSG(token, owner, repo, branch) {
+  // Jekyll: _config.yml at root AND _posts directory present
+  const jekyllConfig = await ghGetFile(token, owner, repo, branch, '_config.yml');
+  if (jekyllConfig.ok && jekyllConfig.exists) {
+    const postsDir = await ghContentsList(token, owner, repo, branch, '_posts');
+    if (postsDir.ok && postsDir.isDir) {
+      return { type: 'jekyll', postsDir: '_posts', imageDir: 'assets/blog', imageUrlPrefix: '/assets/blog' };
+    }
+  }
+  // Hugo: hugo.toml / config.toml / config.yaml at root AND content/ directory
+  for (const cfg of ['hugo.toml', 'hugo.yaml', 'config.toml', 'config.yaml']) {
+    const hugoConfig = await ghGetFile(token, owner, repo, branch, cfg);
+    if (hugoConfig.ok && hugoConfig.exists) {
+      // Hugo customers vary content layout: content/posts/, content/blog/, content/post/.
+      // Probe in that order; first directory wins.
+      for (const dir of ['content/posts', 'content/blog', 'content/post']) {
+        const probe = await ghContentsList(token, owner, repo, branch, dir);
+        if (probe.ok && probe.isDir) {
+          return { type: 'hugo', postsDir: dir, imageDir: 'static/blog', imageUrlPrefix: '/blog' };
+        }
+      }
+    }
+  }
+  return null;
+}
+
+// Light wrapper around the GH contents API that recognizes directory
+// responses (array body) vs file responses (object body). ghGetFile only
+// understands files, so we need this for the SSG detection probes.
+async function ghContentsList(token, owner, repo, branch, dirPath) {
+  const url = `${GITHUB_API}/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}/contents/${dirPath}?ref=${encodeURIComponent(branch)}`;
+  const res = await fetch(url, { headers: ghHeaders(token) });
+  if (res.status === 404) return { ok: true, isDir: false, items: [] };
+  if (!res.ok) {
+    const body = await res.text().catch(() => '');
+    return { ok: false, error: `github ${res.status} on LIST ${dirPath}: ${body.slice(0, 200)}` };
+  }
+  const data = await res.json();
+  return { ok: true, isDir: Array.isArray(data), items: Array.isArray(data) ? data : [] };
+}
+
+// YAML-safe string for front-matter. Wraps in double quotes and escapes
+// backslashes + double quotes. Newlines are preserved literally via \n.
+function yamlString(s) {
+  return '"' + String(s == null ? '' : s).replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n') + '"';
+}
+
+function jekyllFrontMatter({ article, brandName, imageUrl, firstPublishedAt }) {
+  // Jekyll's date format: YYYY-MM-DD HH:MM:SS +0000. Strict; weird formats
+  // cause Jekyll to skip the post entirely.
+  const d = new Date(firstPublishedAt);
+  const pad = (n) => String(n).padStart(2, '0');
+  const dateStr = `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())} ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}:${pad(d.getUTCSeconds())} +0000`;
+  const lines = [
+    '---',
+    `layout: post`,
+    `title: ${yamlString(article.title || '')}`,
+    `description: ${yamlString(article.metaDescription || '')}`,
+    `date: ${dateStr}`,
+    `author: ${yamlString(brandName)}`,
+  ];
+  if (imageUrl) lines.push(`image: ${yamlString(imageUrl)}`);
+  if (article.faqs && article.faqs.length) lines.push('has_faqs: true');
+  lines.push('---', '');
+  return lines.join('\n');
+}
+
+function hugoFrontMatter({ article, brandName, imageUrl, firstPublishedAt, modifiedAt }) {
+  const lines = [
+    '---',
+    `title: ${yamlString(article.title || '')}`,
+    `description: ${yamlString(article.metaDescription || '')}`,
+    `date: ${firstPublishedAt}`,
+    `lastmod: ${modifiedAt}`,
+    `draft: false`,
+    `author: ${yamlString(brandName)}`,
+  ];
+  if (imageUrl) {
+    lines.push('images:', `  - ${yamlString(imageUrl)}`);
+  }
+  lines.push('---', '');
+  return lines.join('\n');
+}
+
+// SSG publish: writes a content file (HTML with front-matter) into the
+// generator's posts dir, commits the hero image into the static-assets dir,
+// then pings IndexNow. We do NOT touch sitemap.xml or a blog index — both
+// are generated by the SSG itself. The customer's existing theme owns the
+// page wrapper (head, nav, footer, schema), so we provide rich front-matter
+// metadata and let the theme do its thing.
+async function publishSSGPost(env, site, article, ssg, token, branch) {
+  const brandName = siteBrandName(site);
+  const slug = article.slug;
+
+  // 1. Hero image (if enabled). Same idempotent semantics as the standalone
+  // path: only generate if no image file exists for this slug yet.
+  let imageUrl = null;
+  const imgMode = site.imageGeneration || 'flux';
+  if (imgMode === 'flux') {
+    const imgPath = `${ssg.imageDir}/${slug}.jpg`;
+    const existingImg = await ghGetFile(token, site.repoOwner, site.repoName, branch, imgPath);
+    if (existingImg.ok && existingImg.exists) {
+      imageUrl = `${ssg.imageUrlPrefix}/${slug}.jpg`;
+    } else if (existingImg.ok) {
+      const img = await generateHeroImage(env, article);
+      if (img.ok) {
+        const imgPut = await ghPutBase64File(
+          token, site.repoOwner, site.repoName, branch, imgPath, img.base64,
+          `Phoenix AI: hero image for ${slug}`,
+        );
+        if (imgPut.ok) imageUrl = `${ssg.imageUrlPrefix}/${slug}.jpg`;
+        else await audit(env, site.id, 'pipeline.image.commit_failed', { slug, error: imgPut.error });
+      } else {
+        await audit(env, site.id, 'pipeline.image.gen_failed', { slug, error: img.error });
+      }
+    }
+  }
+
+  // 2. Compose the body. Article HTML is wrapped with a hero figure when an
+  // image is available, plus the FAQ block. The customer's theme will render
+  // <head>/<nav>/<footer> — we don't include those.
+  const escape = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const heroFigure = imageUrl
+    ? `<figure class="hero"><img src="${imageUrl}" alt="${escape(article.title || '')}" loading="eager" width="1280" height="720"></figure>\n\n`
+    : '';
+  const faqHtml = (article.faqs && article.faqs.length)
+    ? '\n\n<h2>Frequently Asked Questions</h2>\n' + article.faqs.map((f) =>
+        `<h3>${escape(String(f.q || ''))}</h3>\n<p>${escape(String(f.a || ''))}</p>`).join('\n')
+    : '';
+  const body = heroFigure + (article.html || '') + faqHtml;
+
+  // 3. Preserved publish date (matches the standalone-HTML path semantics).
+  const firstPublishedAt = await getOrInitFirstPublishedAt(env, site.id, slug, nowIso);
+  const modifiedAt = nowIso();
+
+  // 4. Front-matter + body → file at the SSG's posts dir.
+  let postPath, frontMatter;
+  if (ssg.type === 'jekyll') {
+    // Jekyll requires YYYY-MM-DD-slug.html. Date prefix is enforced by the build.
+    const datePrefix = firstPublishedAt.slice(0, 10);
+    postPath = `${ssg.postsDir}/${datePrefix}-${slug}.html`;
+    frontMatter = jekyllFrontMatter({ article, brandName, imageUrl, firstPublishedAt });
+  } else {
+    postPath = `${ssg.postsDir}/${slug}.html`;
+    frontMatter = hugoFrontMatter({ article, brandName, imageUrl, firstPublishedAt, modifiedAt });
+  }
+  const fileContent = frontMatter + body + '\n';
+
+  const existing = await ghGetFile(token, site.repoOwner, site.repoName, branch, postPath);
+  if (!existing.ok) return existing;
+  const put = await ghPutFile(
+    token, site.repoOwner, site.repoName, branch, postPath, fileContent,
+    `Phoenix AI: ${existing.exists ? 'update' : 'publish'} ${slug}`,
+    existing.sha,
+  );
+  if (!put.ok) return put;
+
+  // 5. Public URL: Jekyll defaults to /YYYY/MM/DD/slug.html (configurable via
+  // permalink); Hugo's default is /{section}/{slug}/. We surface our best
+  // guess but flag it — the customer can correct via the dashboard if their
+  // permalink config differs.
+  const baseUrl = site.url.replace(/\/+$/, '');
+  const publicUrl = ssg.type === 'jekyll'
+    ? `${baseUrl}/${firstPublishedAt.slice(0, 4)}/${firstPublishedAt.slice(5, 7)}/${firstPublishedAt.slice(8, 10)}/${slug}.html`
+    : `${baseUrl}/${ssg.postsDir.replace(/^content\//, '')}/${slug}/`;
+  const editUrl = `https://github.com/${site.repoOwner}/${site.repoName}/edit/${branch}/${postPath}`;
+
+  // 6. IndexNow only — SSG handles its own sitemap.
+  try {
+    const key = await getOrCreateIndexNowKey(env, site);
+    const keyFile = await ensureIndexNowKeyFile(token, site, branch, key);
+    if (keyFile.ok) {
+      const ping = await pingIndexNow({ keyHost: new URL(site.url).hostname, key, urls: [publicUrl] });
+      if (ping.ok) await audit(env, site.id, 'pipeline.indexnow.pinged', { url: publicUrl, status: ping.status });
+      else await audit(env, site.id, 'pipeline.indexnow.failed', { status: ping.status, error: ping.error });
+    } else {
+      await audit(env, site.id, 'pipeline.indexnow.key_failed', { error: keyFile.error });
+    }
+  } catch (err) {
+    await audit(env, site.id, 'pipeline.indexnow.failed', { error: String(err.message || err).slice(0, 200) });
+  }
+
+  await audit(env, site.id, 'pipeline.ssg.published', { ssg: ssg.type, postsDir: ssg.postsDir, slug });
+  return {
+    ok: true,
+    publicUrl,
+    wpEditUrl: editUrl,
+    wpPostId: null,
+    imageUrl,
+    indexWarning: `Published as ${ssg.type} content. Public URL is a best-guess based on default permalinks — verify after the next build completes.`,
+  };
 }
 
 // Hard-delete an article we previously committed to a GitHub Pages repo:
