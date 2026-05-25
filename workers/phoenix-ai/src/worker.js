@@ -1081,14 +1081,119 @@ function utf8FromB64(b64) {
   return new TextDecoder().decode(bytes);
 }
 
-function blogPostHTML({ site, article, faqHtml, imageUrl }) {
+// Display name used in <title> brand suffix, JSON-LD author/publisher, and
+// OG site_name. Customer can override via site.brandName; otherwise we derive
+// from the URL hostname (drop www., drop TLD, title-case the remainder).
+// "phoenixmethodseo.com" → "Phoenixmethodseo"; "lori-sleep-hub.com" → "Lori Sleep Hub".
+function siteBrandName(site) {
+  if (site.brandName && String(site.brandName).trim()) return String(site.brandName).trim();
+  try {
+    const host = new URL(site.url).hostname.replace(/^www\./, '');
+    const stem = host.replace(/\.[a-z.]+$/i, '');
+    return stem.split(/[-_.]+/).filter(Boolean).map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') || host;
+  } catch {
+    return '';
+  }
+}
+
+// First-publish timestamp lookup. Keyed by slug (not articleId) so re-running
+// the same keyword — which produces a new articleId each time but the same
+// slug — preserves the original publish date. Without this, datePublished
+// resets every regenerate and Google loses the article's age signal.
+async function getOrInitFirstPublishedAt(env, siteId, slug, nowIsoFn) {
+  const key = `firstpub:${siteId}:${slug}`;
+  const existing = await env.ARTICLES.get(key);
+  if (existing) return existing;
+  const now = nowIsoFn();
+  await env.ARTICLES.put(key, now);
+  return now;
+}
+
+// IndexNow: free, instant-indexing protocol supported by Bing, Yandex, Seznam,
+// Naver, and IndexNow.org's network. Key file must be hosted at the site root
+// (we commit it to the github-pages repo). One key per site, stored on the
+// site record; generated lazily on first publish.
+async function getOrCreateIndexNowKey(env, site) {
+  if (site.indexNowKey && /^[a-f0-9]{32,}$/i.test(site.indexNowKey)) return site.indexNowKey;
+  const key = uuid().replace(/-/g, '');
+  site.indexNowKey = key;
+  await saveSite(env, site);
+  return key;
+}
+
+async function ensureIndexNowKeyFile(token, site, branch, key) {
+  const path = `${key}.txt`;
+  const existing = await ghGetFile(token, site.repoOwner, site.repoName, branch, path);
+  if (!existing.ok) return existing;
+  if (existing.exists && (existing.content || '').trim() === key) return { ok: true };
+  return ghPutFile(token, site.repoOwner, site.repoName, branch, path, key, 'Phoenix AI: IndexNow key', existing.sha);
+}
+
+async function pingIndexNow({ keyHost, key, urls }) {
+  const res = await fetch('https://api.indexnow.org/IndexNow', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    body: JSON.stringify({ host: keyHost, key, keyLocation: `https://${keyHost}/${key}.txt`, urlList: urls }),
+  });
+  if (res.ok || res.status === 202) return { ok: true, status: res.status };
+  const body = await res.text().catch(() => '');
+  return { ok: false, status: res.status, error: body.slice(0, 200) };
+}
+
+// Sitemap.xml: rewrite from the blog index manifest each publish. We only
+// manage sitemaps that carry our marker comment so a customer's hand-built
+// or generator-built (Jekyll, etc.) sitemap is never clobbered.
+const SITEMAP_MARKER = '<!-- phoenix-ai:managed -->';
+
+function buildSitemapXml(site, articles) {
+  const baseUrl = site.url.replace(/\/+$/, '');
+  const blogPath = site.blogPath || 'blog';
+  const xmlEscape = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[c]));
+  const urls = [
+    { loc: `${baseUrl}/`, lastmod: null, priority: '1.0' },
+    { loc: `${baseUrl}/${blogPath}/`, lastmod: articles[0] ? (articles[0].publishedAt || '').slice(0, 10) : null, priority: '0.9' },
+    ...articles.map((a) => ({
+      loc: `${baseUrl}/${blogPath}/${a.slug}.html`,
+      lastmod: (a.publishedAt || '').slice(0, 10),
+      priority: '0.8',
+    })),
+  ];
+  const entries = urls.map((u) =>
+    `  <url>\n    <loc>${xmlEscape(u.loc)}</loc>` +
+    (u.lastmod ? `\n    <lastmod>${u.lastmod}</lastmod>` : '') +
+    `\n    <priority>${u.priority}</priority>\n  </url>`
+  ).join('\n');
+  return `<?xml version="1.0" encoding="UTF-8"?>\n${SITEMAP_MARKER}\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries}\n</urlset>\n`;
+}
+
+async function updateSitemapXml(token, site, articles, branch) {
+  const path = 'sitemap.xml';
+  const existing = await ghGetFile(token, site.repoOwner, site.repoName, branch, path);
+  if (!existing.ok) return existing;
+  if (existing.exists && !(existing.content || '').includes(SITEMAP_MARKER)) {
+    return { ok: false, skipped: true, reason: 'customer-managed sitemap.xml found (no phoenix-ai marker) — not modifying' };
+  }
+  const xml = buildSitemapXml(site, articles);
+  return ghPutFile(token, site.repoOwner, site.repoName, branch, path, xml, `Phoenix AI: update sitemap.xml`, existing.sha);
+}
+
+function blogPostHTML({ site, article, faqHtml, imageUrl, firstPublishedAt, modifiedAt }) {
   // Minimal blog post template. Includes /assets/site-chrome.{css,js} so if
   // the customer's repo has them (like phoenixmethodseo.com does), the page
   // automatically inherits their site's nav + footer + design tokens. If
   // those files don't exist in the repo, the inline fallback styles still
   // produce a readable page.
   const escape = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const titleEsc = escape(article.title || '');
+  const brandName = siteBrandName(site);
+  const brandNameEsc = escape(brandName);
+  const rawTitle = article.title || '';
+  // Brand suffix on <title> for SERP click-through. Skipped when the title
+  // already contains the brand so we don't double it up.
+  const titleWithBrand = brandName && !rawTitle.toLowerCase().includes(brandName.toLowerCase())
+    ? `${rawTitle} | ${brandName}`
+    : rawTitle;
+  const titleEsc = escape(titleWithBrand);
+  const ogTitleEsc = escape(rawTitle);
   const descEsc = escape(article.metaDescription || '');
   const canonical = `${site.url.replace(/\/+$/, '')}/${site.blogPath || 'blog'}/${article.slug}.html`;
   const absImage = imageUrl ? `${site.url.replace(/\/+$/, '')}${imageUrl}` : '';
@@ -1098,13 +1203,17 @@ function blogPostHTML({ site, article, faqHtml, imageUrl }) {
     ? `<meta property="og:image" content="${absImage}">\n<meta property="og:image:width" content="1280">\n<meta property="og:image:height" content="720">\n<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:image" content="${absImage}">`
     : '';
   const heroFigure = imageUrl
-    ? `<figure class="hero"><img src="${imageUrl}" alt="${titleEsc}" loading="eager" width="1280" height="720"></figure>`
+    ? `<figure class="hero"><img src="${imageUrl}" alt="${escape(rawTitle)}" loading="eager" width="1280" height="720"></figure>`
     : '';
   // JSON-LD structured data: Article + BreadcrumbList + FAQPage. Google uses
   // these for rich results (article cards, breadcrumb display in SERPs, FAQ
   // expansion). Skips FAQPage if the article has no FAQs.
   const blogPath = site.blogPath || 'blog';
-  const publishedIso = new Date().toISOString();
+  // datePublished is preserved across re-runs (first-publish timestamp from KV)
+  // so regenerating a post doesn't reset Google's freshness/age trust signal.
+  // dateModified always reflects this run.
+  const publishedIso = firstPublishedAt || new Date().toISOString();
+  const modifiedIso = modifiedAt || new Date().toISOString();
   const jsonEscape = (s) => String(s == null ? '' : s).replace(/[\\" -]/g, (c) => {
     if (c === '\\' || c === '"') return '\\' + c;
     if (c === '\n') return '\\n';
@@ -1115,13 +1224,14 @@ function blogPostHTML({ site, article, faqHtml, imageUrl }) {
   const articleSchema = {
     '@context': 'https://schema.org',
     '@type': 'Article',
-    headline: article.title || '',
+    headline: rawTitle,
     description: article.metaDescription || '',
     image: absImage || undefined,
     datePublished: publishedIso,
-    dateModified: publishedIso,
-    author: { '@type': 'Organization', name: 'Phoenix Method', url: site.url.replace(/\/+$/, '') },
-    publisher: { '@type': 'Organization', name: 'Phoenix Method', url: site.url.replace(/\/+$/, '') },
+    dateModified: modifiedIso,
+    inLanguage: 'en',
+    author: { '@type': 'Organization', name: brandName, url: site.url.replace(/\/+$/, '') },
+    publisher: { '@type': 'Organization', name: brandName, url: site.url.replace(/\/+$/, '') },
     mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
   };
   const breadcrumbSchema = {
@@ -1130,7 +1240,7 @@ function blogPostHTML({ site, article, faqHtml, imageUrl }) {
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: site.url.replace(/\/+$/, '') + '/' },
       { '@type': 'ListItem', position: 2, name: 'Blog', item: `${site.url.replace(/\/+$/, '')}/${blogPath}/` },
-      { '@type': 'ListItem', position: 3, name: article.title || '', item: canonical },
+      { '@type': 'ListItem', position: 3, name: rawTitle, item: canonical },
     ],
   };
   const faqSchema = (article.faqs && article.faqs.length) ? {
@@ -1151,11 +1261,16 @@ function blogPostHTML({ site, article, faqHtml, imageUrl }) {
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${titleEsc}</title>
 <meta name="description" content="${descEsc}">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="${canonical}">
-<meta property="og:title" content="${titleEsc}">
+<meta property="og:title" content="${ogTitleEsc}">
 <meta property="og:description" content="${descEsc}">
 <meta property="og:url" content="${canonical}">
 <meta property="og:type" content="article">
+<meta property="og:site_name" content="${brandNameEsc}">
+<meta property="article:published_time" content="${publishedIso}">
+<meta property="article:modified_time" content="${modifiedIso}">
+<meta property="article:author" content="${brandNameEsc}">
 ${ogImage}
 ${schemaTags}
 <link rel="stylesheet" href="/assets/site-chrome.css">
@@ -1437,7 +1552,9 @@ async function githubPagesPublish(env, site, article, status = 'draft') {
   const faqHtml = (article.faqs && article.faqs.length)
     ? '<h2>Frequently Asked Questions</h2>' + article.faqs.map((f) => `<h3>${String(f.q || '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]))}</h3><p>${String(f.a || '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]))}</p>`).join('')
     : '';
-  const postHtml = blogPostHTML({ site, article, faqHtml, imageUrl });
+  const firstPublishedAt = await getOrInitFirstPublishedAt(env, site.id, article.slug, nowIso);
+  const modifiedAt = nowIso();
+  const postHtml = blogPostHTML({ site, article, faqHtml, imageUrl, firstPublishedAt, modifiedAt });
   const postPath = `${blogPath}/${article.slug}.html`;
 
   // 1. Check if the article file already exists (re-publish/edit case).
@@ -1491,7 +1608,42 @@ async function githubPagesPublish(env, site, article, status = 'draft') {
   );
   if (!idxPut.ok) return idxPut;
 
+  // 4. Post-publish SEO: rewrite sitemap.xml + ping IndexNow. Both are
+  // best-effort — the article is already live, so failures are logged but
+  // don't propagate as a publish error.
+  await postPublishSEO(env, site, token, branch, publicUrl, updated);
+
   return { ok: true, publicUrl, wpEditUrl: editUrl, wpPostId: null, imageUrl };
+}
+
+// Sitemap + IndexNow: runs after the article + index commit lands. Each step
+// audit-logs success/failure independently so a sitemap glitch doesn't hide an
+// IndexNow problem and vice versa.
+async function postPublishSEO(env, site, token, branch, publicUrl, manifestArticles) {
+  // Sitemap
+  try {
+    const sm = await updateSitemapXml(token, site, manifestArticles, branch);
+    if (sm.ok) await audit(env, site.id, 'pipeline.sitemap.updated', { url: publicUrl });
+    else if (sm.skipped) await audit(env, site.id, 'pipeline.sitemap.skipped', { reason: sm.reason });
+    else await audit(env, site.id, 'pipeline.sitemap.failed', { error: sm.error });
+  } catch (err) {
+    await audit(env, site.id, 'pipeline.sitemap.failed', { error: String(err.message || err).slice(0, 200) });
+  }
+  // IndexNow
+  try {
+    const key = await getOrCreateIndexNowKey(env, site);
+    const keyFile = await ensureIndexNowKeyFile(token, site, branch, key);
+    if (!keyFile.ok) {
+      await audit(env, site.id, 'pipeline.indexnow.key_failed', { error: keyFile.error });
+      return;
+    }
+    const keyHost = new URL(site.url).hostname;
+    const ping = await pingIndexNow({ keyHost, key, urls: [publicUrl] });
+    if (ping.ok) await audit(env, site.id, 'pipeline.indexnow.pinged', { url: publicUrl, status: ping.status });
+    else await audit(env, site.id, 'pipeline.indexnow.failed', { status: ping.status, error: ping.error });
+  } catch (err) {
+    await audit(env, site.id, 'pipeline.indexnow.failed', { error: String(err.message || err).slice(0, 200) });
+  }
 }
 
 // Hard-delete an article we previously committed to a GitHub Pages repo:
