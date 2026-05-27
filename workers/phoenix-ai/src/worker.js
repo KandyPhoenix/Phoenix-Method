@@ -2026,6 +2026,198 @@ async function deleteSSGPost(env, site, article, ssg, token, branch) {
 }
 
 // ──────────────────────────────────────────────────────────────
+// Site-chrome bootstrap (github-pages, non-SSG sites).
+//
+// For plain-HTML github-pages sites that don't already use our
+// site-chrome convention, scrape their homepage, lift out the header +
+// footer markup, and commit a starter assets/site-chrome.{css,js} pair
+// to their repo. Generated posts then inherit the customer's nav and
+// footer for free — no more orphaned-looking blog pages.
+//
+// Approach: the generated site-chrome.js injects the customer's own
+// external stylesheets PLUS the extracted header/footer HTML into our
+// blog-post placeholders. Because the same CSS is loaded, the nav
+// inherits the customer's real styling without us having to copy or
+// reproduce their CSS rules. Relative URLs in the markup keep working
+// since the blog post is served from the same domain.
+
+const CHROME_CSS_PATH = 'assets/site-chrome.css';
+const CHROME_JS_PATH = 'assets/site-chrome.js';
+
+async function extractSiteChromeFromHomepage(siteUrl) {
+  let res;
+  try {
+    res = await fetch(siteUrl, {
+      headers: { 'User-Agent': 'PhoenixAI/1.0 (+https://phoenixmethodseo.com/phoenix-ai/)' },
+      redirect: 'follow',
+    });
+  } catch (err) {
+    return { ok: false, error: `fetch failed: ${String(err.message || err).slice(0, 200)}` };
+  }
+  if (!res.ok) return { ok: false, error: `homepage returned ${res.status}` };
+  const html = await res.text();
+
+  // First <header>...</header> and last <footer>...</footer>. Regex is
+  // fragile in general but for top-level structural elements it's reliable
+  // enough on real sites, and we don't need a full DOM parser just for this.
+  const headerMatch = html.match(/<header\b[^>]*>([\s\S]*?)<\/header>/i);
+  const headerHtml = headerMatch ? headerMatch[0] : '';
+
+  // Use lastIndexOf-style approach for footer: match all, take last.
+  const footerMatches = [...html.matchAll(/<footer\b[^>]*>([\s\S]*?)<\/footer>/gi)];
+  const footerHtml = footerMatches.length ? footerMatches[footerMatches.length - 1][0] : '';
+
+  // External stylesheets — resolve to absolute URLs so they load correctly
+  // when injected into a blog-post page served from a different path.
+  const stylesheetUrls = [];
+  for (const m of html.matchAll(/<link\b[^>]*\brel=["']?stylesheet["']?[^>]*>/gi)) {
+    const hrefMatch = m[0].match(/\bhref=["']([^"']+)["']/i);
+    if (!hrefMatch) continue;
+    try {
+      stylesheetUrls.push(new URL(hrefMatch[1], siteUrl).href);
+    } catch { /* skip malformed */ }
+  }
+
+  // <body> classes (some themes scope all styles to body class).
+  const bodyMatch = html.match(/<body\b([^>]*)>/i);
+  const bodyClassMatch = bodyMatch && bodyMatch[1].match(/\bclass=["']([^"']+)["']/i);
+  const bodyClass = bodyClassMatch ? bodyClassMatch[1] : '';
+
+  return { ok: true, headerHtml, footerHtml, stylesheetUrls, bodyClass };
+}
+
+function generateSiteChromeFiles({ chrome, siteUrl }) {
+  // CSS is intentionally minimal — we don't try to replicate the customer's
+  // styles. Their own stylesheets get injected at runtime by the JS file and
+  // the extracted nav/footer markup inherits from those. We just ensure the
+  // injection points don't collapse to zero height before JS runs and the
+  // article body has some readable defaults if the customer has no CSS at
+  // all (unlikely but possible).
+  const css = `/* Phoenix AI: site-chrome bootstrap. Generated from ${siteUrl}.
+ * Safe to edit — re-bootstrap will not overwrite this file.
+ */
+#pm-nav, #pm-footer { display: block; }
+#pm-nav:empty, #pm-footer:empty { display: none; }
+.blog-post { max-width: 720px; margin: 60px auto; padding: 0 24px; line-height: 1.7; }
+.blog-post h1, .blog-post h2, .blog-post h3 { line-height: 1.25; }
+.blog-post .hero img { width: 100%; height: auto; border-radius: 12px; display: block; margin-bottom: 28px; }
+`;
+
+  const headerJson = JSON.stringify(chrome.headerHtml || '');
+  const footerJson = JSON.stringify(chrome.footerHtml || '');
+  const sheetsJson = JSON.stringify(chrome.stylesheetUrls || []);
+  const bodyClassJson = JSON.stringify(chrome.bodyClass || '');
+
+  const js = `/* Phoenix AI: site-chrome bootstrap. Generated from ${siteUrl}.
+ * Injects the customer's own stylesheets + extracted header/footer markup
+ * so blog posts inherit the live site's design. Safe to edit — re-bootstrap
+ * will not overwrite this file.
+ */
+(function () {
+  var sheets = ${sheetsJson};
+  var headerHtml = ${headerJson};
+  var footerHtml = ${footerJson};
+  var bodyClass = ${bodyClassJson};
+
+  // Load the customer's stylesheets (idempotent — skip ones already on the page).
+  var existingHrefs = new Set(
+    Array.from(document.querySelectorAll('link[rel="stylesheet"]')).map(function (l) { return l.href; })
+  );
+  sheets.forEach(function (href) {
+    if (existingHrefs.has(href)) return;
+    var l = document.createElement('link');
+    l.rel = 'stylesheet';
+    l.href = href;
+    document.head.appendChild(l);
+  });
+
+  // Apply body classes if the customer's theme scopes styles to them.
+  if (bodyClass && document.body) {
+    bodyClass.split(/\\s+/).filter(Boolean).forEach(function (c) {
+      if (!document.body.classList.contains(c)) document.body.classList.add(c);
+    });
+  }
+
+  // Inject nav/footer into the Phoenix AI placeholders.
+  function inject() {
+    var navMount = document.getElementById('pm-nav');
+    if (navMount && !navMount.firstChild && headerHtml) navMount.innerHTML = headerHtml;
+    var footMount = document.getElementById('pm-footer');
+    if (footMount && !footMount.firstChild && footerHtml) footMount.innerHTML = footerHtml;
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', inject);
+  } else {
+    inject();
+  }
+})();
+`;
+
+  return { css, js };
+}
+
+async function bootstrapSiteChrome(env, site, opts = {}) {
+  if (site.cms !== 'github-pages') return { ok: false, error: 'bootstrap-chrome only applies to github-pages sites' };
+  const token = await decryptSecret(site.githubToken, env.SESSION_SECRET);
+  if (!token) return { ok: false, error: 'missing GitHub PAT for this site' };
+  if (!site.repoOwner || !site.repoName) return { ok: false, error: 'missing GitHub repo coordinates' };
+  const branch = site.branch || 'main';
+
+  // Idempotency: if either file already exists, do not overwrite. The
+  // customer may have hand-tuned them; clobbering would lose their edits.
+  // opts.force = true lets the customer explicitly re-bootstrap.
+  const existingCss = await ghGetFile(token, site.repoOwner, site.repoName, branch, CHROME_CSS_PATH);
+  const existingJs = await ghGetFile(token, site.repoOwner, site.repoName, branch, CHROME_JS_PATH);
+  if (!existingCss.ok) return existingCss;
+  if (!existingJs.ok) return existingJs;
+  if (!opts.force && (existingCss.exists || existingJs.exists)) {
+    return { ok: false, error: 'site-chrome.css and/or site-chrome.js already exist. Pass force=true to overwrite.', alreadyExists: true };
+  }
+
+  const chrome = await extractSiteChromeFromHomepage(site.url);
+  if (!chrome.ok) return chrome;
+
+  // If we couldn't find a header AND a footer AND any stylesheets, the
+  // homepage probably isn't structured how we expect — bail rather than
+  // commit empty chrome files.
+  if (!chrome.headerHtml && !chrome.footerHtml && (!chrome.stylesheetUrls || !chrome.stylesheetUrls.length)) {
+    return { ok: false, error: 'could not extract usable nav/footer/styles from the homepage. Site may use a JS-only framework or non-standard markup.' };
+  }
+
+  const files = generateSiteChromeFiles({ chrome, siteUrl: site.url });
+
+  const cssPut = await ghPutFile(
+    token, site.repoOwner, site.repoName, branch, CHROME_CSS_PATH, files.css,
+    'Phoenix AI: bootstrap site-chrome.css', existingCss.sha,
+  );
+  if (!cssPut.ok) return cssPut;
+
+  const jsPut = await ghPutFile(
+    token, site.repoOwner, site.repoName, branch, CHROME_JS_PATH, files.js,
+    'Phoenix AI: bootstrap site-chrome.js', existingJs.sha,
+  );
+  if (!jsPut.ok) return jsPut;
+
+  await audit(env, site.id, 'site.chrome.bootstrapped', {
+    headerChars: (chrome.headerHtml || '').length,
+    footerChars: (chrome.footerHtml || '').length,
+    stylesheets: (chrome.stylesheetUrls || []).length,
+    force: Boolean(opts.force),
+  });
+
+  return {
+    ok: true,
+    extracted: {
+      header: Boolean(chrome.headerHtml),
+      footer: Boolean(chrome.footerHtml),
+      stylesheets: (chrome.stylesheetUrls || []).length,
+      bodyClass: chrome.bodyClass || '',
+    },
+    files: { css: CHROME_CSS_PATH, js: CHROME_JS_PATH },
+  };
+}
+
+// ──────────────────────────────────────────────────────────────
 // Job runner. Manual /generate awaits this inline (so the full request
 // wall-time window is available — ctx.waitUntil was being cancelled on
 // Workers Free before the LLM finished). Cron-driven generation still
@@ -2623,6 +2815,10 @@ async function apiRouter(request, env, url, path, ctx) {
       let body; try { body = await request.json(); } catch { return json({ error: 'bad json' }, 400); }
       // Only specific fields are editable. Credentials and ownership are
       // immutable through this endpoint by design.
+      if (typeof body.brandName === 'string') {
+        // Empty string clears the override (we fall back to hostname-derived).
+        site.brandName = body.brandName.trim().slice(0, 80);
+      }
       if (typeof body.brandVoiceOverride === 'string') {
         site.brandVoiceOverride = body.brandVoiceOverride.trim().slice(0, 4000);
       }
@@ -2690,6 +2886,20 @@ async function apiRouter(request, env, url, path, ctx) {
     if (sub === 'research' && request.method === 'POST') {
       const result = await researchAndStoreKeywords(env, site);
       return json({ ok: true, count: result.list.length, keywords: result.list, source: result.source, seedKind: result.seedKind });
+    }
+
+    if (sub === 'bootstrap-chrome' && request.method === 'POST') {
+      // Scrapes the customer's homepage and commits a starter
+      // assets/site-chrome.{css,js} pair to their github-pages repo so
+      // future blog posts inherit their real nav/footer/styles. No-op
+      // (HTTP 409) if either file already exists; pass { force: true }
+      // in the body to overwrite.
+      if (site.cms !== 'github-pages') return json({ error: 'bootstrap-chrome only applies to github-pages sites' }, 400);
+      let body = {};
+      try { body = await request.json(); } catch { /* empty body fine */ }
+      const result = await bootstrapSiteChrome(env, site, { force: Boolean(body && body.force) });
+      if (!result.ok) return json(result, result.alreadyExists ? 409 : 400);
+      return json(result);
     }
 
     if (sub === 'gsc/properties' && request.method === 'GET') {
@@ -3321,6 +3531,11 @@ function dashboardHTML() {
           '<summary style="cursor:pointer;color:var(--muted);font-family:\\'Rajdhani\\',sans-serif;font-size:0.82rem;letter-spacing:0.1em;text-transform:uppercase;">Settings</summary>' +
           '<form data-settings-site="' + site.id + '" style="display:grid;gap:14px;margin-top:14px;max-width:640px;">' +
             '<div>' +
+              '<label>Brand name</label>' +
+              '<input type="text" name="brandName" value="' + escapeHTML(site.brandName || '') + '" placeholder="' + escapeHTML(siteBrandName(site)) + '" maxlength="80" style="width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:\\'Outfit\\',sans-serif;font-size:0.95rem;">' +
+              '<p class="help" style="margin-top:6px;">Used in &lt;title&gt; suffix, OpenGraph site_name, and Article schema author/publisher. Leave empty to auto-derive from the URL (placeholder shows the fallback).</p>' +
+            '</div>' +
+            '<div>' +
               '<label>Brand voice override</label>' +
               '<textarea name="brandVoiceOverride" rows="5" placeholder="Optional. Paste 200–500 words that capture the voice." style="width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:\\'Outfit\\',sans-serif;font-size:0.95rem;resize:vertical;">' + escapeHTML(site.brandVoiceOverride || '') + '</textarea>' +
               '<p class="help" style="margin-top:6px;">' + (voiceOverrideLen ? voiceOverrideLen + ' chars — overriding the auto-crawled voice.' : 'Empty — using the auto-crawled homepage as the voice sample.') + '</p>' +
@@ -3555,7 +3770,9 @@ function dashboardHTML() {
           // means "keep what's stored" — don't accidentally clear it.
           const keyField = form.querySelector('input[name=anthropicApiKey]');
           const keyValue = keyField ? keyField.value.trim() : '';
+          const brandNameField = form.querySelector('input[name=brandName]');
           const patch = {
+            brandName: brandNameField ? brandNameField.value : '',
             brandVoiceOverride: form.querySelector('textarea[name=brandVoiceOverride]').value,
             requireApproval: form.querySelector('input[name=requireApproval]').checked,
             autoPublish: form.querySelector('input[name=autoPublish]').checked,
