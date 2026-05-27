@@ -1890,6 +1890,18 @@ async function githubPagesDelete(env, site, article) {
   if (!site.repoOwner || !site.repoName) return { ok: false, error: 'missing GitHub repo coordinates' };
   const branch = site.branch || 'main';
   const blogPath = site.blogPath || 'blog';
+
+  // Same SSG routing as publish — if Jekyll/Hugo, the post file lives in a
+  // different directory (and Jekyll uses a date-prefixed filename), so we
+  // hand off to the SSG-aware delete adapter. Without this branch, delete
+  // requests on SSG-published posts silently miss the file.
+  if (site.ssgOverride !== 'none') {
+    const ssg = site.ssgOverride && site.ssgOverride !== 'auto'
+      ? presetSSG(site.ssgOverride)
+      : await detectGithubPagesSSG(token, site.repoOwner, site.repoName, branch);
+    if (ssg) return deleteSSGPost(env, site, article, ssg, token, branch);
+  }
+
   const results = {};
 
   // 1. Delete the post file.
@@ -1953,6 +1965,61 @@ async function githubPagesDelete(env, site, article) {
       results.index = { ok: true, unchanged: true };
     }
   }
+
+  // Clear the slug→first-publish KV entry so a future republish of the same
+  // slug starts with a fresh datePublished instead of inheriting the old one.
+  await env.ARTICLES.delete(`firstpub:${site.id}:${article.slug}`).catch(() => {});
+
+  const allOk = Object.values(results).every((r) => r.ok);
+  return allOk ? { ok: true, results } : { ok: false, error: 'partial delete', results };
+}
+
+// SSG-aware delete: removes the front-matter post file from the generator's
+// posts dir and the hero image from the static-assets dir. No blog index
+// rewrite — the SSG's auto-generated archive/RSS will drop the post on its
+// next build. The slug→first-publish KV entry is also cleared so a future
+// republish gets a fresh date.
+async function deleteSSGPost(env, site, article, ssg, token, branch) {
+  const slug = article.slug;
+  const results = {};
+
+  // 1. Post file. Jekyll uses YYYY-MM-DD-slug.html; date comes from KV.
+  let postPath;
+  if (ssg.type === 'jekyll') {
+    const firstPub = await env.ARTICLES.get(`firstpub:${site.id}:${slug}`);
+    const datePrefix = (firstPub || nowIso()).slice(0, 10);
+    postPath = `${ssg.postsDir}/${datePrefix}-${slug}.html`;
+  } else {
+    postPath = `${ssg.postsDir}/${slug}.html`;
+  }
+  const postFile = await ghGetFile(token, site.repoOwner, site.repoName, branch, postPath);
+  if (postFile.ok && postFile.exists) {
+    results.post = await ghDeleteFile(
+      token, site.repoOwner, site.repoName, branch, postPath, postFile.sha,
+      `Phoenix AI: delete ${slug}`,
+    );
+  } else {
+    results.post = { ok: true, alreadyGone: true };
+  }
+
+  // 2. Hero image. Computed from ssg.imageDir + slug because Hugo's
+  // URL-served path (/blog/slug.jpg) differs from the disk path
+  // (static/blog/slug.jpg), so article.imageUrl can't be used directly.
+  const imgPath = `${ssg.imageDir}/${slug}.jpg`;
+  const imgFile = await ghGetFile(token, site.repoOwner, site.repoName, branch, imgPath);
+  if (imgFile.ok && imgFile.exists) {
+    results.image = await ghDeleteFile(
+      token, site.repoOwner, site.repoName, branch, imgPath, imgFile.sha,
+      `Phoenix AI: delete image for ${slug}`,
+    );
+  } else {
+    results.image = { ok: true, alreadyGone: true };
+  }
+
+  // 3. Clear KV entry so future republish gets a fresh first-publish date.
+  await env.ARTICLES.delete(`firstpub:${site.id}:${slug}`).catch(() => {});
+
+  await audit(env, site.id, 'pipeline.ssg.deleted', { ssg: ssg.type, slug, postPath });
 
   const allOk = Object.values(results).every((r) => r.ok);
   return allOk ? { ok: true, results } : { ok: false, error: 'partial delete', results };
