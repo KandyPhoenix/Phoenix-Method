@@ -2815,6 +2815,10 @@ async function apiRouter(request, env, url, path, ctx) {
       let body; try { body = await request.json(); } catch { return json({ error: 'bad json' }, 400); }
       // Only specific fields are editable. Credentials and ownership are
       // immutable through this endpoint by design.
+      if (typeof body.brandName === 'string') {
+        // Empty string clears the override (we fall back to hostname-derived).
+        site.brandName = body.brandName.trim().slice(0, 80);
+      }
       if (typeof body.brandVoiceOverride === 'string') {
         site.brandVoiceOverride = body.brandVoiceOverride.trim().slice(0, 4000);
       }
@@ -3527,6 +3531,11 @@ function dashboardHTML() {
           '<summary style="cursor:pointer;color:var(--muted);font-family:\\'Rajdhani\\',sans-serif;font-size:0.82rem;letter-spacing:0.1em;text-transform:uppercase;">Settings</summary>' +
           '<form data-settings-site="' + site.id + '" style="display:grid;gap:14px;margin-top:14px;max-width:640px;">' +
             '<div>' +
+              '<label>Brand name</label>' +
+              '<input type="text" name="brandName" value="' + escapeHTML(site.brandName || '') + '" placeholder="' + escapeHTML(siteBrandName(site)) + '" maxlength="80" style="width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:\\'Outfit\\',sans-serif;font-size:0.95rem;">' +
+              '<p class="help" style="margin-top:6px;">Used in &lt;title&gt; suffix, OpenGraph site_name, and Article schema author/publisher. Leave empty to auto-derive from the URL (placeholder shows the fallback).</p>' +
+            '</div>' +
+            '<div>' +
               '<label>Brand voice override</label>' +
               '<textarea name="brandVoiceOverride" rows="5" placeholder="Optional. Paste 200–500 words that capture the voice." style="width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:\\'Outfit\\',sans-serif;font-size:0.95rem;resize:vertical;">' + escapeHTML(site.brandVoiceOverride || '') + '</textarea>' +
               '<p class="help" style="margin-top:6px;">' + (voiceOverrideLen ? voiceOverrideLen + ' chars — overriding the auto-crawled voice.' : 'Empty — using the auto-crawled homepage as the voice sample.') + '</p>' +
@@ -3761,7 +3770,9 @@ function dashboardHTML() {
           // means "keep what's stored" — don't accidentally clear it.
           const keyField = form.querySelector('input[name=anthropicApiKey]');
           const keyValue = keyField ? keyField.value.trim() : '';
+          const brandNameField = form.querySelector('input[name=brandName]');
           const patch = {
+            brandName: brandNameField ? brandNameField.value : '',
             brandVoiceOverride: form.querySelector('textarea[name=brandVoiceOverride]').value,
             requireApproval: form.querySelector('input[name=requireApproval]').checked,
             autoPublish: form.querySelector('input[name=autoPublish]').checked,
