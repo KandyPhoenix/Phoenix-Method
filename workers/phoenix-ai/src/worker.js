@@ -1683,6 +1683,8 @@ async function postPublishSEO(env, site, token, branch, publicUrl, manifestArtic
 function presetSSG(type) {
   if (type === 'jekyll') return { type: 'jekyll', postsDir: '_posts', imageDir: 'assets/blog', imageUrlPrefix: '/assets/blog' };
   if (type === 'hugo') return { type: 'hugo', postsDir: 'content/posts', imageDir: 'static/blog', imageUrlPrefix: '/blog' };
+  if (type === 'eleventy') return { type: 'eleventy', postsDir: 'src/posts', imageDir: 'src/images', imageUrlPrefix: '/images' };
+  if (type === 'astro') return { type: 'astro', postsDir: 'src/content/blog', imageDir: 'public/blog', imageUrlPrefix: '/blog' };
   return null;
 }
 
@@ -1705,6 +1707,36 @@ async function detectGithubPagesSSG(token, owner, repo, branch) {
         const probe = await ghContentsList(token, owner, repo, branch, dir);
         if (probe.ok && probe.isDir) {
           return { type: 'hugo', postsDir: dir, imageDir: 'static/blog', imageUrlPrefix: '/blog' };
+        }
+      }
+    }
+  }
+  // 11ty (Eleventy): any of eleventy.config.{js,cjs,mjs} OR .eleventy.js at root
+  // AND a recognized posts directory. 11ty users put posts in varied locations
+  // depending on whether they use the default input dir (.) or src/.
+  for (const cfg of ['eleventy.config.js', 'eleventy.config.cjs', 'eleventy.config.mjs', '.eleventy.js']) {
+    const eleventyConfig = await ghGetFile(token, owner, repo, branch, cfg);
+    if (eleventyConfig.ok && eleventyConfig.exists) {
+      for (const dir of ['src/posts', 'posts', 'src/content/posts', 'content/posts']) {
+        const probe = await ghContentsList(token, owner, repo, branch, dir);
+        if (probe.ok && probe.isDir) {
+          // imageDir mirrors the posts dir's parent (src/ vs root) so passthrough
+          // configs that copy src/* or static/* both have a reasonable default.
+          const imageDir = dir.startsWith('src/') ? 'src/images' : 'images';
+          return { type: 'eleventy', postsDir: dir, imageDir, imageUrlPrefix: '/images' };
+        }
+      }
+    }
+  }
+  // Astro: astro.config.{mjs,js,ts} at root AND a content collection directory.
+  // Default content collection layout puts blog posts in src/content/blog/.
+  for (const cfg of ['astro.config.mjs', 'astro.config.js', 'astro.config.ts']) {
+    const astroConfig = await ghGetFile(token, owner, repo, branch, cfg);
+    if (astroConfig.ok && astroConfig.exists) {
+      for (const dir of ['src/content/blog', 'src/content/posts', 'src/pages/blog']) {
+        const probe = await ghContentsList(token, owner, repo, branch, dir);
+        if (probe.ok && probe.isDir) {
+          return { type: 'astro', postsDir: dir, imageDir: 'public/blog', imageUrlPrefix: '/blog' };
         }
       }
     }
@@ -1770,6 +1802,42 @@ function hugoFrontMatter({ article, brandName, imageUrl, firstPublishedAt, modif
   return lines.join('\n');
 }
 
+function eleventyFrontMatter({ article, brandName, imageUrl, firstPublishedAt }) {
+  // 11ty convention is YYYY-MM-DD or full ISO date. tags drives collection
+  // membership — "post" or "posts" picks up most starter templates' loops.
+  const lines = [
+    '---',
+    `layout: post.njk`,
+    `title: ${yamlString(article.title || '')}`,
+    `description: ${yamlString(article.metaDescription || '')}`,
+    `date: ${firstPublishedAt.slice(0, 10)}`,
+    `tags:`, `  - post`, `  - posts`,
+    `author: ${yamlString(brandName)}`,
+  ];
+  if (imageUrl) lines.push(`image: ${yamlString(imageUrl)}`);
+  lines.push('---', '');
+  return lines.join('\n');
+}
+
+function astroFrontMatter({ article, brandName, imageUrl, firstPublishedAt, modifiedAt }) {
+  // Astro content collections frequently validate front-matter against a
+  // Zod schema in src/content/config.ts. The field names below match the
+  // official "blog" starter template (pubDate, updatedDate, heroImage).
+  // Customers with custom schemas may need site.ssgOverride = 'none' or
+  // a small follow-up to map our fields to theirs.
+  const lines = [
+    '---',
+    `title: ${yamlString(article.title || '')}`,
+    `description: ${yamlString(article.metaDescription || '')}`,
+    `pubDate: ${firstPublishedAt}`,
+    `updatedDate: ${modifiedAt}`,
+    `author: ${yamlString(brandName)}`,
+  ];
+  if (imageUrl) lines.push(`heroImage: ${yamlString(imageUrl)}`);
+  lines.push('---', '');
+  return lines.join('\n');
+}
+
 // SSG publish: writes a content file (HTML with front-matter) into the
 // generator's posts dir, commits the hero image into the static-assets dir,
 // then pings IndexNow. We do NOT touch sitemap.xml or a blog index — both
@@ -1821,14 +1889,25 @@ async function publishSSGPost(env, site, article, ssg, token, branch) {
   const firstPublishedAt = await getOrInitFirstPublishedAt(env, site.id, slug, nowIso);
   const modifiedAt = nowIso();
 
-  // 4. Front-matter + body → file at the SSG's posts dir.
-  let postPath, frontMatter;
+  // 4. Front-matter + body → file at the SSG's posts dir. File extension and
+  // path conventions vary by generator: Jekyll's date-prefix is strict, Astro
+  // expects .md inside a content collection, 11ty and Hugo are lax.
+  let postPath, frontMatter, ext;
   if (ssg.type === 'jekyll') {
-    // Jekyll requires YYYY-MM-DD-slug.html. Date prefix is enforced by the build.
     const datePrefix = firstPublishedAt.slice(0, 10);
     postPath = `${ssg.postsDir}/${datePrefix}-${slug}.html`;
     frontMatter = jekyllFrontMatter({ article, brandName, imageUrl, firstPublishedAt });
+  } else if (ssg.type === 'eleventy') {
+    postPath = `${ssg.postsDir}/${slug}.html`;
+    frontMatter = eleventyFrontMatter({ article, brandName, imageUrl, firstPublishedAt });
+  } else if (ssg.type === 'astro') {
+    // Astro content collections require .md (or .mdx); .html files aren't
+    // picked up by getCollection() loaders.
+    postPath = `${ssg.postsDir}/${slug}.md`;
+    frontMatter = astroFrontMatter({ article, brandName, imageUrl, firstPublishedAt, modifiedAt });
+    ext = 'md';
   } else {
+    // hugo
     postPath = `${ssg.postsDir}/${slug}.html`;
     frontMatter = hugoFrontMatter({ article, brandName, imageUrl, firstPublishedAt, modifiedAt });
   }
@@ -1843,14 +1922,24 @@ async function publishSSGPost(env, site, article, ssg, token, branch) {
   );
   if (!put.ok) return put;
 
-  // 5. Public URL: Jekyll defaults to /YYYY/MM/DD/slug.html (configurable via
-  // permalink); Hugo's default is /{section}/{slug}/. We surface our best
-  // guess but flag it — the customer can correct via the dashboard if their
-  // permalink config differs.
+  // 5. Public URL: defaults vary by generator and are configurable. We surface
+  // our best guess but flag it — the customer can correct if their permalink
+  // / route config differs.
+  //   Jekyll: /YYYY/MM/DD/slug.html
+  //   Hugo:   /{section}/{slug}/
+  //   11ty:   /posts/{slug}/ (assuming default permalink + posts collection)
+  //   Astro:  /blog/{slug}/ (assuming src/content/blog/ + a [slug].astro route)
   const baseUrl = site.url.replace(/\/+$/, '');
-  const publicUrl = ssg.type === 'jekyll'
-    ? `${baseUrl}/${firstPublishedAt.slice(0, 4)}/${firstPublishedAt.slice(5, 7)}/${firstPublishedAt.slice(8, 10)}/${slug}.html`
-    : `${baseUrl}/${ssg.postsDir.replace(/^content\//, '')}/${slug}/`;
+  let publicUrl;
+  if (ssg.type === 'jekyll') {
+    publicUrl = `${baseUrl}/${firstPublishedAt.slice(0, 4)}/${firstPublishedAt.slice(5, 7)}/${firstPublishedAt.slice(8, 10)}/${slug}.html`;
+  } else if (ssg.type === 'eleventy') {
+    publicUrl = `${baseUrl}/posts/${slug}/`;
+  } else if (ssg.type === 'astro') {
+    publicUrl = `${baseUrl}/blog/${slug}/`;
+  } else {
+    publicUrl = `${baseUrl}/${ssg.postsDir.replace(/^content\//, '')}/${slug}/`;
+  }
   const editUrl = `https://github.com/${site.repoOwner}/${site.repoName}/edit/${branch}/${postPath}`;
 
   // 6. IndexNow only — SSG handles its own sitemap.
@@ -1983,12 +2072,15 @@ async function deleteSSGPost(env, site, article, ssg, token, branch) {
   const slug = article.slug;
   const results = {};
 
-  // 1. Post file. Jekyll uses YYYY-MM-DD-slug.html; date comes from KV.
+  // 1. Post file. Filename + extension vary by SSG and must mirror the
+  // publish-side choices in publishSSGPost.
   let postPath;
   if (ssg.type === 'jekyll') {
     const firstPub = await env.ARTICLES.get(`firstpub:${site.id}:${slug}`);
     const datePrefix = (firstPub || nowIso()).slice(0, 10);
     postPath = `${ssg.postsDir}/${datePrefix}-${slug}.html`;
+  } else if (ssg.type === 'astro') {
+    postPath = `${ssg.postsDir}/${slug}.md`;
   } else {
     postPath = `${ssg.postsDir}/${slug}.html`;
   }
