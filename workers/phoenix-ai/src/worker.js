@@ -2961,6 +2961,12 @@ async function apiRouter(request, env, url, path, ctx) {
           site.githubToken = trimmed ? await encryptSecret(trimmed, env.SESSION_SECRET) : '';
         }
         if (['flux', 'off'].includes(body.imageGeneration)) site.imageGeneration = body.imageGeneration;
+        if (['auto', 'jekyll', 'hugo', 'eleventy', 'astro', 'none'].includes(body.ssgOverride)) {
+          // 'auto' is the default — store as empty so the publish-side check
+          // (`site.ssgOverride !== 'none'` + override fallback to detection)
+          // works the same for both unset and explicitly-auto sites.
+          site.ssgOverride = body.ssgOverride === 'auto' ? '' : body.ssgOverride;
+        }
       }
       await saveSite(env, site);
       await audit(env, siteId, 'site.updated', {
@@ -3718,6 +3724,24 @@ function dashboardHTML() {
                   '<label style="display:flex;gap:8px;align-items:center;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.9rem;color:var(--text);"><input type="radio" name="imageGeneration" value="flux"' + ((site.imageGeneration || 'flux') === 'flux' ? ' checked' : '') + '> FLUX.1 schnell — AI-generated editorial illustration per article (free via Workers AI, ~5-10s)</label>' +
                   '<label style="display:flex;gap:8px;align-items:center;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.9rem;color:var(--text);"><input type="radio" name="imageGeneration" value="off"' + (site.imageGeneration === 'off' ? ' checked' : '') + '> Off — no hero image</label>' +
                 '</div>' +
+                '<label style="font-size:0.7rem;margin-top:14px;">Static site generator</label>' +
+                '<select name="ssgOverride" style="width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:\\'Outfit\\',sans-serif;font-size:0.95rem;margin-top:6px;">' +
+                  (function() {
+                    var current = site.ssgOverride || 'auto';
+                    var opts = [
+                      ['auto', 'Auto-detect (Jekyll / Hugo / 11ty / Astro on every publish)'],
+                      ['jekyll', 'Force Jekyll'],
+                      ['hugo', 'Force Hugo'],
+                      ['eleventy', 'Force 11ty (Eleventy)'],
+                      ['astro', 'Force Astro'],
+                      ['none', 'Force standalone HTML (no SSG)'],
+                    ];
+                    return opts.map(function (o) {
+                      return '<option value="' + o[0] + '"' + (current === o[0] ? ' selected' : '') + '>' + o[1] + '</option>';
+                    }).join('');
+                  })() +
+                '</select>' +
+                '<p class="help" style="margin-top:6px;">Override what Phoenix AI commits to your repo. <strong>Auto</strong> probes the repo on every publish; the other options skip detection. Use <strong>none</strong> if auto-detection is guessing wrong and committing the wrong file format.</p>' +
               '</div>'
             ) : '') +
             '<label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;text-transform:none;letter-spacing:0;font-size:0.92rem;color:var(--text);">' +
@@ -3893,6 +3917,8 @@ function dashboardHTML() {
             if (ghToken) patch.githubToken = ghToken;
             const imgRadio = form.querySelector('input[name=imageGeneration]:checked');
             if (imgRadio) patch.imageGeneration = imgRadio.value;
+            const ssgSel = form.querySelector('select[name=ssgOverride]');
+            if (ssgSel) patch.ssgOverride = ssgSel.value;
           }
           await api('PATCH', '/api/sites/' + siteId, patch);
           showBanner('Settings saved.', 'success');
