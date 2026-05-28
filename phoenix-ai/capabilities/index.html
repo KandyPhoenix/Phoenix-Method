@@ -150,7 +150,7 @@
                         <td><span class="pill ok">Your archive</span></td>
                         <td><span class="pill partial">Yoast / RankMath</span></td>
                         <td><span class="pill partial">Yoast plugin</span></td>
-                        <td>Pushed via the WP REST API. SEO plugins handle head meta + sitemap.</td>
+                        <td>Pushed via the WP REST API. Schema injected directly into post body — works even without Yoast/RankMath. Sitemap + head meta still handled by your SEO plugin.</td>
                     </tr>
                     <tr>
                         <td class="cms">GitHub Pages + Jekyll</td>
@@ -270,37 +270,38 @@
     <section class="content-section"><div class="container">
         <span class="section-tag">Roadmap</span>
         <h2>What's <span class="fire-text">Next</span></h2>
-        <p>Honest about what we haven't built yet. Order roughly reflects what we'll ship next based on what beta users hit.</p>
+        <p>Honest about what we haven't built yet. Order roughly reflects what we'll ship next based on what beta users hit. Items below the line are the things <em>we know</em> aren't built — your feedback can re-order them.</p>
+        <p style="font-size:0.9rem;color:var(--text-muted);margin-top:18px;"><strong style="color:var(--ok);">Recently shipped:</strong> delete-from-SSG, brand chrome auto-bootstrap, 11ty + Astro detection, SSG override on settings form, WordPress schema injection.</p>
         <div class="roadmap">
             <div class="roadmap-item">
                 <span class="stage next">Next</span>
-                <h3>Delete-from-SSG</h3>
-                <p>Deleting a Jekyll/Hugo post from the dashboard currently misses the file in your repo. Manual cleanup needed until we ship this — usually one click.</p>
+                <h3>Internal linking</h3>
+                <p>Each new article links to 2–4 relevant existing pages on your site. Pipeline will pull your published URLs + titles, hand them to the LLM, and validate that every <code>&lt;a href&gt;</code> emitted maps to a real page on your domain (no hallucinated links).</p>
             </div>
             <div class="roadmap-item">
                 <span class="stage next">Next</span>
-                <h3>Brand chrome auto-bootstrap</h3>
-                <p>For plain-HTML GitHub Pages sites without a theme convention, generate a starter <code>site-chrome.css</code> from your existing pages so new posts inherit your design from day one.</p>
+                <h3>Topic clusters</h3>
+                <p>Sequence article topics into pillar-and-cluster patterns Google rewards as topical authority — instead of round-robin picking from the chip list. Requires a clustering pass on your keyword inventory at research time.</p>
+            </div>
+            <div class="roadmap-item">
+                <span class="stage next">Next</span>
+                <h3>WordPress categories + tags + featured image</h3>
+                <p>Currently we push title / slug / body / excerpt to the WP REST API. Adding <code>categories</code>, <code>tags</code>, and <code>featured_media</code> (with an upload to <code>/wp/v2/media</code> first) closes the WP publishing gap for sites without an SEO plugin doing this work.</p>
             </div>
             <div class="roadmap-item">
                 <span class="stage soon">Soon</span>
-                <h3>WordPress head meta injection</h3>
-                <p>We currently push the body content; SEO plugins handle the head. Optionally inject our Article schema directly into the body for sites without Yoast/RankMath.</p>
+                <h3>Competitor gap analysis</h3>
+                <p>Ahrefs <code>site-explorer-organic-competitors</code> + diff against your own ranking keywords surfaces what your competitors rank for that you don't. Adds a "gap" filter to the keyword research output.</p>
             </div>
             <div class="roadmap-item">
                 <span class="stage soon">Soon</span>
-                <h3>Eleventy / Astro / Gatsby</h3>
-                <p>Same SSG detection pattern as Jekyll/Hugo. Will land as customers onboard with these stacks.</p>
-            </div>
-            <div class="roadmap-item">
-                <span class="stage soon">Soon</span>
-                <h3>Customer-visible SSG override</h3>
-                <p>If our detection guesses wrong, the override is set programmatically today. We'll surface it on the site detail form.</p>
+                <h3>Gatsby SSG detection</h3>
+                <p>11ty and Astro shipped; Gatsby is harder because its GraphQL data layer needs per-site source-plugin config that a dropped-in markdown file can't reliably trigger. We'll add it when a beta customer brings a Gatsby site and we can co-design the integration with them.</p>
             </div>
             <div class="roadmap-item">
                 <span class="stage soon">Soon</span>
                 <h3>Multi-site billing</h3>
-                <p>Beta limit is one site per account. Billing wiring + multi-site UX are needed before paid tiers open.</p>
+                <p>Beta limit is one site per account. Stripe wiring, plan-aware site limits, trial → paid transition, failed-payment grace period, and a billing portal link — all needed before paid tiers open.</p>
             </div>
         </div>
     </div></section>
