@@ -772,7 +772,94 @@ async function gscKeywords(env, site) {
 // ──────────────────────────────────────────────────────────────
 // Pipeline: article generation (LLM)
 
-function buildArticlePrompt({ keyword, site }) {
+// Internal linking: gather a list of the customer's existing published posts
+// so the LLM can weave 2-4 relevant links into the new article. For
+// WordPress sites we hit the live /wp/v2/posts endpoint so the LLM also
+// sees the customer's hand-written posts; for everything else (github-pages
+// + manual) we use the per-site article index we keep in KV (covers our
+// published posts, with their actual stored publicUrl so SSG URL patterns
+// resolve correctly).
+async function fetchInternalLinkTargets(env, site, opts = {}) {
+  const limit = opts.limit || 20;
+  const targets = [];
+
+  if (site.cms === 'wordpress') {
+    try {
+      const base = site.url.replace(/\/+$/, '');
+      const res = await fetch(`${base}/wp-json/wp/v2/posts?per_page=${limit}&_fields=link,title,excerpt`, {
+        headers: { 'User-Agent': 'PhoenixAI/1.0 (+https://phoenixmethodseo.com/phoenix-ai/)' },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        for (const p of (Array.isArray(data) ? data : [])) {
+          const link = p && p.link;
+          const titleRaw = p && p.title && p.title.rendered;
+          const excerptRaw = p && p.excerpt && p.excerpt.rendered;
+          if (link && titleRaw) {
+            targets.push({
+              url: link,
+              title: stripTagsCollapse(titleRaw),
+              description: stripTagsCollapse(excerptRaw || '').slice(0, 160),
+            });
+          }
+        }
+      }
+    } catch { /* fall through to KV */ }
+  }
+
+  if (!targets.length) {
+    const indexRaw = await env.ARTICLES.get(`list:${site.id}`);
+    const ids = indexRaw ? JSON.parse(indexRaw) : [];
+    const items = await Promise.all(ids.slice(0, limit).map(async (id) => {
+      const raw = await env.ARTICLES.get(`art:${site.id}:${id}`);
+      if (!raw) return null;
+      const a = JSON.parse(raw);
+      if (!a.publicUrl || !a.title) return null;
+      return { url: a.publicUrl, title: a.title, description: a.metaDescription || '' };
+    }));
+    for (const i of items) if (i) targets.push(i);
+  }
+
+  return targets;
+}
+
+function stripTagsCollapse(s) {
+  return String(s == null ? '' : s).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+}
+
+// After the LLM emits an article body, walk every <a href> and validate that
+// internal anchors (same domain or relative) point to a real URL from the
+// supplied list. External links (different hostname) pass through untouched —
+// the prompt still asks for source citations and we don't want to scrub those.
+// Anchors whose href isn't in the allowlist get unwrapped (text content kept,
+// <a> tags removed). Returns the cleaned html plus a count of kept/stripped
+// for the audit log so we can see when the LLM tries to hallucinate URLs.
+function validateInternalLinks(html, site, allowedUrls) {
+  if (!allowedUrls || !allowedUrls.length) return { html, kept: 0, stripped: 0, total: 0 };
+  const allowedSet = new Set(allowedUrls);
+  let siteHost = '';
+  try { siteHost = new URL(site.url).hostname; } catch { /* malformed site url, treat all as external */ }
+  let kept = 0, stripped = 0, total = 0;
+  const cleaned = html.replace(/<a\s+[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi, (match, href, inner) => {
+    total++;
+    let isInternal = false;
+    let normalized = href;
+    if (siteHost) {
+      try {
+        const u = new URL(href, site.url);
+        isInternal = u.hostname === siteHost;
+        normalized = u.href;
+      } catch { /* malformed href — treat as internal to be safe (strip) */ isInternal = true; }
+    }
+    if (!isInternal) { kept++; return match; }
+    if (allowedSet.has(href) || allowedSet.has(normalized)) { kept++; return match; }
+    stripped++;
+    return inner;
+  });
+  return { html: cleaned, kept, stripped, total };
+}
+
+function buildArticlePrompt({ keyword, site, internalLinks }) {
   const intent = (keyword.intent || 'informational').toLowerCase();
   const niche = site.niche || 'general business';
   // brandVoiceOverride is a manually-curated paragraph that takes precedence
@@ -799,6 +886,13 @@ Style guardrails:
 - Never use the word "delve". Avoid corporate buzzwords ("leverage", "synergy", "unlock", "elevate").
 - No em-dash overuse. No bullet-list spam — only when listing actual discrete items.
 
+Internal linking:
+- Where it reads naturally, link to 2-4 of the existing pages provided in the user message as "Internal link targets". Use natural anchor text — never the bare URL, never "click here".
+- Spread links across the article body — not all in the intro, not all in a single paragraph.
+- Only use URLs from the provided list. Never invent a URL or guess a slug. If no link target naturally fits, ship the article without internal links — don't force them.
+- Do NOT link to the same target more than once per article.
+- If the "Internal link targets" section says "(none yet)", skip internal linking entirely.
+
 You MUST respond with a single JSON object (no prose, no code fences) matching this schema exactly:
 {
   "title":        string  // SEO meta title, 50–60 chars
@@ -824,8 +918,19 @@ Brand voice sample (write in this voice):
 ${voiceSample}
 """
 
+Internal link targets (use 2-4 of these, only if naturally relevant; never invent URLs):
+${formatInternalLinkTargets(internalLinks)}
+
 Return only the JSON object.`,
   };
+}
+
+function formatInternalLinkTargets(links) {
+  if (!links || !links.length) return '(none yet — skip internal linking for this article)';
+  return links.slice(0, 20).map((l) => {
+    const desc = l.description ? ` — ${l.description}` : '';
+    return `- ${l.url} | ${l.title}${desc}`;
+  }).join('\n');
 }
 
 // Repair pass for LLM-emitted JSON: walks the string tracking quote/escape
@@ -2444,14 +2549,27 @@ async function runPipeline(env, site, opts = {}) {
     return { ok: false, error: 'No keywords available for this site.' };
   }
 
-  // 3. Generate article via the LLM.
-  const prompt = buildArticlePrompt({ keyword, site });
+  // 3. Generate article via the LLM. Pull the customer's existing posts
+  // first so the LLM can weave in 2-4 internal links (real URLs only — we
+  // validate every <a href> in the output against this list and unwrap any
+  // hallucinated ones).
+  const internalLinks = await fetchInternalLinkTargets(env, site);
+  const prompt = buildArticlePrompt({ keyword, site, internalLinks });
   const llmResult = await callLLM(env, site, prompt);
   if (!llmResult.ok) {
     await audit(env, site.id, 'pipeline.error', { stage: 'llm', error: llmResult.error });
     return { ok: false, error: llmResult.error };
   }
   const article = llmResult.content;
+  if (article && typeof article.html === 'string') {
+    const allowedUrls = internalLinks.map((l) => l.url);
+    const linkCheck = validateInternalLinks(article.html, site, allowedUrls);
+    article.html = linkCheck.html;
+    await audit(env, site.id, 'pipeline.internal_links', {
+      total: linkCheck.total, kept: linkCheck.kept, stripped: linkCheck.stripped,
+      available: allowedUrls.length,
+    });
+  }
 
   // 4. Publish to the configured destination. requireApproval locks the site
   // to draft-only — autoPublish has no effect when this is on. Used for YMYL
