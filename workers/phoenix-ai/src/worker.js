@@ -779,7 +779,7 @@ async function gscKeywords(env, site) {
 // + manual) we use the per-site article index we keep in KV (covers our
 // published posts, with their actual stored publicUrl so SSG URL patterns
 // resolve correctly).
-async function fetchInternalLinkTargets(env, site, opts = {}) {
+export async function fetchInternalLinkTargets(env, site, opts = {}) {
   const limit = opts.limit || 20;
   const targets = [];
 
@@ -823,7 +823,7 @@ async function fetchInternalLinkTargets(env, site, opts = {}) {
   return targets;
 }
 
-function stripTagsCollapse(s) {
+export function stripTagsCollapse(s) {
   return String(s == null ? '' : s).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
 }
 
@@ -834,7 +834,7 @@ function stripTagsCollapse(s) {
 // Anchors whose href isn't in the allowlist get unwrapped (text content kept,
 // <a> tags removed). Returns the cleaned html plus a count of kept/stripped
 // for the audit log so we can see when the LLM tries to hallucinate URLs.
-function validateInternalLinks(html, site, allowedUrls) {
+export function validateInternalLinks(html, site, allowedUrls) {
   if (!allowedUrls || !allowedUrls.length) return { html, kept: 0, stripped: 0, total: 0 };
   const allowedSet = new Set(allowedUrls);
   let siteHost = '';
