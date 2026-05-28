@@ -299,6 +299,47 @@ async function ahrefsKeywords(env, niche, domain, apiKey) {
   })).filter((k) => k.keyword);
 }
 
+// Ahrefs SERP overview: returns the top-N organic URLs ranking for `keyword`
+// in `country`. Used by buildSerpBrief to know which pages to fetch + parse
+// for heading/word-count patterns. Returns [] if no key (BYOK gate) or HTTP
+// error so the pipeline degrades gracefully — the article still generates,
+// just without a SERP brief in the prompt.
+async function ahrefsSerpOverview(env, keyword, country, apiKey) {
+  if (!apiKey || !keyword) return [];
+  const params = new URLSearchParams({
+    keyword,
+    country: country || 'us',
+    select: 'position,url,title,type',
+    top_positions: '10',
+  });
+  let res;
+  try {
+    res = await fetch(`https://api.ahrefs.com/v3/serp-overview/serp-overview?${params}`, {
+      headers: { 'Authorization': `Bearer ${apiKey}`, 'Accept': 'application/json' },
+    });
+  } catch (err) {
+    console.error('ahrefs serp-overview network error', String(err.message || err));
+    return [];
+  }
+  if (!res.ok) {
+    console.error('ahrefs serp-overview failed', res.status, await res.text().catch(() => ''));
+    return [];
+  }
+  const data = await res.json().catch(() => ({}));
+  const rows = data.positions || data.serp || data.data || data.results || [];
+  return rows
+    .filter((r) => {
+      if (!r || !r.url || !r.position || r.position > 10) return false;
+      // Drop SERP features (paid, video, AI overview, etc.) — only organic
+      // results have content patterns worth feeding to the writer.
+      if (Array.isArray(r.type) && !r.type.includes('organic')) return false;
+      return true;
+    })
+    .sort((a, b) => a.position - b.position)
+    .slice(0, 10)
+    .map((r) => ({ position: r.position, url: r.url, title: r.title || '' }));
+}
+
 // SerpBear (self-hosted rank tracker, free + open-source) keyword source.
 // Customer adds their SerpBear URL + API key + tracked domain in Settings;
 // we pull all keywords for that domain and shape into our schema. SerpBear
@@ -859,7 +900,158 @@ export function validateInternalLinks(html, site, allowedUrls) {
   return { html: cleaned, kept, stripped, total };
 }
 
-function buildArticlePrompt({ keyword, site, internalLinks }) {
+// ──────────────────────────────────────────────────────────────
+// SERP brief: read what's actually ranking + feed patterns to the writer.
+// Pure regex extractors below — exported so the test suite can hit them
+// without spinning up a Workers runtime. The fetch + orchestration helpers
+// stay internal (their I/O is what we don't want to mock in unit tests).
+
+// Extracts the contents of the first <title> tag, tag-stripped + whitespace-
+// collapsed. Returns '' when missing.
+export function extractTitle(html) {
+  if (!html) return '';
+  const m = /<title\b[^>]*>([\s\S]*?)<\/title>/i.exec(html);
+  if (!m) return '';
+  return m[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+}
+
+// Extracts the value of <meta name="description" content="..."> regardless
+// of attribute order or single/double quotes. Returns '' when missing.
+export function extractMetaDescription(html) {
+  if (!html) return '';
+  // Try the two common attribute orders separately — keeps the regex simple.
+  let m = /<meta\b[^>]*\bname=["']description["'][^>]*\bcontent=["']([^"']*)["']/i.exec(html);
+  if (!m) m = /<meta\b[^>]*\bcontent=["']([^"']*)["'][^>]*\bname=["']description["']/i.exec(html);
+  return m ? m[1].trim() : '';
+}
+
+// Extracts H1/H2/H3 text content. Headings longer than 200 chars are dropped
+// (nav menus and rendered template fragments occasionally collapse into a
+// single <h2> on ad-heavy SERP pages — those are noise, not topics).
+export function extractHeadings(html) {
+  const out = { h1: [], h2: [], h3: [] };
+  if (!html) return out;
+  for (const tag of ['h1', 'h2', 'h3']) {
+    const re = new RegExp(`<${tag}\\b[^>]*>([\\s\\S]*?)<\\/${tag}>`, 'gi');
+    let m;
+    while ((m = re.exec(html)) !== null) {
+      const text = m[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+      if (text && text.length <= 200) out[tag].push(text);
+    }
+  }
+  return out;
+}
+
+// Rough word count of an HTML body. Strips <script> and <style> blocks (and
+// then all tags) before splitting on whitespace. Within ~5-15% of "true"
+// word count on real blog posts, which is good enough for sizing target
+// articles against what's ranking.
+export function estimateWordCount(html) {
+  if (!html) return 0;
+  const text = String(html)
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;|&#160;/gi, ' ');
+  return text.split(/\s+/).filter(Boolean).length;
+}
+
+// Statistical median, rounded. Returns null on empty input.
+export function median(nums) {
+  if (!Array.isArray(nums) || !nums.length) return null;
+  const sorted = nums.filter((n) => Number.isFinite(n)).sort((a, b) => a - b);
+  if (!sorted.length) return null;
+  const mid = Math.floor(sorted.length / 2);
+  if (sorted.length % 2) return sorted[mid];
+  return Math.round((sorted[mid - 1] + sorted[mid]) / 2);
+}
+
+// Deduplicates strings using a normalized key (lowercase + alphanumerics +
+// spaces only) while preserving the original casing/punctuation of the
+// first occurrence. Order-preserving.
+export function dedupNormalized(strings) {
+  if (!Array.isArray(strings)) return [];
+  const seen = new Set();
+  const out = [];
+  for (const s of strings) {
+    if (typeof s !== 'string') continue;
+    const key = s.toLowerCase().replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim();
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    out.push(s);
+  }
+  return out;
+}
+
+// Fetches one top-result URL and runs the four extractors. Uses Cloudflare
+// edge cache (24h) so popular keywords don't re-fetch the same page across
+// customers. Returns null on any failure — orchestrator filters those out.
+async function fetchAndParseTopResult(url) {
+  if (!url) return null;
+  let res;
+  try {
+    res = await fetch(url, {
+      headers: { 'User-Agent': 'PhoenixAI/1.0 (+https://phoenixmethodseo.com/phoenix-ai/)' },
+      cf: { cacheTtl: 86400, cacheEverything: true },
+      redirect: 'follow',
+    });
+  } catch {
+    return null;
+  }
+  if (!res.ok) return null;
+  let html;
+  try { html = await res.text(); }
+  catch { return null; }
+  // Some SERP-ranking pages are 500KB+ of inlined CSS/SVG. Cap the parser
+  // input so the regex pass doesn't burn through worker CPU budget.
+  if (html.length > 1_500_000) html = html.slice(0, 1_500_000);
+  return {
+    url,
+    title: extractTitle(html),
+    metaDescription: extractMetaDescription(html),
+    headings: extractHeadings(html),
+    wordCount: estimateWordCount(html),
+  };
+}
+
+// Orchestrator: Ahrefs SERP → fetch top 10 in parallel → aggregate. Returns
+// null when there's no Ahrefs key, no SERP data, or all fetches failed. The
+// caller treats null as "skip the SERP-brief section of the prompt and ship
+// the article anyway" — same graceful-degradation pattern as internal links.
+async function buildSerpBrief(env, keyword, country, apiKey) {
+  const positions = await ahrefsSerpOverview(env, keyword, country, apiKey);
+  if (!positions.length) return null;
+  const parsed = (await Promise.all(positions.map((p) => fetchAndParseTopResult(p.url)))).filter(Boolean);
+  if (!parsed.length) return null;
+  const allH2s = parsed.flatMap((p) => p.headings.h2);
+  const wordCounts = parsed.map((p) => p.wordCount).filter((n) => n > 200);
+  return {
+    keyword,
+    pagesAnalyzed: parsed.length,
+    medianWordCount: median(wordCounts),
+    commonH2Themes: dedupNormalized(allH2s).slice(0, 20),
+    topResults: parsed.map((p) => ({ url: p.url, title: p.title, h2Count: p.headings.h2.length })),
+  };
+}
+
+// Formats a SERP brief as a prompt section. Returns '' when brief is null
+// (caller omits the section entirely so the writer doesn't see an empty
+// placeholder and try to be helpful about it).
+export function formatSerpBrief(brief) {
+  if (!brief || !brief.commonH2Themes || !brief.commonH2Themes.length) return '';
+  const wc = brief.medianWordCount ? `Median word count of ranking pages: ${brief.medianWordCount}` : '';
+  const themes = brief.commonH2Themes.map((t) => `  - ${t}`).join('\n');
+  return [
+    `SERP brief (top ${brief.pagesAnalyzed} ranking pages for this keyword):`,
+    wc,
+    'Common H2 themes from top results:',
+    themes,
+    '',
+    'Use this brief to make sure your article covers the terrain Google already rewards. Write better, more specific headings than the list above — do not copy them verbatim.',
+  ].filter(Boolean).join('\n');
+}
+
+function buildArticlePrompt({ keyword, site, internalLinks, serpBrief }) {
   const intent = (keyword.intent || 'informational').toLowerCase();
   const niche = site.niche || 'general business';
   // brandVoiceOverride is a manually-curated paragraph that takes precedence
@@ -920,7 +1112,7 @@ ${voiceSample}
 
 Internal link targets (use 2-4 of these, only if naturally relevant; never invent URLs):
 ${formatInternalLinkTargets(internalLinks)}
-
+${serpBrief ? '\n' + formatSerpBrief(serpBrief) + '\n' : ''}
 Return only the JSON object.`,
   };
 }
@@ -2552,9 +2744,30 @@ async function runPipeline(env, site, opts = {}) {
   // 3. Generate article via the LLM. Pull the customer's existing posts
   // first so the LLM can weave in 2-4 internal links (real URLs only — we
   // validate every <a href> in the output against this list and unwrap any
-  // hallucinated ones).
+  // hallucinated ones). Also build a SERP brief (PM-280) — top-10 ranking
+  // pages for this keyword, their median word count, common H2 themes — so
+  // the writer covers the terrain Google already rewards. Brief is best-
+  // effort: no Ahrefs key or all-failed-fetches → null → prompt omits the
+  // section and ships the article anyway.
   const internalLinks = await fetchInternalLinkTargets(env, site);
-  const prompt = buildArticlePrompt({ keyword, site, internalLinks });
+  let serpBrief = null;
+  try {
+    const customerForBrief = site.ownerEmail ? await getOrCreateCustomer(env, site.ownerEmail) : null;
+    const briefKey = await resolveAhrefsKey(env, customerForBrief);
+    if (briefKey) {
+      serpBrief = await buildSerpBrief(env, keyword.keyword, site.country || 'us', briefKey);
+      await audit(env, site.id, 'pipeline.serp_brief', {
+        keyword: keyword.keyword,
+        pagesAnalyzed: serpBrief?.pagesAnalyzed || 0,
+        medianWords: serpBrief?.medianWordCount || null,
+        h2Themes: serpBrief?.commonH2Themes.length || 0,
+      });
+    }
+  } catch (err) {
+    // Brief failures must never block article generation. Log and proceed.
+    await audit(env, site.id, 'pipeline.serp_brief.error', { error: String(err.message || err).slice(0, 200) });
+  }
+  const prompt = buildArticlePrompt({ keyword, site, internalLinks, serpBrief });
   const llmResult = await callLLM(env, site, prompt);
   if (!llmResult.ok) {
     await audit(env, site.id, 'pipeline.error', { stage: 'llm', error: llmResult.error });
