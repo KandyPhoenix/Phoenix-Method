@@ -998,6 +998,53 @@ async function callAnthropic(env, site, { system, user }) {
 // ──────────────────────────────────────────────────────────────
 // Pipeline: WordPress REST publish
 
+// Builds the same Article + BreadcrumbList + FAQPage JSON-LD that
+// blogPostHTML embeds in github-pages posts, but as a standalone string of
+// <script> tags. Used by wpPublish to prepend schema to the WP body content
+// since WordPress themes own the <head> and most WP sites without an SEO
+// plugin (Yoast / RankMath / SEOPress) ship with no Article schema at all.
+async function buildArticleSchemaTags(env, site, article, canonical) {
+  const brandName = siteBrandName(site);
+  const blogPath = site.blogPath || 'blog';
+  const baseUrl = site.url.replace(/\/+$/, '');
+  const firstPublishedAt = await getOrInitFirstPublishedAt(env, site.id, article.slug, nowIso);
+  const modifiedAt = nowIso();
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: article.title || '',
+    description: article.metaDescription || '',
+    datePublished: firstPublishedAt,
+    dateModified: modifiedAt,
+    inLanguage: 'en',
+    author: { '@type': 'Organization', name: brandName, url: baseUrl },
+    publisher: { '@type': 'Organization', name: brandName, url: baseUrl },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+  };
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl + '/' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: `${baseUrl}/${blogPath}/` },
+      { '@type': 'ListItem', position: 3, name: article.title || '', item: canonical },
+    ],
+  };
+  const faqSchema = (article.faqs && article.faqs.length) ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: article.faqs.map((f) => ({
+      '@type': 'Question',
+      name: String(f.q || ''),
+      acceptedAnswer: { '@type': 'Answer', text: String(f.a || '') },
+    })),
+  } : null;
+  return [articleSchema, breadcrumbSchema, faqSchema]
+    .filter(Boolean)
+    .map((s) => `<script type="application/ld+json">${JSON.stringify(s)}</script>`)
+    .join('\n');
+}
+
 async function wpPublish(env, site, article, status = 'draft') {
   const appPassword = await decryptSecret(site.appPassword, env.SESSION_SECRET);
   if (!appPassword || !site.appUsername) return { ok: false, error: 'missing WP credentials' };
@@ -1006,10 +1053,18 @@ async function wpPublish(env, site, article, status = 'draft') {
   const endpoint = `${base}/wp-json/wp/v2/posts`;
   const auth = 'Basic ' + btoa(`${site.appUsername}:${appPassword}`);
 
+  // Best-guess canonical for the JSON-LD. WP permalink structures vary
+  // (date prefix, category prefix, plain slug), but mainEntityOfPage
+  // mismatch is harmless — the theme's rel=canonical in <head> is what
+  // Google uses to dedupe; the JSON-LD is just for rich-result eligibility.
+  const canonical = `${base}/${article.slug}/`;
+  const schemaTags = await buildArticleSchemaTags(env, site, article, canonical);
+  const contentWithSchema = schemaTags + '\n' + (article.html || '');
+
   const payload = {
     title: article.title,
     slug: article.slug,
-    content: article.html,
+    content: contentWithSchema,
     excerpt: article.metaDescription,
     status,
   };
@@ -1024,6 +1079,7 @@ async function wpPublish(env, site, article, status = 'draft') {
     return { ok: false, error: `wp ${res.status}: ${body.slice(0, 400)}` };
   }
   const data = await res.json();
+  await audit(env, site.id, 'pipeline.wp.schema_injected', { slug: article.slug, hasFaq: Boolean(article.faqs && article.faqs.length) });
   return {
     ok: true,
     wpPostId: data.id,
