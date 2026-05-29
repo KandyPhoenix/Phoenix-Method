@@ -1850,6 +1850,111 @@ async function buildArticleSchemaTags(env, site, article, canonical) {
     .join('\n');
 }
 
+// PM-284: WordPress payload extras — categories, tags, featured image.
+// Pure helpers below + the three async integration helpers. All used by
+// wpPublish; each is best-effort so a payload-extra failure never blocks
+// the actual post.
+
+// Generates a WP-compatible slug. WP enforces lowercase, alphanumeric +
+// dashes, no double-dashes, max 200 chars. Exported because tag/category
+// creation needs deterministic slugs and the test suite locks them down.
+export function slugifyForWp(name) {
+  return String(name == null ? '' : name)
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9 -]+/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
+    .slice(0, 200);
+}
+
+// Maps a Content-Type to a filename extension for the WP media upload.
+// WP looks at the filename extension (not just Content-Type) to decide
+// whether to accept the upload, so getting this right matters.
+export function inferImageExtension(contentType) {
+  const c = String(contentType || '').toLowerCase();
+  if (c.includes('png')) return 'png';
+  if (c.includes('webp')) return 'webp';
+  if (c.includes('gif')) return 'gif';
+  return 'jpg';
+}
+
+// Looks up WP terms (tags or categories) by name. Returns numeric IDs in
+// the same order as the input names. Creates terms that don't exist yet.
+// Per-name try/catch — one failing tag doesn't kill the whole batch.
+async function wpResolveTermIds(base, auth, taxonomy, names) {
+  const ids = [];
+  for (const rawName of (names || [])) {
+    const name = String(rawName || '').trim();
+    if (!name) continue;
+    let foundId = null;
+    try {
+      const searchUrl = `${base}/wp-json/wp/v2/${taxonomy}?search=${encodeURIComponent(name)}&per_page=20`;
+      const searchRes = await fetch(searchUrl, { headers: { Authorization: auth } });
+      if (searchRes.ok) {
+        const matches = await searchRes.json().catch(() => []);
+        if (Array.isArray(matches)) {
+          const exact = matches.find((t) => t && t.name && String(t.name).toLowerCase() === name.toLowerCase())
+                     || matches.find((t) => t && t.slug && t.slug === slugifyForWp(name));
+          if (exact && exact.id) foundId = exact.id;
+        }
+      }
+      if (!foundId) {
+        const createRes = await fetch(`${base}/wp-json/wp/v2/${taxonomy}`, {
+          method: 'POST',
+          headers: { 'Authorization': auth, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, slug: slugifyForWp(name) }),
+        });
+        if (createRes.ok) {
+          const created = await createRes.json().catch(() => ({}));
+          if (created && created.id) foundId = created.id;
+        }
+      }
+      if (foundId) ids.push(foundId);
+    } catch { /* best-effort */ }
+  }
+  return ids;
+}
+
+// Uploads bytes to /wp-json/wp/v2/media. Accepts a Uint8Array OR a base64
+// string (FLUX returns base64). Returns { ok, mediaId, sourceUrl, error }.
+async function wpUploadMedia(base, auth, bytes, contentType, filename) {
+  let uint8;
+  if (typeof bytes === 'string') {
+    try { uint8 = Uint8Array.from(atob(bytes), (c) => c.charCodeAt(0)); }
+    catch (err) { return { ok: false, error: `base64 decode failed: ${err.message}` }; }
+  } else if (bytes instanceof Uint8Array) {
+    uint8 = bytes;
+  } else if (bytes instanceof ArrayBuffer) {
+    uint8 = new Uint8Array(bytes);
+  } else {
+    return { ok: false, error: 'unsupported bytes shape' };
+  }
+  let res;
+  try {
+    res = await fetch(`${base}/wp-json/wp/v2/media`, {
+      method: 'POST',
+      headers: {
+        'Authorization': auth,
+        'Content-Type': contentType || 'image/jpeg',
+        'Content-Disposition': `attachment; filename="${filename}"`,
+      },
+      body: uint8,
+    });
+  } catch (err) {
+    return { ok: false, error: `network: ${String(err.message || err).slice(0, 200)}` };
+  }
+  if (!res.ok) {
+    const body = await res.text().catch(() => '');
+    return { ok: false, error: `${res.status}: ${body.slice(0, 300)}` };
+  }
+  const data = await res.json().catch(() => ({}));
+  if (!data || !data.id) return { ok: false, error: 'media response missing id' };
+  return { ok: true, mediaId: data.id, sourceUrl: data.source_url || null };
+}
+
 async function wpPublish(env, site, article, status = 'draft') {
   const appPassword = await decryptSecret(site.appPassword, env.SESSION_SECRET);
   if (!appPassword || !site.appUsername) return { ok: false, error: 'missing WP credentials' };
@@ -1857,6 +1962,52 @@ async function wpPublish(env, site, article, status = 'draft') {
   const base = site.url.replace(/\/+$/, '');
   const endpoint = `${base}/wp-json/wp/v2/posts`;
   const auth = 'Basic ' + btoa(`${site.appUsername}:${appPassword}`);
+
+  // PM-284: resolve tag IDs from article.tags. Each tag is looked up by
+  // name, created if missing. Best-effort — wpResolveTermIds swallows
+  // per-tag failures so one bad tag doesn't drop the whole list.
+  let tagIds = [];
+  if (Array.isArray(article.tags) && article.tags.length) {
+    tagIds = await wpResolveTermIds(base, auth, 'tags', article.tags);
+  }
+
+  // PM-284: resolve category IDs from site.wpDefaultCategories (operator
+  // sets via settings). Empty by default; sites without it land in WP's
+  // "Uncategorized" bucket, matching pre-PM-284 behavior.
+  let categoryIds = [];
+  if (Array.isArray(site.wpDefaultCategories) && site.wpDefaultCategories.length) {
+    categoryIds = await wpResolveTermIds(base, auth, 'categories', site.wpDefaultCategories);
+  }
+
+  // PM-284: generate hero + upload as featured_media. Gated on
+  // site.imageGeneration (same flag as the github-pages path uses). The
+  // FLUX call already exists in the pipeline for github-pages sites; for
+  // WP sites we do it here at publish time. Best-effort: any failure
+  // audits + continues without a featured image.
+  let featuredMediaId = null;
+  if (site.imageGeneration !== 'off') {
+    try {
+      const img = await generateHeroImage(env, article);
+      if (img.ok && img.base64) {
+        const ext = inferImageExtension(img.contentType);
+        const filename = `${article.slug || 'hero'}.${ext}`;
+        const upload = await wpUploadMedia(base, auth, img.base64, img.contentType, filename);
+        if (upload.ok && upload.mediaId) {
+          featuredMediaId = upload.mediaId;
+          // Reflect the WP-hosted URL on the article record so the
+          // dashboard preview + KV index point at the live image.
+          if (upload.sourceUrl) article.imageUrl = upload.sourceUrl;
+          await audit(env, site.id, 'pipeline.wp.featured_media', { slug: article.slug, mediaId: upload.mediaId });
+        } else {
+          await audit(env, site.id, 'pipeline.wp.featured_media_failed', { slug: article.slug, error: upload.error });
+        }
+      } else if (!img.ok) {
+        await audit(env, site.id, 'pipeline.wp.featured_media_failed', { slug: article.slug, error: img.error });
+      }
+    } catch (err) {
+      await audit(env, site.id, 'pipeline.wp.featured_media_failed', { slug: article.slug, error: String(err.message || err).slice(0, 200) });
+    }
+  }
 
   // Best-guess canonical for the JSON-LD. WP permalink structures vary
   // (date prefix, category prefix, plain slug), but mainEntityOfPage
@@ -1873,6 +2024,9 @@ async function wpPublish(env, site, article, status = 'draft') {
     excerpt: article.metaDescription,
     status,
   };
+  if (tagIds.length) payload.tags = tagIds;
+  if (categoryIds.length) payload.categories = categoryIds;
+  if (featuredMediaId) payload.featured_media = featuredMediaId;
 
   const res = await fetch(endpoint, {
     method: 'POST',
@@ -1885,11 +2039,20 @@ async function wpPublish(env, site, article, status = 'draft') {
   }
   const data = await res.json();
   await audit(env, site.id, 'pipeline.wp.schema_injected', { slug: article.slug, hasFaq: Boolean(article.faqs && article.faqs.length) });
+  await audit(env, site.id, 'pipeline.wp.payload_extras', {
+    slug: article.slug,
+    tagsRequested: Array.isArray(article.tags) ? article.tags.length : 0,
+    tagsResolved: tagIds.length,
+    categoriesRequested: Array.isArray(site.wpDefaultCategories) ? site.wpDefaultCategories.length : 0,
+    categoriesResolved: categoryIds.length,
+    featuredMediaSet: Boolean(featuredMediaId),
+  });
   return {
     ok: true,
     wpPostId: data.id,
     wpEditUrl: `${base}/wp-admin/post.php?post=${data.id}&action=edit`,
     publicUrl: data.link,
+    imageUrl: article.imageUrl || null,
   };
 }
 
