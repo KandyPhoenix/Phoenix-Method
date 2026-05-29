@@ -1051,6 +1051,66 @@ export function formatSerpBrief(brief) {
   ].filter(Boolean).join('\n');
 }
 
+// ──────────────────────────────────────────────────────────────
+// Multi-pass writing: draft → critique → revise. Pure helpers for splitting
+// and re-splicing an article by H2 section. Used by runMultiPass so the
+// rewriter LLM only touches the weakest sections (not the whole article).
+
+// Splits article HTML into sections by <h2>. Returns [{ heading, block }]
+// where block is the literal HTML from this <h2> through (but not including)
+// the next <h2> — or end of string for the last one. Content before the
+// first <h2> is captured as an intro with heading === ''.
+export function splitArticleByH2(html) {
+  if (!html) return [];
+  const re = /<h2\b[^>]*>([\s\S]*?)<\/h2>/gi;
+  const marks = [];
+  let m;
+  while ((m = re.exec(html)) !== null) {
+    marks.push({
+      start: m.index,
+      heading: m[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim(),
+    });
+  }
+  if (!marks.length) return [{ heading: '', block: html }];
+  const out = [];
+  if (marks[0].start > 0) out.push({ heading: '', block: html.slice(0, marks[0].start) });
+  for (let i = 0; i < marks.length; i++) {
+    const end = i + 1 < marks.length ? marks[i + 1].start : html.length;
+    out.push({ heading: marks[i].heading, block: html.slice(marks[i].start, end) });
+  }
+  return out;
+}
+
+// Substitutes revised section blocks into the article. revisionsMap is
+// `{ heading: htmlBlock }`. Headings are matched case-insensitively against
+// the article's actual H2s; unmatched revisions are silently ignored (the
+// rewriter LLM occasionally edits a heading even when told not to). Returns
+// `{ html, applied, requested }`. The applied counter is the diagnostic the
+// audit log uses to detect when the rewriter ignored its constraints.
+export function applyRevisions(html, revisionsMap) {
+  const requested = revisionsMap && typeof revisionsMap === 'object'
+    ? Object.keys(revisionsMap).filter((k) => typeof revisionsMap[k] === 'string' && revisionsMap[k]).length
+    : 0;
+  if (!html || !requested) return { html: html || '', applied: 0, requested };
+  const normalize = (s) => String(s == null ? '' : s).toLowerCase().replace(/\s+/g, ' ').trim();
+  const byNorm = {};
+  for (const [k, v] of Object.entries(revisionsMap)) {
+    if (typeof v !== 'string' || !v) continue;
+    byNorm[normalize(k)] = v;
+  }
+  const sections = splitArticleByH2(html);
+  let applied = 0;
+  const rewritten = sections.map((s) => {
+    const replacement = s.heading ? byNorm[normalize(s.heading)] : null;
+    if (replacement) {
+      applied++;
+      return replacement;
+    }
+    return s.block;
+  });
+  return { html: rewritten.join(''), applied, requested };
+}
+
 function buildArticlePrompt({ keyword, site, internalLinks, serpBrief }) {
   const intent = (keyword.intent || 'informational').toLowerCase();
   const niche = site.niche || 'general business';
@@ -1123,6 +1183,102 @@ function formatInternalLinkTargets(links) {
     const desc = l.description ? ` — ${l.description}` : '';
     return `- ${l.url} | ${l.title}${desc}`;
   }).join('\n');
+}
+
+// Multi-pass pass 1 — editor LLM scores the draft and names the 3 weakest
+// sections. We only ask for the scores + section names, not full rewrites,
+// because (a) editors are good at finding problems, (b) the cost stays low
+// (~500 output tokens), (c) the next pass can rewrite with the original
+// article as context.
+function buildCritiquePrompt({ article, keyword, serpBrief, site }) {
+  const intent = (keyword.intent || 'informational').toLowerCase();
+  const voiceSample = (site.brandVoiceOverride || site.brandVoice || '').slice(0, 1000);
+  return {
+    system: `You are a senior SEO editor at a working content agency. Score a draft article on four dimensions (each 1-10) and identify the THREE weakest H2 sections that most need rewriting.
+
+Scoring rubric:
+- serpCoverage: Does the article address the topics that top-ranking pages cover? Compare against the SERP brief.
+- brandVoice: Does the article match the brand voice sample in word choice, sentence rhythm, POV?
+- factualSpecificity: Does it use concrete examples, named sources, real numbers? Or is it generic fluff?
+- antiFluff: Is it free of buzzwords ("leverage", "synergy", "unlock", "elevate"), em-dash overuse, marketing-speak, and the word "delve"?
+
+Return ONLY a JSON object (no prose, no code fences, no commentary) matching this schema:
+{
+  "scores":      { "serpCoverage": int, "brandVoice": int, "factualSpecificity": int, "antiFluff": int },
+  "overallScore": number,
+  "weakestSections": [
+    {
+      "heading": string,  // EXACT H2 text from the article, verbatim — do not edit, summarize, or reword
+      "issue":   string,  // ONE sentence describing what is wrong with this section
+      "fix":     string   // ONE sentence describing the specific change the rewriter should make
+    }
+  ]
+}
+
+weakestSections must contain 0 to 3 entries. Use 0 if the article needs no rewrites (overallScore >= 9). Otherwise list the worst 1-3 sections by impact.`,
+    user: `Target keyword: "${keyword.keyword}"
+Search intent: ${intent}
+
+${formatSerpBrief(serpBrief) || '(no SERP brief available)'}
+
+Brand voice sample:
+"""
+${voiceSample}
+"""
+
+Draft article HTML:
+"""
+${article.html}
+"""
+
+Score it and identify weakest sections. Return only the JSON.`,
+  };
+}
+
+// Multi-pass pass 2 — rewriter LLM revises ONLY the weakest sections. Keeps
+// the same H2 heading text so applyRevisions can splice the result back in
+// at the right slot.
+function buildRevisePrompt({ article, critique, keyword, site }) {
+  const voiceSample = (site.brandVoiceOverride || site.brandVoice || '').slice(0, 1000);
+  const sectionsToRevise = (critique && Array.isArray(critique.weakestSections) ? critique.weakestSections : [])
+    .map((s) => `## ${s.heading}\nIssue: ${s.issue}\nFix: ${s.fix}`)
+    .join('\n\n');
+  return {
+    system: `You are a senior SEO writer revising specific sections of a draft article based on editor feedback. Rewrite ONLY the sections the editor flagged. Keep each section's H2 heading text EXACTLY VERBATIM — your output is spliced back into the original article by matching on heading text.
+
+Style guardrails (unchanged from the original brief):
+- Plain English, no SEO-speak, no keyword stuffing, no buzzwords.
+- Match the brand voice sample.
+- Each rewritten section must be at least 250-350 words.
+- Cite a source by name when stating a statistic — do not fabricate numbers.
+- Never use the word "delve". Avoid "leverage", "synergy", "unlock", "elevate".
+
+Return ONLY a JSON object (no prose, no fences) mapping each H2 heading to the rewritten section HTML. The HTML for each section MUST start with the <h2> tag and include everything through the section body — no nested H2s, no FAQ, no closing wrapper:
+
+{
+  "Exact H2 Heading Text 1": "<h2>Exact H2 Heading Text 1</h2><p>rewritten body...</p><p>more body...</p>",
+  "Exact H2 Heading Text 2": "<h2>Exact H2 Heading Text 2</h2><p>...</p>"
+}
+
+One key per section flagged by the editor. Do not add sections the editor did not flag.`,
+    user: `Target keyword: "${keyword.keyword}"
+
+Brand voice sample:
+"""
+${voiceSample}
+"""
+
+Original article HTML (for context — do not rewrite the whole thing):
+"""
+${article.html}
+"""
+
+Sections to revise (per editor feedback):
+
+${sectionsToRevise}
+
+Rewrite only those sections. Return the JSON map only.`,
+  };
 }
 
 // Repair pass for LLM-emitted JSON: walks the string tracking quote/escape
@@ -1290,6 +1446,76 @@ async function callAnthropic(env, site, { system, user }) {
     tokens: { input: data.usage?.input_tokens || 0, output: data.usage?.output_tokens || 0 },
     model,
   };
+}
+
+// ──────────────────────────────────────────────────────────────
+// Multi-pass writing orchestrator: draft → critique → revise. Returns
+// `{ html, initialScore, finalScore, sectionsRevised, sectionsRequested,
+// skipped }` where html is either the revised body or the original (any
+// failure path returns the original — multi-pass must never make quality
+// worse). Gated on site.multiPass + presence of a SERP brief (the critique
+// pass has nothing to compare coverage against otherwise).
+async function runMultiPass(env, site, article, keyword, serpBrief) {
+  const out = {
+    html: article.html,
+    initialScore: null,
+    finalScore: null,
+    sectionsRevised: 0,
+    sectionsRequested: 0,
+    skipped: null,
+  };
+  if (!site.multiPass) { out.skipped = 'disabled'; return out; }
+  if (!serpBrief || !serpBrief.commonH2Themes || !serpBrief.commonH2Themes.length) {
+    out.skipped = 'no_serp_brief';
+    return out;
+  }
+  if (!article || typeof article.html !== 'string' || !article.html) {
+    out.skipped = 'no_article_html';
+    return out;
+  }
+
+  // Pass 1: critique.
+  const critiquePrompt = buildCritiquePrompt({ article, keyword, serpBrief, site });
+  const critiqueRes = await callLLM(env, site, critiquePrompt);
+  if (!critiqueRes.ok || !critiqueRes.content || typeof critiqueRes.content !== 'object') {
+    out.skipped = 'critique_failed';
+    return out;
+  }
+  const critique = critiqueRes.content;
+  const overall = Number.isFinite(critique.overallScore) ? critique.overallScore : null;
+  out.initialScore = overall;
+  out.finalScore = overall;
+
+  // No revision needed if score is high enough or editor flagged nothing.
+  const weakest = Array.isArray(critique.weakestSections) ? critique.weakestSections : [];
+  if (!weakest.length || (overall !== null && overall >= 8)) {
+    out.skipped = overall !== null && overall >= 8 ? 'score_above_threshold' : 'no_weakest_sections';
+    return out;
+  }
+  out.sectionsRequested = weakest.length;
+
+  // Pass 2: revise the weakest sections.
+  const revisePrompt = buildRevisePrompt({ article, critique, keyword, site });
+  const reviseRes = await callLLM(env, site, revisePrompt);
+  if (!reviseRes.ok || !reviseRes.content || typeof reviseRes.content !== 'object' || Array.isArray(reviseRes.content)) {
+    out.skipped = 'revise_failed';
+    return out;
+  }
+
+  // Splice revised sections back into the article. applyRevisions tolerates
+  // mismatched-heading keys so we don't lose the article when the rewriter
+  // ignores its constraints.
+  const result = applyRevisions(article.html, reviseRes.content);
+  if (result.applied > 0) {
+    out.html = result.html;
+    out.sectionsRevised = result.applied;
+    // We don't re-score after revising — the savings of a third pass aren't
+    // worth the wait, and the audit log captures sectionsRevised which the
+    // operator can spot-check on a sample.
+  } else {
+    out.skipped = 'revisions_did_not_match_any_section';
+  }
+  return out;
 }
 
 // ──────────────────────────────────────────────────────────────
@@ -2774,6 +3000,27 @@ async function runPipeline(env, site, opts = {}) {
     return { ok: false, error: llmResult.error };
   }
   const article = llmResult.content;
+
+  // 3a. Multi-pass writing (PM-281): if the site has `multiPass` enabled and
+  // we have a SERP brief, run a critique → revise loop on the draft. The
+  // orchestrator is fully best-effort — any failure path returns the
+  // original article unchanged, so this never makes quality worse.
+  if (article && typeof article.html === 'string') {
+    try {
+      const mp = await runMultiPass(env, site, article, keyword, serpBrief);
+      if (mp.sectionsRevised > 0) article.html = mp.html;
+      await audit(env, site.id, 'pipeline.multipass', {
+        skipped: mp.skipped || null,
+        initialScore: mp.initialScore,
+        finalScore: mp.finalScore,
+        sectionsRequested: mp.sectionsRequested,
+        sectionsRevised: mp.sectionsRevised,
+      });
+    } catch (err) {
+      await audit(env, site.id, 'pipeline.multipass.error', { error: String(err.message || err).slice(0, 200) });
+    }
+  }
+
   if (article && typeof article.html === 'string') {
     const allowedUrls = internalLinks.map((l) => l.url);
     const linkCheck = validateInternalLinks(article.html, site, allowedUrls);
