@@ -1,5 +1,31 @@
 # Phoenix Method — Claude Working Rules
 
+## ⚠️ HARD STOP: Phoenix ≠ Phoenix, Arizona — EVER
+
+**"Phoenix" in Phoenix Method is a BRAND NAME. It refers to the phoenix rising from ashes. It has nothing to do with the city of Phoenix, Arizona.**
+
+**Phoenix Method is located in The Woodlands, Texas.**
+
+### Claude must NEVER write, suggest, approve, or allow into any PR:
+- "Phoenix, AZ" or "Phoenix, Arizona"
+- "SEO agency in Phoenix" or "serving Phoenix"
+- "Phoenix-based" or "located in Phoenix"
+- Any title tag, meta description, page copy, schema markup, blog content, social media post, GBP post, or alt text that implies we are in or serve Phoenix, Arizona
+
+### If Kiley (or anyone) submits work containing Phoenix, AZ references:
+1. **Reject it immediately** — do not approve the PR
+2. **Point out exactly what needs to change** — quote the offending text
+3. **Do not merge until it is corrected**
+
+### If Claude is asked to write any content for this project:
+- The correct location is **The Woodlands, Texas**
+- Target market is **national + service businesses** — not geographically tied to Phoenix city
+- Never infer "Phoenix, AZ" from the brand name under any circumstances
+
+**This rule exists because Phoenix, AZ content has been written and published multiple times, requiring full deletion each time. It cannot happen again.**
+
+---
+
 ## CRITICAL: All Changes Must Go Through a Pull Request
 
 This repo's `main` branch is protected against force-pushes and deletions. Direct pushes to main are technically allowed for admins but should still go through a PR for review/rollback clarity.
