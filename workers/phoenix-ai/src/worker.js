@@ -400,6 +400,93 @@ async function serpBearKeywords(env, site) {
     .filter(Boolean);
 }
 
+// ──────────────────────────────────────────────────────────────
+// Topic clustering: group related keywords + designate a pillar for each
+// cluster. Pure helpers — researchAndStoreKeywords calls clusterKeywords
+// after merging sources, and pickNextKeyword prefers pillars over clusters.
+
+// Strips a fixed stopword list, lowercase, splits on non-alphanumeric.
+// Exported because callers occasionally want a deterministic tokenization
+// (and because unit tests need to lock the stopword list down — silent
+// changes to it would re-cluster every customer's inventory on next
+// research refresh).
+export function tokenizeKeyword(s) {
+  const STOP = new Set([
+    'a','an','the','of','for','in','to','and','or','vs','versus',
+    'best','top','how','what','why','when','where','is','at','on',
+    'with','from','your','my','their','our','it','this','that',
+  ]);
+  return String(s == null ? '' : s)
+    .toLowerCase()
+    .replace(/[^a-z0-9 ]+/g, ' ')
+    .split(/\s+/)
+    .filter((t) => t && !STOP.has(t));
+}
+
+// Jaccard-min token overlap: intersection / min(|A|, |B|). Favors
+// containment — a short keyword sitting inside a longer one matches strongly,
+// which is what we want for "running shoes" ⊂ "best running shoes for women".
+function tokenOverlap(tokensA, tokensB) {
+  if (!tokensA.length || !tokensB.length) return 0;
+  const setA = new Set(tokensA);
+  let inter = 0;
+  for (const t of tokensB) if (setA.has(t)) inter++;
+  return inter / Math.min(tokensA.length, tokensB.length);
+}
+
+// Groups keywords by ≥50% token overlap (transitively, via union-find) and
+// designates a pillar per cluster = the keyword with the fewest stopword-
+// stripped tokens (broadest term). Pure function; preserves input order in
+// the output array. Each returned keyword gets:
+//   - clusterId: 1-indexed integer, stable per call but not across calls
+//   - isPillar:  true for exactly one keyword per cluster
+// Keywords with no usable tokens (all-stopword inputs like "what is it")
+// become singleton clusters with isPillar=true.
+export function clusterKeywords(keywords) {
+  if (!Array.isArray(keywords) || !keywords.length) return [];
+  const n = keywords.length;
+  const tokens = keywords.map((k) => tokenizeKeyword(k && k.keyword));
+
+  // Union-Find.
+  const parent = Array.from({ length: n }, (_, i) => i);
+  const find = (i) => parent[i] === i ? i : (parent[i] = find(parent[i]));
+  const union = (i, j) => { const ri = find(i), rj = find(j); if (ri !== rj) parent[ri] = rj; };
+
+  for (let i = 0; i < n; i++) {
+    if (!tokens[i].length) continue;
+    for (let j = i + 1; j < n; j++) {
+      if (!tokens[j].length) continue;
+      if (tokenOverlap(tokens[i], tokens[j]) >= 0.5) union(i, j);
+    }
+  }
+
+  // Assign 1-indexed clusterIds in order of first occurrence.
+  const componentIdByRoot = {};
+  let nextId = 1;
+  const componentOf = [];
+  for (let i = 0; i < n; i++) {
+    const root = find(i);
+    if (!componentIdByRoot[root]) componentIdByRoot[root] = nextId++;
+    componentOf[i] = componentIdByRoot[root];
+  }
+
+  // For each component, pillar = fewest tokens; tie → earliest input index
+  // (which is highest-scoring upstream when called after scoreKeyword sort).
+  const pillarIdxByCluster = {};
+  for (let i = 0; i < n; i++) {
+    const c = componentOf[i];
+    const current = pillarIdxByCluster[c];
+    if (current === undefined) { pillarIdxByCluster[c] = i; continue; }
+    if (tokens[i].length < tokens[current].length) pillarIdxByCluster[c] = i;
+  }
+
+  return keywords.map((k, i) => ({
+    ...k,
+    clusterId: componentOf[i],
+    isPillar: pillarIdxByCluster[componentOf[i]] === i,
+  }));
+}
+
 function scoreKeyword(k) {
   // Buyer-intent first, then opportunity (high volume / low difficulty).
   // PM-267: manual (customer-curated) keywords get a fixed boost so they sort
@@ -505,11 +592,21 @@ async function researchAndStoreKeywords(env, site) {
     })
     .sort((a, b) => b.score - a.score)
     .slice(0, 25);
-  await env.KEYWORDS.put(`kws:${site.id}`, JSON.stringify(ranked));
-  const rejectedCount = ranked.filter((k) => k.rejected).length;
-  const manualCount = ranked.filter((k) => k.isManual).length;
-  await audit(env, site.id, 'keywords.refreshed', { count: ranked.length, source: usedSource, rejected: rejectedCount, manual: manualCount, seedKind });
-  return { list: ranked, source: usedSource, seedKind };
+  // PM-283: topic clustering. Tags each keyword with clusterId + isPillar
+  // so pickNextKeyword can prefer pillars (broader, authority-building
+  // terms) over cluster keywords (narrower, supporting terms).
+  const clustered = clusterKeywords(ranked);
+  await env.KEYWORDS.put(`kws:${site.id}`, JSON.stringify(clustered));
+  const rejectedCount = clustered.filter((k) => k.rejected).length;
+  const manualCount = clustered.filter((k) => k.isManual).length;
+  const pillarCount = clustered.filter((k) => k.isPillar).length;
+  await audit(env, site.id, 'keywords.refreshed', { count: clustered.length, source: usedSource, rejected: rejectedCount, manual: manualCount, seedKind });
+  await audit(env, site.id, 'keywords.clustered', {
+    total: clustered.length,
+    pillars: pillarCount,
+    clusters: clustered.length - pillarCount,
+  });
+  return { list: clustered, source: usedSource, seedKind };
 }
 
 // Single batched LLM call that judges relevance of every candidate keyword
@@ -662,7 +759,11 @@ async function pickNextKeyword(env, siteId) {
   const list = JSON.parse(raw);
   // Skip rejected entries — they stay on the record (visible in the dashboard
   // with strikethrough + reason) but never get fed to the article generator.
-  const next = list.find((k) => !k.picked && !k.rejected);
+  // PM-283: prefer pillars over clusters. Build broad topical authority
+  // first; supporting cluster articles fill in afterward. Falls back to any
+  // unpicked keyword for older inventories that pre-date clustering.
+  const next = list.find((k) => !k.picked && !k.rejected && k.isPillar)
+            || list.find((k) => !k.picked && !k.rejected);
   if (!next) return null;
   next.picked = true;
   next.pickedAt = nowIso();
