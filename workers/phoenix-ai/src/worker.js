@@ -340,6 +340,203 @@ async function ahrefsSerpOverview(env, keyword, country, apiKey) {
     .map((r) => ({ position: r.position, url: r.url, title: r.title || '' }));
 }
 
+// ──────────────────────────────────────────────────────────────
+// Competitor gap analysis: pull competitor domains via Ahrefs organic-
+// competitors, then for each competitor pull their top organic keywords,
+// diff against our own ranking keywords, surface the gaps. These are the
+// highest-leverage articles to write next — topics that are already
+// validated as commercially viable in the niche but we're not ranking for.
+
+// Pulls top organic competitor domains for `domain`. Returns up to `limit`
+// entries (default 5) sorted by Ahrefs `share` (% common keywords).
+async function ahrefsOrganicCompetitors(env, domain, country, date, apiKey, limit = 5) {
+  if (!apiKey || !domain) return [];
+  const params = new URLSearchParams({
+    target: domain,
+    country: country || 'us',
+    date,
+    select: 'competitor_domain,share,keywords_common',
+    mode: 'subdomains',
+    order_by: 'share:desc',
+    limit: String(Math.max(1, Math.min(limit, 20))),
+  });
+  let res;
+  try {
+    res = await fetch(`https://api.ahrefs.com/v3/site-explorer/organic-competitors?${params}`, {
+      headers: { 'Authorization': `Bearer ${apiKey}`, 'Accept': 'application/json' },
+    });
+  } catch (err) {
+    console.error('ahrefs organic-competitors network error', String(err.message || err));
+    return [];
+  }
+  if (!res.ok) {
+    console.error('ahrefs organic-competitors failed', res.status, await res.text().catch(() => ''));
+    return [];
+  }
+  const data = await res.json().catch(() => ({}));
+  const rows = data.competitors || data.data || data.results || [];
+  return rows
+    .filter((r) => r && r.competitor_domain && r.competitor_domain !== domain)
+    .slice(0, limit)
+    .map((r) => ({ domain: r.competitor_domain, share: r.share || 0, keywordsCommon: r.keywords_common || 0 }));
+}
+
+// Pulls the top organic keywords for `domain`. Returns up to `limit` entries
+// (default 30) sorted by volume desc. Intent comes back from Ahrefs as
+// multiple booleans (is_commercial / is_informational / is_transactional /
+// is_navigational / is_branded); we flatten to a single string with a fixed
+// priority order so downstream keyword-scoring code can treat it uniformly.
+async function ahrefsOrganicKeywords(env, domain, country, date, apiKey, limit = 30) {
+  if (!apiKey || !domain) return [];
+  const params = new URLSearchParams({
+    target: domain,
+    country: country || 'us',
+    date,
+    select: 'keyword,volume,keyword_difficulty,is_commercial,is_informational,is_transactional,is_navigational,is_branded',
+    mode: 'subdomains',
+    order_by: 'volume:desc',
+    limit: String(Math.max(1, Math.min(limit, 100))),
+  });
+  let res;
+  try {
+    res = await fetch(`https://api.ahrefs.com/v3/site-explorer/organic-keywords?${params}`, {
+      headers: { 'Authorization': `Bearer ${apiKey}`, 'Accept': 'application/json' },
+    });
+  } catch (err) {
+    console.error('ahrefs organic-keywords network error', String(err.message || err));
+    return [];
+  }
+  if (!res.ok) {
+    console.error('ahrefs organic-keywords failed', res.status, await res.text().catch(() => ''));
+    return [];
+  }
+  const data = await res.json().catch(() => ({}));
+  const rows = data.keywords || data.data || data.results || [];
+  return rows
+    .filter((r) => r && r.keyword)
+    .map((r) => ({
+      keyword: r.keyword,
+      volume: r.volume || 0,
+      kd: r.keyword_difficulty || 0,
+      intent: mapAhrefsIntent(r),
+    }));
+}
+
+// Flattens Ahrefs' five intent booleans into a single string matching the
+// shape downstream scoreKeyword expects. Priority is: transactional →
+// commercial → navigational → branded → informational. Branded intent is
+// downstream-treated like informational (no buyer-intent score bonus).
+function mapAhrefsIntent(row) {
+  if (row.is_transactional) return 'transactional';
+  if (row.is_commercial) return 'commercial';
+  if (row.is_navigational) return 'navigational';
+  if (row.is_branded) return 'branded';
+  return 'informational';
+}
+
+// Lowercase + collapse internal whitespace + trim. Used as the dedup key
+// when diffing keyword lists across domains. Exported because the dedup
+// logic is the most failure-prone part of the gap analysis (if two domains
+// rank for "running shoes" vs "Running  shoes", we want to treat those as
+// the same keyword).
+export function normalizeKeywordKey(s) {
+  return String(s == null ? '' : s).toLowerCase().replace(/\s+/g, ' ').trim();
+}
+
+// Returns the entries from `theirs` whose normalized keyword is NOT in
+// `ours`. Preserves order. Used to drop keywords our own domain already
+// ranks for from the competitor's keyword list — those aren't gaps.
+export function diffKeywordLists(theirs, ours) {
+  if (!Array.isArray(theirs) || !theirs.length) return [];
+  const blocked = new Set();
+  if (Array.isArray(ours)) {
+    for (const o of ours) {
+      if (o && o.keyword) blocked.add(normalizeKeywordKey(o.keyword));
+    }
+  }
+  return theirs.filter((t) => t && t.keyword && !blocked.has(normalizeKeywordKey(t.keyword)));
+}
+
+// Aggregates per-competitor keyword lists into a single ranked gap list.
+// Input: { competitorDomain: [{ keyword, volume, kd, intent }, ...] }
+// Output: [{ keyword, volume, kd, intent, competitorCount, competitors }]
+// sorted by leverage = competitorCount × log2(volume + 1) - kd (so a
+// keyword 3 competitors rank for outranks one only 1 competitor ranks for,
+// volume amplifies, KD penalizes). Volume/kd/intent come from the first
+// occurrence (competitors don't always agree on volume estimates anyway,
+// so picking one consistently beats blending).
+export function aggregateGapKeywords(competitorListsByDomain) {
+  if (!competitorListsByDomain || typeof competitorListsByDomain !== 'object') return [];
+  const byKey = {};
+  for (const [domain, list] of Object.entries(competitorListsByDomain)) {
+    if (!Array.isArray(list)) continue;
+    for (const kw of list) {
+      if (!kw || !kw.keyword) continue;
+      const key = normalizeKeywordKey(kw.keyword);
+      if (!key) continue;
+      if (!byKey[key]) {
+        byKey[key] = {
+          keyword: kw.keyword,
+          volume: kw.volume || 0,
+          kd: kw.kd || 0,
+          intent: kw.intent || 'informational',
+          competitors: [],
+        };
+      }
+      if (!byKey[key].competitors.includes(domain)) byKey[key].competitors.push(domain);
+    }
+  }
+  const out = Object.values(byKey).map((row) => ({
+    ...row,
+    competitorCount: row.competitors.length,
+  }));
+  out.sort((a, b) => {
+    const scoreA = a.competitorCount * Math.log2((a.volume || 0) + 1) - (a.kd || 0);
+    const scoreB = b.competitorCount * Math.log2((b.volume || 0) + 1) - (b.kd || 0);
+    return scoreB - scoreA;
+  });
+  return out;
+}
+
+// Orchestrator: pulls competitors, pulls each competitor's + own domain's
+// keyword list, diffs, aggregates, returns top-`limit` gap keywords in the
+// same shape as ahrefsKeywords output but with isGap + gapCompetitorCount
+// fields added. Best-effort: any failure returns []. Date defaults to
+// today's UTC date (Ahrefs accepts a recent date and returns the latest
+// available data point).
+async function competitorGapKeywords(env, site, apiKey, limit = 10) {
+  if (!apiKey || !site || !site.url) return [];
+  let ourDomain;
+  try { ourDomain = new URL(site.url).hostname.replace(/^www\./, ''); }
+  catch { return []; }
+  const country = site.country || 'us';
+  const date = new Date().toISOString().slice(0, 10);
+  const competitors = await ahrefsOrganicCompetitors(env, ourDomain, country, date, apiKey, 5);
+  if (!competitors.length) return [];
+
+  // Pull all keyword lists in parallel (our domain + each competitor).
+  const [ourKeywords, ...theirKeywordsLists] = await Promise.all([
+    ahrefsOrganicKeywords(env, ourDomain, country, date, apiKey, 50),
+    ...competitors.map((c) => ahrefsOrganicKeywords(env, c.domain, country, date, apiKey, 30)),
+  ]);
+
+  // Diff each competitor's list against our own — what they rank for and we
+  // don't. Then aggregate across competitors.
+  const byCompetitor = {};
+  for (let i = 0; i < competitors.length; i++) {
+    byCompetitor[competitors[i].domain] = diffKeywordLists(theirKeywordsLists[i] || [], ourKeywords);
+  }
+  const aggregated = aggregateGapKeywords(byCompetitor);
+  return aggregated.slice(0, limit).map((row) => ({
+    keyword: row.keyword,
+    volume: row.volume,
+    kd: row.kd,
+    intent: row.intent,
+    isGap: true,
+    gapCompetitorCount: row.competitorCount,
+  }));
+}
+
 // SerpBear (self-hosted rank tracker, free + open-source) keyword source.
 // Customer adds their SerpBear URL + API key + tracked domain in Settings;
 // we pull all keywords for that domain and shape into our schema. SerpBear
@@ -525,6 +722,30 @@ async function researchAndStoreKeywords(env, site) {
       raw = [];
     } else {
       raw = await ahrefsKeywords(env, site.niche, new URL(site.url).hostname, ahrefsKey);
+      // PM-285: competitor gap analysis. Append keywords that competitors
+      // rank for that we don't — the highest-leverage articles to write
+      // next, because the topic is already commercially validated in our
+      // niche. Best-effort: any Ahrefs failure path returns [] and the
+      // base keyword research still ships.
+      try {
+        const gaps = await competitorGapKeywords(env, site, ahrefsKey, 10);
+        if (gaps.length) {
+          const existingKeys = new Set(raw.map((k) => normalizeKeywordKey(k.keyword)));
+          for (const g of gaps) {
+            const key = normalizeKeywordKey(g.keyword);
+            if (key && !existingKeys.has(key)) {
+              raw.push(g);
+              existingKeys.add(key);
+            }
+          }
+          await audit(env, site.id, 'keywords.competitor_gap', {
+            gapKeywordsAdded: gaps.length,
+            totalAfter: raw.length,
+          });
+        }
+      } catch (err) {
+        await audit(env, site.id, 'keywords.competitor_gap.error', { error: String(err.message || err).slice(0, 200) });
+      }
     }
   } else if (source === 'serpbear') {
     raw = await serpBearKeywords(env, site);
