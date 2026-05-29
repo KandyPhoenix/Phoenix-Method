@@ -1111,6 +1111,93 @@ export function applyRevisions(html, revisionsMap) {
   return { html: rewritten.join(''), applied, requested };
 }
 
+// ──────────────────────────────────────────────────────────────
+// Fact-check pass: pure helpers for the claim-scoring output. The LLM call
+// itself (runFactCheck) is internal — these are the aggregation + html
+// annotation primitives that the test suite locks down.
+
+// Reads either `plausibilityScore` or `score` off a claim, returns null if
+// neither is a finite number. The dual-name lookup is defensive: prompt
+// asks for `plausibilityScore` but Workers AI Llama 8B occasionally emits
+// the shorter `score` instead.
+function readClaimScore(claim) {
+  if (!claim || typeof claim !== 'object') return null;
+  if (Number.isFinite(claim.plausibilityScore)) return claim.plausibilityScore;
+  if (Number.isFinite(claim.score)) return claim.score;
+  return null;
+}
+
+// Counts claims overall, by type ("stat" / "citation" / "assertion" /
+// "unknown"), and how many fall below the low-confidence threshold.
+export function summarizeFactCheck(claims, threshold = 5) {
+  const out = { total: 0, lowConfidence: 0, byType: {} };
+  if (!Array.isArray(claims)) return out;
+  for (const c of claims) {
+    if (!c || typeof c !== 'object') continue;
+    out.total++;
+    const type = String(c.type || 'unknown');
+    out.byType[type] = (out.byType[type] || 0) + 1;
+    const score = readClaimScore(c);
+    if (score !== null && score < threshold) out.lowConfidence++;
+  }
+  return out;
+}
+
+// Returns only the claims below the threshold. Skips claims with no usable
+// score (we don't want to flag something the LLM declined to score — that's
+// less signal than no signal).
+export function lowConfidenceClaims(claims, threshold = 5) {
+  if (!Array.isArray(claims)) return [];
+  return claims.filter((c) => {
+    const score = readClaimScore(c);
+    return score !== null && score < threshold;
+  });
+}
+
+function escapeHtmlAttr(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+// Wraps each flagged claim's text in the article HTML with a <mark> tag
+// carrying score + reason for the operator's approval-page preview.
+// Case-insensitive plain-substring find — if the LLM paraphrased instead of
+// quoting verbatim, that claim is silently skipped (we don't risk mangling
+// the article to chase a fuzzy match). Returns `{ html, annotated }`.
+export function annotateFlaggedClaims(html, claims) {
+  if (!html || !Array.isArray(claims) || !claims.length) {
+    return { html: html || '', annotated: 0 };
+  }
+  let result = html;
+  let annotated = 0;
+  for (const c of claims) {
+    if (!c || typeof c.text !== 'string') continue;
+    const text = c.text.trim();
+    // 4-char floor — anything shorter risks a high-frequency false-positive
+    // match (e.g. wrapping the word "is" everywhere).
+    if (text.length < 4) continue;
+    const lowerResult = result.toLowerCase();
+    const idx = lowerResult.indexOf(text.toLowerCase());
+    if (idx === -1) continue;
+    const before = result.slice(0, idx);
+    // Don't wrap if the match falls inside an HTML tag (between < and >).
+    const ltCount = (before.match(/</g) || []).length;
+    const gtCount = (before.match(/>/g) || []).length;
+    if (ltCount > gtCount) continue;
+    const matched = result.slice(idx, idx + text.length);
+    const after = result.slice(idx + text.length);
+    const score = readClaimScore(c);
+    const safeScore = score === null ? '' : String(score);
+    const reason = escapeHtmlAttr(c.reason || 'flagged for review');
+    result = `${before}<mark class="pm-fact-flag" data-score="${safeScore}" title="${reason}">${matched}</mark>${after}`;
+    annotated++;
+  }
+  return { html: result, annotated };
+}
+
 function buildArticlePrompt({ keyword, site, internalLinks, serpBrief }) {
   const intent = (keyword.intent || 'informational').toLowerCase();
   const niche = site.niche || 'general business';
@@ -1278,6 +1365,53 @@ Sections to revise (per editor feedback):
 ${sectionsToRevise}
 
 Rewrite only those sections. Return the JSON map only.`,
+  };
+}
+
+// Fact-check LLM prompt. Instructs the model to quote claim text VERBATIM
+// from the article body so annotateFlaggedClaims can plain-substring-find
+// each claim and wrap it with <mark> for the operator preview. The known-
+// reputable-sources hint in the rubric isn't exhaustive — it just gives
+// the model anchor examples for the high-score band.
+function buildFactCheckPrompt({ article, keyword, site }) {
+  const niche = site.niche || 'general business';
+  return {
+    system: `You are a careful fact-checker reviewing a draft article for plausibility. List every numeric claim, named source citation, and specific factual assertion. For each, score plausibility 1-10 and give one short reason.
+
+Scoring rubric:
+- 8-10: well-established, common knowledge, or a citation to a known reputable source (Pew, Gallup, CDC, FDA, BLS, OECD, peer-reviewed journals, US Census, Eurostat, World Bank)
+- 5-7: plausible but unverified, ambiguous source, or close-to-known data but not exact
+- 1-4: implausible, almost certainly hallucinated, cites a nonexistent study, or contradicts well-established facts
+
+Quote each claim's text VERBATIM from the article body — do not paraphrase, summarize, or fix typos. The verbatim text is how the operator locates the claim in the article.
+
+Claim types:
+- "stat": a numeric statistic or percentage
+- "citation": "according to X" / "studies show" / a named-source attribution
+- "assertion": a specific factual claim about a person, place, organization, or event
+
+Return ONLY a JSON object (no prose, no fences):
+{
+  "claims": [
+    {
+      "text":              string,  // VERBATIM substring from the article body
+      "type":              "stat" | "citation" | "assertion",
+      "plausibilityScore": int (1-10),
+      "reason":            string  // one short sentence
+    }
+  ]
+}
+
+If the article has no factual claims worth checking, return { "claims": [] }.`,
+    user: `Article niche: ${niche}
+Target keyword: "${keyword.keyword}"
+
+Article body HTML:
+"""
+${article.html}
+"""
+
+List all factual claims and score them. Return only the JSON.`,
   };
 }
 
@@ -1514,6 +1648,53 @@ async function runMultiPass(env, site, article, keyword, serpBrief) {
     // operator can spot-check on a sample.
   } else {
     out.skipped = 'revisions_did_not_match_any_section';
+  }
+  return out;
+}
+
+// ──────────────────────────────────────────────────────────────
+// Fact-check orchestrator: identify factual claims, surface low-confidence
+// ones in the audit log, and annotate them inline with <mark> tags so the
+// approval-page preview highlights them for operator review. Best-effort —
+// any failure (no key, invalid JSON, no claims) leaves the article
+// unchanged. Returns `{ html, claimsFound, lowConfidence, annotated,
+// byType, skipped }`.
+async function runFactCheck(env, site, article, keyword) {
+  const out = {
+    html: article ? article.html : '',
+    claimsFound: 0,
+    lowConfidence: 0,
+    annotated: 0,
+    byType: {},
+    skipped: null,
+  };
+  if (!site.factCheck) { out.skipped = 'disabled'; return out; }
+  if (!article || typeof article.html !== 'string' || !article.html) {
+    out.skipped = 'no_article_html';
+    return out;
+  }
+  const prompt = buildFactCheckPrompt({ article, keyword, site });
+  const res = await callLLM(env, site, prompt);
+  if (!res.ok || !res.content || typeof res.content !== 'object') {
+    out.skipped = 'llm_failed';
+    return out;
+  }
+  const claims = Array.isArray(res.content.claims) ? res.content.claims : [];
+  const summary = summarizeFactCheck(claims);
+  out.claimsFound = summary.total;
+  out.lowConfidence = summary.lowConfidence;
+  out.byType = summary.byType;
+  if (!summary.lowConfidence) {
+    out.skipped = 'no_low_confidence_claims';
+    return out;
+  }
+  const low = lowConfidenceClaims(claims);
+  const ann = annotateFlaggedClaims(article.html, low);
+  if (ann.annotated > 0) {
+    out.html = ann.html;
+    out.annotated = ann.annotated;
+  } else {
+    out.skipped = 'no_claims_found_verbatim_in_html';
   }
   return out;
 }
@@ -3018,6 +3199,28 @@ async function runPipeline(env, site, opts = {}) {
       });
     } catch (err) {
       await audit(env, site.id, 'pipeline.multipass.error', { error: String(err.message || err).slice(0, 200) });
+    }
+  }
+
+  // 3b. Fact-check pass (PM-282): if the site has `factCheck` enabled, score
+  // every factual claim in the final article body. Low-confidence claims get
+  // wrapped inline with <mark class="pm-fact-flag"> so the operator sees
+  // them highlighted on the approval page. YMYL safety lever — articles
+  // still ship through the existing approval workflow, just with the
+  // questionable sentences visually flagged.
+  if (article && typeof article.html === 'string') {
+    try {
+      const fc = await runFactCheck(env, site, article, keyword);
+      if (fc.annotated > 0) article.html = fc.html;
+      await audit(env, site.id, 'pipeline.fact_check', {
+        skipped: fc.skipped || null,
+        claimsFound: fc.claimsFound,
+        lowConfidence: fc.lowConfidence,
+        annotated: fc.annotated,
+        byType: fc.byType,
+      });
+    } catch (err) {
+      await audit(env, site.id, 'pipeline.fact_check.error', { error: String(err.message || err).slice(0, 200) });
     }
   }
 
