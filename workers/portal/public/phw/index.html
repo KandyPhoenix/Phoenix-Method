@@ -30,9 +30,7 @@
         }
         .topbar-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
         .topbar-logo {
-            width: 28px; height: 28px; border-radius: 6px;
-            background: linear-gradient(135deg, #FF4D00, #FF8C00);
-            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            height: 32px; width: auto; flex-shrink: 0;
         }
         .topbar-name { color: #F0ECE6; font-weight: 600; font-size: 14px; }
         .topbar-portal { color: #9A95A8; font-size: 13px; }
@@ -71,7 +69,9 @@
             display: flex; gap: 4px; margin-bottom: 24px;
             border-bottom: 1px solid rgba(255,255,255,0.06);
             overflow-x: auto;
+            scrollbar-width: none;
         }
+        .tabs::-webkit-scrollbar { display: none; }
         .tab {
             padding: 10px 16px; font-size: 13px; font-weight: 500;
             color: #9A95A8; cursor: pointer; border: none; background: none;
@@ -153,7 +153,8 @@
         .rank-table tbody tr:last-child { border-bottom: none; }
         .rank-table td { padding: 10px 12px; font-size: 13px; }
         .rank-table td.keyword { color: #F0ECE6; }
-        .rank-table td.pos { font-weight: 700; font-size: 14px; text-align: right; width: 60px; }
+        .rank-table td.pos { font-weight: 700; font-size: 14px; text-align: right; width: 90px; }
+        .rank-table td.pos.unranked { font-size: 11px; font-weight: 500; color: #5E5A6B; }
         .rank-table td.change { text-align: right; font-size: 12px; width: 60px; }
         .pos.top3  { color: #27ae60; }
         .pos.top10 { color: #2ecc71; }
@@ -230,6 +231,25 @@
         .status-planned  { background: rgba(52,152,219,0.15); color: #3498db; }
         .status-writing  { background: rgba(255,140,0,0.15);  color: #C9922A; }
         .status-published { background: rgba(39,174,96,0.15);  color: #27ae60; }
+
+        /* ── MONTHLY CONTENT CHOICE ── */
+        .choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .choice-card {
+            background: #0E0E18; border-radius: 10px; padding: 18px;
+            border: 0.5px solid rgba(255,255,255,0.06);
+            display: flex; flex-direction: column; gap: 8px;
+        }
+        .choice-card.chosen { border-color: #E87B2F; background: rgba(232,123,47,0.06); }
+        .choice-type { font-size: 11px; color: #9A95A8; text-transform: uppercase; letter-spacing: 0.5px; }
+        .choice-title { font-size: 14px; font-weight: 600; color: #F0ECE6; line-height: 1.4; }
+        .choice-title.tbd { font-style: italic; color: #5E5A6B; font-weight: 400; font-size: 13px; }
+        .choice-kw { font-size: 12px; color: #9A95A8; }
+        .choice-badge {
+            display: inline-block; font-size: 9px; font-weight: 700; padding: 3px 10px;
+            border-radius: 20px; background: #E87B2F; color: #fff;
+            letter-spacing: 0.15em; text-transform: uppercase; width: fit-content;
+        }
+        .topic-kw { font-size: 11px; color: #5E5A6B; margin-top: 2px; }
 
         /* ── MESSAGES ── */
         .message-card {
@@ -374,8 +394,8 @@
             border-radius: 0 0 8px 8px; overflow: hidden;
         }
         .roadmap-item {
-            display: flex; align-items: center; gap: 12px;
-            padding: 11px 16px; background: #0E0E18;
+            display: flex; align-items: flex-start; gap: 12px;
+            padding: 14px 16px; background: #0E0E18;
             border-bottom: 0.5px solid rgba(255,255,255,0.04);
         }
         .roadmap-item:last-child { border-bottom: none; }
@@ -383,15 +403,17 @@
         .priority-badge {
             font-size: 9px; font-weight: 700; padding: 2px 7px;
             border-radius: 4px; text-transform: uppercase; letter-spacing: 0.4px;
-            flex-shrink: 0; min-width: 62px; text-align: center;
+            flex-shrink: 0; min-width: 62px; text-align: center; margin-top: 2px;
         }
         .pri-critical { background: rgba(231,76,60,0.18); color: #e74c3c; border: 0.5px solid rgba(231,76,60,0.35); }
         .pri-high     { background: rgba(255,140,0,0.15); color: #E87B2F; border: 0.5px solid rgba(255,140,0,0.3); }
         .pri-medium   { background: rgba(52,152,219,0.12); color: #5dade2; border: 0.5px solid rgba(52,152,219,0.25); }
         .pri-low      { background: rgba(94,90,107,0.18); color: #9A95A8; border: 0.5px solid rgba(94,90,107,0.25); }
-        .roadmap-item-title { flex: 1; font-size: 13px; color: #F0ECE6; line-height: 1.4; }
+        .roadmap-item-body { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+        .roadmap-item-title { font-size: 13px; font-weight: 600; color: #F0ECE6; line-height: 1.4; }
+        .roadmap-item-why { font-size: 12px; color: #7A7588; line-height: 1.5; }
         .roadmap-item.done .roadmap-item-title { text-decoration: line-through; color: #5E5A6B; }
-        .roadmap-effort { font-size: 11px; color: #5E5A6B; flex-shrink: 0; min-width: 60px; text-align: right; }
+        .roadmap-item.done .roadmap-item-why { color: #3E3A48; }
         .roadmap-status-pill {
             font-size: 10px; padding: 2px 8px; border-radius: 99px;
             font-weight: 500; white-space: nowrap; flex-shrink: 0;
@@ -449,6 +471,7 @@
             .stats { grid-template-columns: 1fr 1fr; }
             .cal-grid { grid-template-columns: 1fr; }
             .reports-grid { grid-template-columns: 1fr; }
+            .choice-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -457,11 +480,7 @@
 <!-- TOP BAR -->
 <header class="topbar">
     <a href="https://phoenixmethodseo.com" class="topbar-brand">
-        <div class="topbar-logo">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M8 1.5L10 6H14.5L11 9L12.5 14L8 11.5L3.5 14L5 9L1.5 6H6L8 1.5Z" fill="white"/>
-            </svg>
-        </div>
+        <img class="topbar-logo" src="phoenix-bird.png" alt="Phoenix Method">
         <span class="topbar-name">Phoenix Method</span>
     </a>
     <span class="topbar-portal">Client Portal</span>
@@ -494,17 +513,28 @@ async function loadPortal() {
     document.title = data.short_name + ' Portal | Phoenix Method';
     root.innerHTML = buildPortal(data);
 
+    function activateTab(name) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        const tab = document.querySelector('.tab[data-tab="' + name + '"]');
+        const sec = document.getElementById('sec-' + name);
+        if (tab && sec) { tab.classList.add('active'); sec.classList.add('active'); }
+        else { document.querySelector('.tab').classList.add('active'); document.querySelector('.section').classList.add('active'); }
+    }
+
     document.querySelectorAll('.tab').forEach(tab => {
         tab.addEventListener('click', () => {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            tab.classList.add('active');
-            document.getElementById('sec-' + tab.dataset.tab).classList.add('active');
+            window.location.hash = tab.dataset.tab;
+            activateTab(tab.dataset.tab);
         });
     });
+
+    const hash = window.location.hash.replace('#', '');
+    if (hash) activateTab(hash);
 }
 
 function posClass(pos) {
+    if (pos == null) return 'unranked';
     if (pos <= 3)  return 'top3';
     if (pos <= 10) return 'top10';
     if (pos <= 30) return 'mid';
@@ -512,6 +542,7 @@ function posClass(pos) {
 }
 
 function kwChange(current, last) {
+    if (current == null) return { cls: 'neutral', text: '—' };
     if (last === null || last === undefined) return { cls: 'new-kw', text: 'New' };
     const diff = Math.round(last - current);
     if (diff > 0) return { cls: 'up',   text: '▲' + diff };
@@ -556,7 +587,7 @@ function buildPortal(d) {
     }).join('');
 
     // ── RANK SNAPSHOT (top 8 by position for overview) ──
-    const topKws = [...(d.keywords || [])].sort((a, b) => a.position - b.position).slice(0, 8);
+    const topKws = [...(d.keywords || [])].filter(k => k.position != null).sort((a, b) => a.position - b.position).slice(0, 8);
     const rankSnapshot = topKws.length ? topKws.map(kw => {
         const ch = kwChange(kw.position, kw.last_month);
         return `<div class="kw-card">
@@ -569,9 +600,10 @@ function buildPortal(d) {
     // ── FULL RANK TABLE ──
     const rankRows = (d.keywords || []).map(kw => {
         const ch = kwChange(kw.position, kw.last_month);
+        const posDisplay = kw.position != null ? `#${kw.position}` : 'Not Ranking';
         return `<tr>
             <td class="keyword">${kw.keyword}</td>
-            <td class="pos ${posClass(kw.position)}">#${kw.position}</td>
+            <td class="pos ${posClass(kw.position)}">${posDisplay}</td>
             <td class="change ${ch.cls}">${ch.text}</td>
         </tr>`;
     }).join('');
@@ -595,11 +627,36 @@ function buildPortal(d) {
             const sl = t.status === 'published' ? 'Published' : t.status === 'writing' ? 'Writing' : 'Suggested';
             return `<div class="topic-item">
                 <span class="topic-num">${i + 1}</span>
-                <span class="topic-title">${t.title}</span>
+                <div style="flex:1;min-width:0">
+                    <div class="topic-title">${t.title}</div>
+                    ${t.keyword ? `<div class="topic-kw">Target: ${t.keyword}</div>` : ''}
+                </div>
                 <span class="topic-status ${sc}">${sl}</span>
             </div>`;
         }).join('')
         : '<p style="color:#9A95A8;font-size:13px;padding:10px 0">Blog topic suggestions will be added monthly.</p>';
+
+    // ── MONTHLY CONTENT CHOICE ──
+    const choice = d.content_choice || {};
+    const chosenType = choice.chosen || null;
+    const blogInfo = choice.blog || {};
+    const pageInfo = choice.page || {};
+    const choiceCardsHtml = `
+        <div class="choice-grid">
+            <div class="choice-card${chosenType === 'blog' ? ' chosen' : ''}">
+                <div class="choice-type">Blog Post</div>
+                <div class="choice-title${blogInfo.title ? '' : ' tbd'}">${blogInfo.title || 'Content focus not yet selected'}</div>
+                ${blogInfo.keyword ? `<div class="choice-kw">Target keyword: ${blogInfo.keyword}</div>` : ''}
+                ${chosenType === 'blog' ? '<div class="choice-badge">This Month</div>' : ''}
+            </div>
+            <div class="choice-card${chosenType === 'page' ? ' chosen' : ''}">
+                <div class="choice-type">Page to Optimize</div>
+                <div class="choice-title${pageInfo.title ? '' : ' tbd'}">${pageInfo.title || 'To be selected'}</div>
+                ${pageInfo.url ? `<div class="choice-kw">${pageInfo.url}</div>` : ''}
+                ${pageInfo.keyword ? `<div class="choice-kw">Target keyword: ${pageInfo.keyword}</div>` : ''}
+                ${chosenType === 'page' ? '<div class="choice-badge">This Month</div>' : ''}
+            </div>
+        </div>`;
 
     // ── MESSAGES ──
     const messages = d.messages || (d.message ? [d.message] : []);
@@ -621,15 +678,40 @@ function buildPortal(d) {
     const PLANS = [
         {
             name: 'Spark', price: '$500', hours: '2',
-            features: ['2 hrs content/site work/month', 'Rank tracking', 'Email support']
+            features: [
+                'Monthly Google Search Console review to find and act on new keyword opportunities',
+                'Keyword tracking',
+                'Monthly audit report',
+                '2 hrs content/site work/month',
+                'À la carte add-ons available',
+                'Email support'
+            ]
         },
         {
             name: 'Blaze', price: '$900', hours: '6',
-            features: ['6 hrs content/site work/month', 'Rank tracking', 'Content calendar', 'Priority support']
+            features: [
+                'Monthly Google Search Console review to find and act on new keyword opportunities',
+                'Keyword tracking',
+                'Monthly audit report',
+                '6 hrs content/site work/month',
+                'Content calendar',
+                'À la carte add-ons available',
+                'Priority support'
+            ]
         },
         {
             name: 'Inferno', price: '$1,500', hours: '12',
-            features: ['12 hrs content/site work/month', 'Full content strategy', 'Rank tracking', 'Content calendar', 'Dedicated manager', 'Priority support']
+            features: [
+                'Monthly Google Search Console review to find and act on new keyword opportunities',
+                'Keyword tracking',
+                'Monthly audit report',
+                '12 hrs content/site work/month',
+                'Full content strategy',
+                'Content calendar',
+                'À la carte add-ons available',
+                'Dedicated account manager',
+                'Priority support'
+            ]
         },
     ];
     const planCompare = PLANS.map(p => {
@@ -674,15 +756,17 @@ function buildPortal(d) {
         const itemRows = items.map(item => `
             <div class="roadmap-item${item.status === 'done' ? ' done' : ''}">
                 <span class="priority-badge pri-${item.priority}">${priLabel[item.priority] || item.priority}</span>
-                <span class="roadmap-item-title">${item.title}</span>
-                <span class="roadmap-effort">${item.effort}</span>
+                <div class="roadmap-item-body">
+                    <span class="roadmap-item-title">${item.title}</span>
+                    ${item.why ? `<span class="roadmap-item-why">${item.why}</span>` : ''}
+                </div>
                 <span class="roadmap-status-pill rs-${item.status}">${statusLabel[item.status] || item.status}</span>
             </div>
         `).join('');
         return `
             <div class="roadmap-phase">
                 <div class="roadmap-phase-header">
-                    <span class="roadmap-phase-num">Phase ${ph.phase}</span>
+                    <span class="roadmap-phase-num">${ph.phase}</span>
                     <span class="roadmap-phase-title">${ph.phase_title}</span>
                     <span class="roadmap-phase-count${allDone ? ' phase-done' : ''}">${phaseDone} / ${items.length} done</span>
                 </div>
@@ -692,17 +776,17 @@ function buildPortal(d) {
     }).join('');
 
     const roadmapSub = activeItems > 0
-        ? `${totalItems} items across 4 phases &nbsp;·&nbsp; <span style="color:#C9922A">${activeItems} in progress</span>&nbsp;·&nbsp; ${doneItems} complete`
-        : `${totalItems} items across 4 phases &nbsp;·&nbsp; ${doneItems} complete`;
+        ? `${totalItems} findings across ${roadmap.length} areas &nbsp;·&nbsp; <span style="color:#C9922A">${activeItems} in progress</span>&nbsp;·&nbsp; ${doneItems} resolved`
+        : `${totalItems} findings across ${roadmap.length} areas &nbsp;·&nbsp; ${doneItems} resolved`;
 
     const roadmapHtml = totalItems ? `
         <div class="sec-header">
-            <span class="sec-title">SEO Action Roadmap</span>
-            <span class="sec-sub">From your April 2026 audit</span>
+            <span class="sec-title">SEO Audit Findings</span>
+            <span class="sec-sub">Issues and opportunities identified — updated monthly</span>
         </div>
         <div class="roadmap-summary-bar">
             <div class="roadmap-summary-text">
-                <div class="roadmap-summary-title">Overall Progress</div>
+                <div class="roadmap-summary-title">Audit Resolution Progress</div>
                 <div class="roadmap-summary-sub">${roadmapSub}</div>
                 <div class="roadmap-overall-bar">
                     <div class="roadmap-overall-fill" style="width:${overallPct}%"></div>
@@ -722,11 +806,11 @@ function buildPortal(d) {
         </div>
     ` : '<p style="color:#9A95A8;font-size:13px;padding:20px 0">No roadmap data yet. Your SEO action plan will appear here after your audit is complete.</p>';
 
-    // ── TOP CLICKED / TOP RANKING PANELS ──
-    const kwList = d.keywords || [];
-    const hasClicks = kwList.some(k => k.clicks != null && k.clicks > 0);
+    // ── TOP CLICKED / TOP RANKING PANELS (from GSC report) ──
+    const gscKws = d.gsc_keywords || [];
+    const hasGscClicks = gscKws.some(k => k.clicks != null && k.clicks > 0);
 
-    const topRanking = [...kwList].sort((a, b) => a.position - b.position).slice(0, 5);
+    const topRanking = [...gscKws].filter(k => k.position != null).sort((a, b) => a.position - b.position).slice(0, 5);
     const topRankingHtml = topRanking.length
         ? topRanking.map((kw, i) => `
             <div class="kw-panel-row">
@@ -735,12 +819,12 @@ function buildPortal(d) {
                 <span class="kw-panel-pos ${posClass(kw.position)}">#${kw.position}</span>
             </div>`)
             .join('')
-        : '<div class="kw-panel-empty">No keyword data yet.</div>';
+        : '<div class="kw-panel-empty">GSC keyword data will appear here after the first monthly update.</div>';
 
-    const topClicked = hasClicks
-        ? [...kwList].filter(k => k.clicks != null).sort((a, b) => b.clicks - a.clicks).slice(0, 5)
+    const topClicked = hasGscClicks
+        ? [...gscKws].filter(k => k.clicks != null && k.clicks > 0).sort((a, b) => b.clicks - a.clicks).slice(0, 5)
         : [];
-    const topClickedHtml = hasClicks
+    const topClickedHtml = hasGscClicks
         ? topClicked.map((kw, i) => `
             <div class="kw-panel-row">
                 <span class="kw-panel-rank">${i + 1}</span>
@@ -749,11 +833,14 @@ function buildPortal(d) {
                 <span class="kw-panel-pos ${posClass(kw.position)}">#${kw.position}</span>
             </div>`)
             .join('')
-        : '<div class="kw-panel-empty">Click data will appear after the first full tracking month.</div>';
+        : '<div class="kw-panel-empty">GSC click data will appear after the first monthly update.</div>';
 
-    // ── IMPRESSIONS / CTR display ──
-    const impressions = s.impressions != null ? s.impressions.toLocaleString() : '—';
-    const ctr = s.ctr != null ? s.ctr + '%' : '—';
+    // ── IMPRESSIONS / CTR display — computed from live gsc_keywords data ──
+    const totalClicks = gscKws.reduce((sum, k) => sum + (k.clicks || 0), 0);
+    const totalImpressions = gscKws.reduce((sum, k) => sum + (k.impressions || 0), 0);
+    const computedCtr = totalImpressions > 0 ? ((totalClicks / totalImpressions) * 100).toFixed(1) : null;
+    const impressions = totalImpressions > 0 ? totalImpressions.toLocaleString() : (s.impressions != null ? s.impressions.toLocaleString() : '—');
+    const ctr = computedCtr != null ? computedCtr + '%' : (s.ctr != null ? s.ctr + '%' : '—');
 
     return `
         <!-- GREETING -->
@@ -762,7 +849,7 @@ function buildPortal(d) {
                 Your SEO Dashboard
                 <span class="badge">${d.month}</span>
             </div>
-            <div class="greeting-sub">Updated monthly by your Phoenix Method team</div>
+            <div class="greeting-sub">Updated monthly for ${d.client}</div>
         </div>
 
         <!-- STATS -->
@@ -819,7 +906,7 @@ function buildPortal(d) {
                 <span class="sec-sub">Last 30 days</span>
             </div>
             <div class="gsc-summary">
-                <div class="gsc-pill">Clicks: <strong>${s.sessions != null ? s.sessions.toLocaleString() : '—'}</strong></div>
+                <div class="gsc-pill">Clicks: <strong>${totalClicks > 0 ? totalClicks.toLocaleString() : '—'}</strong></div>
                 <div class="gsc-pill">Impressions: <strong>${impressions}</strong></div>
                 <div class="gsc-pill">CTR: <strong>${ctr}</strong></div>
                 <div class="gsc-pill">Avg Position: <strong>#${s.position != null ? s.position : '—'}</strong></div>
@@ -864,6 +951,12 @@ function buildPortal(d) {
                 <span class="sec-sub">${d.month}</span>
             </div>
             <div class="cal-grid">${calCards}</div>
+
+            <div class="sec-header" style="margin-top:28px">
+                <span class="sec-title">This Month's Deliverable</span>
+                <span class="sec-sub">Blog post or page SEO op</span>
+            </div>
+            ${choiceCardsHtml}
 
             <div class="sec-header" style="margin-top:32px">
                 <span class="sec-title">Blog Topics</span>
