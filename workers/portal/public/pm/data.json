@@ -1,0 +1,165 @@
+{
+  "client": "Phoenix Method SEO",
+  "short_name": "PM",
+  "month": "June 2026",
+  "plan": "Internal",
+  "plan_price": "Agency Site",
+  "plan_hours": 0,
+  "hours_used": 0,
+  "rollover_enabled": false,
+  "hours_rolled_over": 0,
+  "updated": "2026-06-01",
+  "next_invoice": {
+    "date": "N/A",
+    "amount": "Internal"
+  },
+  "stats": {
+    "sessions": 1,
+    "sessions_change": "0",
+    "sessions_trend": "neutral",
+    "keywords": 73,
+    "keywords_change": "+38",
+    "keywords_trend": "up",
+    "position": 73.7,
+    "position_change": "+63.7",
+    "position_trend": "down",
+    "impressions": 652,
+    "impressions_change": "+555",
+    "impressions_trend": "up",
+    "ctr": 0.15,
+    "ctr_change": "-0.88",
+    "ctr_trend": "down",
+    "clicks": 1
+  },
+  "deliverables": [
+    { "text": "Site launch — phoenixmethodseo.com live on GitHub Pages", "status": "done" },
+    { "text": "SSL cert — www.phoenixmethodseo.com HTTPS active", "status": "done" },
+    { "text": "Sitemap + robots.txt live", "status": "done" },
+    { "text": "Schema markup — structured data active", "status": "done" },
+    { "text": "Contact page live", "status": "done" },
+    { "text": "Blog live", "status": "done" },
+    { "text": "GSC — service account access + baseline data live", "status": "done" },
+    { "text": "Homepage meta description — trimmed to ≤165 chars (PM-144)", "status": "done" },
+    { "text": "Services pages — 6 service pages built and indexed", "status": "done" },
+    { "text": "Canonical tags — all pages canonicalized to www (PM-277)", "status": "done" },
+    { "text": "Portal automation — stats auto-update via weekly health check", "status": "done" },
+    { "text": "First blog post — publish and optimize for keyword + internal links", "status": "todo" },
+    { "text": "Google Business Profile — create and optimize GBP listing for Phoenix Method", "status": "todo" },
+    { "text": "FAQ page — dedicated /faq with FAQ schema (PM-147)", "status": "todo" },
+    { "text": "Agency directory listings — Clutch, UpCity, GoodFirms", "status": "todo" }
+  ],
+  "package_details": {
+    "monthly_audit": "Internal site monitoring — tracking phoenixmethodseo.com performance in GSC, identifying technical issues, and keeping the site optimized as the agency grows.",
+    "blog_or_seo": "Monthly content or SEO improvement targeting agency keywords — SEO services, local SEO, therapist SEO, etc.",
+    "site_hour": "Agency site work tracked alongside client work. No billing — internal.",
+    "quarterly_report": "Quarterly review of agency site rankings, traffic, and conversion performance.",
+    "overage": "N/A — internal site."
+  },
+  "gsc_keywords": [
+    { "keyword": "mental health seo", "position": 84.9, "clicks": 0, "impressions": 51 },
+    { "keyword": "behavioral health seo", "position": 91.8, "clicks": 0, "impressions": 19 },
+    { "keyword": "ai citation optimization", "position": 78.0, "clicks": 0, "impressions": 17 },
+    { "keyword": "ai citations optimization", "position": 86.8, "clicks": 0, "impressions": 5 },
+    { "keyword": "google business profile help 77375", "position": 1.0, "clicks": 0, "impressions": 6 },
+    { "keyword": "local search engine optimization services the woodlands", "position": 1.0, "clicks": 0, "impressions": 3 },
+    { "keyword": "local seo sop", "position": 91.7, "clicks": 0, "impressions": 3 },
+    { "keyword": "counseling seo", "position": 96.7, "clicks": 0, "impressions": 3 },
+    { "keyword": "how to get cited in ai overviews", "position": 92.3, "clicks": 0, "impressions": 3 },
+    { "keyword": "conroe seo company", "position": 21.0, "clicks": 0, "impressions": 2 },
+    { "keyword": "citation optimization framework", "position": 16.0, "clicks": 0, "impressions": 2 },
+    { "keyword": "how does a therapy niche impact your seo strategy", "position": 98.0, "clicks": 0, "impressions": 2 },
+    { "keyword": "counselling seo", "position": 84.5, "clicks": 0, "impressions": 2 },
+    { "keyword": "seo audit service", "position": 11.3, "clicks": 0, "impressions": 9 },
+    { "keyword": "google business profile", "position": 2.4, "clicks": 0, "impressions": 5 },
+    { "keyword": "google business profile optimization", "position": 8.5, "clicks": 0, "impressions": 4 },
+    { "keyword": "local seo phoenix", "position": 16.0, "clicks": 0, "impressions": 1 },
+    { "keyword": "local seo company the woodlands", "position": 48.0, "clicks": 0, "impressions": 1 },
+    { "keyword": "conroe seo", "position": 1.0, "clicks": 0, "impressions": 1 },
+    { "keyword": "ai overview citations", "position": 91.0, "clicks": 0, "impressions": 1 }
+  ],
+  "keywords": [
+    { "keyword": "phoenix method seo", "position": null, "last_month": null, "clicks": 0 },
+    { "keyword": "seo for therapists", "position": null, "last_month": null, "clicks": 0 },
+    { "keyword": "therapist seo services", "position": null, "last_month": null, "clicks": 0 },
+    { "keyword": "seo agency for mental health practices", "position": null, "last_month": null, "clicks": 0 },
+    { "keyword": "local seo for therapists", "position": null, "last_month": null, "clicks": 0 },
+    { "keyword": "mental health seo", "position": 84.9, "last_month": null, "clicks": 0 },
+    { "keyword": "behavioral health seo", "position": 91.8, "last_month": null, "clicks": 0 },
+    { "keyword": "small business seo", "position": null, "last_month": null, "clicks": 0 }
+  ],
+  "content_calendar": [
+    { "date": "Jun 2026", "title": "First blog post — publish and optimize for target keyword", "type": "deliverable" },
+    { "date": "Jun 2026", "title": "Google Business Profile — create and optimize GBP listing", "type": "deliverable" },
+    { "date": "Jun 2026", "title": "FAQ page — /faq with FAQ schema (PM-147)", "type": "deliverable" },
+    { "date": "Jul 2026", "title": "Case studies page — ranking results as social proof", "type": "deliverable" },
+    { "date": "Jul 2026", "title": "Agency directory listings — Clutch, UpCity, GoodFirms", "type": "deliverable" },
+    { "date": "Aug 2026", "title": "Backlink outreach — therapy-adjacent publications and niche citations", "type": "deliverable" }
+  ],
+  "content_choice": {
+    "chosen": null,
+    "blog": {
+      "title": null,
+      "keyword": null,
+      "status": "pending"
+    },
+    "page": {
+      "title": "Services Page",
+      "url": "phoenixmethodseo.com/services",
+      "keyword": "seo for therapists",
+      "status": "done"
+    }
+  },
+  "blog_topics": [
+    { "title": "Why Therapists Need SEO (And What Most Get Wrong)", "keyword": "seo for therapists", "status": "suggested" },
+    { "title": "How We Got a Therapist to Page 1 in 90 Days", "keyword": "therapist seo services", "status": "suggested" },
+    { "title": "WordPress vs. Squarespace for Therapist Websites — SEO Breakdown", "keyword": "wordpress seo services", "status": "suggested" },
+    { "title": "Local SEO for Therapists: A Complete Guide", "keyword": "local seo for therapists", "status": "suggested" }
+  ],
+  "reports": [],
+  "roadmap": [
+    {
+      "phase": 1,
+      "phase_title": "Foundation",
+      "items": [
+        { "id": 1, "title": "Site Launch on GitHub Pages", "why": "phoenixmethodseo.com is live on GitHub Pages with www SSL active. Apex redirects to www correctly.", "priority": "high", "effort": "Done", "status": "done" },
+        { "id": 2, "title": "XML Sitemap + robots.txt", "why": "sitemap.xml and robots.txt both return 200. Sitemap URL is declared in robots.txt.", "priority": "high", "effort": "Done", "status": "done" },
+        { "id": 3, "title": "Schema Markup", "why": "Structured data active on homepage. Monitoring for coverage issues as pages are added.", "priority": "medium", "effort": "Done", "status": "done" },
+        { "id": 4, "title": "Homepage SEO — Title, H1, Meta", "why": "Title on-target, H1 present and unique, meta description trimmed to 145 chars. Canonical points to www.", "priority": "high", "effort": "Done", "status": "done" },
+        { "id": 5, "title": "Services Pages — 6 Service Pages", "why": "ai-overview-optimization, content-seo, gbp-optimization, local-seo, seo-development, technical-seo all live. Starting to show impressions for niche terms.", "priority": "high", "effort": "Done", "status": "done" },
+        { "id": 6, "title": "Canonical Tags — All Pages to www", "why": "PM-277: All pages now canonicalized to www.phoenixmethodseo.com to prevent duplicate content signals.", "priority": "high", "effort": "Done", "status": "done" },
+        { "id": 7, "title": "GSC — Service Account Access", "why": "seo-access@seo-tools-480518.iam.gserviceaccount.com added as Full User. Weekly health check routine pulling PM data automatically alongside Lori and PHW.", "priority": "high", "effort": "Done", "status": "done" }
+      ]
+    },
+    {
+      "phase": 2,
+      "phase_title": "Content & Authority",
+      "items": [
+        { "id": 8, "title": "First Blog Post", "why": "Blog is live at /blog/. Needs one fully optimized post targeting 'seo for therapists' or 'mental health seo' to start building topical authority.", "priority": "high", "effort": "2–3 hrs", "status": "todo" },
+        { "id": 9, "title": "Case Studies Page", "why": "Lori and PHW results are the agency's strongest sales tool. A page documenting real ranking improvements builds trust and targets 'results' queries.", "priority": "high", "effort": "3–4 hrs", "status": "todo" },
+        { "id": 10, "title": "FAQ Page with Schema", "why": "Dedicated /faq targeting common questions about therapist SEO. FAQ schema qualifies for rich results in SERPs.", "priority": "medium", "effort": "1–2 hrs", "status": "todo" },
+        { "id": 11, "title": "Contact / Intake Form", "why": "Contact page live. Verify form captures name, site URL, platform, and goal so inbound leads can self-qualify.", "priority": "high", "effort": "1 hr", "status": "in_progress" }
+      ]
+    },
+    {
+      "phase": 3,
+      "phase_title": "Visibility & Trust",
+      "items": [
+        { "id": 12, "title": "Google Business Profile — Phoenix Method", "why": "GBP listing builds local trust and branded search presence.", "priority": "medium", "effort": "1–2 hrs", "status": "todo" },
+        { "id": 13, "title": "Agency Directory Listings", "why": "Clutch, UpCity, GoodFirms — high-DA directories that send referral traffic and build backlink authority.", "priority": "medium", "effort": "2–3 hrs", "status": "backlog" },
+        { "id": 14, "title": "Backlink Building — Healthcare / Therapy Niche", "why": "Targeting therapy-adjacent publications, directories, and niche citations to build domain authority.", "priority": "medium", "effort": "Ongoing", "status": "backlog" }
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "from": "Kandy",
+      "date": "June 1, 2026",
+      "text": "May data shows strong early traction. Impressions grew from 97 (April) to 652 — a 6.7x jump — as the service pages and canonicalization work from May settle into Google's index. The site now shows up for 73 distinct keyword queries, up from 35 in April. Average position is 73.7 (vs 10.0 in April) because the new keywords entering the index are in deep positions — expected for new content, will improve as pages build authority and we start pushing them with links. Top early signals: 'mental health seo' (51 impressions), 'behavioral health seo' (19 impressions), and 'ai citation optimization' (17 impressions). No agency keyword clicks yet but the footprint is growing. June priority: first blog post targeting 'seo for therapists', GBP listing, and FAQ page."
+    },
+    {
+      "from": "Kandy",
+      "date": "May 2, 2026",
+      "text": "First site audit and GSC pull complete for phoenixmethodseo.com. April baseline: 90 impressions, 1 click, avg position 9.8, CTR 1.11%. Site is indexed and showing up in 25 keyword queries — strong early signal for a brand-new site. Top impressions: 'google business profile' (pos 2.4), 'google business profile optimization' (pos 8.5), 'conroe seo company' (pos 41 — opportunity to push into top 10). Target keywords like 'seo for therapists' and 'therapist seo services' aren't indexed yet — that's the content gap to close this month. One fix needed now: homepage meta description is 204 chars and getting cut off in SERPs — trim to under 165. Services page and case studies are next."
+    }
+  ]
+}

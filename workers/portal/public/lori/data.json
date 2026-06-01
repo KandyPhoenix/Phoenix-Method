@@ -1,33 +1,33 @@
 {
   "client": "Lori Kimmerly Therapy and Coaching",
   "short_name": "Lori",
-  "month": "May 2026",
+  "month": "June 2026",
   "plan": "Custom",
   "plan_price": "$575/mo",
   "plan_hours": 1,
-  "hours_used": 1,
+  "hours_used": 0,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-05-18",
+  "updated": "2026-06-01",
   "next_invoice": {
-    "date": "June 1, 2026",
+    "date": "July 1, 2026",
     "amount": "$575.00"
   },
   "stats": {
-    "sessions": 109,
-    "sessions_change": "-13",
-    "sessions_trend": "down",
-    "keywords": 68,
-    "keywords_change": "+20",
+    "sessions": 133,
+    "sessions_change": "+24",
+    "sessions_trend": "up",
+    "keywords": 141,
+    "keywords_change": "+73",
     "keywords_trend": "up",
-    "position": 10.2,
-    "position_change": "+3.3",
+    "position": 12.8,
+    "position_change": "+2.6",
     "position_trend": "down",
-    "impressions": 1606,
-    "impressions_change": "+294",
+    "impressions": 2356,
+    "impressions_change": "+750",
     "impressions_trend": "up",
-    "ctr": 6.79,
-    "ctr_change": "-2.5",
+    "ctr": 5.65,
+    "ctr_change": "-1.1",
     "ctr_trend": "down"
   },
   "deliverables": [
@@ -65,131 +65,131 @@
   "gsc_keywords": [
     {
       "keyword": "lori kimmerly therapy",
-      "position": 1.4,
-      "clicks": 32,
-      "impressions": 80
-    },
-    {
-      "keyword": "lori kimmerly",
-      "position": 1,
-      "clicks": 4,
-      "impressions": 9
+      "position": 1.3,
+      "clicks": 38,
+      "impressions": 75
     },
     {
       "keyword": "natalie kim",
-      "position": 6.5,
-      "clicks": 1,
-      "impressions": 51
-    },
-    {
-      "keyword": "ryan carragher",
-      "position": 6,
-      "clicks": 1,
-      "impressions": 7
-    },
-    {
-      "keyword": "affordable anxiety therapy online washington",
-      "position": 42,
-      "clicks": 0,
-      "impressions": 2
-    },
-    {
-      "keyword": "affordable licensed therapist online washington",
-      "position": 17.8,
-      "clicks": 0,
-      "impressions": 12
-    },
-    {
-      "keyword": "affordable online counseling washington state",
-      "position": 17.3,
-      "clicks": 0,
-      "impressions": 3
-    },
-    {
-      "keyword": "affordable private pay therapy washington",
-      "position": 58.7,
-      "clicks": 0,
-      "impressions": 3
-    },
-    {
-      "keyword": "affordable trauma informed therapy washington",
-      "position": 35,
-      "clicks": 0,
-      "impressions": 1
-    },
-    {
-      "keyword": "alleger",
-      "position": 6,
-      "clicks": 0,
-      "impressions": 2
-    },
-    {
-      "keyword": "alleger mp4",
-      "position": 10,
-      "clicks": 0,
-      "impressions": 1
-    },
-    {
-      "keyword": "amiko riley",
-      "position": 20,
-      "clicks": 0,
-      "impressions": 1
-    },
-    {
-      "keyword": "anxiety therapist renton wa",
-      "position": 12.1,
-      "clicks": 0,
-      "impressions": 20
+      "position": 11.0,
+      "clicks": 2,
+      "impressions": 42
     },
     {
       "keyword": "anxiety therapy renton",
-      "position": 13.3,
+      "position": 13.0,
+      "clicks": 0,
+      "impressions": 35
+    },
+    {
+      "keyword": "john hubbs",
+      "position": 2.6,
+      "clicks": 3,
+      "impressions": 32
+    },
+    {
+      "keyword": "anxiety therapist renton wa",
+      "position": 10.8,
+      "clicks": 0,
+      "impressions": 22
+    },
+    {
+      "keyword": "couples therapy renton",
+      "position": 9.4,
       "clicks": 0,
       "impressions": 20
     },
     {
-      "keyword": "audhd",
-      "position": 3.5,
+      "keyword": "couples therapist renton",
+      "position": 11.3,
       "clicks": 0,
-      "impressions": 2
-    },
-    {
-      "keyword": "books",
-      "position": 11,
-      "clicks": 0,
-      "impressions": 1
+      "impressions": 19
     },
     {
       "keyword": "caroline bacon",
-      "position": 6,
-      "clicks": 0,
-      "impressions": 3
+      "position": 3.1,
+      "clicks": 1,
+      "impressions": 19
     },
     {
-      "keyword": "clayton holman",
-      "position": 3.4,
+      "keyword": "kristen sievert",
+      "position": 2.0,
+      "clicks": 4,
+      "impressions": 19
+    },
+    {
+      "keyword": "marriage counseling renton wa",
+      "position": 14.8,
+      "clicks": 0,
+      "impressions": 16
+    },
+    {
+      "keyword": "ryan carragher",
+      "position": 2.2,
+      "clicks": 1,
+      "impressions": 9
+    },
+    {
+      "keyword": "affordable licensed therapist online washington",
+      "position": 18.1,
+      "clicks": 0,
+      "impressions": 7
+    },
+    {
+      "keyword": "american psychological association internal family systems therapy",
+      "position": 7.8,
       "clicks": 0,
       "impressions": 5
     },
     {
-      "keyword": "couples therapist renton",
-      "position": 9.7,
+      "keyword": "anxiety therapist near me renton wa",
+      "position": 16.4,
       "clicks": 0,
-      "impressions": 13
+      "impressions": 5
     },
     {
-      "keyword": "couples therapy renton",
-      "position": 10.2,
+      "keyword": "affordable private pay therapy washington",
+      "position": 54.0,
       "clicks": 0,
-      "impressions": 21
+      "impressions": 4
+    },
+    {
+      "keyword": "jennifer kenworthy",
+      "position": 2.6,
+      "clicks": 0,
+      "impressions": 17
+    },
+    {
+      "keyword": "show me sliding scale online counseling services in washington",
+      "position": 13.9,
+      "clicks": 0,
+      "impressions": 17
+    },
+    {
+      "keyword": "evening therapy sessions wa",
+      "position": 16.8,
+      "clicks": 0,
+      "impressions": 23
+    },
+    {
+      "keyword": "online marriage counseling federal way",
+      "position": 13.4,
+      "clicks": 0,
+      "impressions": 12
+    },
+    {
+      "keyword": "online individual therapy in washington",
+      "position": 33.2,
+      "clicks": 0,
+      "impressions": 13
     }
   ],
   "keywords": [
     {
       "keyword": "lori kimmerly therapy",
-      "position": 1.4,
+      "position": 1.3,
       "last_month": 1.4,
-      "clicks": 32
+      "clicks": 38
     },
     {
       "keyword": "therapist renton wa",
@@ -229,19 +229,19 @@
     },
     {
       "keyword": "couples therapy renton",
-      "position": 10.2,
+      "position": 9.4,
       "last_month": 10.2,
       "clicks": 0
     },
     {
       "keyword": "couples therapist renton",
-      "position": 9.7,
+      "position": 11.3,
       "last_month": 9.7,
       "clicks": 0
     },
     {
       "keyword": "marriage counseling renton wa",
-      "position": 14.6,
+      "position": 14.8,
       "last_month": 14.6,
       "clicks": 0
     },
@@ -253,7 +253,7 @@
     },
     {
       "keyword": "anxiety therapist renton wa",
-      "position": 12.1,
+      "position": 10.8,
       "last_month": 12.1,
       "clicks": 0
     },
@@ -308,27 +308,31 @@
   ],
   "content_calendar": [
     {
-      "date": "May 15",
+      "date": "Jun 15",
       "title": "Blog Topic or Draft Submission Due",
       "type": "client"
     },
     {
-      "date": "May 31",
+      "date": "Jun 22",
       "title": "Blog Post or SEO Op",
+      "type": "deliverable"
+    },
+    {
+      "date": "Jun 30",
+      "title": "Quarterly Performance Report",
       "type": "deliverable"
     }
   ],
   "content_choice": {
-    "chosen": "blog",
+    "chosen": null,
     "blog": {
-      "title": "Does Insurance Cover Therapy in Washington State? (Premera, Aetna, Kaiser)",
-      "keyword": "does insurance cover therapy Washington",
-      "status": "in-progress",
-      "wp_post_id": 50610
+      "title": null,
+      "keyword": null,
+      "status": "pending"
     },
     "page": {
-      "title": "Lori Kimmerly Bio — SEO Treatment",
-      "url": "lorikimmerly.com/lori-kimmerly/",
+      "title": "IFS Therapy Washington — Dedicated Landing Page",
+      "url": "lorikimmerly.com/ifs-therapy-washington/",
       "keyword": "IFS therapist Renton WA",
       "status": "suggested"
     }
@@ -337,7 +341,7 @@
     {
       "title": "How to Find a Therapist in Renton WA (What to Look For)",
       "keyword": "therapist Renton WA",
-      "status": "in-progress"
+      "status": "suggested"
     },
     {
       "title": "IFS Therapy for Anxiety: How Internal Family Systems Helps You Heal",
@@ -448,6 +452,14 @@
         },
         {
           "id": 6,
+          "title": "Spam Filter + Contact Forms",
+          "why": "SilentShield plugin was blocking all form submissions. Replaced with honeypot approach — both main contact and in-page booking forms verified working.",
+          "priority": "high",
+          "effort": "1 hr",
+          "status": "done"
+        },
+        {
+          "id": 7,
           "title": "On-Site Testimonials",
           "why": "Patient testimonials are a direct trust signal that Google quality raters look for on YMYL health sites. The site currently has no testimonials section — a gap that affects perceived credibility.",
           "priority": "high",
@@ -455,7 +467,7 @@
           "status": "backlog"
         },
         {
-          "id": 7,
+          "id": 8,
           "title": "Google Business Profile Optimization",
           "why": "GBP category alignment, service list, photos, and Q&A section all need a full optimization pass. A complete, verified profile is a hard requirement for local pack eligibility on therapy queries.",
           "priority": "high",
@@ -463,15 +475,15 @@
           "status": "backlog"
         },
         {
-          "id": 8,
+          "id": 9,
           "title": "Psychology Today Profiles",
-          "why": "Psychology Today is the highest-authority therapist directory and a direct referral source. Every therapist on the team needs a full profile with specialty tags — currently absent from the backlink profile. Initial pass complete: 7 of 12 therapist Person schemas now include Psychology Today profile URLs. Remaining 5 (Jared, Clayton, Natalie, Mariah, Leah) need profile URLs — pending Kandy follow-up.",
+          "why": "Initial pass complete: 7 of 12 therapist Person schemas now include Psychology Today profile URLs. Remaining 5 (Jared, Clayton, Natalie, Mariah, Leah) need profile URLs — pending Kandy follow-up.",
           "priority": "high",
           "effort": "2–3 hrs",
           "status": "in_progress"
         },
         {
-          "id": 9,
+          "id": 10,
           "title": "Privacy Policy & Terms of Service",
           "why": "Google quality raters check for trust pages on YMYL health sites. Once provided by the practice, these will be published and linked correctly across the site.",
           "priority": "medium",
@@ -485,7 +497,7 @@
       "phase_title": "Local Visibility",
       "items": [
         {
-          "id": 10,
+          "id": 11,
           "title": "GBP Post Management",
           "why": "Regular GBP posts — blog excerpts, mental health tips, practice announcements — signal an active, engaged listing to Google and improve local pack visibility.",
           "priority": "high",
@@ -493,7 +505,7 @@
           "status": "backlog"
         },
         {
-          "id": 11,
+          "id": 12,
           "title": "Google Review Process",
           "why": "Review count and average rating are direct local pack ranking factors. Growing toward 20+ reviews at 4.8+ average requires a consistent, compliant ask process — in-office or automated.",
           "priority": "high",
@@ -501,7 +513,7 @@
           "status": "backlog"
         },
         {
-          "id": 12,
+          "id": 13,
           "title": "Priority Directory Submissions",
           "why": "TherapyDen, Healthgrades, Zocdoc, Bing Places, Apple Maps, and GoodTherapy — high-authority citations missing from the backlink profile. Each submission builds local authority and opens a new referral channel.",
           "priority": "high",
@@ -509,7 +521,7 @@
           "status": "backlog"
         },
         {
-          "id": 13,
+          "id": 14,
           "title": "Location Landing Pages",
           "why": "Dedicated pages for Renton WA, Online Therapy Washington, and Online Therapy Arizona — each targeting location-specific search queries the site currently has no page to capture.",
           "priority": "high",
@@ -523,7 +535,7 @@
       "phase_title": "Content Investment — Service Pages",
       "items": [
         {
-          "id": 14,
+          "id": 15,
           "title": "IFS Therapy Washington",
           "why": "'IFS therapist renton wa', 'ifs therapist seattle', 'ifs therapy washington' — no indexed landing page. Zero SERP presence for the practice's primary keyword differentiator and strongest competitive advantage.",
           "priority": "high",
@@ -531,23 +543,23 @@
           "status": "backlog"
         },
         {
-          "id": 15,
-          "title": "Anxiety Therapy Renton WA",
-          "why": "'Anxiety therapist renton wa' at pos 13.3 with 16 impressions and 0 clicks. The highest-volume local therapy search term — ranking but not capturing clicks without a dedicated page.",
-          "priority": "high",
-          "effort": "3–4 hrs",
-          "status": "backlog"
-        },
-        {
           "id": 16,
-          "title": "Couples Counseling Renton WA",
-          "why": "'Couples therapy renton' at pos 10.1 — sitting at the page 1 threshold. High commercial intent keyword cluster with no dedicated landing page to hold or improve the position.",
+          "title": "Anxiety Therapy Renton WA",
+          "why": "'Anxiety therapist renton wa' at pos 10.8 with 22 impressions and 0 clicks. Ranking but not capturing clicks without a dedicated page.",
           "priority": "high",
           "effort": "3–4 hrs",
           "status": "backlog"
         },
         {
           "id": 17,
+          "title": "Couples Counseling Renton WA",
+          "why": "'Couples therapy renton' at pos 9.4 — page 1 threshold. High commercial intent keyword cluster with no dedicated landing page.",
+          "priority": "high",
+          "effort": "3–4 hrs",
+          "status": "backlog"
+        },
+        {
+          "id": 18,
           "title": "Depression Therapy Washington",
           "why": "Second most searched mental health condition after anxiety. Statewide keyword with no dedicated page — missed traffic across both in-person and telehealth service areas.",
           "priority": "high",
@@ -555,7 +567,7 @@
           "status": "backlog"
         },
         {
-          "id": 18,
+          "id": 19,
           "title": "Trauma Therapy Washington",
           "why": "Supports the practice's trauma-specialized therapist team. High-empathy search cluster with strong conversion intent — searchers on this term are actively looking for help.",
           "priority": "high",
@@ -563,15 +575,15 @@
           "status": "backlog"
         },
         {
-          "id": 19,
+          "id": 20,
           "title": "Online Therapy Washington & Arizona",
-          "why": "'Online therapy washington state' at pos 21.4 — impressions with zero clicks. A single optimized page consolidates authority across both telehealth service states.",
+          "why": "'Online therapy washington state' appearing with impressions and zero clicks. A single optimized page consolidates authority across both telehealth service states.",
           "priority": "high",
           "effort": "3–4 hrs",
           "status": "backlog"
         },
         {
-          "id": 20,
+          "id": 21,
           "title": "Family Therapy Renton WA",
           "why": "Completes the core service page library. Without it the practice has no indexed page for family therapy queries despite offering the service.",
           "priority": "medium",
@@ -579,7 +591,7 @@
           "status": "backlog"
         },
         {
-          "id": 21,
+          "id": 22,
           "title": "FAQ Sections on All Service Pages",
           "why": "FAQ content qualifies pages for FAQ rich results in SERPs and directly addresses hesitant visitors. Every service page needs a FAQ section once built.",
           "priority": "medium",
@@ -587,9 +599,9 @@
           "status": "backlog"
         },
         {
-          "id": 22,
+          "id": 23,
           "title": "Internal Linking",
-          "why": "Foundation work begun — bio-to-bio supervisory links and one bio→blog topical link (IFS) are live. Full execution waits for dedicated service pages to exist (Phase 3) so each bio can link to a relevant service page.",
+          "why": "Foundation work begun — bio-to-bio supervisory links and one bio→blog topical link (IFS) are live. Full execution waits for dedicated service pages to exist so each bio can link to a relevant service page.",
           "priority": "medium",
           "effort": "1–2 hrs",
           "status": "in_progress"
@@ -598,6 +610,21 @@
     }
   ],
   "messages": [
+    {
+      "from": "Kandy",
+      "date": "June 1, 2026",
+      "text": "June package is active. May stats are in: 2,356 impressions (up 750 from last month), 141 keywords indexed (up 73), and 133 organic clicks. The big cleanup work from earlier in May — redirects, schema rebuilds, meta rewrites, FAQ noindex — continues to settle with Google and ranking improvements should become more visible over the next 4–6 weeks as Google re-crawls. The insurance blog published in May is indexed. This month your blog or SEO op slot is open — send your topic by June 15 and we'll have it live by the 22nd. If we don't hear from you we'll pick your best keyword opportunity from the current data. Quarterly performance report is scheduled for June 30."
+    },
+    {
+      "from": "Kandy",
+      "date": "May 21, 2026",
+      "text": "Site maintenance session today covering two things. First: your contact form spam filter was rejecting real submissions with an error message — we replaced the old reCAPTCHA setup with a honeypot approach that stops bots without blocking clients. Both forms (main contact and the in-page booking form) are updated and tested. Second: fixed a layout issue on the Lori and Kristen bio pages — the hero card was rendering behind the navigation bar instead of below it, which was cutting off the top of each page. Root cause was a padding value set too low for the site's fixed header (155px tall). Updated both pages to match Jared's working layout, including the spacing between the schedule button and the bio card below it. All three therapist bios now match. (LOR-333)"
+    },
+    {
+      "from": "Kandy",
+      "date": "May 12, 2026",
+      "text": "Quick maintenance session this week. Fixed the contact forms on your site — a plugin called SilentShield was blocking all form submissions. Clients should now be able to reach you and your therapists without issues. Also updated session rates on Devi and Iwona's bio pages (correcting the listed fees). On the SEO side, cleaned up the About Our Therapists hero section: tightened the headline text, removed duplicate mentions of \"online\" and \"Washington\" that could flag as keyword stuffing, and polished the visual layout. (LOR-325, LOR-324, LOR-326)"
+    },
     {
       "from": "Kandy",
       "date": "May 10, 2026",
@@ -612,11 +639,6 @@
       "from": "Kandy",
       "date": "April 30, 2026",
       "text": "Welcome to your Phoenix Method client portal, Lori! This is your home base for everything we're doing on your site month to month — rankings, deliverables, your content calendar, and reports. Your May package is active. Reminder: if you'd like to pick the blog topic or page we work on this month, just send it over by the 15th. If we don't hear from you by the 15th, we'll pick the best opportunity from your current keyword data."
-    },
-    {
-      "from": "Kandy",
-      "date": "May 12, 2026",
-      "text": "Quick maintenance session this week. Fixed the contact forms on your site — a plugin called SilentShield was blocking all form submissions. Clients should now be able to reach you and your therapists without issues. Also updated session rates on Devi and Iwona’s bio pages (correcting the listed fees). On the SEO side, cleaned up the About Our Therapists hero section: tightened the headline text, removed duplicate mentions of “online” and “Washington” that could flag as keyword stuffing, and polished the visual layout. (LOR-325, LOR-324, LOR-326)"
     }
   ]
 }
