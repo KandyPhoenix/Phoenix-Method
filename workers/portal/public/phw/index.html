@@ -30,7 +30,9 @@
         }
         .topbar-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
         .topbar-logo {
-            height: 32px; width: auto; flex-shrink: 0;
+            width: 28px; height: 28px; border-radius: 6px;
+            background: linear-gradient(135deg, #FF4D00, #FF8C00);
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
         }
         .topbar-name { color: #F0ECE6; font-weight: 600; font-size: 14px; }
         .topbar-portal { color: #9A95A8; font-size: 13px; }
@@ -480,7 +482,11 @@
 <!-- TOP BAR -->
 <header class="topbar">
     <a href="https://phoenixmethodseo.com" class="topbar-brand">
-        <img class="topbar-logo" src="phoenix-bird.png" alt="Phoenix Method">
+        <div class="topbar-logo">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8 1.5L10 6H14.5L11 9L12.5 14L8 11.5L3.5 14L5 9L1.5 6H6L8 1.5Z" fill="white"/>
+            </svg>
+        </div>
         <span class="topbar-name">Phoenix Method</span>
     </a>
     <span class="topbar-portal">Client Portal</span>
