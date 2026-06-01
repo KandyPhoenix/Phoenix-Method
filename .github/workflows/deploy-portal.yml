@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - 'workers/portal/**'
+      - '.github/workflows/deploy-portal.yml'
+  workflow_dispatch:
 
 jobs:
   deploy:
