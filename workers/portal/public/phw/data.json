@@ -1,67 +1,64 @@
 {
   "client": "Parish Health and Wellness",
   "short_name": "PHW",
-  "month": "April 2026",
-  "plan": "Blaze",
-  "plan_price": "$900/mo",
+  "month": "June 2026",
+  "plan": null,
   "plan_hours": 6,
-  "hours_used": 3,
+  "hours_used": 0,
   "rollover_enabled": true,
-  "hours_rolled_over": 2,
-  "updated": "2026-04-22",
-  "next_invoice": {
-    "date": "May 1, 2026",
-    "amount": "$900.00"
-  },
+  "hours_rolled_over": 5,
+  "updated": "2026-06-01",
   "stats": {
-    "sessions": 146,
-    "sessions_change": "+8.1%",
-    "sessions_trend": "up",
-    "keywords": 20,
-    "keywords_change": "Baseline",
+    "sessions": 154,
+    "sessions_change": "-13",
+    "sessions_trend": "down",
+    "keywords": 500,
+    "keywords_change": "0",
     "keywords_trend": "neutral",
-    "position": 36.5,
-    "position_change": "▲ 0.4",
+    "position": 25.2,
+    "position_change": "+8.8",
     "position_trend": "up",
-    "impressions": 43827,
-    "impressions_change": "+2.3%",
-    "impressions_trend": "up",
-    "ctr": 0.33
+    "impressions": 37684,
+    "impressions_change": "-11342",
+    "impressions_trend": "down",
+    "ctr": 0.41,
+    "ctr_change": "+0.07",
+    "ctr_trend": "up"
   },
   "deliverables": [
     { "text": "Full technical SEO audit", "status": "done" },
     { "text": "PHW client portal setup", "status": "done" },
     { "text": "GSC baseline data established", "status": "done" },
     { "text": "Monthly rank tracking initialized", "status": "done" },
+    { "text": "All 10 therapy service page SEO — titles, metas, schema", "status": "done" },
+    { "text": "Red Bluff location page — /therapy-red-bluff-ca live", "status": "done" },
+    { "text": "Online therapy page — /online-therapy-california SEO updated", "status": "done" },
     { "text": "Google Business Profile optimization", "status": "in_progress" },
-    { "text": "Online therapy service page SEO update", "status": "todo", "due": "Apr 30" }
+    { "text": "Red Bluff page — hero H1 + step text fix (PHW-148)", "status": "todo" },
+    { "text": "Service page expansion — anxiety, depression, trauma", "status": "todo" },
+    { "text": "Directory listings — Yelp, Healthgrades, Zocdoc, Psychology Today", "status": "todo" }
   ],
   "keywords": [
-    { "keyword": "parish health and wellness", "position": 1.0, "last_month": 1.0, "clicks": 51 },
-    { "keyword": "therapy mental health", "position": 3.0, "last_month": 3.0, "clicks": 1 },
-    { "keyword": "acsw therapist", "position": 5.0, "last_month": 5.0, "clicks": 0 },
-    { "keyword": "tehama county behavioral health", "position": 5.0, "last_month": 5.0, "clicks": 1 },
-    { "keyword": "online therapy in california", "position": 15.9, "last_month": 16.3, "clicks": 1 },
+    { "keyword": "parish health and wellness", "position": 1.3, "last_month": 1.0, "clicks": 40 },
+    { "keyword": "online therapy", "position": 16.7, "last_month": 30.8, "clicks": 1 },
+    { "keyword": "online therapy california", "position": 19.7, "last_month": 16.3, "clicks": 1 },
+    { "keyword": "online therapy in california", "position": 12.0, "last_month": 15.9, "clicks": 1 },
+    { "keyword": "couples therapy", "position": 37.0, "last_month": 42.3, "clicks": 0 },
+    { "keyword": "couples counseling", "position": 47.5, "last_month": 47.5, "clicks": 0 },
+    { "keyword": "online therapist", "position": 39.3, "last_month": 39.3, "clicks": 1 },
+    { "keyword": "addiction counselor near me", "position": 13.0, "last_month": 13.0, "clicks": 0 },
     { "keyword": "affordable online mental health care with insurance", "position": 19.0, "last_month": 19.0, "clicks": 0 },
-    { "keyword": "online therapy california", "position": 19.7, "last_month": 20.0, "clicks": 1 },
-    { "keyword": "addiction counselor near me", "position": 13.0, "last_month": 12.4, "clicks": 0 },
-    { "keyword": "online therapy", "position": 31.3, "last_month": null, "clicks": 1 },
-    { "keyword": "24 hour online therapist", "position": 34.0, "last_month": 34.0, "clicks": 0 },
-    { "keyword": "couples therapy", "position": 37.0, "last_month": 37.0, "clicks": 0 },
-    { "keyword": "relationship therapy", "position": 43.0, "last_month": 43.0, "clicks": 0 },
-    { "keyword": "24/7 online therapy", "position": 45.0, "last_month": 45.0, "clicks": 0 },
-    { "keyword": "affordable online mental health care", "position": 55.3, "last_month": 55.3, "clicks": 0 },
-    { "keyword": "online therapist", "position": 40.2, "last_month": null, "clicks": 1 },
-    { "keyword": "affirming therapy pomona", "position": 68.4, "last_month": 68.4, "clicks": 0 },
-    { "keyword": "affordable counseling online", "position": 79.0, "last_month": 70.0, "clicks": 0 },
+    { "keyword": "christian counseling california", "position": 26.4, "last_month": null, "clicks": 1 },
+    { "keyword": "relationship therapy california", "position": 16.7, "last_month": null, "clicks": 1 },
     { "keyword": "anger management counseling california", "position": 19.7, "last_month": null, "clicks": 0 },
-    { "keyword": "affordable online therapy", "position": 68.2, "last_month": null, "clicks": 0 },
-    { "keyword": "affordable mental health therapy online", "position": 70.0, "last_month": null, "clicks": 0 }
+    { "keyword": "affordable online therapy", "position": 68.2, "last_month": 68.2, "clicks": 0 },
+    { "keyword": "affordable counseling online", "position": 79.0, "last_month": 70.0, "clicks": 0 },
+    { "keyword": "affirming therapy pomona", "position": 68.4, "last_month": 68.4, "clicks": 0 }
   ],
   "content_calendar": [
-    { "date": "May 5", "title": "5 Signs You Need Online Therapy", "type": "blog" },
-    { "date": "May 12", "title": "GBP Post — Mental Health Awareness Month", "type": "gbp" },
-    { "date": "May 20", "title": "Affordable Therapy in California — Service Page", "type": "page" }
+    { "date": "Jun 2026", "title": "Red Bluff hero H1 + step text fix (PHW-148)", "type": "fix" },
+    { "date": "Jun 2026", "title": "GBP optimization — photos, posts, services", "type": "deliverable" },
+    { "date": "Jun 2026", "title": "Service page — Anxiety Therapy California", "type": "page" }
   ],
   "blog_topics": [
     { "title": "5 Signs You Need Online Therapy", "status": "planned" },
@@ -78,16 +75,38 @@
       "url": "/portal/phw/PHW-Care-SEO-Audit-Phoenix-Method.pdf"
     }
   ],
+  "gsc_keywords": [
+    { "keyword": "online therapy", "position": 16.7, "clicks": 1, "impressions": 5750 },
+    { "keyword": "couples therapy", "position": 37.0, "clicks": 0, "impressions": 2367 },
+    { "keyword": "couples counseling", "position": 47.5, "clicks": 0, "impressions": 1941 },
+    { "keyword": "online therapy california", "position": 19.7, "clicks": 1, "impressions": 583 },
+    { "keyword": "online therapist", "position": 39.3, "clicks": 1, "impressions": 743 },
+    { "keyword": "online therapy in california", "position": 12.0, "clicks": 1, "impressions": 308 },
+    { "keyword": "conflict resolution therapy", "position": 16.3, "clicks": 0, "impressions": 128 },
+    { "keyword": "couples counseling california", "position": 19.4, "clicks": 0, "impressions": 181 },
+    { "keyword": "parish health and wellness", "position": 1.3, "clicks": 40, "impressions": 176 },
+    { "keyword": "couples therapy california", "position": 26.3, "clicks": 1, "impressions": 175 },
+    { "keyword": "couples and relationship therapy", "position": 50.2, "clicks": 0, "impressions": 158 },
+    { "keyword": "california online therapy", "position": 16.2, "clicks": 0, "impressions": 140 },
+    { "keyword": "anxiety therapy california", "position": 34.5, "clicks": 0, "impressions": 83 },
+    { "keyword": "depression therapist in california", "position": 29.0, "clicks": 0, "impressions": 68 },
+    { "keyword": "anxiety counseling california", "position": 15.7, "clicks": 0, "impressions": 67 },
+    { "keyword": "relationship therapy california", "position": 16.7, "clicks": 1, "impressions": 15 },
+    { "keyword": "online therapy that accepts medi-cal", "position": 7.8, "clicks": 1, "impressions": 12 },
+    { "keyword": "parish health and wellness red bluff", "position": 1.0, "clicks": 5, "impressions": 9 },
+    { "keyword": "christian counseling california", "position": 26.4, "clicks": 1, "impressions": 5 },
+    { "keyword": "310-883-5050", "position": 3.7, "clicks": 0, "impressions": 39 }
+  ],
   "roadmap": [
     {
       "phase": 1,
       "phase_title": "Critical Fixes",
       "items": [
-        { "id": 1, "title": "Schema markup: LocalBusiness, MedicalBusiness, FAQPage, BreadcrumbList", "priority": "critical", "effort": "4–6 hrs", "status": "backlog" },
-        { "id": 2, "title": "Fix image alt text site-wide", "priority": "high", "effort": "2–3 hrs", "status": "backlog" },
-        { "id": 3, "title": "Optimize title tags and meta descriptions", "priority": "high", "effort": "2–3 hrs", "status": "backlog" },
-        { "id": 4, "title": "Fix heading hierarchy — one H1 per page", "priority": "high", "effort": "1–2 hrs", "status": "backlog" },
-        { "id": 5, "title": "Update copyright to 2026 and footer credit", "priority": "low", "effort": "10 min", "status": "backlog" }
+        { "id": 1, "title": "Schema markup: LocalBusiness, MedicalBusiness, FAQPage, BreadcrumbList", "priority": "critical", "effort": "4–6 hrs", "status": "done" },
+        { "id": 2, "title": "Fix image alt text site-wide", "priority": "high", "effort": "2–3 hrs", "status": "done" },
+        { "id": 3, "title": "Optimize title tags and meta descriptions", "priority": "high", "effort": "2–3 hrs", "status": "done" },
+        { "id": 4, "title": "Fix heading hierarchy — one H1 per page", "priority": "high", "effort": "1–2 hrs", "status": "done" },
+        { "id": 5, "title": "Red Bluff page hero H1 + step text (PHW-148)", "priority": "high", "effort": "30 min", "status": "todo" }
       ]
     },
     {
@@ -104,10 +123,10 @@
       "phase": 3,
       "phase_title": "Content Expansion",
       "items": [
-        { "id": 10, "title": "Add FAQ sections to each therapy service page", "priority": "high", "effort": "6–8 hrs", "status": "backlog" },
-        { "id": 11, "title": "Create location-specific landing pages for surrounding cities", "priority": "high", "effort": "4–6 hrs", "status": "backlog" },
-        { "id": 12, "title": "Publish 2 blog posts/month targeting long-tail keywords", "priority": "medium", "effort": "Ongoing", "status": "backlog" },
-        { "id": 13, "title": "Create therapy hub page linking all service pages", "priority": "medium", "effort": "2–3 hrs", "status": "backlog" },
+        { "id": 10, "title": "Service pages — Anxiety, Depression, Trauma Therapy California", "priority": "high", "effort": "3–4 hrs each", "status": "todo" },
+        { "id": 11, "title": "Add FAQ sections to each therapy service page", "priority": "high", "effort": "6–8 hrs", "status": "backlog" },
+        { "id": 12, "title": "Create location-specific landing pages for surrounding cities", "priority": "high", "effort": "4–6 hrs", "status": "backlog" },
+        { "id": 13, "title": "Publish 2 blog posts/month targeting long-tail keywords", "priority": "medium", "effort": "Ongoing", "status": "backlog" },
         { "id": 14, "title": "Build cross-linking between related therapy pages", "priority": "medium", "effort": "2–3 hrs", "status": "backlog" }
       ]
     },
@@ -116,13 +135,17 @@
       "phase_title": "Authority Building",
       "items": [
         { "id": 15, "title": "Build backlinks from healthcare directories", "priority": "high", "effort": "Ongoing", "status": "backlog" },
-        { "id": 16, "title": "Secure local press mentions and community features", "priority": "medium", "effort": "Ongoing", "status": "backlog" },
-        { "id": 17, "title": "Register therapist profiles on all major directories", "priority": "medium", "effort": "4–6 hrs", "status": "backlog" },
-        { "id": 18, "title": "Monthly performance reporting and strategy refinement", "priority": "high", "effort": "Ongoing", "status": "in_progress" }
+        { "id": 16, "title": "Register therapist profiles on all major directories", "priority": "medium", "effort": "4–6 hrs", "status": "todo" },
+        { "id": 17, "title": "Monthly performance reporting and strategy refinement", "priority": "high", "effort": "Ongoing", "status": "in_progress" }
       ]
     }
   ],
   "messages": [
+    {
+      "from": "Kandy",
+      "date": "June 1, 2026",
+      "text": "May data is in. 154 organic clicks from 37,684 impressions — clicks are actually up slightly from April (146) and average position improved significantly from 34.0 to 25.2. Impressions are down from April's 49,026, which reflects seasonal variation in broad query volume for 'online therapy' and 'couples therapy' terms. Brand terms remain dominant at position 1. The standout opportunity this month: 'online therapy' is driving 5,750 impressions at position 16.7 with almost no clicks — one strong content improvement away from page 1. On deck for June: Red Bluff hero fix (PHW-148), GBP optimization pass, and the first service page expansion targeting anxiety therapy California."
+    },
     {
       "from": "Kandy",
       "date": "April 22, 2026",
