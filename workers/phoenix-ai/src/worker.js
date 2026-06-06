@@ -993,6 +993,97 @@ async function pickNextKeyword(env, siteId) {
 }
 
 // ──────────────────────────────────────────────────────────────
+// PM-286: refresh detection. Pure eligibility logic + a picker for the
+// next article that needs refreshing. PR-1 of 4 in the refresh workflow
+// sprint — establishes the data model + detection layer that PR-2 (the
+// refresh pipeline), PR-3 (live publish), and PR-4 (cron scheduler) all
+// stand on. This PR adds no live writes to customer content.
+
+// Returns whole days between two ISO timestamps (laterIso - earlierIso).
+// Returns Infinity when either side is missing or unparseable — so an
+// article that has never been refreshed (lastRefreshedAt = null) reads as
+// "infinitely stale" and never blocks eligibility on the refresh-age clause.
+export function daysBetween(laterIso, earlierIso) {
+  if (!laterIso || !earlierIso) return Infinity;
+  const later = Date.parse(laterIso);
+  const earlier = Date.parse(earlierIso);
+  if (Number.isNaN(later) || Number.isNaN(earlier)) return Infinity;
+  return Math.floor((later - earlier) / 86400000);
+}
+
+// Pure eligibility check. Returns true iff the article should be considered
+// for refresh on this tick. Decisions intentionally kept simple — anything
+// fancier (e.g. GSC-based ranking-loss signal) belongs in PR-2's pipeline,
+// not the gate. Settings can be omitted; defaults match the per-site
+// defaults: { refreshEnabled: false, refreshAfterDays: 90 }.
+export function isRefreshEligible(article, settings, nowIso) {
+  if (!article || typeof article !== 'object') return false;
+  const cfg = settings || {};
+  if (!cfg.refreshEnabled) return false;
+  // Must be published — refresh only operates on live articles. We accept
+  // either the WordPress post id or the GitHub Pages path as proof of
+  // publication, mirroring the two publish adapters.
+  const isPublished = Boolean(article.wpPostId) || Boolean(article.githubPath) || article.status === 'publish';
+  if (!isPublished) return false;
+  // Don't refresh articles in failure states. Customer would want to
+  // diagnose those, not silently rewrite them.
+  if (article.status === 'rejected' || article.status === 'failed') return false;
+  // Must have a publish timestamp to measure age against.
+  if (!article.publishedAt) return false;
+  // Number-coerce + finite-check separately from the default. `Number(0) || 90`
+  // would silently default 0 → 90, defeating the clamp; this form preserves 0.
+  const rawDays = Number(cfg.refreshAfterDays);
+  const refreshAfterDays = Number.isFinite(rawDays) ? Math.max(1, rawDays) : 90;
+  const now = nowIso || new Date().toISOString();
+  const ageDays = daysBetween(now, article.publishedAt);
+  if (ageDays < refreshAfterDays) return false;
+  // If never refreshed, daysBetween returns Infinity → always passes. If
+  // refreshed before, must be older than refreshAfterDays since last touch
+  // so we don't loop on the same article every cron tick.
+  const sinceLastRefreshDays = daysBetween(now, article.lastRefreshedAt);
+  if (sinceLastRefreshDays < refreshAfterDays) return false;
+  return true;
+}
+
+// Walks the site's article index and returns the first refresh-eligible
+// article, oldest publish date first (so the staleness debt is paid down
+// in order). Mirrors the pickNextKeyword shape — returns null when nothing
+// is eligible. Audits article.refresh.eligible when a hit is found so the
+// dashboard can surface what's been queued.
+async function pickNextRefreshArticle(env, siteId, settings) {
+  const indexRaw = await env.ARTICLES.get(`list:${siteId}`);
+  if (!indexRaw) return null;
+  const ids = JSON.parse(indexRaw);
+  if (!Array.isArray(ids) || !ids.length) return null;
+
+  const candidates = [];
+  for (const id of ids) {
+    const raw = await env.ARTICLES.get(`art:${siteId}:${id}`);
+    if (!raw) continue;
+    let a;
+    try { a = JSON.parse(raw); } catch { continue; }
+    if (isRefreshEligible(a, settings, null)) candidates.push(a);
+  }
+  if (!candidates.length) return null;
+
+  // Oldest publishedAt first — pay down the staleness debt in order.
+  candidates.sort((x, y) => {
+    const dx = Date.parse(x.publishedAt) || 0;
+    const dy = Date.parse(y.publishedAt) || 0;
+    return dx - dy;
+  });
+  const next = candidates[0];
+  const now = nowIso();
+  await audit(env, siteId, 'article.refresh.eligible', {
+    slug: next.slug,
+    ageDays: daysBetween(now, next.publishedAt),
+    lastRefreshedAgoDays: daysBetween(now, next.lastRefreshedAt),
+    eligibleQueueSize: candidates.length,
+  });
+  return next;
+}
+
+// ──────────────────────────────────────────────────────────────
 // GSC OAuth + keyword research (Google Search Console)
 
 const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
