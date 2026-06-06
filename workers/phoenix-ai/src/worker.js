@@ -1084,6 +1084,221 @@ async function pickNextRefreshArticle(env, siteId, settings) {
 }
 
 // ──────────────────────────────────────────────────────────────
+// PM-287: refresh pipeline (Sprint 4 PR-2 of 4). Takes an eligible
+// article, re-pulls a fresh SERP brief on its keyword, runs a single
+// "update pass" LLM call with the original HTML + fresh SERP as input,
+// fact-checks the result, and STAGES the refreshed draft at a separate
+// KV key (art-refresh:<siteId>:<id>). The live record at art:<siteId>:<id>
+// gets a refreshPending flag but its content is NOT touched. Live
+// publish (wpUpdate via PUT, githubPagesUpdate re-commit) is PR-3.
+
+// Strips HTML tags + collapses whitespace + counts words. Used by the
+// refresh-diff audit so the dashboard can show "rewrote 1,820 → 2,140
+// words" at a glance. Exported because the same metric is useful in PR-3
+// and the cron scheduler in PR-4.
+export function countArticleWords(html) {
+  if (!html || typeof html !== 'string') return 0;
+  const text = html.replace(/<[^>]+>/g, ' ').replace(/&[a-z]+;/gi, ' ').replace(/\s+/g, ' ').trim();
+  if (!text) return 0;
+  return text.split(' ').filter(Boolean).length;
+}
+
+// Diff summary for audit. Pure — no LLM calls. Counts words before/after
+// and H2 count before/after. Exported for tests + dashboard reuse.
+export function summarizeRefreshDiff(originalHtml, refreshedHtml) {
+  const wordsBefore = countArticleWords(originalHtml);
+  const wordsAfter = countArticleWords(refreshedHtml);
+  const h2Before = countHeadings(originalHtml);
+  const h2After = countHeadings(refreshedHtml);
+  return {
+    wordsBefore,
+    wordsAfter,
+    wordsDelta: wordsAfter - wordsBefore,
+    h2Before,
+    h2After,
+    h2Delta: h2After - h2Before,
+  };
+}
+
+function countHeadings(html) {
+  if (!html || typeof html !== 'string') return 0;
+  const m = html.match(/<h2[\s>]/gi);
+  return m ? m.length : 0;
+}
+
+// Refresh prompt — system half. The job is different from a fresh write:
+// preserve voice, preserve slug, update what's stale, fill gaps the SERP
+// reveals, leave what's still good alone. The response schema is the same
+// as buildArticlePrompt so the downstream pipeline can treat the output
+// identically.
+export function buildRefreshSystemPrompt() {
+  return `You are a senior SEO content editor at Phoenix Method. Your job is to UPDATE an existing published article so it stays competitive with the current top-ranking results on Google.
+
+This is a refresh, not a rewrite from scratch. Rules:
+- PRESERVE the original slug, title structure, and brand voice — readers landing on this URL still expect the article they bookmarked.
+- KEEP what's still accurate and well-written. Don't rewrite sentences just to change them.
+- UPDATE anything where the current top-ranking results show new angles, fresher facts, better structure, or topics the original missed.
+- REPLACE any stat that has a year attached (e.g. "as of 2024") with a current equivalent or remove the year if the claim still holds.
+- ADD new H2 sections only when the SERP brief reveals topics the original genuinely missed.
+- DO NOT shrink the article unless the original has filler — refreshed articles should be the same length or longer.
+- Maintain the same length floor as the original: 1,500-2,200 words.
+- Do NOT include an FAQ section in the html field. Put refreshed Q&As in the separate faqs JSON field.
+- Cite a source by name when stating a statistic. Never fabricate numbers.
+- Never use the word "delve". Avoid corporate buzzwords ("leverage", "synergy", "unlock", "elevate").
+
+You MUST respond with a single JSON object (no prose, no code fences):
+{
+  "title":           string  // SEO meta title, 50–60 chars; you may improve it
+  "slug":            string  // MUST match the original slug exactly — readers' bookmarks point here
+  "metaDescription": string  // 140–160 chars; you may improve it
+  "html":            string  // the refreshed article body as HTML
+  "tags":            string[]  // 3–6 tags; you may add new ones based on SERP
+  "faqs":            [{ "q": string, "a": string }]  // exactly 3 entries
+  "imagePrompt":     string  // 1–2 sentence visual brief (only used if hero needs regenerating)
+  "refreshNotes":    string  // 1-3 sentence summary of what you changed and why (for the operator's review)
+}`;
+}
+
+// Refresh prompt — user half. Includes the original article body, a fresh
+// SERP brief if we got one, and the metadata the editor needs.
+export function buildRefreshUserPrompt({ article, serpBrief, site }) {
+  const niche = site && site.niche ? site.niche : 'general business';
+  const voiceSample = (site && (site.brandVoiceOverride || site.brandVoice) || '').slice(0, 1500);
+  const originalHtml = (article && article.html) || '';
+  const originalSlug = (article && article.slug) || '';
+  const originalTitle = (article && article.title) || '';
+  const keyword = (article && article.keyword) || '';
+  const publishedAt = (article && article.publishedAt) || 'unknown';
+  return `Refresh this published article so it stays competitive with the current top-ranking results.
+
+Target keyword: "${keyword}"
+Site niche: ${niche}
+Originally published: ${publishedAt}
+Original slug (MUST preserve in your response): ${originalSlug}
+Original title: ${originalTitle}
+
+Brand voice sample (match this voice, same as the original):
+"""
+${voiceSample}
+"""
+
+Original article HTML (refresh, don't rewrite from scratch):
+"""
+${originalHtml}
+"""
+${serpBrief ? '\n' + formatSerpBrief(serpBrief) + '\n' : '\n(no fresh SERP brief available — refresh against the original article only)\n'}
+Return only the JSON object.`;
+}
+
+// Refresh orchestrator. Composes existing helpers (buildSerpBrief,
+// callLLM, runFactCheck) into the refresh-specific flow. Returns
+// { ok, staged, diff, factCheck } on success. Stages the refreshed
+// content at art-refresh:<siteId>:<id> — does NOT touch the live
+// art:<siteId>:<id> record beyond setting refreshPending.
+async function refreshArticle(env, site, article) {
+  if (!site || !article || !article.id) {
+    return { ok: false, error: 'missing site or article' };
+  }
+  const keyword = article.keyword;
+  if (!keyword) {
+    return { ok: false, error: 'article missing keyword — cannot refresh' };
+  }
+
+  // 1. Fresh SERP brief on the original keyword. Best-effort: a missing
+  //    brief just means the LLM refreshes against the original article
+  //    alone, which is still useful (year-stamped stats, voice tightening).
+  let serpBrief = null;
+  try {
+    const customer = await getOrCreateCustomer(env, site.ownerEmail);
+    const ahrefsKey = await resolveAhrefsKey(env, customer);
+    serpBrief = await buildSerpBrief(env, keyword, site.country || 'us', ahrefsKey);
+  } catch (err) {
+    await audit(env, site.id, 'article.refresh.serp_brief.error', { slug: article.slug, error: String(err.message || err).slice(0, 200) });
+  }
+
+  // 2. Single update-pass LLM call. Cheaper + more conservative than
+  //    re-running the full 3-pass flow on already-good content.
+  const prompt = {
+    system: buildRefreshSystemPrompt(),
+    user: buildRefreshUserPrompt({ article, serpBrief, site }),
+  };
+  const llmResult = await callLLM(env, site, prompt);
+  if (!llmResult.ok || !llmResult.content || typeof llmResult.content !== 'object') {
+    await audit(env, site.id, 'article.refresh.failed', { slug: article.slug, stage: 'llm', error: llmResult.error || 'invalid response' });
+    return { ok: false, error: llmResult.error || 'llm refresh returned no content' };
+  }
+  const refreshed = llmResult.content;
+
+  // Defensive: if the LLM altered the slug, force it back. Readers'
+  // bookmarks point at the original URL.
+  if (refreshed.slug !== article.slug) {
+    await audit(env, site.id, 'article.refresh.slug_corrected', { slug: article.slug, llmSlug: refreshed.slug });
+    refreshed.slug = article.slug;
+  }
+
+  // 3. Fact-check the refreshed draft. Same gate the fresh-write pipeline
+  //    uses; runFactCheck is fail-open so refresh proceeds even if the
+  //    fact-checker errors. The fact-check helper expects the keyword
+  //    object shape ({ keyword, intent }), not the raw string we have on
+  //    the article record — reconstruct.
+  let factCheck = { skipped: 'not_run', annotated: 0 };
+  try {
+    const keywordObj = { keyword, intent: article.intent || 'informational' };
+    factCheck = await runFactCheck(env, site, refreshed, keywordObj);
+    if (factCheck.annotated > 0) refreshed.html = factCheck.html;
+  } catch (err) {
+    await audit(env, site.id, 'article.refresh.fact_check.error', { slug: article.slug, error: String(err.message || err).slice(0, 200) });
+  }
+
+  // 4. Stage at a SEPARATE key. The live record stays untouched (except
+  //    for the refreshPending flag, so the dashboard can surface staged
+  //    refreshes for operator review). PR-3 wires the live publish.
+  const diff = summarizeRefreshDiff(article.html, refreshed.html);
+  const stagedRecord = {
+    ...article,
+    title: refreshed.title || article.title,
+    metaDescription: refreshed.metaDescription || article.metaDescription,
+    html: refreshed.html || article.html,
+    tags: Array.isArray(refreshed.tags) && refreshed.tags.length ? refreshed.tags : article.tags,
+    faqs: Array.isArray(refreshed.faqs) && refreshed.faqs.length ? refreshed.faqs : article.faqs,
+    imagePrompt: refreshed.imagePrompt || article.imagePrompt,
+    refreshNotes: refreshed.refreshNotes || '',
+    refreshedAt: nowIso(),
+    refreshNumber: (article.refreshCount || 0) + 1,
+    originalArticleId: article.id,
+    factCheck: {
+      claimsFound: factCheck.claimsFound || 0,
+      lowConfidence: factCheck.lowConfidence || 0,
+      annotated: factCheck.annotated || 0,
+    },
+  };
+  await env.ARTICLES.put(`art-refresh:${site.id}:${article.id}`, JSON.stringify(stagedRecord));
+
+  // Mark the live record. Pipeline doesn't overwrite the live article's
+  // content here — refreshPending tells the dashboard a staged refresh
+  // is waiting to be reviewed + published.
+  const liveUpdated = {
+    ...article,
+    refreshPending: true,
+    refreshStagedAt: nowIso(),
+  };
+  await env.ARTICLES.put(`art:${site.id}:${article.id}`, JSON.stringify(liveUpdated));
+
+  await audit(env, site.id, 'article.refresh.staged', {
+    slug: article.slug,
+    refreshNumber: stagedRecord.refreshNumber,
+    wordsBefore: diff.wordsBefore,
+    wordsAfter: diff.wordsAfter,
+    wordsDelta: diff.wordsDelta,
+    h2Delta: diff.h2Delta,
+    serpBriefAvailable: Boolean(serpBrief),
+    factCheckLowConfidence: factCheck.lowConfidence || 0,
+  });
+
+  return { ok: true, staged: stagedRecord, diff, factCheck };
+}
+
+// ──────────────────────────────────────────────────────────────
 // GSC OAuth + keyword research (Google Search Console)
 
 const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
