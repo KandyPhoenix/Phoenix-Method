@@ -1454,6 +1454,99 @@ async function publishStagedRefresh(env, site, articleId) {
 }
 
 // ──────────────────────────────────────────────────────────────
+// PM-289: refresh cron (Sprint 4 PR-4 of 4). Daily scheduled handler
+// extension that walks sites, picks one eligible refresh per site per
+// tick (one fresh-write + one refresh max — prevents budget burn on
+// sites with deep staleness debt), stages the refresh, and conditionally
+// auto-publishes when site.refreshAutoPublish is on. Sites with the
+// flag off accumulate staged refreshes for operator review in the
+// dashboard.
+
+// Pure gate for whether a site participates in this tick's refresh
+// sweep. Mirrors the pre-existing fresh-write cron guard on credentials
+// + status, then adds the refresh-specific refreshEnabled flag. Exported
+// for unit-testability and so the dashboard can render the "refresh
+// enabled?" indicator consistently with the cron's actual decision.
+export function shouldRunRefreshForSite(site) {
+  if (!site || typeof site !== 'object') return false;
+  if (site.status !== 'active') return false;
+  if (!site.refreshEnabled) return false;
+  if (site.cms === 'wordpress' && !site.appPassword) return false;
+  if (site.cms === 'github-pages' && !site.githubToken) return false;
+  return true;
+}
+
+// Aggregates per-site cron results into a single summary log line.
+// Pure — accepts an array of result objects from runRefreshJob and
+// counts each into the right bucket. Used by the scheduled handler's
+// final audit + by tests.
+export function summarizeCronRefreshResults(results) {
+  const out = {
+    sitesConsidered: Array.isArray(results) ? results.length : 0,
+    refreshesStaged: 0,
+    refreshesPublished: 0,
+    refreshesFailed: 0,
+    refreshesSkipped: 0,
+  };
+  if (!Array.isArray(results)) return out;
+  for (const r of results) {
+    if (!r || typeof r !== 'object') continue;
+    if (r.skipped) { out.refreshesSkipped++; continue; }
+    if (!r.ok) { out.refreshesFailed++; continue; }
+    if (r.published) { out.refreshesPublished++; continue; }
+    if (r.refreshed) { out.refreshesStaged++; continue; }
+  }
+  return out;
+}
+
+// Per-site cron worker. Picks one eligible article, stages the refresh,
+// optionally publishes. Returns a structured result the cron aggregator
+// turns into a summary line. Never throws — every failure path returns
+// { ok: false, ... }.
+async function runRefreshJob(env, site) {
+  let article;
+  try {
+    article = await pickNextRefreshArticle(env, site.id, site);
+  } catch (err) {
+    await audit(env, site.id, 'cron.refresh.pick_error', { error: String(err.message || err).slice(0, 200) });
+    return { ok: false, error: 'pick failed', siteId: site.id };
+  }
+  if (!article) {
+    await audit(env, site.id, 'cron.refresh.no_eligible', {});
+    return { ok: true, skipped: 'no_eligible', siteId: site.id };
+  }
+
+  let refreshResult;
+  try {
+    refreshResult = await refreshArticle(env, site, article);
+  } catch (err) {
+    await audit(env, site.id, 'cron.refresh.refresh_error', { slug: article.slug, error: String(err.message || err).slice(0, 200) });
+    return { ok: false, error: 'refresh threw', siteId: site.id, slug: article.slug };
+  }
+  if (!refreshResult.ok) {
+    return { ok: false, error: refreshResult.error, siteId: site.id, slug: article.slug };
+  }
+
+  // Staged only — sites without refreshAutoPublish accumulate refreshes
+  // for the operator to review + ship from the dashboard.
+  if (!site.refreshAutoPublish) {
+    return { ok: true, refreshed: true, published: false, siteId: site.id, slug: article.slug };
+  }
+
+  let publishResult;
+  try {
+    publishResult = await publishStagedRefresh(env, site, article.id);
+  } catch (err) {
+    await audit(env, site.id, 'cron.refresh.publish_error', { slug: article.slug, error: String(err.message || err).slice(0, 200) });
+    return { ok: false, error: 'publish threw', siteId: site.id, slug: article.slug, staged: true };
+  }
+  if (!publishResult.ok) {
+    return { ok: false, error: publishResult.error, siteId: site.id, slug: article.slug, staged: true };
+  }
+  return { ok: true, refreshed: true, published: true, siteId: site.id, slug: article.slug };
+}
+
+// ──────────────────────────────────────────────────────────────
 // GSC OAuth + keyword research (Google Search Console)
 
 const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
@@ -4329,6 +4422,11 @@ export default {
     // job:* keys directly.
     if (env.CRON_ENABLED !== 'true') return;
     const list = await env.SITES.list({ prefix: 'site:' });
+    // PM-289: per-tick rate limits. One fresh-write job + one refresh job
+    // per site keeps the worker's burn rate predictable as customer count
+    // grows. Sites with deep staleness debt (50 stale articles) pay it down
+    // one article per day, not all at once.
+    const refreshPromises = [];
     for (const k of list.keys) {
       const raw = await env.SITES.get(k.name);
       if (!raw) continue;
@@ -4339,10 +4437,34 @@ export default {
       // the customer copy/pastes (intentional).
       if (site.cms === 'wordpress' && !site.appPassword) continue;
       if (site.cms === 'github-pages' && !site.githubToken) continue;
+      // Fresh-write generation (existing Phase 2 flow).
       const jobId = uuid();
       const queuedAt = nowIso();
       await saveJob(env, { id: jobId, siteId: site.id, status: 'queued', queuedAt, source: 'cron' });
       ctx.waitUntil(runPipelineJob(env, site, jobId, { manual: false, queuedAt }));
+      // PM-289: refresh leg. shouldRunRefreshForSite gates on
+      // refreshEnabled + status + credentials. Sites without
+      // refreshAutoPublish stage refreshes only — operator publishes from
+      // the dashboard. Run in parallel with fresh-write to keep wall-clock
+      // bounded.
+      if (shouldRunRefreshForSite(site)) {
+        refreshPromises.push(runRefreshJob(env, site).catch((err) => ({
+          ok: false,
+          siteId: site.id,
+          error: String(err && err.message || err).slice(0, 200),
+        })));
+      }
+    }
+    // Collect refresh results into a single summary audit. The promise
+    // collection itself is fire-and-forget via waitUntil so the cron
+    // handler returns within seconds; aggregation happens in background.
+    if (refreshPromises.length) {
+      ctx.waitUntil(
+        Promise.all(refreshPromises).then((results) => {
+          const summary = summarizeCronRefreshResults(results);
+          return audit(env, 'system', 'cron.refresh.summary', summary);
+        }),
+      );
     }
   },
 };
