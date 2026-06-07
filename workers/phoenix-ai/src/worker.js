@@ -1299,6 +1299,161 @@ async function refreshArticle(env, site, article) {
 }
 
 // ──────────────────────────────────────────────────────────────
+// PM-288: refresh live publish (Sprint 4 PR-3 of 4). Pushes a staged
+// refresh from art-refresh:<siteId>:<id> to the customer's live site,
+// overwriting the existing post. Two adapters mirror the publish path
+// + an orchestrator dispatches by article shape. Gated upstream by
+// site.refreshAutoPublish for the cron flow (PR-4); the orchestrator
+// itself is unconditional so the dashboard can also trigger publish.
+
+// Pure helper for the WP PUT body. Lives separately from wpUpdate so
+// the body assembly is testable without mocking fetch. Locked-down
+// behavior:
+// - never includes featured_media (preserves the existing hero on
+//   refresh — don't churn the customer's WP media library)
+// - never includes categories (operator-set; not re-resolved on refresh)
+// - always includes content + title + excerpt + slug (slug is locked
+//   to the original by the refresh stage's guarantee)
+// - conditionally includes tags when the resolved tag IDs array is
+//   non-empty (refresh may add new tags from the SERP)
+export function buildWpUpdatePayload(article, tagIds) {
+  const payload = {
+    title: article.title,
+    slug: article.slug,
+    content: article.content,
+    excerpt: article.metaDescription,
+  };
+  if (Array.isArray(tagIds) && tagIds.length) payload.tags = tagIds;
+  return payload;
+}
+
+// PUT /wp-json/wp/v2/posts/{wpPostId}. Mirrors wpPublish, minus the
+// destructive bits (featured_media, categories) since refresh
+// preserves both. Re-resolves tags because the refresh LLM may have
+// added new ones from the SERP brief.
+async function wpUpdate(env, site, article) {
+  const appPassword = await decryptSecret(site.appPassword, env.SESSION_SECRET);
+  if (!appPassword || !site.appUsername) return { ok: false, error: 'missing WP credentials' };
+  if (!article.wpPostId) return { ok: false, error: 'article has no wpPostId — cannot update' };
+
+  const base = site.url.replace(/\/+$/, '');
+  const endpoint = `${base}/wp-json/wp/v2/posts/${article.wpPostId}`;
+  const auth = 'Basic ' + btoa(`${site.appUsername}:${appPassword}`);
+
+  let tagIds = [];
+  if (Array.isArray(article.tags) && article.tags.length) {
+    tagIds = await wpResolveTermIds(base, auth, 'tags', article.tags);
+  }
+
+  // Rebuild schema with current modified date. buildArticleSchemaTags
+  // already pulls firstPublishedAt from KV (so the original publish
+  // date is preserved in JSON-LD) and uses nowIso() for dateModified.
+  const canonical = `${base}/${article.slug}/`;
+  const schemaTags = await buildArticleSchemaTags(env, site, article, canonical);
+  const contentWithSchema = schemaTags + '\n' + (article.html || '');
+
+  const payload = buildWpUpdatePayload({
+    title: article.title,
+    slug: article.slug,
+    content: contentWithSchema,
+    metaDescription: article.metaDescription,
+  }, tagIds);
+
+  let res;
+  try {
+    res = await fetch(endpoint, {
+      method: 'PUT',
+      headers: { 'Authorization': auth, 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+  } catch (err) {
+    return { ok: false, error: `wp update network: ${String(err.message || err).slice(0, 200)}` };
+  }
+  if (!res.ok) {
+    const body = await res.text().catch(() => '');
+    return { ok: false, error: `wp update ${res.status}: ${body.slice(0, 400)}` };
+  }
+  const data = await res.json().catch(() => ({}));
+  await audit(env, site.id, 'pipeline.wp.updated', {
+    slug: article.slug,
+    wpPostId: article.wpPostId,
+    tagsResolved: tagIds.length,
+  });
+  return {
+    ok: true,
+    wpPostId: data.id || article.wpPostId,
+    wpEditUrl: `${base}/wp-admin/post.php?post=${article.wpPostId}&action=edit`,
+    publicUrl: data.link || null,
+  };
+}
+
+// Reads art-refresh:<siteId>:<id>, dispatches to the right live-publish
+// adapter based on article shape, on success folds the refreshed content
+// back into the live art:<siteId>:<id> record + clears the staging key.
+// Returns { ok, publishResult, error }. Never deletes staged content on
+// failure — operator can retry from the dashboard.
+async function publishStagedRefresh(env, site, articleId) {
+  const stagedRaw = await env.ARTICLES.get(`art-refresh:${site.id}:${articleId}`);
+  if (!stagedRaw) return { ok: false, error: 'no staged refresh found' };
+  let staged;
+  try { staged = JSON.parse(stagedRaw); }
+  catch { return { ok: false, error: 'staged refresh json corrupted' }; }
+
+  // Dispatch by article shape. wpPostId wins because some sites publish
+  // to both WP + GitHub Pages — but for refresh, the WP path is the
+  // canonical update path; GitHub Pages would be a follow-up if needed.
+  let publishResult;
+  if (staged.wpPostId) {
+    publishResult = await wpUpdate(env, site, staged);
+  } else if (staged.githubPath || staged.publicUrl) {
+    // The existing githubPagesPublish is already idempotent (sha-based
+    // file PUT, existing.sha is the version pointer). Re-running it with
+    // the refreshed article overwrites the file in place and updates
+    // the blog index. Pass status='publish' to bypass the draft gate.
+    publishResult = await githubPagesPublish(env, site, staged, 'publish');
+  } else {
+    return { ok: false, error: 'staged article has neither wpPostId nor githubPath' };
+  }
+
+  if (!publishResult.ok) {
+    await audit(env, site.id, 'pipeline.refresh.publish_failed', {
+      slug: staged.slug,
+      target: staged.wpPostId ? 'wp' : 'github',
+      error: publishResult.error,
+    });
+    return { ok: false, error: publishResult.error };
+  }
+
+  // Fold staged content into the live record and clear the staging key.
+  const liveRaw = await env.ARTICLES.get(`art:${site.id}:${articleId}`);
+  const live = liveRaw ? JSON.parse(liveRaw) : staged;
+  const updatedLive = {
+    ...live,
+    title: staged.title,
+    metaDescription: staged.metaDescription,
+    html: staged.html,
+    tags: staged.tags,
+    faqs: staged.faqs,
+    imagePrompt: staged.imagePrompt,
+    lastRefreshedAt: nowIso(),
+    refreshCount: (live.refreshCount || 0) + 1,
+    refreshPending: false,
+    refreshStagedAt: null,
+    refreshNotes: staged.refreshNotes || '',
+  };
+  await env.ARTICLES.put(`art:${site.id}:${articleId}`, JSON.stringify(updatedLive));
+  await env.ARTICLES.delete(`art-refresh:${site.id}:${articleId}`);
+
+  await audit(env, site.id, 'pipeline.refresh.published', {
+    slug: staged.slug,
+    target: staged.wpPostId ? 'wp' : 'github',
+    postId: staged.wpPostId || null,
+    refreshCount: updatedLive.refreshCount,
+  });
+  return { ok: true, publishResult, live: updatedLive };
+}
+
+// ──────────────────────────────────────────────────────────────
 // GSC OAuth + keyword research (Google Search Console)
 
 const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
