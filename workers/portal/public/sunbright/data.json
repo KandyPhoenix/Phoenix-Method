@@ -1,0 +1,417 @@
+{
+  "client": "Sunbright Recovery Center",
+  "short_name": "Sunbright",
+  "month": "June 2026",
+  "plan": "Launch",
+  "plan_price": "Full-Build Project",
+  "plan_hours": null,
+  "hours_used": 0,
+  "rollover_enabled": false,
+  "hours_rolled_over": 0,
+  "updated": "2026-06-06",
+  "next_invoice": null,
+  "stats": {
+    "sessions": null,
+    "sessions_change": "Site not yet live",
+    "sessions_trend": "neutral",
+    "keywords": null,
+    "keywords_change": "Tracking begins at launch",
+    "keywords_trend": "neutral",
+    "position": null,
+    "position_change": "—",
+    "position_trend": "neutral",
+    "impressions": null,
+    "impressions_change": "—",
+    "impressions_trend": "neutral",
+    "ctr": null,
+    "ctr_change": "—",
+    "ctr_trend": "neutral"
+  },
+  "deliverables": [
+    {
+      "text": "Website Design & Build — Full custom site on Astro + Cloudflare Pages",
+      "status": "in_progress"
+    },
+    {
+      "text": "SEO Foundation — On-page optimization, schema, sitemap, GSC setup",
+      "status": "todo"
+    },
+    {
+      "text": "Blog Setup — Structure, categories, initial posts, keyword strategy",
+      "status": "todo"
+    },
+    {
+      "text": "Social Media Setup — Profiles, branding, content templates, initial content",
+      "status": "todo"
+    },
+    {
+      "text": "Launch Checklist — Final QA, redirects, domain, analytics, go-live",
+      "status": "todo"
+    }
+  ],
+  "package_details": {
+    "monthly_audit": "This is a full-launch project, not a monthly retainer. All deliverables are scoped for the initial launch of sunbrightrecovery.org.",
+    "blog_or_seo": "SEO setup includes on-page optimization for all core pages, structured data (schema), XML sitemap, Google Search Console configuration, and keyword strategy for addiction recovery in Northern California.",
+    "site_hour": "Website built on Astro 4.x with Tailwind CSS, deployed via Cloudflare Pages. Auto-deploys on push to main — changes go live in ~30 seconds.",
+    "quarterly_report": "A launch performance report will be delivered 90 days after the site goes live to measure early GSC data, ranking progress, and next-step recommendations.",
+    "overage": "Scope changes or additions beyond the agreed deliverables are billed at the standard project rate. Contact Kandy to discuss."
+  },
+  "gsc_keywords": [],
+  "keywords": [
+    {
+      "keyword": "addiction treatment red bluff ca",
+      "position": null,
+      "last_month": null,
+      "clicks": 0
+    },
+    {
+      "keyword": "drug rehab red bluff ca",
+      "position": null,
+      "last_month": null,
+      "clicks": 0
+    },
+    {
+      "keyword": "alcohol rehab red bluff california",
+      "position": null,
+      "last_month": null,
+      "clicks": 0
+    },
+    {
+      "keyword": "residential rehab northern california",
+      "position": null,
+      "last_month": null,
+      "clicks": 0
+    },
+    {
+      "keyword": "addiction recovery center red bluff",
+      "position": null,
+      "last_month": null,
+      "clicks": 0
+    },
+    {
+      "keyword": "sober living red bluff ca",
+      "position": null,
+      "last_month": null,
+      "clicks": 0
+    },
+    {
+      "keyword": "outpatient rehab northern california",
+      "position": null,
+      "last_month": null,
+      "clicks": 0
+    },
+    {
+      "keyword": "sunbright recovery center",
+      "position": null,
+      "last_month": null,
+      "clicks": 0
+    }
+  ],
+  "content_calendar": [
+    {
+      "date": "Jun 2026",
+      "title": "Homepage Design Complete — Client Review",
+      "type": "client"
+    },
+    {
+      "date": "Jul 2026",
+      "title": "Inner Pages Built — Programs, About, Contact, Donate",
+      "type": "deliverable"
+    },
+    {
+      "date": "Jul 2026",
+      "title": "SEO Foundation Applied to All Pages",
+      "type": "deliverable"
+    },
+    {
+      "date": "Jul 2026",
+      "title": "Blog Structure + First 2 Posts Live",
+      "type": "deliverable"
+    },
+    {
+      "date": "Aug 2026",
+      "title": "Social Media Profiles Created + Branded",
+      "type": "deliverable"
+    },
+    {
+      "date": "Aug 2026",
+      "title": "Pre-Launch QA Pass",
+      "type": "deliverable"
+    },
+    {
+      "date": "Aug 2026",
+      "title": "Domain Cutover — sunbrightrecovery.org LIVE",
+      "type": "deliverable"
+    }
+  ],
+  "content_choice": {
+    "chosen": null,
+    "blog": {
+      "title": null,
+      "keyword": null,
+      "status": "pending"
+    },
+    "page": {
+      "title": null,
+      "url": null,
+      "keyword": null,
+      "status": "suggested"
+    }
+  },
+  "blog_topics": [
+    {
+      "title": "What to Expect in Your First Week at a Residential Recovery Center",
+      "keyword": "residential rehab northern california",
+      "status": "planned"
+    },
+    {
+      "title": "Addiction Recovery in Red Bluff CA: Local Resources and What to Know",
+      "keyword": "addiction treatment red bluff ca",
+      "status": "planned"
+    },
+    {
+      "title": "The Difference Between Residential, IOP, and Sober Living Programs",
+      "keyword": "outpatient rehab vs residential",
+      "status": "planned"
+    },
+    {
+      "title": "How Faith-Integrated Addiction Treatment Works (And Who It Helps)",
+      "keyword": "faith-based addiction recovery california",
+      "status": "planned"
+    },
+    {
+      "title": "Supporting a Loved One Through Addiction Recovery: A Family Guide",
+      "keyword": "family support addiction recovery",
+      "status": "planned"
+    },
+    {
+      "title": "Private Pay Rehab in California: What It Costs and Why It's Worth It",
+      "keyword": "private pay rehab california",
+      "status": "planned"
+    }
+  ],
+  "reports": [],
+  "roadmap": [
+    {
+      "phase": 1,
+      "phase_title": "Website Build",
+      "items": [
+        {
+          "id": 1,
+          "title": "Homepage Design & Build",
+          "why": "Full homepage with all 13 sections built and in client review. Deployed on Cloudflare Pages at preview URL.",
+          "priority": "critical",
+          "effort": "Done",
+          "status": "in_progress"
+        },
+        {
+          "id": 2,
+          "title": "Programs Page — Residential, IOP, Sober Living",
+          "why": "Core service page. Each program needs its own section with clear descriptions, eligibility, and CTAs. Target keywords for each program type.",
+          "priority": "critical",
+          "effort": "3–4 hrs",
+          "status": "todo"
+        },
+        {
+          "id": 3,
+          "title": "About Page — Linda Spyres + Team",
+          "why": "E-E-A-T is critical for YMYL health/recovery sites. Founder credentials, 20+ years experience, and team bios build trust with both users and Google.",
+          "priority": "high",
+          "effort": "2–3 hrs",
+          "status": "todo"
+        },
+        {
+          "id": 4,
+          "title": "Admissions Page + Contact Forms",
+          "why": "Multiple CTAs on homepage link to /admissions. This page needs a clear intake form, HIPAA language, and phone number prominently displayed.",
+          "priority": "high",
+          "effort": "2–3 hrs",
+          "status": "todo"
+        },
+        {
+          "id": 5,
+          "title": "Donate & Get Involved Page",
+          "why": "Critical for nonprofit fundraising. Tax-deductible donation info, Adopt-a-Space tiers, volunteer options, and partner outreach — all referenced in the homepage CTA.",
+          "priority": "high",
+          "effort": "2–3 hrs",
+          "status": "todo"
+        },
+        {
+          "id": 6,
+          "title": "FAQ Page",
+          "why": "7 FAQs on the homepage expand to a full FAQ page. Targets question-based searches ('how long is rehab', 'what does detox cost') and qualifies for FAQ rich results in SERPs.",
+          "priority": "medium",
+          "effort": "1–2 hrs",
+          "status": "todo"
+        },
+        {
+          "id": 7,
+          "title": "Privacy Policy + Terms of Service",
+          "why": "HIPAA compliance requirement for any site collecting intake information. Google quality raters check for trust pages on health sites — required before launch.",
+          "priority": "high",
+          "effort": "1 hr",
+          "status": "todo"
+        }
+      ]
+    },
+    {
+      "phase": 2,
+      "phase_title": "SEO Foundation",
+      "items": [
+        {
+          "id": 8,
+          "title": "Keyword Research — Northern CA Recovery",
+          "why": "Full keyword map for addiction treatment in Tehama County and Northern California. Identifies target keywords for every page and the blog strategy.",
+          "priority": "critical",
+          "effort": "2–3 hrs",
+          "status": "todo"
+        },
+        {
+          "id": 9,
+          "title": "On-Page SEO — All Pages",
+          "why": "Title tags, meta descriptions, H1/H2 hierarchy, image alt text, and internal linking applied to every page before launch.",
+          "priority": "critical",
+          "effort": "3–4 hrs",
+          "status": "todo"
+        },
+        {
+          "id": 10,
+          "title": "Schema Markup — Organization + MedicalBusiness",
+          "why": "Structured data for a nonprofit recovery center signals credibility to Google. MedicalBusiness schema with accreditation, founder, location, and service area.",
+          "priority": "high",
+          "effort": "2 hrs",
+          "status": "todo"
+        },
+        {
+          "id": 11,
+          "title": "Google Search Console + Sitemap Setup",
+          "why": "GSC must be configured at launch so Google begins crawling and indexing immediately. XML sitemap submitted, coverage monitored.",
+          "priority": "critical",
+          "effort": "1 hr",
+          "status": "todo"
+        },
+        {
+          "id": 12,
+          "title": "Google Analytics 4 Setup",
+          "why": "GA4 configured before launch so all traffic is measured from day one. Goal tracking for phone clicks, form submissions, and admissions inquiries.",
+          "priority": "high",
+          "effort": "1 hr",
+          "status": "todo"
+        },
+        {
+          "id": 13,
+          "title": "Google Business Profile",
+          "why": "Critical for local 'near me' searches for rehab and recovery in Red Bluff. Full profile with address, hours, services, photos, and Linda's credentials.",
+          "priority": "critical",
+          "effort": "1–2 hrs",
+          "status": "todo"
+        }
+      ]
+    },
+    {
+      "phase": 3,
+      "phase_title": "Blog & Content",
+      "items": [
+        {
+          "id": 14,
+          "title": "Blog Structure Setup",
+          "why": "Categories, author profiles, and post templates configured. Blog needs to be crawlable and linked from the main nav before the first post goes live.",
+          "priority": "high",
+          "effort": "1–2 hrs",
+          "status": "todo"
+        },
+        {
+          "id": 15,
+          "title": "First 2 Blog Posts Written & Published",
+          "why": "Launch with 2 posts so the blog isn't empty on day one. Posts target high-intent local keywords ('addiction treatment red bluff ca', 'residential rehab northern california').",
+          "priority": "high",
+          "effort": "3–4 hrs",
+          "status": "todo"
+        },
+        {
+          "id": 16,
+          "title": "Blog Content Calendar — 6 Months",
+          "why": "Consistent publishing is an SEO signal. 6-month calendar of keyword-targeted topics written and scheduled so Linda always knows what's coming.",
+          "priority": "medium",
+          "effort": "2 hrs",
+          "status": "todo"
+        }
+      ]
+    },
+    {
+      "phase": 4,
+      "phase_title": "Social Media",
+      "items": [
+        {
+          "id": 17,
+          "title": "Facebook Page Setup + Branding",
+          "why": "Facebook is critical for rehab/recovery audiences. Full profile setup with brand assets, cover image, services, and about section. First 5 posts published.",
+          "priority": "high",
+          "effort": "2–3 hrs",
+          "status": "todo"
+        },
+        {
+          "id": 18,
+          "title": "Instagram Setup + Brand Templates",
+          "why": "Instagram reach for recovery content (motivation, education, facility photos). Branded templates created for recurring post types so content is consistent.",
+          "priority": "high",
+          "effort": "2–3 hrs",
+          "status": "todo"
+        },
+        {
+          "id": 19,
+          "title": "Social Content Templates — 10 Reusable Formats",
+          "why": "10 Canva templates matching brand palette (navy, gold, cream) for Linda's team to use ongoing. Templates for motivational quotes, program spotlights, FAQ cards, and donation calls.",
+          "priority": "medium",
+          "effort": "3 hrs",
+          "status": "todo"
+        },
+        {
+          "id": 20,
+          "title": "Initial Content Batch — 2 Weeks Scheduled",
+          "why": "Launch with 2 weeks of posts already scheduled on both platforms so social presence is active from day one.",
+          "priority": "medium",
+          "effort": "2 hrs",
+          "status": "todo"
+        }
+      ]
+    },
+    {
+      "phase": 5,
+      "phase_title": "Launch",
+      "items": [
+        {
+          "id": 21,
+          "title": "Pre-Launch QA — Full Site Review",
+          "why": "Every link, form, page, and mobile breakpoint tested. Spelling, legal disclaimers, HIPAA language, and image licenses verified.",
+          "priority": "critical",
+          "effort": "2–3 hrs",
+          "status": "todo"
+        },
+        {
+          "id": 22,
+          "title": "Domain Cutover — sunbrightrecovery.org",
+          "why": "DNS pointed to Cloudflare Pages. SSL verified, www redirect configured, old domain (if any) 301-redirected.",
+          "priority": "critical",
+          "effort": "1 hr",
+          "status": "todo"
+        },
+        {
+          "id": 23,
+          "title": "Post-Launch Indexing Check",
+          "why": "GSC crawl requested, initial indexing monitored, any coverage errors resolved within 48 hours of launch.",
+          "priority": "high",
+          "effort": "Ongoing",
+          "status": "todo"
+        }
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "from": "Kandy",
+      "date": "June 6, 2026",
+      "text": "Welcome to your Phoenix Method client portal, Linda! This is your home base for the Sunbright Recovery website project — you can check progress on every deliverable, see what's coming up in the content calendar, and track our build phases in real time.\n\nWhere we are: the homepage is fully built and in review. It covers all 13 sections — hero, programs, about, what we treat, your daily schedule, the donation/volunteer block, FAQ, and footer. You can view the preview at the Cloudflare Pages URL Kandy sent you.\n\nNext step: send back your feedback on the homepage and we'll begin building the inner pages — Programs, About (with your bio), Admissions, and the Donate page. Once all pages are built, we'll apply the full SEO setup and get the blog and social media off the ground before your domain goes live."
+    }
+  ]
+}

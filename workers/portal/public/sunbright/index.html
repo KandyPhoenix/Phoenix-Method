@@ -1,0 +1,1071 @@
+<!-- client: sunbright -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Portal | Phoenix Method</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #07070D;
+            color: #F0ECE6;
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        /* ── TOP BAR ── */
+        .topbar {
+            background: #0A0A14;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding: 0 32px;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 56px; position: sticky; top: 0; z-index: 100;
+        }
+        .topbar-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .topbar-logo {
+            height: 32px; width: auto; flex-shrink: 0;
+        }
+        .topbar-name { color: #F0ECE6; font-weight: 600; font-size: 14px; }
+        .topbar-portal { color: #9A95A8; font-size: 13px; }
+        .topbar-updated { font-size: 12px; color: #5E5A6B; }
+
+        /* ── PAGE LAYOUT ── */
+        .page { max-width: 960px; margin: 0 auto; padding: 32px 24px 64px; }
+
+        /* ── GREETING ── */
+        .greeting { margin-bottom: 28px; }
+        .greeting-name { font-size: 22px; font-weight: 600; color: #F0ECE6; }
+        .badge {
+            background: rgba(255,140,0,0.15); color: #E87B2F;
+            font-size: 11px; padding: 2px 10px; border-radius: 99px;
+            margin-left: 10px; font-weight: 500; vertical-align: middle;
+        }
+        .greeting-sub { color: #9A95A8; font-size: 13px; margin-top: 5px; }
+
+        /* ── STATS GRID ── */
+        .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 28px; }
+        .stat-card {
+            background: #0E0E18; border-radius: 10px; padding: 18px;
+            border: 0.5px solid rgba(255,255,255,0.06);
+        }
+        .stat-label { font-size: 11px; color: #9A95A8; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-value { font-size: 28px; font-weight: 700; margin-top: 5px; color: #F0ECE6; }
+        .stat-value.plan-value { font-size: 20px; color: #E87B2F; }
+        .stat-delta { font-size: 12px; margin-top: 3px; }
+        .stat-delta.up { color: #27ae60; }
+        .stat-delta.down { color: #c0392b; }
+        .stat-delta.neutral { color: #9A95A8; }
+        .stat-delta.plan-sub { color: #9A95A8; font-size: 13px; }
+
+        /* ── TABS ── */
+        .tabs {
+            display: flex; gap: 4px; margin-bottom: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .tabs::-webkit-scrollbar { display: none; }
+        .tab {
+            padding: 10px 16px; font-size: 13px; font-weight: 500;
+            color: #9A95A8; cursor: pointer; border: none; background: none;
+            border-bottom: 2px solid transparent; margin-bottom: -1px;
+            transition: color 0.2s, border-color 0.2s; white-space: nowrap;
+        }
+        .tab:hover { color: #F0ECE6; }
+        .tab.active { color: #E87B2F; border-bottom-color: #E87B2F; }
+
+        /* ── SECTIONS ── */
+        .section { display: none; }
+        .section.active { display: block; }
+
+        /* ── SECTION HEADER ── */
+        .sec-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 14px; padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .sec-title { font-weight: 600; font-size: 15px; color: #F0ECE6; }
+        .sec-sub { font-size: 12px; color: #9A95A8; }
+
+        /* ── DELIVERABLES ── */
+        .deliverable-list { display: flex; flex-direction: column; gap: 8px; }
+        .deliverable-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 11px 14px; background: #0E0E18;
+            border-radius: 8px; border: 0.5px solid rgba(255,255,255,0.06);
+        }
+        .d-checkbox {
+            width: 18px; height: 18px; border-radius: 4px;
+            border: 1.5px solid rgba(255,255,255,0.15); flex-shrink: 0;
+        }
+        .d-checkbox.done {
+            background: #27ae60; border-color: #27ae60;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.5 6L5 8.5L9.5 3.5' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: center;
+        }
+        .d-checkbox.in_progress { border-color: #FF8C00; background: rgba(255,140,0,0.15); }
+        .d-text { flex: 1; font-size: 13px; color: #F0ECE6; }
+        .d-pill {
+            font-size: 11px; padding: 2px 10px; border-radius: 99px;
+            white-space: nowrap; font-weight: 500;
+        }
+        .pill-done { background: rgba(39,174,96,0.15); color: #27ae60; border: 0.5px solid rgba(39,174,96,0.4); }
+        .pill-progress { background: rgba(255,140,0,0.15); color: #C9922A; border: 0.5px solid rgba(255,140,0,0.4); }
+        .pill-todo { background: rgba(52,152,219,0.15); color: #3498db; border: 0.5px solid rgba(52,152,219,0.4); }
+
+        /* ── RANK SNAPSHOT (overview 2-col grid) ── */
+        .rank-snapshot { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .kw-card {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 14px; background: #0E0E18;
+            border-radius: 8px; border: 0.5px solid rgba(255,255,255,0.06);
+        }
+        .kw-card-keyword { flex: 1; font-size: 13px; color: #F0ECE6; min-width: 0; }
+        .kw-card-keyword span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .kw-pos-badge { font-weight: 700; font-size: 14px; flex-shrink: 0; }
+        .kw-pos-badge.top3  { color: #27ae60; }
+        .kw-pos-badge.top10 { color: #2ecc71; }
+        .kw-pos-badge.mid   { color: #C9922A; }
+        .kw-pos-badge.low   { color: #c0392b; }
+        .kw-change { font-size: 12px; font-weight: 600; flex-shrink: 0; min-width: 32px; text-align: right; }
+        .kw-change.up      { color: #2ecc71; }
+        .kw-change.down    { color: #e74c3c; }
+        .kw-change.neutral { color: #5E5A6B; }
+        .kw-change.new-kw  { color: #FF8C00; }
+
+        /* ── RANK TABLE ── */
+        .rank-table { width: 100%; border-collapse: collapse; }
+        .rank-table thead tr { border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .rank-table th {
+            text-align: left; font-size: 11px; color: #9A95A8;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            padding: 0 12px 10px; font-weight: 500;
+        }
+        .rank-table th.right { text-align: right; }
+        .rank-table tbody tr { border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .rank-table tbody tr:last-child { border-bottom: none; }
+        .rank-table td { padding: 10px 12px; font-size: 13px; }
+        .rank-table td.keyword { color: #F0ECE6; }
+        .rank-table td.pos { font-weight: 700; font-size: 14px; text-align: right; width: 90px; }
+        .rank-table td.pos.unranked { font-size: 11px; font-weight: 500; color: #5E5A6B; }
+        .rank-table td.change { text-align: right; font-size: 12px; width: 60px; }
+        .pos.top3  { color: #27ae60; }
+        .pos.top10 { color: #2ecc71; }
+        .pos.mid   { color: #C9922A; }
+        .pos.low   { color: #c0392b; }
+        .change.up      { color: #27ae60; }
+        .change.down    { color: #c0392b; }
+        .change.neutral { color: #5E5A6B; }
+        .change.new-kw  { color: #FF8C00; font-weight: 600; }
+
+        /* ── KEYWORD PANELS ── */
+        .kw-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 4px; }
+        .kw-panel {
+            background: #0E0E18; border-radius: 10px;
+            border: 0.5px solid rgba(255,255,255,0.06); overflow: hidden;
+        }
+        .kw-panel-header {
+            padding: 12px 16px 10px; border-bottom: 0.5px solid rgba(255,255,255,0.06);
+            display: flex; align-items: baseline; justify-content: space-between;
+        }
+        .kw-panel-title { font-size: 13px; font-weight: 600; color: #F0ECE6; }
+        .kw-panel-sub { font-size: 11px; color: #5E5A6B; }
+        .kw-panel-row {
+            display: flex; align-items: center; gap: 10px;
+            padding: 9px 16px; border-bottom: 0.5px solid rgba(255,255,255,0.04);
+        }
+        .kw-panel-row:last-child { border-bottom: none; }
+        .kw-panel-rank { font-size: 11px; color: #5E5A6B; width: 18px; text-align: right; flex-shrink: 0; }
+        .kw-panel-keyword { flex: 1; font-size: 12px; color: #F0ECE6; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+        .kw-panel-clicks { font-size: 12px; color: #9A95A8; flex-shrink: 0; }
+        .kw-panel-pos { font-weight: 700; font-size: 13px; flex-shrink: 0; }
+        .kw-panel-empty { padding: 20px 16px; font-size: 12px; color: #5E5A6B; font-style: italic; }
+        @media (max-width: 720px) { .kw-panels { grid-template-columns: 1fr; } }
+
+        /* ── GSC SUMMARY PILLS ── */
+        .gsc-summary { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .gsc-pill {
+            background: #0E0E18; border: 0.5px solid rgba(255,255,255,0.06);
+            border-radius: 8px; padding: 10px 16px; font-size: 13px; color: #9A95A8;
+        }
+        .gsc-pill strong { color: #F0ECE6; }
+
+        /* ── CONTENT CALENDAR 3-col grid ── */
+        .cal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .cal-card {
+            background: #0E0E18; border-radius: 10px; padding: 16px;
+            border: 0.5px solid rgba(255,255,255,0.06);
+            display: flex; flex-direction: column; gap: 8px;
+        }
+        .cal-card-date { font-size: 12px; color: #9A95A8; }
+        .cal-card-title { font-size: 13px; color: #F0ECE6; font-weight: 500; line-height: 1.4; flex: 1; }
+        .cal-card-type {
+            font-size: 10px; padding: 2px 8px; border-radius: 99px;
+            white-space: nowrap; font-weight: 500; align-self: flex-start; margin-top: 4px;
+        }
+        .type-blog   { background: rgba(52,152,219,0.15);  color: #3498db; }
+        .type-gbp    { background: rgba(39,174,96,0.15);   color: #27ae60; }
+        .type-page   { background: rgba(255,140,0,0.15);   color: #C9922A; }
+        .type-video  { background: rgba(155,89,182,0.15);  color: #9b59b6; }
+        .type-social  { background: rgba(231,76,60,0.15);   color: #e74c3c; }
+        .type-client      { background: rgba(59,175,191,0.15);  color: #3bafbf; }
+        .type-deliverable { background: rgba(240,192,64,0.15);  color: #c9a020; }
+
+        /* ── BLOG TOPICS ── */
+        .topic-list { display: flex; flex-direction: column; gap: 8px; }
+        .topic-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 14px; background: #0E0E18;
+            border-radius: 8px; border: 0.5px solid rgba(255,255,255,0.06);
+        }
+        .topic-num { font-size: 12px; color: #5E5A6B; width: 20px; flex-shrink: 0; text-align: right; }
+        .topic-title { flex: 1; font-size: 13px; color: #F0ECE6; }
+        .topic-status {
+            font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 500; white-space: nowrap;
+        }
+        .status-planned  { background: rgba(52,152,219,0.15); color: #3498db; }
+        .status-writing  { background: rgba(255,140,0,0.15);  color: #C9922A; }
+        .status-published { background: rgba(39,174,96,0.15);  color: #27ae60; }
+        .status-used     { background: rgba(240,192,64,0.15);  color: #b8942a; }
+
+        /* ── MONTHLY CONTENT CHOICE ── */
+        .choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .choice-card {
+            background: #0E0E18; border-radius: 10px; padding: 18px;
+            border: 0.5px solid rgba(255,255,255,0.06);
+            display: flex; flex-direction: column; gap: 8px;
+        }
+        .choice-card.chosen { border-color: #E87B2F; background: rgba(232,123,47,0.06); }
+        .choice-type { font-size: 11px; color: #9A95A8; text-transform: uppercase; letter-spacing: 0.5px; }
+        .choice-title { font-size: 14px; font-weight: 600; color: #F0ECE6; line-height: 1.4; }
+        .choice-title.tbd { font-style: italic; color: #5E5A6B; font-weight: 400; font-size: 13px; }
+        .choice-kw { font-size: 12px; color: #9A95A8; }
+        .choice-badge {
+            display: inline-block; font-size: 9px; font-weight: 700; padding: 3px 10px;
+            border-radius: 20px; background: #E87B2F; color: #fff;
+            letter-spacing: 0.15em; text-transform: uppercase; width: fit-content;
+        }
+        .topic-kw { font-size: 11px; color: #5E5A6B; margin-top: 2px; }
+
+        /* ── MESSAGES ── */
+        .message-card {
+            background: #0E0E18; border-radius: 10px; padding: 20px;
+            border: 0.5px solid rgba(255,255,255,0.06);
+            border-left: 3px solid #E87B2F;
+            margin-bottom: 10px;
+        }
+        .message-meta { font-size: 11px; color: #9A95A8; margin-bottom: 10px; font-weight: 500; }
+        .message-text { font-size: 14px; color: #F0ECE6; line-height: 1.7; }
+
+        /* ── REPLY BUTTON ── */
+        .reply-btn {
+            display: inline-block; margin-top: 16px;
+            padding: 10px 20px; border-radius: 8px;
+            background: rgba(255,140,0,0.1); border: 1px solid rgba(255,140,0,0.3);
+            color: #E87B2F; font-size: 13px; font-weight: 500; font-family: inherit;
+            text-decoration: none; cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+        .reply-btn:hover { background: rgba(255,140,0,0.2); border-color: rgba(255,140,0,0.5); }
+
+        /* ── LEGEND ── */
+        .legend {
+            background: #0A0A14; border-radius: 8px; padding: 14px 16px;
+            border: 0.5px solid rgba(255,255,255,0.04); margin-top: 24px;
+        }
+        .legend-title { font-size: 11px; color: #5E5A6B; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+        .legend-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .legend-item { font-size: 12px; color: #9A95A8; }
+        .legend-item strong { color: #F0ECE6; }
+
+        /* ── BILLING ── */
+        .billing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+        .billing-card {
+            background: #0E0E18; border-radius: 10px; padding: 18px;
+            border: 0.5px solid rgba(255,255,255,0.06);
+        }
+        .billing-label { font-size: 11px; color: #9A95A8; text-transform: uppercase; letter-spacing: 0.5px; }
+        .billing-value { font-size: 22px; font-weight: 700; margin-top: 6px; color: #F0ECE6; }
+        .billing-sub { font-size: 12px; color: #9A95A8; margin-top: 3px; }
+        .hours-bar-bg {
+            height: 6px; background: rgba(255,255,255,0.08);
+            border-radius: 99px; overflow: hidden; margin-top: 8px;
+        }
+        .hours-bar-fill {
+            height: 100%; border-radius: 99px;
+            background: linear-gradient(90deg, #FF4D00, #FF8C00);
+        }
+
+        /* ── PLAN COMPARISON ── */
+        .plan-compare { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .plan-tier {
+            background: #0E0E18; border-radius: 10px; padding: 24px 18px 18px;
+            border: 0.5px solid rgba(255,255,255,0.06); text-align: center;
+            position: relative;
+        }
+        .plan-tier.current {
+            border-color: rgba(255,140,0,0.45);
+            background: linear-gradient(180deg, rgba(255,77,0,0.06) 0%, #0E0E18 50%);
+            box-shadow: 0 0 40px rgba(255,77,0,0.08);
+        }
+        .plan-tier-badge {
+            position: absolute;
+            top: -11px; left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #FF4D00, #FF8C00);
+            color: #fff;
+            font-size: 9px; font-weight: 700;
+            letter-spacing: 0.15em; text-transform: uppercase;
+            padding: 5px 16px; border-radius: 20px;
+            white-space: nowrap;
+        }
+        .plan-tier-name { font-size: 15px; font-weight: 600; color: #F0ECE6; margin-bottom: 4px; }
+        .plan-tier-price { font-size: 24px; font-weight: 700; color: #F0ECE6; }
+        .plan-tier-price span { font-size: 13px; color: #9A95A8; font-weight: 400; }
+        .plan-tier-hours { font-size: 12px; color: #9A95A8; margin-top: 4px; }
+        .plan-tier-features {
+            font-size: 12px; color: #9A95A8; margin-top: 12px; line-height: 1.9;
+            text-align: left;
+        }
+
+        /* ── REPORTS ── */
+        .reports-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .report-card {
+            background: #0E0E18; border-radius: 10px; padding: 16px;
+            border: 0.5px solid rgba(255,255,255,0.06);
+            display: flex; flex-direction: column; gap: 6px;
+            text-decoration: none;
+            transition: border-color 0.2s;
+            cursor: pointer;
+        }
+        .report-card:hover { border-color: rgba(255,140,0,0.3); }
+        .report-icon { font-size: 26px; line-height: 1; }
+        .report-name { font-size: 13px; color: #F0ECE6; font-weight: 500; line-height: 1.3; }
+        .report-date { font-size: 11px; color: #9A95A8; }
+        .report-view-hint { font-size: 11px; color: #FF8C00; margin-top: 4px; }
+        .reports-empty {
+            grid-column: 1 / -1; padding: 40px 20px; text-align: center;
+            color: #5E5A6B; font-size: 13px; line-height: 1.7;
+        }
+
+        /* ── SEO ROADMAP ── */
+        .roadmap-summary-bar {
+            background: #0E0E18; border-radius: 10px; padding: 18px 20px;
+            border: 0.5px solid rgba(255,255,255,0.06); margin-bottom: 24px;
+            display: flex; align-items: center; gap: 20px;
+        }
+        .roadmap-summary-text { flex: 1; }
+        .roadmap-summary-title { font-size: 14px; font-weight: 600; color: #F0ECE6; }
+        .roadmap-summary-sub { font-size: 12px; color: #9A95A8; margin-top: 2px; }
+        .roadmap-overall-bar {
+            height: 5px; background: rgba(255,255,255,0.08);
+            border-radius: 99px; overflow: hidden; margin-top: 10px;
+        }
+        .roadmap-overall-fill {
+            height: 100%; border-radius: 99px;
+            background: linear-gradient(90deg, #FF4D00, #FF8C00);
+            transition: width 0.4s ease;
+        }
+        .roadmap-pct { font-size: 22px; font-weight: 700; color: #E87B2F; flex-shrink: 0; }
+
+        .roadmap-phase { margin-bottom: 20px; }
+        .roadmap-phase-header {
+            display: flex; align-items: center; gap: 10px;
+            padding: 12px 16px; background: #0A0A14;
+            border-radius: 8px 8px 0 0;
+            border: 0.5px solid rgba(255,255,255,0.08);
+        }
+        .roadmap-phase-num {
+            font-size: 10px; color: #E87B2F; text-transform: uppercase;
+            letter-spacing: 0.5px; font-weight: 600; flex-shrink: 0;
+        }
+        .roadmap-phase-title { font-size: 13px; font-weight: 600; color: #F0ECE6; flex: 1; }
+        .roadmap-phase-count {
+            font-size: 11px; color: #9A95A8; flex-shrink: 0;
+            background: rgba(255,255,255,0.05); padding: 2px 8px; border-radius: 99px;
+        }
+        .roadmap-phase-count.phase-done { color: #27ae60; background: rgba(39,174,96,0.1); }
+        .roadmap-items-list {
+            border: 0.5px solid rgba(255,255,255,0.08); border-top: none;
+            border-radius: 0 0 8px 8px; overflow: hidden;
+        }
+        .roadmap-item {
+            display: flex; align-items: flex-start; gap: 12px;
+            padding: 14px 16px; background: #0E0E18;
+            border-bottom: 0.5px solid rgba(255,255,255,0.04);
+        }
+        .roadmap-item:last-child { border-bottom: none; }
+        .roadmap-item.done { opacity: 0.45; }
+        .priority-badge {
+            font-size: 9px; font-weight: 700; padding: 2px 7px;
+            border-radius: 4px; text-transform: uppercase; letter-spacing: 0.4px;
+            flex-shrink: 0; min-width: 62px; text-align: center; margin-top: 2px;
+        }
+        .pri-critical { background: rgba(231,76,60,0.18); color: #e74c3c; border: 0.5px solid rgba(231,76,60,0.35); }
+        .pri-high     { background: rgba(255,140,0,0.15); color: #E87B2F; border: 0.5px solid rgba(255,140,0,0.3); }
+        .pri-medium   { background: rgba(52,152,219,0.12); color: #5dade2; border: 0.5px solid rgba(52,152,219,0.25); }
+        .pri-low      { background: rgba(94,90,107,0.18); color: #9A95A8; border: 0.5px solid rgba(94,90,107,0.25); }
+        .roadmap-item-body { flex: 1; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+        .roadmap-item-title { font-size: 13px; font-weight: 600; color: #F0ECE6; line-height: 1.4; }
+        .roadmap-item-why { font-size: 12px; color: #7A7588; line-height: 1.5; }
+        .roadmap-item.done .roadmap-item-title { text-decoration: line-through; color: #5E5A6B; }
+        .roadmap-item.done .roadmap-item-why { color: #3E3A48; }
+        .roadmap-status-pill {
+            font-size: 10px; padding: 2px 8px; border-radius: 99px;
+            font-weight: 500; white-space: nowrap; flex-shrink: 0;
+        }
+        .rs-backlog     { background: rgba(94,90,107,0.18); color: #9A95A8; }
+        .rs-todo        { background: rgba(52,152,219,0.15); color: #3498db; border: 0.5px solid rgba(52,152,219,0.4); }
+        .rs-in_progress { background: rgba(255,140,0,0.15); color: #C9922A; }
+        .rs-done        { background: rgba(39,174,96,0.15); color: #27ae60; }
+        @media (max-width: 720px) {
+            .roadmap-effort { display: none; }
+            .roadmap-summary-bar { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .roadmap-pct { font-size: 18px; }
+        }
+
+        /* ── FOOTER ── */
+        .portal-footer {
+            text-align: center; margin-top: 48px;
+            padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .portal-footer .fb {
+            display: block; font-size: 10px; letter-spacing: 0.15em;
+            color: #5E5A6B; text-transform: uppercase;
+        }
+        .portal-footer .ft {
+            display: block; font-size: 11px; color: #9A95A8;
+            margin-top: 4px; font-style: italic;
+        }
+
+        /* ── LOADING ── */
+        .loading {
+            display: flex; align-items: center; justify-content: center;
+            min-height: 60vh; flex-direction: column; gap: 16px;
+            color: #9A95A8; font-size: 14px;
+        }
+        .spinner {
+            width: 32px; height: 32px; border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.08);
+            border-top-color: #E87B2F;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 720px) {
+            .topbar { padding: 0 16px; }
+            .page { padding: 20px 16px 48px; }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .billing-grid { grid-template-columns: 1fr; }
+            .cal-grid { grid-template-columns: 1fr 1fr; }
+            .plan-compare { grid-template-columns: 1fr; }
+            .reports-grid { grid-template-columns: 1fr 1fr; }
+            .rank-snapshot { grid-template-columns: 1fr; }
+            .legend-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 480px) {
+            .stats { grid-template-columns: 1fr 1fr; }
+            .cal-grid { grid-template-columns: 1fr; }
+            .reports-grid { grid-template-columns: 1fr; }
+            .choice-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="topbar">
+    <a href="https://phoenixmethodseo.com" class="topbar-brand">
+        <img class="topbar-logo" src="phoenix-bird.png" alt="Phoenix Method">
+        <span class="topbar-name">Phoenix Method</span>
+    </a>
+    <span class="topbar-portal">Client Portal</span>
+    <span class="topbar-updated" id="topbar-updated"></span>
+</header>
+
+<!-- MAIN -->
+<main class="page" id="portal-root">
+    <div class="loading" id="loading-state">
+        <div class="spinner"></div>
+        <span>Loading your portal…</span>
+    </div>
+</main>
+
+<script>
+async function loadPortal() {
+    const root = document.getElementById('portal-root');
+    const loading = document.getElementById('loading-state');
+
+    let data;
+    try {
+        const r = await fetch('data.json?v=' + Date.now());
+        data = await r.json();
+    } catch(e) {
+        loading.innerHTML = '<p style="color:#c0392b">Unable to load portal data. Please try refreshing.</p>';
+        return;
+    }
+
+    document.getElementById('topbar-updated').textContent = 'Updated ' + data.updated;
+    document.title = data.short_name + ' Portal | Phoenix Method';
+    root.innerHTML = buildPortal(data);
+
+    function activateTab(name) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        const tab = document.querySelector('.tab[data-tab="' + name + '"]');
+        const sec = document.getElementById('sec-' + name);
+        if (tab && sec) { tab.classList.add('active'); sec.classList.add('active'); }
+        else { document.querySelector('.tab').classList.add('active'); document.querySelector('.section').classList.add('active'); }
+    }
+
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            window.location.hash = tab.dataset.tab;
+            activateTab(tab.dataset.tab);
+        });
+    });
+
+    const hash = window.location.hash.replace('#', '');
+    if (hash) activateTab(hash);
+}
+
+function posClass(pos) {
+    if (pos == null) return 'unranked';
+    if (pos <= 3)  return 'top3';
+    if (pos <= 10) return 'top10';
+    if (pos <= 30) return 'mid';
+    return 'low';
+}
+
+function kwChange(current, last) {
+    if (current == null) return { cls: 'neutral', text: '—' };
+    if (last === null || last === undefined) return { cls: 'new-kw', text: 'New' };
+    const diff = Math.round(last - current);
+    if (diff > 0) return { cls: 'up',   text: '▲' + diff };
+    if (diff < 0) return { cls: 'down', text: '▼' + Math.abs(diff) };
+    return { cls: 'neutral', text: '—' };
+}
+
+function calTypeLabel(type) {
+    const map = { blog: 'Blog Post', gbp: 'GBP Post', page: 'Page', video: 'Video', social: 'Social', client: 'Client', deliverable: 'Deliverable' };
+    return map[type] || type;
+}
+
+function buildPortal(d) {
+    const s = d.stats;
+
+    // ── STAT CARDS ──
+    const statCards = [
+        { label: 'Organic Sessions', value: s.sessions != null ? s.sessions.toLocaleString() : '—', delta: s.sessions_change, trend: s.sessions_trend },
+        { label: 'Keywords Ranking', value: s.keywords != null ? s.keywords : '—', delta: s.keywords_change, trend: s.keywords_trend },
+        { label: 'Avg. Position', value: s.position != null ? s.position : '—', delta: s.position_change, trend: s.position_trend },
+        { label: 'Current Plan', value: d.plan, delta: d.plan_price, trend: 'plan-sub', isPlan: true },
+    ].map(c => `
+        <div class="stat-card">
+            <div class="stat-label">${c.label}</div>
+            <div class="stat-value${c.isPlan ? ' plan-value' : ''}">${c.value}</div>
+            <div class="stat-delta ${c.trend}">${c.delta}</div>
+        </div>
+    `).join('');
+
+    // ── DELIVERABLES ──
+    const deliverables = (d.deliverables || []).map(item => {
+        const cbClass = item.status === 'done' ? 'done' : item.status === 'in_progress' ? 'in_progress' : '';
+        let pillClass, pillLabel;
+        if (item.status === 'done')             { pillClass = 'pill-done';     pillLabel = 'Complete'; }
+        else if (item.status === 'in_progress') { pillClass = 'pill-progress'; pillLabel = 'In progress'; }
+        else                                    { pillClass = 'pill-todo';     pillLabel = item.label || (item.due ? 'Due ' + item.due : 'Planned'); }
+        return `<div class="deliverable-item">
+            <div class="d-checkbox ${cbClass}"></div>
+            <span class="d-text">${item.text}</span>
+            <span class="d-pill ${pillClass}">${pillLabel}</span>
+        </div>`;
+    }).join('');
+
+    // ── RANK SNAPSHOT (top 8 by position for overview) ──
+    const topKws = [...(d.keywords || [])].filter(k => k.position != null).sort((a, b) => a.position - b.position).slice(0, 8);
+    const rankSnapshot = topKws.length ? topKws.map(kw => {
+        const ch = kwChange(kw.position, kw.last_month);
+        return `<div class="kw-card">
+            <div class="kw-card-keyword"><span>${kw.keyword}</span></div>
+            <span class="kw-pos-badge ${posClass(kw.position)}">#${kw.position}</span>
+            <span class="kw-change ${ch.cls}">${ch.text}</span>
+        </div>`;
+    }).join('') : '<p style="color:#9A95A8;font-size:13px;grid-column:1/-1">Keyword data will appear here after the first monthly update.</p>';
+
+    // ── FULL RANK TABLE ──
+    const rankRows = (d.keywords || []).map(kw => {
+        const ch = kwChange(kw.position, kw.last_month);
+        const posDisplay = kw.position != null ? `#${kw.position}` : '>100';
+        return `<tr>
+            <td class="keyword">${kw.keyword}</td>
+            <td class="pos ${posClass(kw.position)}">${posDisplay}</td>
+            <td class="change ${ch.cls}">${ch.text}</td>
+        </tr>`;
+    }).join('');
+
+    // ── CONTENT CALENDAR (3-col grid) ──
+    const calCards = (d.content_calendar || []).length
+        ? d.content_calendar.map(item => `
+            <div class="cal-card">
+                <div class="cal-card-date">${item.date}</div>
+                <div class="cal-card-title">${item.title}</div>
+                <span class="cal-card-type type-${item.type}">${calTypeLabel(item.type)}</span>
+            </div>
+        `).join('')
+        : '<div style="color:#9A95A8;font-size:13px;padding:16px 0;grid-column:1/-1">Content calendar will be updated monthly.</div>';
+
+    // ── BLOG TOPICS ──
+    const topics = d.blog_topics || [];
+    const blogTopicsHtml = topics.length
+        ? topics.map((t, i) => {
+            const sc = t.status === 'published' ? 'status-published' : t.status === 'writing' ? 'status-writing' : t.status === 'used' ? 'status-used' : 'status-planned';
+            const sl = t.status === 'published' ? 'Published' : t.status === 'writing' ? 'Writing' : t.status === 'used' ? (t.month_used || 'Used') : 'Suggested';
+            return `<div class="topic-item">
+                <span class="topic-num">${i + 1}</span>
+                <div style="flex:1;min-width:0">
+                    <div class="topic-title">${t.title}</div>
+                    ${t.keyword ? `<div class="topic-kw">Target: ${t.keyword}</div>` : ''}
+                </div>
+                <span class="topic-status ${sc}">${sl}</span>
+            </div>`;
+        }).join('')
+        : '<p style="color:#9A95A8;font-size:13px;padding:10px 0">Blog topic suggestions will be added monthly.</p>';
+
+    // ── MONTHLY CONTENT CHOICE ──
+    const choice = d.content_choice || {};
+    const chosenType = choice.chosen || null;
+    const blogInfo = choice.blog || {};
+    const pageInfo = choice.page || {};
+    const choiceCardsHtml = `
+        <div class="choice-grid">
+            <div class="choice-card${chosenType === 'blog' ? ' chosen' : ''}">
+                <div class="choice-type">Blog Post</div>
+                <div class="choice-title${blogInfo.title ? '' : ' tbd'}">${blogInfo.title || 'Awaiting topic — due the 15th'}</div>
+                ${blogInfo.keyword ? `<div class="choice-kw">Target keyword: ${blogInfo.keyword}</div>` : ''}
+                ${chosenType === 'blog' ? '<div class="choice-badge">This Month</div>' : ''}
+            </div>
+            <div class="choice-card${chosenType === 'page' ? ' chosen' : ''}">
+                <div class="choice-type">SEO Op</div>
+                <div class="choice-title${pageInfo.title ? '' : ' tbd'}">${pageInfo.title || 'To be selected'}</div>
+                ${pageInfo.url ? `<div class="choice-kw">${pageInfo.url}</div>` : ''}
+                ${pageInfo.keyword ? `<div class="choice-kw">Target keyword: ${pageInfo.keyword}</div>` : ''}
+                ${chosenType === 'page' ? '<div class="choice-badge">This Month</div>' : ''}
+            </div>
+        </div>`;
+
+    // ── MESSAGES ──
+    const messages = d.messages || (d.message ? [d.message] : []);
+    const latestMsg = messages.length ? messages[messages.length - 1] : null;
+    const messageCards = messages.map(m => `
+        <div class="message-card">
+            <div class="message-meta">From ${m.from} &mdash; ${m.date}</div>
+            <div class="message-text">${m.text}</div>
+        </div>
+    `).join('');
+
+    // ── BILLING ──
+    const hoursUsed = d.hours_used || 0;
+    const rolledOver = (d.rollover_enabled && d.hours_rolled_over) ? d.hours_rolled_over : 0;
+    const totalHours = d.plan_hours + rolledOver;
+    const hoursPct = Math.min(100, Math.round((hoursUsed / totalHours) * 100));
+    const nextInvoice = d.next_invoice || null;
+
+    const PLANS = [
+        {
+            name: 'Spark', price: '$500', hours: '2',
+            features: [
+                'GSC Review',
+                'Keyword review for new ranking opportunities',
+                'Keyword tracking',
+                'Monthly audit report',
+                '2 hrs content/site work/month',
+                'À la carte add-ons',
+                'Email support'
+            ]
+        },
+        {
+            name: 'Blaze', price: '$900', hours: '6',
+            features: [
+                'GSC Review',
+                'Keyword review for new ranking opportunities',
+                'Keyword tracking',
+                'Monthly audit report',
+                '6 hrs content/site work/month',
+                'Content calendar',
+                'À la carte add-ons',
+                'Priority support'
+            ]
+        },
+        {
+            name: 'Inferno', price: '$1,500', hours: '12',
+            features: [
+                'GSC Review',
+                'Keyword review for new ranking opportunities',
+                'Keyword tracking',
+                'Monthly audit report',
+                '12 hrs content/site work/month',
+                'Full content strategy',
+                'Content calendar',
+                'À la carte add-ons',
+                'Dedicated account manager',
+                'Priority support'
+            ]
+        },
+    ];
+    const planCompare = PLANS.map(p => {
+        const isCurrent = p.name === d.plan;
+        return `<div class="plan-tier${isCurrent ? ' current' : ''}">
+            ${isCurrent ? '<div class="plan-tier-badge">Your Current Plan</div>' : ''}
+            <div class="plan-tier-name">${p.name}</div>
+            <div class="plan-tier-price">${p.price}<span>/mo</span></div>
+            <div class="plan-tier-hours">${p.hours} hrs / month</div>
+            <div class="plan-tier-features">${p.features.map(f => '✓ ' + f).join('<br>')}</div>
+        </div>`;
+    }).join('');
+
+    // ── REPORTS ──
+    const reports = d.reports || [];
+    const reportCards = reports.length
+        ? reports.map(r => `
+            <div class="report-card" onclick="openReport('${r.url || '#'}', '${r.name}')">
+                <div class="report-icon">${r.icon || '📄'}</div>
+                <div class="report-name">${r.name}</div>
+                <div class="report-date">${r.date}</div>
+                <div class="report-view-hint">Click to view</div>
+            </div>
+        `).join('')
+        : '<div class="reports-empty">Reports and documents will appear here as your team completes and uploads them — audits, monthly reports, content deliverables, and more.</div>';
+
+    // ── SEO ROADMAP ──
+    const roadmap = d.roadmap || [];
+    const allItems = roadmap.flatMap(ph => ph.items || []);
+    const totalItems = allItems.length;
+    const doneItems = allItems.filter(i => i.status === 'done').length;
+    const activeItems = allItems.filter(i => i.status === 'in_progress').length;
+    const overallPct = totalItems ? Math.round((doneItems / totalItems) * 100) : 0;
+
+    const priLabel = { critical: 'Critical', high: 'High', medium: 'Medium', low: 'Low' };
+    const statusLabel = { backlog: 'Backlog', todo: 'To Do', in_progress: 'In Progress', done: 'Done' };
+
+    const roadmapPhases = roadmap.map(ph => {
+        const items = ph.items || [];
+        const phaseDone = items.filter(i => i.status === 'done').length;
+        const allDone = phaseDone === items.length && items.length > 0;
+        const itemRows = items.map(item => `
+            <div class="roadmap-item${item.status === 'done' ? ' done' : ''}">
+                <span class="priority-badge pri-${item.priority}">${priLabel[item.priority] || item.priority}</span>
+                <div class="roadmap-item-body">
+                    <span class="roadmap-item-title">${item.title}</span>
+                    ${item.why ? `<span class="roadmap-item-why">${item.why}</span>` : ''}
+                </div>
+                <span class="roadmap-status-pill rs-${item.status}">${statusLabel[item.status] || item.status}</span>
+            </div>
+        `).join('');
+        return `
+            <div class="roadmap-phase">
+                <div class="roadmap-phase-header">
+                    <span class="roadmap-phase-num">${ph.phase}</span>
+                    <span class="roadmap-phase-title">${ph.phase_title}</span>
+                    <span class="roadmap-phase-count${allDone ? ' phase-done' : ''}">${phaseDone} / ${items.length} done</span>
+                </div>
+                <div class="roadmap-items-list">${itemRows}</div>
+            </div>
+        `;
+    }).join('');
+
+    const roadmapSub = activeItems > 0
+        ? `${totalItems} findings across ${roadmap.length} areas &nbsp;·&nbsp; <span style="color:#C9922A">${activeItems} in progress</span>&nbsp;·&nbsp; ${doneItems} resolved`
+        : `${totalItems} findings across ${roadmap.length} areas &nbsp;·&nbsp; ${doneItems} resolved`;
+
+    const roadmapHtml = totalItems ? `
+        <div class="sec-header">
+            <span class="sec-title">SEO Audit Findings</span>
+            <span class="sec-sub">Issues and opportunities identified — updated monthly</span>
+        </div>
+        <div class="roadmap-summary-bar">
+            <div class="roadmap-summary-text">
+                <div class="roadmap-summary-title">Audit Resolution Progress</div>
+                <div class="roadmap-summary-sub">${roadmapSub}</div>
+                <div class="roadmap-overall-bar">
+                    <div class="roadmap-overall-fill" style="width:${overallPct}%"></div>
+                </div>
+            </div>
+            <div class="roadmap-pct">${overallPct}%</div>
+        </div>
+        ${roadmapPhases}
+        <div style="margin-top:20px;padding:14px 16px;background:#0A0A14;border-radius:8px;border:0.5px solid rgba(255,255,255,0.04)">
+            <div style="font-size:11px;color:#5E5A6B;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">Priority Guide</div>
+            <div style="display:flex;gap:16px;flex-wrap:wrap;">
+                <span style="font-size:12px;color:#9A95A8"><span style="color:#e74c3c;font-weight:600">Critical</span> — Must fix ASAP, directly impacts rankings</span>
+                <span style="font-size:12px;color:#9A95A8"><span style="color:#E87B2F;font-weight:600">High</span> — Strong ROI, do within first 60 days</span>
+                <span style="font-size:12px;color:#9A95A8"><span style="color:#5dade2;font-weight:600">Medium</span> — Important for long-term growth</span>
+                <span style="font-size:12px;color:#9A95A8"><span style="color:#9A95A8;font-weight:600">Low</span> — Quick wins, do when time allows</span>
+            </div>
+        </div>
+    ` : '<p style="color:#9A95A8;font-size:13px;padding:20px 0">No roadmap data yet. Your SEO action plan will appear here after your audit is complete.</p>';
+
+    // ── TOP CLICKED / TOP RANKING PANELS (from GSC report) ──
+    const gscKws = d.gsc_keywords || [];
+    const hasGscClicks = gscKws.some(k => k.clicks != null && k.clicks > 0);
+
+    const topRanking = [...gscKws].filter(k => k.position != null).sort((a, b) => a.position - b.position).slice(0, 5);
+    const topRankingHtml = topRanking.length
+        ? topRanking.map((kw, i) => `
+            <div class="kw-panel-row">
+                <span class="kw-panel-rank">${i + 1}</span>
+                <span class="kw-panel-keyword">${kw.keyword}</span>
+                <span class="kw-panel-pos ${posClass(kw.position)}">#${kw.position}</span>
+            </div>`)
+            .join('')
+        : '<div class="kw-panel-empty">GSC keyword data will appear here after the first monthly update.</div>';
+
+    const topClicked = hasGscClicks
+        ? [...gscKws].filter(k => k.clicks != null && k.clicks > 0).sort((a, b) => b.clicks - a.clicks).slice(0, 5)
+        : [];
+    const topClickedHtml = hasGscClicks
+        ? topClicked.map((kw, i) => `
+            <div class="kw-panel-row">
+                <span class="kw-panel-rank">${i + 1}</span>
+                <span class="kw-panel-keyword">${kw.keyword}</span>
+                <span class="kw-panel-clicks">${kw.clicks.toLocaleString()} clicks</span>
+                <span class="kw-panel-pos ${posClass(kw.position)}">#${kw.position}</span>
+            </div>`)
+            .join('')
+        : '<div class="kw-panel-empty">GSC click data will appear after the first monthly update.</div>';
+
+    // ── IMPRESSIONS / CTR display — computed from live gsc_keywords data ──
+    const totalClicks = gscKws.reduce((sum, k) => sum + (k.clicks || 0), 0);
+    const totalImpressions = gscKws.reduce((sum, k) => sum + (k.impressions || 0), 0);
+    const computedCtr = totalImpressions > 0 ? ((totalClicks / totalImpressions) * 100).toFixed(1) : null;
+    const impressions = totalImpressions > 0 ? totalImpressions.toLocaleString() : (s.impressions != null ? s.impressions.toLocaleString() : '—');
+    const ctr = computedCtr != null ? computedCtr + '%' : (s.ctr != null ? s.ctr + '%' : '—');
+
+    return `
+        <!-- GREETING -->
+        <div class="greeting">
+            <div class="greeting-name">
+                Your SEO Dashboard
+                <span class="badge">${d.month}</span>
+            </div>
+            <div class="greeting-sub">Updated monthly for ${d.client}</div>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats">${statCards}</div>
+
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab active" data-tab="overview">Overview</button>
+            <button class="tab" data-tab="rankings">Rank Tracking</button>
+            <button class="tab" data-tab="calendar">Content Calendar</button>
+            <button class="tab" data-tab="billing">Billing & Plan</button>
+            <button class="tab" data-tab="roadmap">SEO Roadmap</button>
+            <button class="tab" data-tab="reports">Reports</button>
+            <button class="tab" data-tab="messages">Messages</button>
+        </div>
+
+        <!-- OVERVIEW -->
+        <div class="section active" id="sec-overview">
+            <div class="sec-header">
+                <span class="sec-title">Monthly Deliverables</span>
+            </div>
+            <div class="deliverable-list">${deliverables}</div>
+
+            <div class="sec-header" style="margin-top:28px">
+                <span class="sec-title">Rank Tracking Snapshot</span>
+                <span class="sec-sub">Top keywords · this month</span>
+            </div>
+            <div class="rank-snapshot">${rankSnapshot}</div>
+
+            ${latestMsg ? `
+            <div class="sec-header" style="margin-top:28px">
+                <span class="sec-title">Latest from Phoenix Method</span>
+            </div>
+            <div class="message-card">
+                <div class="message-meta">From ${latestMsg.from} &mdash; ${latestMsg.date}</div>
+                <div class="message-text">${latestMsg.text}</div>
+            </div>` : ''}
+
+            <div class="legend">
+                <div class="legend-title">Stats explained</div>
+                <div class="legend-grid">
+                    <div class="legend-item"><strong>Organic Sessions</strong> — Clicks from Google Search in the last 30 days</div>
+                    <div class="legend-item"><strong>Keywords Ranking</strong> — Number of keywords tracked in Google Search Console</div>
+                    <div class="legend-item"><strong>Avg. Position</strong> — Average ranking across all tracked keywords (lower is better)</div>
+                    <div class="legend-item"><strong>▲ / ▼ Changes</strong> — Position vs. last month · green = moved up in rankings</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RANKINGS -->
+        <div class="section" id="sec-rankings">
+            <div class="sec-header">
+                <span class="sec-title">Keyword Rankings</span>
+                <span class="sec-sub">Last 30 days</span>
+            </div>
+            <div class="gsc-summary">
+                <div class="gsc-pill">Clicks: <strong>${totalClicks > 0 ? totalClicks.toLocaleString() : '—'}</strong></div>
+                <div class="gsc-pill">Impressions: <strong>${impressions}</strong></div>
+                <div class="gsc-pill">CTR: <strong>${ctr}</strong></div>
+                <div class="gsc-pill">Avg Position: <strong>#${s.position != null ? s.position : '—'}</strong></div>
+            </div>
+
+            <div class="kw-panels">
+                <div class="kw-panel">
+                    <div class="kw-panel-header">
+                        <span class="kw-panel-title">Top Clicked Keywords</span>
+                        <span class="kw-panel-sub">Most traffic-driving</span>
+                    </div>
+                    ${topClickedHtml}
+                </div>
+                <div class="kw-panel">
+                    <div class="kw-panel-header">
+                        <span class="kw-panel-title">Top Ranking Keywords</span>
+                        <span class="kw-panel-sub">Best positions</span>
+                    </div>
+                    ${topRankingHtml}
+                </div>
+            </div>
+
+            <div class="sec-header" style="margin-top:28px">
+                <span class="sec-title">All Tracked Keywords</span>
+            </div>
+            <table class="rank-table">
+                <thead>
+                    <tr>
+                        <th>Keyword</th>
+                        <th class="right">Position</th>
+                        <th class="right">Change</th>
+                    </tr>
+                </thead>
+                <tbody>${rankRows}</tbody>
+            </table>
+        </div>
+
+        <!-- CONTENT CALENDAR -->
+        <div class="section" id="sec-calendar">
+            <div class="sec-header">
+                <span class="sec-title">Content Calendar</span>
+                <span class="sec-sub">${d.month}</span>
+            </div>
+            <div class="cal-grid">${calCards}</div>
+
+            <div class="sec-header" style="margin-top:28px">
+                <span class="sec-title">This Month's Deliverable</span>
+                <span class="sec-sub">Blog post or page SEO op</span>
+            </div>
+            ${choiceCardsHtml}
+
+            <div class="sec-header" style="margin-top:32px">
+                <span class="sec-title">Blog Topics</span>
+                <span class="sec-sub">Suggested content for upcoming months</span>
+            </div>
+            <div class="topic-list">${blogTopicsHtml}</div>
+        </div>
+
+        <!-- BILLING -->
+        <div class="section" id="sec-billing">
+            <div class="sec-header">
+                <span class="sec-title">Plan & Billing</span>
+            </div>
+            <div class="billing-grid">
+                <div class="billing-card">
+                    <div class="billing-label">Current Plan</div>
+                    <div class="billing-value">${d.plan}</div>
+                    <div class="billing-sub">${d.plan_price}</div>
+                    <div style="margin-top:14px">
+                        <div class="billing-sub">${hoursUsed} of ${totalHours} hours used (${hoursPct}%)</div>
+                        ${rolledOver > 0 ? `<div class="billing-sub" style="margin-top:4px;color:#FF8C00;">+${rolledOver} hrs rolled over from last month</div>` : ''}
+                        <div class="hours-bar-bg">
+                            <div class="hours-bar-fill" style="width:${hoursPct}%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="billing-card">
+                    <div class="billing-label">Next Invoice</div>
+                    <div class="billing-value">${nextInvoice ? nextInvoice.amount : d.plan_price}</div>
+                    <div class="billing-sub">${nextInvoice ? 'Due ' + nextInvoice.date : 'Contact us for billing details'}</div>
+                    <div style="margin-top:16px">
+                        <a href="mailto:kandy@phoenixmethodseo.com?subject=Billing%20Question" class="reply-btn" style="margin-top:0">Contact Billing</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sec-header" style="margin-top:8px">
+                <span class="sec-title">Plan Options</span>
+                <span class="sec-sub">Questions? <a href="mailto:kandy@phoenixmethodseo.com" style="color:#E87B2F;text-decoration:none">Contact us to upgrade</a></span>
+            </div>
+            <div class="plan-compare">${planCompare}</div>
+        </div>
+
+        <!-- SEO ROADMAP -->
+        <div class="section" id="sec-roadmap">
+            ${roadmapHtml}
+        </div>
+
+        <!-- REPORTS -->
+        <div class="section" id="sec-reports">
+            <div class="sec-header">
+                <span class="sec-title">Reports &amp; Documents</span>
+                <span class="sec-sub">Audits, monthly reports &amp; deliverable files</span>
+            </div>
+            <div class="reports-grid">${reportCards}</div>
+        </div>
+
+        <!-- MESSAGES -->
+        <div class="section" id="sec-messages">
+            <div class="sec-header">
+                <span class="sec-title">Messages from Your Team</span>
+            </div>
+            ${messageCards || '<p style="color:#9A95A8;font-size:13px;padding:16px 0">No messages yet.</p>'}
+            <a href="mailto:kandy@phoenixmethodseo.com?subject=Portal%20Message%20%E2%80%94%20${encodeURIComponent(d.client)}" class="reply-btn">Reply to Your Team</a>
+        </div>
+
+        <div class="portal-footer">
+            <span class="fb">Phoenix Method &middot; Client Portal</span>
+            <span class="ft">Search. Rise. Dominate.</span>
+        </div>
+    `;
+}
+
+loadPortal();
+
+function openReport(url, name) {
+    document.getElementById('pdf-modal-title').textContent = name;
+    document.getElementById('pdf-modal-frame').src = url;
+    document.getElementById('pdf-modal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+function closeReport() {
+    document.getElementById('pdf-modal').style.display = 'none';
+    document.getElementById('pdf-modal-frame').src = '';
+    document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeReport(); });
+</script>
+
+<!-- PDF Viewer Modal -->
+<div id="pdf-modal" style="display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.88);align-items:center;justify-content:center;padding:20px;">
+    <div style="background:#0E0E18;border:1px solid rgba(255,77,0,0.2);border-radius:12px;width:100%;max-width:900px;height:90vh;display:flex;flex-direction:column;overflow:hidden;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.06);">
+            <span id="pdf-modal-title" style="font-family:'Outfit',sans-serif;font-weight:600;font-size:15px;color:#F0ECE6;"></span>
+            <div style="display:flex;gap:12px;align-items:center;">
+                <a id="pdf-modal-download" onclick="var f=document.getElementById('pdf-modal-frame');var a=document.createElement('a');a.href=f.src;a.download='';a.click();" style="font-size:13px;color:#FF8C00;cursor:pointer;text-decoration:none;">⬇ Download</a>
+                <button onclick="closeReport()" style="background:none;border:none;color:#9A95A8;font-size:22px;cursor:pointer;line-height:1;padding:0 4px;">&times;</button>
+            </div>
+        </div>
+        <iframe id="pdf-modal-frame" src="" style="flex:1;border:none;width:100%;background:#fff;"></iframe>
+    </div>
+</div>
+</body>
+</html>
