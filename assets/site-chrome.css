@@ -53,3 +53,18 @@
 
 /* ========== BREADCRUMBS — brighter final segment ========== */
 .breadcrumbs span { color: #C8C2D3; font-weight: 500; }
+
+/* ========== SECTION RHYTHM — alternating tint across .content-section
+   Many marketing pages (services, industries, phoenix-ai, capabilities)
+   stack multiple <section class="content-section"> blocks against the
+   same near-black body background, producing one undifferentiated dark
+   slab. This rule alternates every other content-section to the slightly
+   lighter --bg-surface (#0E0E18 vs #07070D), creating subtle visual
+   rhythm without changing the dark-mode aesthetic. The :nth-of-type
+   selector counts only <section> siblings, so headers/divs interspersed
+   between sections don't shift the alternation.
+   Pages with bespoke section classes (e.g. the homepage's .hero /
+   .services / .pricing) are not affected — those get per-section tint
+   applied directly on the page.
+========== */
+section.content-section:nth-of-type(even) { background: var(--bg-surface, #0E0E18); }
