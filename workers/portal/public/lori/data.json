@@ -5,30 +5,30 @@
   "plan": "Custom",
   "plan_price": "$575/mo",
   "plan_hours": 1,
-  "hours_used": 0,
+  "hours_used": 1,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-06-01",
+  "updated": "2026-06-09",
   "next_invoice": {
     "date": "July 1, 2026",
     "amount": "$575.00"
   },
   "stats": {
-    "sessions": 133,
-    "sessions_change": "+24",
+    "sessions": 153,
+    "sessions_change": "+20",
     "sessions_trend": "up",
     "keywords": 141,
     "keywords_change": "+73",
     "keywords_trend": "up",
-    "position": 12.8,
-    "position_change": "+2.6",
-    "position_trend": "down",
-    "impressions": 2356,
-    "impressions_change": "+750",
+    "position": 11.3,
+    "position_change": "+1.5",
+    "position_trend": "up",
+    "impressions": 2688,
+    "impressions_change": "+332",
     "impressions_trend": "up",
-    "ctr": 5.65,
-    "ctr_change": "-1.1",
-    "ctr_trend": "down"
+    "ctr": 5.69,
+    "ctr_change": "+0.04",
+    "ctr_trend": "up"
   },
   "deliverables": [
     {
@@ -71,7 +71,7 @@
     },
     {
       "keyword": "natalie kim",
-      "position": 11.0,
+      "position": 8.2,
       "clicks": 2,
       "impressions": 42
     },
@@ -89,7 +89,7 @@
     },
     {
       "keyword": "anxiety therapist renton wa",
-      "position": 10.8,
+      "position": 11.4,
       "clicks": 0,
       "impressions": 22
     },
@@ -253,7 +253,7 @@
     },
     {
       "keyword": "anxiety therapist renton wa",
-      "position": 10.8,
+      "position": 11.4,
       "last_month": 12.1,
       "clicks": 0
     },
@@ -295,9 +295,9 @@
     },
     {
       "keyword": "family therapy renton wa",
-      "position": null,
+      "position": 11.7,
       "last_month": null,
-      "clicks": 0
+      "clicks": 1
     },
     {
       "keyword": "family counselor washington",
@@ -611,6 +611,11 @@
     }
   ],
   "messages": [
+    {
+      "from": "Kandy",
+      "date": "June 9, 2026",
+      "text": "June 7 checkpoint results: 153 clicks from 2,688 impressions — up 20 clicks and 332 impressions from the June 1 baseline. Average position improved from 12.8 to 11.3. Natalie Kim's bio jumped from position 11 to #8 this period. New keyword now appearing for the first time: 'family therapy renton wa' at position 11.7 — the bio and service page work is starting to surface new query clusters.\n\nThe main fix this cycle: a regression on the About Our Therapists page was caught and corrected. The page title had been changed to include 'Online Counseling' instead of 'Online Therapy' — that single word costs keyword match. Impressions on that page had dropped from 1,293 to 397 over 28 days. Title is restored to 'Online Therapy Washington | Licensed Therapists WA' and we're monitoring for recovery over the next two weeks.\n\nThree bio pages also got stronger titles — Jennifer Kenworthy, Sheena Nicolay, and Devi Viswanathan all had 'MFT Intern' leading their title tags, which reduces click-through when searchers are comparing therapists. Titles are now service-first, leading with each therapist's specialty.\n\nSchema audit in progress — completing MedicalBusiness structured data fields (telephone, address, areaServed) across key pages."
+    },
     {
       "from": "Kandy",
       "date": "June 1, 2026",
