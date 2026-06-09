@@ -9,21 +9,21 @@
   "hours_rolled_over": 5,
   "updated": "2026-06-09",
   "stats": {
-    "sessions": 154,
-    "sessions_change": "-13",
+    "sessions": 147,
+    "sessions_change": "-7",
     "sessions_trend": "down",
     "keywords": 500,
     "keywords_change": "0",
     "keywords_trend": "neutral",
-    "position": 25.2,
-    "position_change": "+8.8",
+    "position": 23.4,
+    "position_change": "+1.8",
     "position_trend": "up",
-    "impressions": 37684,
-    "impressions_change": "-11342",
-    "impressions_trend": "down",
-    "ctr": 0.41,
-    "ctr_change": "+0.07",
-    "ctr_trend": "up"
+    "impressions": 40614,
+    "impressions_change": "+2930",
+    "impressions_trend": "up",
+    "ctr": 0.36,
+    "ctr_change": "-0.05",
+    "ctr_trend": "down"
   },
   "deliverables": [
     { "text": "Full technical SEO audit", "status": "done" },
@@ -141,6 +141,11 @@
     }
   ],
   "messages": [
+    {
+      "from": "Kandy",
+      "date": "June 9, 2026",
+      "text": "June standup data: 147 clicks from 40,614 impressions at average position 23.4. Impressions are up +2,930 from May — more queries are surfacing the site — and position improved from 25.2 to 23.4. Click volume is slightly lower than May (147 vs 154), which reflects the impression growth coming from broader/lower-CTR queries rather than brand terms.\n\nAlso fixed today: a stale redirect that was sending traffic to the wrong destination (PHW-253). The correction is live — any inbound links or bookmarks that were hitting the old URL now land on the correct page."
+    },
     {
       "from": "Kandy",
       "date": "June 9, 2026",
