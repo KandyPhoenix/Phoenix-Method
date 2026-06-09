@@ -4,7 +4,7 @@
   "month": "June 2026",
   "plan": null,
   "plan_hours": 6,
-  "hours_used": 1,
+  "hours_used": 2,
   "rollover_enabled": true,
   "hours_rolled_over": 5,
   "updated": "2026-06-09",
@@ -33,6 +33,7 @@
     { "text": "All 10 therapy service page SEO — titles, metas, schema", "status": "done" },
     { "text": "Red Bluff location page — /therapy-red-bluff-ca live", "status": "done" },
     { "text": "Online therapy page — /online-therapy-california SEO updated", "status": "done" },
+    { "text": "Blog post republished + SEO — /mental-health-blog/how-online-therapy-works-in-california", "status": "done" },
     { "text": "Google Business Profile optimization", "status": "in_progress" },
     { "text": "Red Bluff page — hero H1 + step text fix (PHW-148)", "status": "todo" },
     { "text": "Service page expansion — anxiety, depression, trauma", "status": "todo" },
@@ -141,6 +142,11 @@
     }
   ],
   "messages": [
+    {
+      "from": "Kandy",
+      "date": "June 9, 2026",
+      "text": "Two SEO fixes completed today. First: the online therapy page (/online-therapy-california) was getting 9,441 impressions/month at position #29 but only 9 clicks (0.08% CTR) — the title was generic. Rewrote to: \"Online Therapy California | Medi-Cal & Insurance Accepted\" — more specific, surfaces Medi-Cal coverage which is a real differentiator. Should improve click-through from people already seeing the page.\n\nSecond: the blog post 'How Online Therapy Works in California' (/mental-health-blog/how-online-therapy-works-in-california) was accidentally set to Draft status — live 404 for anyone finding it via search. That page had 15,765 impressions in the last 90 days. Republished and updated the SEO title to 'How Online Therapy Works | Your First Session Guide' with a fresh meta description. Both fixes are live and verified."
+    },
     {
       "from": "Kandy",
       "date": "June 9, 2026",
