@@ -5,7 +5,7 @@
   "plan": "Custom",
   "plan_price": "$575/mo",
   "plan_hours": 1,
-  "hours_used": 1,
+  "hours_used": 2,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
   "updated": "2026-06-09",
@@ -611,6 +611,11 @@
     }
   ],
   "messages": [
+    {
+      "from": "Kandy",
+      "date": "June 9, 2026",
+      "text": "Three technical SEO fixes shipped today. First: the insurance blog post (/blog/does-insurance-cover-therapy) was ranking at position 8 with 84 impressions but only 1 click — the old title was generic and buried the insurance angle. Rewrote it to 'Does Insurance Cover Therapy? What to Know Before Your First Session' with a tighter meta description leading with the insurance hook. Position 8 means searchers are already seeing this page; the title rewrite should push the click-through rate up from the current ~1.2%. (LOR-334)\n\nSecond and third: Google Search Console had 24 structured data warnings — 20 breadcrumb warnings (position field was outputting as a string instead of an integer) and 4 FAQ warnings (answer text was including raw HTML, which Google requires to be plain text). Both are a Rank Math output issue. Fixed both at once via a mu-plugin that rewrites the JSON-LD in the page response before it reaches the browser — no theme changes needed. Deployed and verified live on multiple pages. Google will clear the warnings on its next crawl, typically within 1–2 weeks. (LOR-335, LOR-336)"
+    },
     {
       "from": "Kandy",
       "date": "June 9, 2026",
