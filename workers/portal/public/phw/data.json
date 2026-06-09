@@ -4,10 +4,10 @@
   "month": "June 2026",
   "plan": null,
   "plan_hours": 6,
-  "hours_used": 0,
+  "hours_used": 1,
   "rollover_enabled": true,
   "hours_rolled_over": 5,
-  "updated": "2026-06-01",
+  "updated": "2026-06-09",
   "stats": {
     "sessions": 154,
     "sessions_change": "-13",
@@ -141,6 +141,11 @@
     }
   ],
   "messages": [
+    {
+      "from": "Kandy",
+      "date": "June 9, 2026",
+      "text": "Quick wins from today's technical SEO session. Root cause found for the two FAQ schema warnings in Google Search Console: the accordion CSS was hiding all FAQ answers from Google (max-height: 0), which made them ineligible for rich results. Fixed this on both /therapy-red-bluff-ca and /online-therapy-california — answers are now permanently visible in the HTML, which is what Google needs to index them. Sitemap was resubmitted to Google to trigger a re-crawl of both pages. Expect the warnings to clear once Google processes the new crawl (usually a few days to a couple weeks). Also flagged: /online-therapy-california is getting 9,441 impressions/month at position #29 with only 9 clicks (0.1% CTR) — a title tag rewrite is the next lever to pull on that page."
+    },
     {
       "from": "Kandy",
       "date": "June 1, 2026",
