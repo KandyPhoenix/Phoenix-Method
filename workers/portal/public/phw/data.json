@@ -4,7 +4,7 @@
   "month": "June 2026",
   "plan": null,
   "plan_hours": 6,
-  "hours_used": 2,
+  "hours_used": 3,
   "rollover_enabled": true,
   "hours_rolled_over": 5,
   "updated": "2026-06-09",
@@ -34,6 +34,7 @@
     { "text": "Red Bluff location page — /therapy-red-bluff-ca live", "status": "done" },
     { "text": "Online therapy page — /online-therapy-california SEO updated", "status": "done" },
     { "text": "Blog post republished + SEO — /mental-health-blog/how-online-therapy-works-in-california", "status": "done" },
+    { "text": "Couples therapy blog SEO rewrite — /mental-health-blog/couples-therapy-california", "status": "done" },
     { "text": "Google Business Profile optimization", "status": "in_progress" },
     { "text": "Red Bluff page — hero H1 + step text fix (PHW-148)", "status": "todo" },
     { "text": "Service page expansion — anxiety, depression, trauma", "status": "todo" },
@@ -142,6 +143,11 @@
     }
   ],
   "messages": [
+    {
+      "from": "Kandy",
+      "date": "June 9, 2026",
+      "text": "PHW-260: Rewrote SEO title and meta for the couples therapy blog post (/mental-health-blog/couples-therapy-california). That page has 7,650 impressions/month at position 35 with 0 clicks — the old title was 'Couples Therapy California — Rebuild Trust & Connection', which is fine but generic. New title: 'Online Couples Therapy California | Same-Week Appointments' — more specific, surfaces telehealth and the same-week availability which is a real conversion differentiator. Live and verified."
+    },
     {
       "from": "Kandy",
       "date": "June 9, 2026",
