@@ -413,5 +413,67 @@
       "date": "June 6, 2026",
       "text": "Welcome to your Phoenix Method client portal, Linda! This is your home base for the Sunbright Recovery website project — you can check progress on every deliverable, see what's coming up in the content calendar, and track our build phases in real time.\n\nWhere we are: the homepage is fully built and in review. It covers all 13 sections — hero, programs, about, what we treat, your daily schedule, the donation/volunteer block, FAQ, and footer. You can view the preview at the Cloudflare Pages URL Kandy sent you.\n\nNext step: send back your feedback on the homepage and we'll begin building the inner pages — Programs, About (with your bio), Admissions, and the Donate page. Once all pages are built, we'll apply the full SEO setup and get the blog and social media off the ground before your domain goes live."
     }
+  ],
+  "site_links": [
+    {
+      "category": "Preview (Site Not Live Yet)",
+      "label": "Homepage Preview",
+      "url": "https://sunbright-recovery.pages.dev/design-preview",
+      "icon": "🏠"
+    },
+    {
+      "category": "Preview (Site Not Live Yet)",
+      "label": "Admissions Preview",
+      "url": "https://sunbright-recovery.pages.dev/admissions-preview",
+      "icon": "📋"
+    },
+    {
+      "category": "Planned Pages (sunbrightrecovery.org)",
+      "label": "Homepage",
+      "url": "https://sunbrightrecovery.org/",
+      "icon": "🏠"
+    },
+    {
+      "category": "Planned Pages (sunbrightrecovery.org)",
+      "label": "Programs",
+      "url": "https://sunbrightrecovery.org/programs/",
+      "icon": "💊"
+    },
+    {
+      "category": "Planned Pages (sunbrightrecovery.org)",
+      "label": "About — Linda Spyres",
+      "url": "https://sunbrightrecovery.org/about/",
+      "icon": "👤"
+    },
+    {
+      "category": "Planned Pages (sunbrightrecovery.org)",
+      "label": "Admissions",
+      "url": "https://sunbrightrecovery.org/admissions/",
+      "icon": "📋"
+    },
+    {
+      "category": "Planned Pages (sunbrightrecovery.org)",
+      "label": "Donate & Get Involved",
+      "url": "https://sunbrightrecovery.org/donate/",
+      "icon": "❤️"
+    },
+    {
+      "category": "Planned Pages (sunbrightrecovery.org)",
+      "label": "Blog",
+      "url": "https://sunbrightrecovery.org/blog/",
+      "icon": "📝"
+    },
+    {
+      "category": "Planned Pages (sunbrightrecovery.org)",
+      "label": "FAQ",
+      "url": "https://sunbrightrecovery.org/faq/",
+      "icon": "❓"
+    },
+    {
+      "category": "Planned Pages (sunbrightrecovery.org)",
+      "label": "Contact",
+      "url": "https://sunbrightrecovery.org/contact/",
+      "icon": "✉️"
+    }
   ]
 }
