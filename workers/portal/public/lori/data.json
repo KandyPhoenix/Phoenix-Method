@@ -657,6 +657,11 @@
       "from": "Kandy",
       "date": "June 18, 2026",
       "text": "Your June blog post is confirmed — and we love that you picked your own topic. We're ready to work with your grief piece whenever your draft is ready. Send it over and we'll optimize it for search, get it formatted, and have it live on your site before the end of the month."
+    },
+    {
+      "from": "Kandy",
+      "date": "June 18, 2026",
+      "text": "One more thing from today — we put together a social media setup package for your practice if you ever want to get Facebook and Instagram running. It covers a full Business Page on both platforms, bio copy written to Washington licensing board standards, profile and cover images, and a seeded feed with your first 9 posts so it doesn't look empty on day one. Flat rate is $400 and it's fully outside your monthly package. No pressure — just wanted you to know it's available whenever the timing feels right. (LOR-341)"
     }
   ],
   "site_links": [
@@ -737,6 +742,103 @@
       "label": "Does Insurance Cover Therapy?",
       "url": "https://lorikimmerly.com/blog/does-insurance-cover-therapy/",
       "icon": "📄"
+    }
+  ],
+  "worklog": [
+    {
+      "date": "May 10, 2026",
+      "type": "technical",
+      "title": "12 retired portfolio URLs redirected to Meet the Team",
+      "detail": "Old Avada demo pages (cardiology, pediatrics, ultrasound) permanently deleted and 301-redirected."
+    },
+    {
+      "date": "May 10, 2026",
+      "type": "fix",
+      "title": "3 duplicate/old therapist slugs redirected",
+      "detail": "Old Ryan Carragher URL + Faynesha Haragan and Keziah Grindeland former-therapist pages closed."
+    },
+    {
+      "date": "May 10, 2026",
+      "type": "seo",
+      "title": "Meta title + description rewrites — Lori bio, contact, Meet the Team",
+      "detail": "Lori bio rebuilt around 'Online Therapist' intent. Contact and team page titles tightened for CTR."
+    },
+    {
+      "date": "May 10, 2026",
+      "type": "technical",
+      "title": "~20 auto-generated FAQ pages noindexed + removed from sitemap",
+      "detail": "Thin pages duplicating FAQ schema on contact page. Pulled from Google's coverage report."
+    },
+    {
+      "date": "May 10, 2026",
+      "type": "schema",
+      "title": "Person schema rebuilt on all therapist bio pages",
+      "detail": "Full credentials, license info, specialties, Psychology Today links. Lori's bio includes AZ service area."
+    },
+    {
+      "date": "May 10, 2026",
+      "type": "schema",
+      "title": "WebSite + SearchAction schema added sitewide",
+      "detail": "Enables sitelinks search box on brand searches. Sitemap submitted, www GSC property removed."
+    },
+    {
+      "date": "May 10, 2026",
+      "type": "content",
+      "title": "Iwona Abraham + Devi Viswanathan onboarded",
+      "detail": "Full bio pages, homepage carousel, Meet the Team, mega menu, contact form dropdown, schema. John Hubbs credentials updated to fully licensed."
+    },
+    {
+      "date": "May 12, 2026",
+      "type": "fix",
+      "title": "SilentShield plugin replaced with honeypot — contact forms restored",
+      "detail": "Plugin was blocking all form submissions. Both main contact and in-page booking forms verified working.",
+      "ticket": "LOR-325"
+    },
+    {
+      "date": "May 12, 2026",
+      "type": "content",
+      "title": "Session rates updated — Devi + Iwona bio pages",
+      "detail": "Corrected listed fees on both therapist bios.",
+      "ticket": "LOR-324 LOR-326"
+    },
+    {
+      "date": "May 21, 2026",
+      "type": "fix",
+      "title": "Bio hero layout fixed — Lori + Kristen pages",
+      "detail": "Hero card was rendering behind nav bar. Root cause: padding too low for 155px fixed header. Updated to match Jared's working layout.",
+      "ticket": "LOR-333"
+    },
+    {
+      "date": "June 9, 2026",
+      "type": "seo",
+      "title": "Insurance blog title rewrite — CTR improvement",
+      "detail": "Position 8 with 84 impressions, 1 click (1.2% CTR). New title leads with insurance hook.",
+      "ticket": "LOR-334"
+    },
+    {
+      "date": "June 9, 2026",
+      "type": "schema",
+      "title": "24 structured data warnings resolved — breadcrumb + FAQ",
+      "detail": "Breadcrumb position field was string not integer (20 warnings). FAQ answer text included raw HTML (4 warnings). Fixed via mu-plugin rewriting JSON-LD before browser.",
+      "ticket": "LOR-335 LOR-336"
+    },
+    {
+      "date": "June 9, 2026",
+      "type": "seo",
+      "title": "About Therapists page title regression corrected",
+      "detail": "'Online Counseling' had replaced 'Online Therapy' in title — impressions had dropped from 1,293 to 397. Restored to: Online Therapy Washington | Licensed Therapists WA."
+    },
+    {
+      "date": "June 9, 2026",
+      "type": "seo",
+      "title": "Bio title rewrites — Jennifer Kenworthy, Sheena Nicolay, Devi Viswanathan",
+      "detail": "'MFT Intern' was leading title tags — reduced CTR. Titles now service-first, leading with each therapist's specialty."
+    },
+    {
+      "date": "June 18, 2026",
+      "type": "fix",
+      "title": "Comments disabled site-wide",
+      "detail": "Closed comments and pingbacks on all 5 existing posts. Site default set to closed for future posts."
     }
   ]
 }

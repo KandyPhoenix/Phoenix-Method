@@ -375,6 +375,36 @@
         @media (max-width:720px) { .links-grid { grid-template-columns: 1fr 1fr; } }
         @media (max-width:480px) { .links-grid { grid-template-columns: 1fr; } }
 
+        /* ── WORKLOG ── */
+        .worklog-list { display: flex; flex-direction: column; gap: 0; }
+        .worklog-entry {
+            display: flex; gap: 14px; padding: 14px 0;
+            border-bottom: 0.5px solid rgba(255,255,255,0.05);
+        }
+        .worklog-entry:last-child { border-bottom: none; }
+        .worklog-left { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; width: 90px; }
+        .worklog-date { font-size: 11px; color: #5E5A6B; white-space: nowrap; text-align: right; margin-top: 2px; }
+        .worklog-type {
+            font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 4px;
+            text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap;
+        }
+        .wt-audit     { background: rgba(52,152,219,0.15);  color: #3498db; }
+        .wt-fix       { background: rgba(255,140,0,0.15);   color: #C9922A; }
+        .wt-seo       { background: rgba(59,175,191,0.15);  color: #3bafbf; }
+        .wt-content   { background: rgba(155,89,182,0.15);  color: #9b59b6; }
+        .wt-schema    { background: rgba(39,174,96,0.15);   color: #27ae60; }
+        .wt-technical { background: rgba(94,90,107,0.18);   color: #9A95A8; }
+        .wt-launch    { background: rgba(240,192,64,0.15);  color: #c9a020; }
+        .worklog-body { flex: 1; min-width: 0; }
+        .worklog-title { font-size: 13px; color: #F0ECE6; font-weight: 500; line-height: 1.4; }
+        .worklog-detail { font-size: 12px; color: #7A7588; margin-top: 3px; line-height: 1.5; }
+        .worklog-ticket {
+            display: inline-block; margin-top: 5px;
+            font-size: 10px; font-weight: 600; color: #5E5A6B;
+            background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.08);
+            border-radius: 4px; padding: 1px 6px; letter-spacing: 0.3px;
+        }
+
         /* ── SEO ROADMAP ── */
         .roadmap-summary-bar {
             background: #0E0E18; border-radius: 10px; padding: 18px 20px;
@@ -869,6 +899,24 @@ function buildPortal(d) {
     const impressions = totalImpressions > 0 ? totalImpressions.toLocaleString() : (s.impressions != null ? s.impressions.toLocaleString() : '—');
     const ctr = computedCtr != null ? computedCtr + '%' : (s.ctr != null ? s.ctr + '%' : '—');
 
+    // ── WORKLOG ──
+    const worklog = d.worklog || [];
+    const wtLabel = { audit: 'Audit', fix: 'Fix', seo: 'SEO', content: 'Content', schema: 'Schema', technical: 'Technical', launch: 'Launch' };
+    const worklogHtml = worklog.length
+        ? '<div class="worklog-list">' + [...worklog].reverse().map(e => `
+            <div class="worklog-entry">
+                <div class="worklog-left">
+                    <div class="worklog-date">${e.date}</div>
+                    <span class="worklog-type wt-${e.type || 'fix'}">${wtLabel[e.type] || e.type}</span>
+                </div>
+                <div class="worklog-body">
+                    <div class="worklog-title">${e.title}</div>
+                    ${e.detail ? `<div class="worklog-detail">${e.detail}</div>` : ''}
+                    ${e.ticket ? `<span class="worklog-ticket">${e.ticket}</span>` : ''}
+                </div>
+            </div>`).join('') + '</div>'
+        : '<p style="color:#9A95A8;font-size:13px;padding:16px 0">Work log entries will appear here as tasks are completed.</p>';
+
     // ── SITE LINKS ──
     const siteLinks = d.site_links || [];
     const linkGroups = {};
@@ -919,6 +967,7 @@ function buildPortal(d) {
             <button class="tab" data-tab="roadmap">SEO Roadmap</button>
             <button class="tab" data-tab="reports">Reports</button>
             <button class="tab" data-tab="messages">Messages</button>
+            <button class="tab" data-tab="worklog">Work Log</button>
             <button class="tab" data-tab="links">Site Links</button>
         </div>
 
@@ -1077,6 +1126,15 @@ function buildPortal(d) {
             </div>
             ${messageCards || '<p style="color:#9A95A8;font-size:13px;padding:16px 0">No messages yet.</p>'}
             <a href="mailto:kandy@phoenixmethodseo.com?subject=Portal%20Message%20%E2%80%94%20${encodeURIComponent(d.client)}" class="reply-btn">Reply to Your Team</a>
+        </div>
+
+        <!-- WORKLOG -->
+        <div class="section" id="sec-worklog">
+            <div class="sec-header">
+                <span class="sec-title">Work Log</span>
+                <span class="sec-sub">Completed tasks, audits &amp; fixes</span>
+            </div>
+            ${worklogHtml}
         </div>
 
         <!-- SITE LINKS -->
