@@ -566,5 +566,76 @@
       "url": "https://www.phwcare.com/mental-health-blog/couples-therapy-california",
       "icon": "📄"
     }
+  ],
+  "worklog": [
+    {
+      "date": "April 2026",
+      "type": "audit",
+      "title": "Full technical SEO audit completed",
+      "detail": "Schema, alt text, title tags, heading hierarchy, Core Web Vitals — full findings documented."
+    },
+    {
+      "date": "April 2026",
+      "type": "schema",
+      "title": "Schema markup implemented — LocalBusiness, MedicalBusiness, FAQPage, BreadcrumbList",
+      "ticket": "PHW Phase 1"
+    },
+    {
+      "date": "April 2026",
+      "type": "seo",
+      "title": "Title tags + meta descriptions optimized site-wide",
+      "detail": "All 10 therapy service pages updated — titles, metas, schema."
+    },
+    {
+      "date": "April 2026",
+      "type": "fix",
+      "title": "Image alt text fixed site-wide"
+    },
+    {
+      "date": "April 2026",
+      "type": "fix",
+      "title": "Heading hierarchy corrected — one H1 per page"
+    },
+    {
+      "date": "April 2026",
+      "type": "content",
+      "title": "Red Bluff location page built — /therapy-red-bluff-ca live"
+    },
+    {
+      "date": "April 2026",
+      "type": "seo",
+      "title": "Online therapy page SEO updated — /online-therapy-california"
+    },
+    {
+      "date": "June 9, 2026",
+      "type": "fix",
+      "title": "Stale redirect corrected — wrong destination fixed",
+      "ticket": "PHW-253"
+    },
+    {
+      "date": "June 9, 2026",
+      "type": "fix",
+      "title": "FAQ schema warnings resolved — CSS max-height was hiding answers from Google",
+      "detail": "Fixed on /therapy-red-bluff-ca and /online-therapy-california. Sitemap resubmitted."
+    },
+    {
+      "date": "June 9, 2026",
+      "type": "seo",
+      "title": "Online therapy page title rewrite — 9,441 impressions at pos 29, 0.08% CTR",
+      "detail": "New title: 'Online Therapy California | Medi-Cal & Insurance Accepted'. Surfaces key differentiator."
+    },
+    {
+      "date": "June 9, 2026",
+      "type": "fix",
+      "title": "Blog post republished — /mental-health-blog/how-online-therapy-works-in-california",
+      "detail": "Page had been set to Draft — live 404 with 15,765 impressions in last 90 days. Republished + title updated."
+    },
+    {
+      "date": "June 9, 2026",
+      "type": "seo",
+      "title": "Couples therapy blog title rewrite — /mental-health-blog/couples-therapy-california",
+      "detail": "New title surfaces telehealth + same-week availability. 7,650 impressions/mo at pos 35.",
+      "ticket": "PHW-260"
+    }
   ]
 }

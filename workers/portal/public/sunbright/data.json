@@ -475,5 +475,19 @@
       "url": "https://sunbrightrecovery.org/contact/",
       "icon": "✉️"
     }
+  ],
+  "worklog": [
+    {
+      "date": "June 6, 2026",
+      "type": "launch",
+      "title": "Homepage built — all 13 sections complete",
+      "detail": "Hero, programs, about, what we treat, daily schedule, donation/volunteer, FAQ, and footer. Deployed to Cloudflare Pages preview."
+    },
+    {
+      "date": "June 6, 2026",
+      "type": "launch",
+      "title": "Admissions page mockup built",
+      "detail": "Draft at /admissions-preview on Cloudflare Pages. Pending form backend decision before finalizing."
+    }
   ]
 }

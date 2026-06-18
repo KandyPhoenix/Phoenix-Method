@@ -534,5 +534,32 @@
       "url": "https://www.phoenixmethodseo.com/services/gbp-optimization/",
       "icon": "📊"
     }
+  ],
+  "worklog": [
+    {
+      "date": "May 2, 2026",
+      "type": "audit",
+      "title": "First site audit + GSC baseline established",
+      "detail": "April baseline: 90 impressions, 1 click, avg position 9.8, 25 keyword queries. Homepage meta trimmed to under 165 chars.",
+      "ticket": "PM-144"
+    },
+    {
+      "date": "May 2026",
+      "type": "launch",
+      "title": "6 service pages built and indexed",
+      "detail": "ai-overview-optimization, content-seo, gbp-optimization, local-seo, seo-development, technical-seo all live."
+    },
+    {
+      "date": "May 2026",
+      "type": "technical",
+      "title": "Canonical tags — all pages canonicalized to www",
+      "ticket": "PM-277"
+    },
+    {
+      "date": "June 1, 2026",
+      "type": "audit",
+      "title": "May GSC checkpoint — 652 impressions, 73 keywords",
+      "detail": "6.7x impression growth from April. 73 keyword queries vs 35 in April. Average position 73.7 (new content in deep positions — expected)."
+    }
   ]
 }
