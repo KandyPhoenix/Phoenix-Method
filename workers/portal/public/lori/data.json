@@ -8,7 +8,7 @@
   "hours_used": 2,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-06-09",
+  "updated": "2026-06-18",
   "next_invoice": {
     "date": "July 1, 2026",
     "amount": "$575.00"
@@ -36,8 +36,9 @@
       "status": "in_progress"
     },
     {
-      "text": "Blog or SEO Op",
-      "status": "todo"
+      "text": "Blog Post — Grief",
+      "status": "in_progress",
+      "due": "Jun 30"
     },
     {
       "text": "Site Work — 1 Hr",
@@ -324,11 +325,12 @@
     }
   ],
   "content_choice": {
-    "chosen": null,
+    "chosen": "blog",
     "blog": {
-      "title": null,
-      "keyword": null,
-      "status": "pending"
+      "title": "Grief Blog Post",
+      "keyword": "grief therapy",
+      "status": "in_progress",
+      "note": "Lori's own topic — she's writing it herself. We'll publish and optimize when the draft arrives."
     },
     "page": {
       "title": "Homepage — Couples Therapy SEO Pass",
@@ -611,6 +613,11 @@
     }
   ],
   "messages": [
+    {
+      "from": "Kandy",
+      "date": "June 18, 2026",
+      "text": "June blog post is confirmed — Lori chose her own topic this month and is writing a grief piece herself. We'll publish and optimize it when her draft comes in. Live before June 30."
+    },
     {
       "from": "Kandy",
       "date": "June 9, 2026",
