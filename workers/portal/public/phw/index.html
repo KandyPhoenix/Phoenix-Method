@@ -214,7 +214,9 @@
         .type-gbp    { background: rgba(39,174,96,0.15);   color: #27ae60; }
         .type-page   { background: rgba(255,140,0,0.15);   color: #C9922A; }
         .type-video  { background: rgba(155,89,182,0.15);  color: #9b59b6; }
-        .type-social { background: rgba(231,76,60,0.15);   color: #e74c3c; }
+        .type-social  { background: rgba(231,76,60,0.15);   color: #e74c3c; }
+        .type-client      { background: rgba(59,175,191,0.15);  color: #3bafbf; }
+        .type-deliverable { background: rgba(240,192,64,0.15);  color: #c9a020; }
 
         /* ── BLOG TOPICS ── */
         .topic-list { display: flex; flex-direction: column; gap: 8px; }
@@ -231,6 +233,7 @@
         .status-planned  { background: rgba(52,152,219,0.15); color: #3498db; }
         .status-writing  { background: rgba(255,140,0,0.15);  color: #C9922A; }
         .status-published { background: rgba(39,174,96,0.15);  color: #27ae60; }
+        .status-used     { background: rgba(240,192,64,0.15);  color: #b8942a; }
 
         /* ── MONTHLY CONTENT CHOICE ── */
         .choice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -352,6 +355,26 @@
             color: #5E5A6B; font-size: 13px; line-height: 1.7;
         }
 
+        /* ── SITE LINKS ── */
+        .links-group { margin-bottom: 24px; }
+        .links-group-title { font-size: 12px; color: #9A95A8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; font-weight: 500; }
+        .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .link-card {
+            background: #0E0E18; border-radius: 8px; padding: 14px;
+            border: 0.5px solid rgba(255,255,255,0.06);
+            text-decoration: none;
+            display: flex; align-items: center; gap: 10px;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .link-card:hover { border-color: rgba(255,140,0,0.3); background: rgba(255,140,0,0.04); }
+        .link-card-icon { font-size: 16px; flex-shrink: 0; }
+        .link-card-body { flex: 1; min-width: 0; }
+        .link-card-label { font-size: 13px; color: #F0ECE6; font-weight: 500; }
+        .link-card-url { font-size: 11px; color: #5E5A6B; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-top: 2px; }
+        .link-card-arrow { font-size: 12px; color: #5E5A6B; flex-shrink: 0; }
+        @media (max-width:720px) { .links-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width:480px) { .links-grid { grid-template-columns: 1fr; } }
+
         /* ── SEO ROADMAP ── */
         .roadmap-summary-bar {
             background: #0E0E18; border-radius: 10px; padding: 18px 20px;
@@ -419,6 +442,7 @@
             font-weight: 500; white-space: nowrap; flex-shrink: 0;
         }
         .rs-backlog     { background: rgba(94,90,107,0.18); color: #9A95A8; }
+        .rs-todo        { background: rgba(52,152,219,0.15); color: #3498db; border: 0.5px solid rgba(52,152,219,0.4); }
         .rs-in_progress { background: rgba(255,140,0,0.15); color: #C9922A; }
         .rs-done        { background: rgba(39,174,96,0.15); color: #27ae60; }
         @media (max-width: 720px) {
@@ -551,7 +575,7 @@ function kwChange(current, last) {
 }
 
 function calTypeLabel(type) {
-    const map = { blog: 'Blog Post', gbp: 'GBP Post', page: 'Page', video: 'Video', social: 'Social' };
+    const map = { blog: 'Blog Post', gbp: 'GBP Post', page: 'Page', video: 'Video', social: 'Social', client: 'Client', deliverable: 'Deliverable' };
     return map[type] || type;
 }
 
@@ -578,7 +602,7 @@ function buildPortal(d) {
         let pillClass, pillLabel;
         if (item.status === 'done')             { pillClass = 'pill-done';     pillLabel = 'Complete'; }
         else if (item.status === 'in_progress') { pillClass = 'pill-progress'; pillLabel = 'In progress'; }
-        else                                    { pillClass = 'pill-todo';     pillLabel = item.due ? 'Due ' + item.due : 'Planned'; }
+        else                                    { pillClass = 'pill-todo';     pillLabel = item.label || (item.due ? 'Due ' + item.due : 'Planned'); }
         return `<div class="deliverable-item">
             <div class="d-checkbox ${cbClass}"></div>
             <span class="d-text">${item.text}</span>
@@ -600,7 +624,7 @@ function buildPortal(d) {
     // ── FULL RANK TABLE ──
     const rankRows = (d.keywords || []).map(kw => {
         const ch = kwChange(kw.position, kw.last_month);
-        const posDisplay = kw.position != null ? `#${kw.position}` : 'Not Ranking';
+        const posDisplay = kw.position != null ? `#${kw.position}` : '>100';
         return `<tr>
             <td class="keyword">${kw.keyword}</td>
             <td class="pos ${posClass(kw.position)}">${posDisplay}</td>
@@ -623,8 +647,8 @@ function buildPortal(d) {
     const topics = d.blog_topics || [];
     const blogTopicsHtml = topics.length
         ? topics.map((t, i) => {
-            const sc = t.status === 'published' ? 'status-published' : t.status === 'writing' ? 'status-writing' : 'status-planned';
-            const sl = t.status === 'published' ? 'Published' : t.status === 'writing' ? 'Writing' : 'Suggested';
+            const sc = t.status === 'published' ? 'status-published' : t.status === 'writing' ? 'status-writing' : t.status === 'used' ? 'status-used' : 'status-planned';
+            const sl = t.status === 'published' ? 'Published' : t.status === 'writing' ? 'Writing' : t.status === 'used' ? (t.month_used || 'Used') : 'Suggested';
             return `<div class="topic-item">
                 <span class="topic-num">${i + 1}</span>
                 <div style="flex:1;min-width:0">
@@ -645,12 +669,12 @@ function buildPortal(d) {
         <div class="choice-grid">
             <div class="choice-card${chosenType === 'blog' ? ' chosen' : ''}">
                 <div class="choice-type">Blog Post</div>
-                <div class="choice-title${blogInfo.title ? '' : ' tbd'}">${blogInfo.title || 'Content focus not yet selected'}</div>
+                <div class="choice-title${blogInfo.title ? '' : ' tbd'}">${blogInfo.title || 'Awaiting topic — due the 15th'}</div>
                 ${blogInfo.keyword ? `<div class="choice-kw">Target keyword: ${blogInfo.keyword}</div>` : ''}
                 ${chosenType === 'blog' ? '<div class="choice-badge">This Month</div>' : ''}
             </div>
             <div class="choice-card${chosenType === 'page' ? ' chosen' : ''}">
-                <div class="choice-type">Page to Optimize</div>
+                <div class="choice-type">SEO Op</div>
                 <div class="choice-title${pageInfo.title ? '' : ' tbd'}">${pageInfo.title || 'To be selected'}</div>
                 ${pageInfo.url ? `<div class="choice-kw">${pageInfo.url}</div>` : ''}
                 ${pageInfo.keyword ? `<div class="choice-kw">Target keyword: ${pageInfo.keyword}</div>` : ''}
@@ -661,7 +685,7 @@ function buildPortal(d) {
     // ── MESSAGES ──
     const messages = d.messages || (d.message ? [d.message] : []);
     const latestMsg = messages.length ? messages[messages.length - 1] : null;
-    const messageCards = messages.map(m => `
+    const messageCards = [...messages].reverse().map(m => `
         <div class="message-card">
             <div class="message-meta">From ${m.from} &mdash; ${m.date}</div>
             <div class="message-text">${m.text}</div>
@@ -679,36 +703,39 @@ function buildPortal(d) {
         {
             name: 'Spark', price: '$500', hours: '2',
             features: [
-                'Monthly Google Search Console review to find and act on new keyword opportunities',
+                'GSC Review',
+                'Keyword review for new ranking opportunities',
                 'Keyword tracking',
                 'Monthly audit report',
                 '2 hrs content/site work/month',
-                'À la carte add-ons available',
+                'À la carte add-ons',
                 'Email support'
             ]
         },
         {
             name: 'Blaze', price: '$900', hours: '6',
             features: [
-                'Monthly Google Search Console review to find and act on new keyword opportunities',
+                'GSC Review',
+                'Keyword review for new ranking opportunities',
                 'Keyword tracking',
                 'Monthly audit report',
                 '6 hrs content/site work/month',
                 'Content calendar',
-                'À la carte add-ons available',
+                'À la carte add-ons',
                 'Priority support'
             ]
         },
         {
             name: 'Inferno', price: '$1,500', hours: '12',
             features: [
-                'Monthly Google Search Console review to find and act on new keyword opportunities',
+                'GSC Review',
+                'Keyword review for new ranking opportunities',
                 'Keyword tracking',
                 'Monthly audit report',
                 '12 hrs content/site work/month',
                 'Full content strategy',
                 'Content calendar',
-                'À la carte add-ons available',
+                'À la carte add-ons',
                 'Dedicated account manager',
                 'Priority support'
             ]
@@ -747,7 +774,7 @@ function buildPortal(d) {
     const overallPct = totalItems ? Math.round((doneItems / totalItems) * 100) : 0;
 
     const priLabel = { critical: 'Critical', high: 'High', medium: 'Medium', low: 'Low' };
-    const statusLabel = { backlog: 'Backlog', in_progress: 'In Progress', done: 'Done' };
+    const statusLabel = { backlog: 'Backlog', todo: 'To Do', in_progress: 'In Progress', done: 'Done' };
 
     const roadmapPhases = roadmap.map(ph => {
         const items = ph.items || [];
@@ -842,6 +869,34 @@ function buildPortal(d) {
     const impressions = totalImpressions > 0 ? totalImpressions.toLocaleString() : (s.impressions != null ? s.impressions.toLocaleString() : '—');
     const ctr = computedCtr != null ? computedCtr + '%' : (s.ctr != null ? s.ctr + '%' : '—');
 
+    // ── SITE LINKS ──
+    const siteLinks = d.site_links || [];
+    const linkGroups = {};
+    siteLinks.forEach(link => {
+        const cat = link.category || 'Pages';
+        if (!linkGroups[cat]) linkGroups[cat] = [];
+        linkGroups[cat].push(link);
+    });
+    const siteLinksHtml = Object.keys(linkGroups).length
+        ? Object.entries(linkGroups).map(([cat, links]) => `
+            <div class="links-group">
+                <div class="links-group-title">${cat}</div>
+                <div class="links-grid">
+                    ${links.map(link => `
+                        <a href="${link.url}" target="_blank" rel="noopener" class="link-card">
+                            <span class="link-card-icon">${link.icon || '🔗'}</span>
+                            <div class="link-card-body">
+                                <div class="link-card-label">${link.label}</div>
+                                <div class="link-card-url">${link.url.replace(/^https?:\/\//, '')}</div>
+                            </div>
+                            <span class="link-card-arrow">↗</span>
+                        </a>
+                    `).join('')}
+                </div>
+            </div>
+        `).join('')
+        : '<p style="color:#9A95A8;font-size:13px;padding:16px 0">No site links configured yet.</p>';
+
     return `
         <!-- GREETING -->
         <div class="greeting">
@@ -864,6 +919,7 @@ function buildPortal(d) {
             <button class="tab" data-tab="roadmap">SEO Roadmap</button>
             <button class="tab" data-tab="reports">Reports</button>
             <button class="tab" data-tab="messages">Messages</button>
+            <button class="tab" data-tab="links">Site Links</button>
         </div>
 
         <!-- OVERVIEW -->
@@ -1021,6 +1077,15 @@ function buildPortal(d) {
             </div>
             ${messageCards || '<p style="color:#9A95A8;font-size:13px;padding:16px 0">No messages yet.</p>'}
             <a href="mailto:kandy@phoenixmethodseo.com?subject=Portal%20Message%20%E2%80%94%20${encodeURIComponent(d.client)}" class="reply-btn">Reply to Your Team</a>
+        </div>
+
+        <!-- SITE LINKS -->
+        <div class="section" id="sec-links">
+            <div class="sec-header">
+                <span class="sec-title">Site Pages</span>
+                <span class="sec-sub">Click any link to view it live on your site</span>
+            </div>
+            ${siteLinksHtml}
         </div>
 
         <div class="portal-footer">
