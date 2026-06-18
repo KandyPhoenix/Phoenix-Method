@@ -209,6 +209,38 @@ Every page uses `<div id="pm-nav"></div>` and `<div id="pm-footer"></div>` as pl
 
 ---
 
+## MANDATORY: Client Portal Worklog — Always Update After Real Work
+
+After completing any meaningful client work session (fixes, SEO changes, schema updates, content builds, audits, redirects — not planning conversations), add a worklog entry to the relevant client's `workers/portal/public/{slug}/data.json`.
+
+### Slugs by client:
+- `lori` → lorikimmerly.com
+- `phw` → phwcare.com (Parish Health and Wellness)
+- `pm` → phoenixmethodseo.com
+- `sunbright` → sunbrightrecovery.org
+
+### Entry format:
+```json
+{
+  "date": "June 18, 2026",
+  "type": "fix",
+  "title": "One-line summary of what was done",
+  "detail": "Optional: additional context if useful",
+  "ticket": "LOR-341"
+}
+```
+
+### Valid types: `audit`, `fix`, `seo`, `content`, `schema`, `technical`, `launch`
+
+### Rules:
+- `detail` and `ticket` are optional — omit if not relevant
+- `ticket` is plain text only — no links, no URLs
+- Add entries to the END of the `worklog` array (newest-last; display reverses them)
+- Commit via the Silas PR workflow (branch → PR → merge immediately → KV auto-pushes on merge)
+- The GitHub Action in `.github/workflows/deploy-portal.yml` auto-pushes all data.json files to Cloudflare KV on every merge to main — no manual wrangler command needed
+
+---
+
 ## Repo Details
 - **Remote:** https://github.com/KandyPhoenix/Phoenix-Method
 - **Protected branch:** main (force-push + deletion blocked; no review requirement)
