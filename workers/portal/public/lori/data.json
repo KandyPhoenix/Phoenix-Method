@@ -5,7 +5,7 @@
   "plan": "Custom",
   "plan_price": "$575/mo",
   "plan_hours": 1,
-  "hours_used": 2,
+  "hours_used": 0,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
   "updated": "2026-06-18",
@@ -48,7 +48,7 @@
     {
       "text": "Quarterly Performance Report",
       "status": "todo",
-      "due": "Jun 30"
+      "due": "Jul 31"
     },
     {
       "text": "Discretionary Work — $50/hr (50% off)",
@@ -319,7 +319,7 @@
       "type": "deliverable"
     },
     {
-      "date": "Jun 30",
+      "date": "Jul 31",
       "title": "Quarterly Performance Report",
       "type": "deliverable"
     }
@@ -615,38 +615,8 @@
   "messages": [
     {
       "from": "Kandy",
-      "date": "June 18, 2026",
-      "text": "June blog post is confirmed — Lori chose her own topic this month and is writing a grief piece herself. We'll publish and optimize it when her draft comes in. Live before June 30."
-    },
-    {
-      "from": "Kandy",
-      "date": "June 9, 2026",
-      "text": "Three technical SEO fixes shipped today. First: the insurance blog post (/blog/does-insurance-cover-therapy) was ranking at position 8 with 84 impressions but only 1 click — the old title was generic and buried the insurance angle. Rewrote it to 'Does Insurance Cover Therapy? What to Know Before Your First Session' with a tighter meta description leading with the insurance hook. Position 8 means searchers are already seeing this page; the title rewrite should push the click-through rate up from the current ~1.2%. (LOR-334)\n\nSecond and third: Google Search Console had 24 structured data warnings — 20 breadcrumb warnings (position field was outputting as a string instead of an integer) and 4 FAQ warnings (answer text was including raw HTML, which Google requires to be plain text). Both are a Rank Math output issue. Fixed both at once via a mu-plugin that rewrites the JSON-LD in the page response before it reaches the browser — no theme changes needed. Deployed and verified live on multiple pages. Google will clear the warnings on its next crawl, typically within 1–2 weeks. (LOR-335, LOR-336)"
-    },
-    {
-      "from": "Kandy",
-      "date": "June 9, 2026",
-      "text": "June 7 checkpoint results: 153 clicks from 2,688 impressions — up 20 clicks and 332 impressions from the June 1 baseline. Average position improved from 12.8 to 11.3. Natalie Kim's bio jumped from position 11 to #8 this period. New keyword now appearing for the first time: 'family therapy renton wa' at position 11.7 — the bio and service page work is starting to surface new query clusters.\n\nThe main fix this cycle: a regression on the About Our Therapists page was caught and corrected. The page title had been changed to include 'Online Counseling' instead of 'Online Therapy' — that single word costs keyword match. Impressions on that page had dropped from 1,293 to 397 over 28 days. Title is restored to 'Online Therapy Washington | Licensed Therapists WA' and we're monitoring for recovery over the next two weeks.\n\nThree bio pages also got stronger titles — Jennifer Kenworthy, Sheena Nicolay, and Devi Viswanathan all had 'MFT Intern' leading their title tags, which reduces click-through when searchers are comparing therapists. Titles are now service-first, leading with each therapist's specialty.\n\nSchema audit in progress — completing MedicalBusiness structured data fields (telephone, address, areaServed) across key pages."
-    },
-    {
-      "from": "Kandy",
-      "date": "June 1, 2026",
-      "text": "June package is active. May stats are in: 2,356 impressions (up 750 from last month), 141 keywords indexed (up 73), and 133 organic clicks. The big cleanup work from earlier in May — redirects, schema rebuilds, meta rewrites, FAQ noindex — continues to settle with Google and ranking improvements should become more visible over the next 4–6 weeks as Google re-crawls. The insurance blog published in May is indexed. This month your blog or SEO op slot is open — send your topic by June 15 and we'll have it live by the 22nd. If we don't hear from you we'll pick your best keyword opportunity from the current data. Quarterly performance report is scheduled for June 30."
-    },
-    {
-      "from": "Kandy",
-      "date": "May 21, 2026",
-      "text": "Site maintenance session today covering two things. First: your contact form spam filter was rejecting real submissions with an error message — we replaced the old reCAPTCHA setup with a honeypot approach that stops bots without blocking clients. Both forms (main contact and the in-page booking form) are updated and tested. Second: fixed a layout issue on the Lori and Kristen bio pages — the hero card was rendering behind the navigation bar instead of below it, which was cutting off the top of each page. Root cause was a padding value set too low for the site's fixed header (155px tall). Updated both pages to match Jared's working layout, including the spacing between the schedule button and the bio card below it. All three therapist bios now match. (LOR-333)"
-    },
-    {
-      "from": "Kandy",
-      "date": "May 12, 2026",
-      "text": "Quick maintenance session this week. Fixed the contact forms on your site — a plugin called SilentShield was blocking all form submissions. Clients should now be able to reach you and your therapists without issues. Also updated session rates on Devi and Iwona's bio pages (correcting the listed fees). On the SEO side, cleaned up the About Our Therapists hero section: tightened the headline text, removed duplicate mentions of \"online\" and \"Washington\" that could flag as keyword stuffing, and polished the visual layout. (LOR-325, LOR-324, LOR-326)"
-    },
-    {
-      "from": "Kandy",
-      "date": "May 10, 2026",
-      "text": "Big SEO + schema cleanup pass on the site this afternoon. Twelve retired Avada portfolio URLs (cardiology, pediatrics, ultrasound — leftover from the old theme demo) were permanently deleted and 301-redirected to the Meet the Team page so any inbound links keep working and Google updates faster. We also closed the loop on three duplicate/old slugs (an old Ryan Carragher URL, plus former-therapist pages for Faynesha Haragan and Keziah Grindeland) — all redirected, no more 404s for Google. Three of the highest-impression pages got rewritten meta titles + descriptions tuned for click-through (Lori's bio, the contact page, and the Meet the Team page) — the bio page especially was sitting at 1,124 impressions with a 0.6% CTR, so we rebuilt the title around 'Online Therapist' service intent rather than IFS jargon. Roughly twenty thin auto-generated FAQ pages were noindex'd and pulled out of the sitemap — they were duplicating the FAQ schema already on the contact page and just cluttering Google's coverage report. We also rebuilt the Person schema on every therapist bio page so each one now has full credentials, license info, areas of focus, and Psychology Today links where they exist — Lori's bio correctly lists both Washington and Arizona service areas, all others are Washington-only. Added a sitewide WebSite + SearchAction schema (enables Google's sitelinks search box on brand searches), submitted the cleaned sitemap, and removed the redundant www GSC property. Everything is verified live. Real impact (CTR, indexing, ranking) will show in the next 4 weeks — checkpoint scheduled for June 7 to compare before/after."
+      "date": "April 30, 2026",
+      "text": "Welcome to your Phoenix Method client portal, Lori! This is your home base for everything we're doing on your site month to month — rankings, deliverables, your content calendar, and reports. Your May package is active. Reminder: if you'd like to pick the blog topic or page we work on this month, just send it over by the 15th. If we don't hear from you by the 15th, we'll pick the best opportunity from your current keyword data."
     },
     {
       "from": "Kandy",
@@ -655,8 +625,38 @@
     },
     {
       "from": "Kandy",
-      "date": "April 30, 2026",
-      "text": "Welcome to your Phoenix Method client portal, Lori! This is your home base for everything we're doing on your site month to month — rankings, deliverables, your content calendar, and reports. Your May package is active. Reminder: if you'd like to pick the blog topic or page we work on this month, just send it over by the 15th. If we don't hear from you by the 15th, we'll pick the best opportunity from your current keyword data."
+      "date": "May 10, 2026",
+      "text": "Big SEO + schema cleanup pass on the site this afternoon. Twelve retired Avada portfolio URLs (cardiology, pediatrics, ultrasound — leftover from the old theme demo) were permanently deleted and 301-redirected to the Meet the Team page so any inbound links keep working and Google updates faster. We also closed the loop on three duplicate/old slugs (an old Ryan Carragher URL, plus former-therapist pages for Faynesha Haragan and Keziah Grindeland) — all redirected, no more 404s for Google. Three of the highest-impression pages got rewritten meta titles + descriptions tuned for click-through (Lori's bio, the contact page, and the Meet the Team page) — the bio page especially was sitting at 1,124 impressions with a 0.6% CTR, so we rebuilt the title around 'Online Therapist' service intent rather than IFS jargon. Roughly twenty thin auto-generated FAQ pages were noindex'd and pulled out of the sitemap — they were duplicating the FAQ schema already on the contact page and just cluttering Google's coverage report. We also rebuilt the Person schema on every therapist bio page so each one now has full credentials, license info, areas of focus, and Psychology Today links where they exist — Lori's bio correctly lists both Washington and Arizona service areas, all others are Washington-only. Added a sitewide WebSite + SearchAction schema (enables Google's sitelinks search box on brand searches), submitted the cleaned sitemap, and removed the redundant www GSC property. Everything is verified live. Real impact (CTR, indexing, ranking) will show in the next 4 weeks — checkpoint scheduled for June 7 to compare before/after."
+    },
+    {
+      "from": "Kandy",
+      "date": "May 12, 2026",
+      "text": "Quick maintenance session this week. Fixed the contact forms on your site — a plugin called SilentShield was blocking all form submissions. Clients should now be able to reach you and your therapists without issues. Also updated session rates on Devi and Iwona's bio pages (correcting the listed fees). On the SEO side, cleaned up the About Our Therapists hero section: tightened the headline text, removed duplicate mentions of \"online\" and \"Washington\" that could flag as keyword stuffing, and polished the visual layout. (LOR-325, LOR-324, LOR-326)"
+    },
+    {
+      "from": "Kandy",
+      "date": "May 21, 2026",
+      "text": "Site maintenance session today covering two things. First: your contact form spam filter was rejecting real submissions with an error message — we replaced the old reCAPTCHA setup with a honeypot approach that stops bots without blocking clients. Both forms (main contact and the in-page booking form) are updated and tested. Second: fixed a layout issue on the Lori and Kristen bio pages — the hero card was rendering behind the navigation bar instead of below it, which was cutting off the top of each page. Root cause was a padding value set too low for the site's fixed header (155px tall). Updated both pages to match Jared's working layout, including the spacing between the schedule button and the bio card below it. All three therapist bios now match. (LOR-333)"
+    },
+    {
+      "from": "Kandy",
+      "date": "June 1, 2026",
+      "text": "June package is active. May stats are in: 2,356 impressions (up 750 from last month), 141 keywords indexed (up 73), and 133 organic clicks. The big cleanup work from earlier in May — redirects, schema rebuilds, meta rewrites, FAQ noindex — continues to settle with Google and ranking improvements should become more visible over the next 4–6 weeks as Google re-crawls. The insurance blog published in May is indexed. This month your blog or SEO op slot is open — send your topic by June 15 and we'll have it live by the 22nd. If we don't hear from you we'll pick your best keyword opportunity from the current data. Quarterly performance report is scheduled for June 30."
+    },
+    {
+      "from": "Kandy",
+      "date": "June 9, 2026",
+      "text": "June 7 checkpoint results: 153 clicks from 2,688 impressions — up 20 clicks and 332 impressions from the June 1 baseline. Average position improved from 12.8 to 11.3. Natalie Kim's bio jumped from position 11 to #8 this period. New keyword now appearing for the first time: 'family therapy renton wa' at position 11.7 — the bio and service page work is starting to surface new query clusters.\n\nThe main fix this cycle: a regression on the About Our Therapists page was caught and corrected. The page title had been changed to include 'Online Counseling' instead of 'Online Therapy' — that single word costs keyword match. Impressions on that page had dropped from 1,293 to 397 over 28 days. Title is restored to 'Online Therapy Washington | Licensed Therapists WA' and we're monitoring for recovery over the next two weeks.\n\nThree bio pages also got stronger titles — Jennifer Kenworthy, Sheena Nicolay, and Devi Viswanathan all had 'MFT Intern' leading their title tags, which reduces click-through when searchers are comparing therapists. Titles are now service-first, leading with each therapist's specialty.\n\nSchema audit in progress — completing MedicalBusiness structured data fields (telephone, address, areaServed) across key pages."
+    },
+    {
+      "from": "Kandy",
+      "date": "June 9, 2026",
+      "text": "Three technical SEO fixes shipped today. First: the insurance blog post (/blog/does-insurance-cover-therapy) was ranking at position 8 with 84 impressions but only 1 click — the old title was generic and buried the insurance angle. Rewrote it to 'Does Insurance Cover Therapy? What to Know Before Your First Session' with a tighter meta description leading with the insurance hook. Position 8 means searchers are already seeing this page; the title rewrite should push the click-through rate up from the current ~1.2%. (LOR-334)\n\nSecond and third: Google Search Console had 24 structured data warnings — 20 breadcrumb warnings (position field was outputting as a string instead of an integer) and 4 FAQ warnings (answer text was including raw HTML, which Google requires to be plain text). Both are a Rank Math output issue. Fixed both at once via a mu-plugin that rewrites the JSON-LD in the page response before it reaches the browser — no theme changes needed. Deployed and verified live on multiple pages. Google will clear the warnings on its next crawl, typically within 1–2 weeks. (LOR-335, LOR-336)"
+    },
+    {
+      "from": "Kandy",
+      "date": "June 18, 2026",
+      "text": "Your June blog post is confirmed — and we love that you picked your own topic. We're ready to work with your grief piece whenever your draft is ready. Send it over and we'll optimize it for search, get it formatted, and have it live on your site before the end of the month."
     }
   ]
 }
