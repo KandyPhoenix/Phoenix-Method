@@ -484,5 +484,55 @@
       "date": "June 1, 2026",
       "text": "May data shows strong early traction. Impressions grew from 97 (April) to 652 — a 6.7x jump — as the service pages and canonicalization work from May settle into Google's index. The site now shows up for 73 distinct keyword queries, up from 35 in April. Average position is 73.7 (vs 10.0 in April) because the new keywords entering the index are in deep positions — expected for new content, will improve as pages build authority and we start pushing them with links. Top early signals: 'mental health seo' (51 impressions), 'behavioral health seo' (19 impressions), and 'ai citation optimization' (17 impressions). No agency keyword clicks yet but the footprint is growing. June priority: first blog post targeting 'seo for therapists', GBP listing, and FAQ page."
     }
+  ],
+  "site_links": [
+    {
+      "category": "Main Pages",
+      "label": "Homepage",
+      "url": "https://www.phoenixmethodseo.com/",
+      "icon": "🏠"
+    },
+    {
+      "category": "Main Pages",
+      "label": "Contact",
+      "url": "https://www.phoenixmethodseo.com/contact/",
+      "icon": "✉️"
+    },
+    {
+      "category": "Main Pages",
+      "label": "Blog",
+      "url": "https://www.phoenixmethodseo.com/blog/",
+      "icon": "📝"
+    },
+    {
+      "category": "Service Pages",
+      "label": "AI Overview Optimization",
+      "url": "https://www.phoenixmethodseo.com/services/ai-overview-optimization/",
+      "icon": "🤖"
+    },
+    {
+      "category": "Service Pages",
+      "label": "Content SEO",
+      "url": "https://www.phoenixmethodseo.com/services/content-seo/",
+      "icon": "📝"
+    },
+    {
+      "category": "Service Pages",
+      "label": "Technical SEO",
+      "url": "https://www.phoenixmethodseo.com/services/technical-seo/",
+      "icon": "⚙️"
+    },
+    {
+      "category": "Service Pages",
+      "label": "Local SEO",
+      "url": "https://www.phoenixmethodseo.com/services/local-seo/",
+      "icon": "📍"
+    },
+    {
+      "category": "Service Pages",
+      "label": "GBP Optimization",
+      "url": "https://www.phoenixmethodseo.com/services/gbp-optimization/",
+      "icon": "📊"
+    }
   ]
 }

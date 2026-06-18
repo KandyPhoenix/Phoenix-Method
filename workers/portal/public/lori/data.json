@@ -658,5 +658,85 @@
       "date": "June 18, 2026",
       "text": "Your June blog post is confirmed — and we love that you picked your own topic. We're ready to work with your grief piece whenever your draft is ready. Send it over and we'll optimize it for search, get it formatted, and have it live on your site before the end of the month."
     }
+  ],
+  "site_links": [
+    {
+      "category": "Main Pages",
+      "label": "Homepage",
+      "url": "https://lorikimmerly.com/",
+      "icon": "🏠"
+    },
+    {
+      "category": "Main Pages",
+      "label": "About Our Therapists",
+      "url": "https://lorikimmerly.com/about-our-therapists/",
+      "icon": "👥"
+    },
+    {
+      "category": "Main Pages",
+      "label": "Contact",
+      "url": "https://lorikimmerly.com/contact/",
+      "icon": "✉️"
+    },
+    {
+      "category": "Main Pages",
+      "label": "Blog",
+      "url": "https://lorikimmerly.com/blog/",
+      "icon": "📝"
+    },
+    {
+      "category": "Therapist Bios",
+      "label": "Lori Kimmerly",
+      "url": "https://lorikimmerly.com/lori-kimmerly/",
+      "icon": "👤"
+    },
+    {
+      "category": "Therapist Bios",
+      "label": "Kristen Sievert",
+      "url": "https://lorikimmerly.com/kristen-sievert/",
+      "icon": "👤"
+    },
+    {
+      "category": "Therapist Bios",
+      "label": "Jared Neufeld",
+      "url": "https://lorikimmerly.com/jared-neufeld/",
+      "icon": "👤"
+    },
+    {
+      "category": "Therapist Bios",
+      "label": "Caroline Bacon",
+      "url": "https://lorikimmerly.com/caroline-bacon/",
+      "icon": "👤"
+    },
+    {
+      "category": "Therapist Bios",
+      "label": "John Hubbs",
+      "url": "https://lorikimmerly.com/john-hubbs/",
+      "icon": "👤"
+    },
+    {
+      "category": "Therapist Bios",
+      "label": "Ryan Carragher",
+      "url": "https://lorikimmerly.com/ryan-carragher/",
+      "icon": "👤"
+    },
+    {
+      "category": "Therapist Bios",
+      "label": "Sheena Nicolay",
+      "url": "https://lorikimmerly.com/sheena-nicolay/",
+      "icon": "👤"
+    },
+    {
+      "category": "Therapist Bios",
+      "label": "Jennifer Kenworthy",
+      "url": "https://lorikimmerly.com/jennifer-kenworthy/",
+      "icon": "👤"
+    },
+    {
+      "category": "Blog Posts",
+      "label": "Does Insurance Cover Therapy?",
+      "url": "https://lorikimmerly.com/blog/does-insurance-cover-therapy/",
+      "icon": "📄"
+    }
   ]
 }

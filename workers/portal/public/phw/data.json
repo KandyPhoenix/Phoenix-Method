@@ -516,5 +516,55 @@
       "date": "June 9, 2026",
       "text": "PHW-260: Rewrote SEO title and meta for the couples therapy blog post (/mental-health-blog/couples-therapy-california). That page has 7,650 impressions/month at position 35 with 0 clicks — the old title was 'Couples Therapy California — Rebuild Trust & Connection', which is fine but generic. New title: 'Online Couples Therapy California | Same-Week Appointments' — more specific, surfaces telehealth and the same-week availability which is a real conversion differentiator. Live and verified."
     }
+  ],
+  "site_links": [
+    {
+      "category": "Main Pages",
+      "label": "Homepage",
+      "url": "https://www.phwcare.com/",
+      "icon": "🏠"
+    },
+    {
+      "category": "Main Pages",
+      "label": "About",
+      "url": "https://www.phwcare.com/about",
+      "icon": "👥"
+    },
+    {
+      "category": "Main Pages",
+      "label": "Counselors",
+      "url": "https://www.phwcare.com/counselors",
+      "icon": "🧑‍⚕️"
+    },
+    {
+      "category": "Main Pages",
+      "label": "Contact",
+      "url": "https://www.phwcare.com/contact",
+      "icon": "✉️"
+    },
+    {
+      "category": "Service Pages",
+      "label": "Online Therapy California",
+      "url": "https://www.phwcare.com/online-therapy-california",
+      "icon": "💻"
+    },
+    {
+      "category": "Service Pages",
+      "label": "Red Bluff Location",
+      "url": "https://www.phwcare.com/therapy-red-bluff-ca",
+      "icon": "📍"
+    },
+    {
+      "category": "Blog Posts",
+      "label": "How Online Therapy Works",
+      "url": "https://www.phwcare.com/mental-health-blog/how-online-therapy-works-in-california",
+      "icon": "📄"
+    },
+    {
+      "category": "Blog Posts",
+      "label": "Couples Therapy California",
+      "url": "https://www.phwcare.com/mental-health-blog/couples-therapy-california",
+      "icon": "📄"
+    }
   ]
 }
