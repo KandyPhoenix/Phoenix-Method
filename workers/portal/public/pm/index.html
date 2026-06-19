@@ -965,7 +965,6 @@ function buildPortal(d) {
             <button class="tab" data-tab="calendar">Content Calendar</button>
             <button class="tab" data-tab="billing">Billing & Plan</button>
             <button class="tab" data-tab="roadmap">SEO Roadmap</button>
-            <button class="tab" data-tab="reports">Reports</button>
             <button class="tab" data-tab="messages">Messages</button>
             <button class="tab" data-tab="worklog">Work Log</button>
             <button class="tab" data-tab="links">Site Links</button>
@@ -1110,15 +1109,6 @@ function buildPortal(d) {
             ${roadmapHtml}
         </div>
 
-        <!-- REPORTS -->
-        <div class="section" id="sec-reports">
-            <div class="sec-header">
-                <span class="sec-title">Reports &amp; Documents</span>
-                <span class="sec-sub">Audits, monthly reports &amp; deliverable files</span>
-            </div>
-            <div class="reports-grid">${reportCards}</div>
-        </div>
-
         <!-- MESSAGES -->
         <div class="section" id="sec-messages">
             <div class="sec-header">
@@ -1126,6 +1116,12 @@ function buildPortal(d) {
             </div>
             ${messageCards || '<p style="color:#9A95A8;font-size:13px;padding:16px 0">No messages yet.</p>'}
             <a href="mailto:kandy@phoenixmethodseo.com?subject=Portal%20Message%20%E2%80%94%20${encodeURIComponent(d.client)}" class="reply-btn">Reply to Your Team</a>
+
+            <div class="sec-header" style="margin-top:32px">
+                <span class="sec-title">Reports &amp; Documents</span>
+                <span class="sec-sub">Audits, monthly reports &amp; deliverable files</span>
+            </div>
+            <div class="reports-grid">${reportCards}</div>
         </div>
 
         <!-- WORKLOG -->
