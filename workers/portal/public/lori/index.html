@@ -952,7 +952,7 @@ function buildPortal(d) {
                 Your SEO Dashboard
                 <span class="badge">${d.month}</span>
             </div>
-            <div class="greeting-sub">Updated monthly for ${d.client}</div>
+            <div class="greeting-sub">Updated monthly for ${d.homepage ? `<a href="${d.homepage}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2);padding-bottom:1px;">${d.client}</a>` : d.client}</div>
         </div>
 
         <!-- STATS -->
