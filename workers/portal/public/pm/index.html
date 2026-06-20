@@ -924,16 +924,17 @@ function buildPortal(d) {
             const badgeColor = aiStatusColor[st] || '#9A95A8';
             const label = aiStatusLabel[st] || st;
             const titleHtml = a.publicUrl
-                ? `<a href="${escapeHTML(a.publicUrl)}" target="_blank" rel="noopener" style="color:#F0ECE6;text-decoration:none;border-bottom:1px solid rgba(240,236,230,0.2)">${escapeHTML(a.title)}</a>`
-                : escapeHTML(a.title);
+                ? `<a href="${a.publicUrl}" target="_blank" rel="noopener" style="color:#F0ECE6;text-decoration:none;border-bottom:1px solid rgba(240,236,230,0.2)">${a.title || ''}</a>`
+                : (a.title || '');
+            const hostname = a.siteUrl ? (() => { try { return new URL(a.siteUrl).hostname; } catch(_) { return a.siteUrl; } })() : '';
             return `<div class="worklog-entry">
                 <div class="worklog-left">
-                    <div class="worklog-date">${escapeHTML(a.date || '')}</div>
+                    <div class="worklog-date">${a.date || ''}</div>
                     <span class="worklog-type" style="background:${badgeColor}22;color:${badgeColor}">${label}</span>
                 </div>
                 <div class="worklog-body">
                     <div class="worklog-title">${titleHtml}</div>
-                    <div class="worklog-detail">Keyword: ${escapeHTML(a.keyword || '')}${a.siteUrl ? ' · ' + escapeHTML(new URL(a.siteUrl).hostname) : ''}</div>
+                    <div class="worklog-detail">Keyword: ${a.keyword || ''}${hostname ? ' · ' + hostname : ''}</div>
                 </div>
             </div>`;
         }).join('') + '</div>'
