@@ -569,5 +569,17 @@
       "ticket": "PM-347"
     }
   ],
-  "homepage": "https://phoenixmethodseo.com"
+  "homepage": "https://phoenixmethodseo.com",
+  "ai_articles": [
+    {
+      "id": "first-test-article",
+      "date": "2026-06-18",
+      "title": "Small Business SEO Services: Data-Driven Strategies for Growth",
+      "keyword": "small business seo services",
+      "slug": "small-business-seo-services",
+      "status": "ready",
+      "publicUrl": null,
+      "siteUrl": "https://phoenixmethodseo.com"
+    }
+  ]
 }

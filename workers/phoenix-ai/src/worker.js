@@ -4326,7 +4326,37 @@ async function runPipeline(env, site, opts = {}) {
 
   await audit(env, site.id, 'pipeline.done', { articleId, keyword: keyword.keyword, wpOk: wpResult.ok });
 
+  // Push article summary to client portal if the site has a portalSlug set.
+  if (record.status !== 'failed' && site.portalSlug && env.PORTAL_KV) {
+    await portalPush(env, site.portalSlug, {
+      id: articleId,
+      date: record.generatedAt ? record.generatedAt.slice(0, 10) : nowIso().slice(0, 10),
+      title: record.title,
+      keyword: record.keyword,
+      slug: record.slug,
+      status: record.status,
+      publicUrl: record.publicUrl || null,
+      siteUrl: site.url || null,
+    });
+  }
+
   return { ok: true, article: record };
+}
+
+// Push one article entry into a portal data.json stored in PORTAL_KV.
+// Reads the existing record, prepends to ai_articles[], caps at 100, writes back.
+async function portalPush(env, slug, articleEntry) {
+  try {
+    const raw = await env.PORTAL_KV.get(slug);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    if (!Array.isArray(data.ai_articles)) data.ai_articles = [];
+    data.ai_articles.unshift(articleEntry);
+    if (data.ai_articles.length > 100) data.ai_articles = data.ai_articles.slice(0, 100);
+    await env.PORTAL_KV.put(slug, JSON.stringify(data));
+  } catch (_) {
+    // Non-fatal — portal push failure should never break article generation.
+  }
 }
 
 // ──────────────────────────────────────────────────────────────

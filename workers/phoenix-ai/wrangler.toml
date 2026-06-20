@@ -44,6 +44,13 @@ id = "8c0eb4d5d78d49cea60a33447fdb6036"
 binding = "AUDIT_LOG"
 id = "2a9794fd305f43ce96c2d116562c61ad"
 
+# Portal KV — shared with workers/portal worker. Phoenix AI pushes article
+# records here so the client-facing portal shows AI content automatically.
+# Binding name PORTAL_KV; keys are client slugs (e.g. "pm", "lori").
+[[kv_namespaces]]
+binding = "PORTAL_KV"
+id = "92ed0633a40e4f28842fed8d9826c7ba"
+
 # Cloudflare Workers AI — default LLM provider, near-free on the Workers plan.
 # env.AI.run(modelId, inputs) calls inference on Cloudflare's infra. Customers
 # can override to BYOK Anthropic per-site via the dashboard.
