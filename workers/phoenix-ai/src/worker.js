@@ -4921,6 +4921,9 @@ async function apiRouter(request, env, url, path, ctx) {
           site.ssgOverride = body.ssgOverride === 'auto' ? '' : body.ssgOverride;
         }
       }
+      if (typeof body.portalSlug === 'string') {
+        site.portalSlug = body.portalSlug.trim().slice(0, 40).replace(/[^a-z0-9-]/gi, '').toLowerCase();
+      }
       await saveSite(env, site);
       await audit(env, siteId, 'site.updated', {
         requireApproval: site.requireApproval,
@@ -5713,6 +5716,11 @@ function dashboardHTML() {
               '<input type="checkbox" name="autoPublish"' + (site.autoPublish ? ' checked' : '') + (site.requireApproval ? ' disabled' : '') + ' style="margin-top:4px;">' +
               '<span><strong>Auto-publish</strong><br><span style="color:var(--muted);font-size:0.85rem;">Publish directly (skip draft). ' + (site.requireApproval ? 'Disabled while approval is required.' : 'Off by default.') + '</span></span>' +
             '</label>' +
+            '<div>' +
+              '<label>Client portal slug</label>' +
+              '<input type="text" name="portalSlug" value="' + escapeHTML(site.portalSlug || '') + '" placeholder="e.g. lori, phw, pm" maxlength="40" style="width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:\\'Outfit\\',sans-serif;font-size:0.95rem;">' +
+              '<p class="help" style="margin-top:6px;">Links this site to a Phoenix Method client portal. After each article is generated, it automatically appears in the portal\\'s Phoenix AI tab. Leave empty to disable. (Example: enter <code>lori</code> to push to the Lori Kimmerly portal.)</p>' +
+            '</div>' +
             '<div class="row-actions"><button type="submit" class="btn btn-ghost">Save settings</button></div>' +
           '</form>' +
         '</details>' +
@@ -5848,6 +5856,7 @@ function dashboardHTML() {
           const keyField = form.querySelector('input[name=anthropicApiKey]');
           const keyValue = keyField ? keyField.value.trim() : '';
           const brandNameField = form.querySelector('input[name=brandName]');
+          const portalSlugEl = form.querySelector('input[name=portalSlug]');
           const patch = {
             brandName: brandNameField ? brandNameField.value : '',
             brandVoiceOverride: form.querySelector('textarea[name=brandVoiceOverride]').value,
@@ -5857,6 +5866,7 @@ function dashboardHTML() {
             keywordFilter: (form.querySelector('input[name=keywordFilter]:checked') || {}).value,
             llmProvider: providerRadio ? providerRadio.value : undefined,
             manualKeywords,
+            portalSlug: portalSlugEl ? portalSlugEl.value.trim() : '',
           };
           if (keyValue) patch.anthropicApiKey = keyValue;
           // SerpBear fields appear when keywordSource is serpbear.
