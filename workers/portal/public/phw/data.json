@@ -521,7 +521,7 @@
     {
       "category": "Main Pages",
       "label": "Homepage",
-      "url": "https://www.phwcare.com/",
+      "url": "https://www.phwcare.com/home",
       "icon": "🏠"
     },
     {
@@ -533,7 +533,7 @@
     {
       "category": "Main Pages",
       "label": "Counselors",
-      "url": "https://www.phwcare.com/counselors",
+      "url": "https://www.phwcare.com/phw-counselors",
       "icon": "🧑‍⚕️"
     },
     {
@@ -541,6 +541,24 @@
       "label": "Contact",
       "url": "https://www.phwcare.com/contact",
       "icon": "✉️"
+    },
+    {
+      "category": "Main Pages",
+      "label": "Insurances",
+      "url": "https://www.phwcare.com/insurances",
+      "icon": "🏥"
+    },
+    {
+      "category": "Main Pages",
+      "label": "Find Us Online",
+      "url": "https://www.phwcare.com/find-us-online",
+      "icon": "🔍"
+    },
+    {
+      "category": "Service Pages",
+      "label": "All Therapy Services",
+      "url": "https://www.phwcare.com/therapy",
+      "icon": "💙"
     },
     {
       "category": "Service Pages",
@@ -555,6 +573,84 @@
       "icon": "📍"
     },
     {
+      "category": "Service Pages",
+      "label": "Downtown Red Bluff",
+      "url": "https://www.phwcare.com/therapy-downtown-red-bluff",
+      "icon": "📍"
+    },
+    {
+      "category": "Service Pages",
+      "label": "Anxiety Therapy",
+      "url": "https://www.phwcare.com/therapy/anxiety",
+      "icon": "🧠"
+    },
+    {
+      "category": "Service Pages",
+      "label": "Depression Therapy",
+      "url": "https://www.phwcare.com/therapy/depression",
+      "icon": "🧠"
+    },
+    {
+      "category": "Service Pages",
+      "label": "Trauma Therapy",
+      "url": "https://www.phwcare.com/therapy/trauma",
+      "icon": "🧠"
+    },
+    {
+      "category": "Service Pages",
+      "label": "Family Therapy",
+      "url": "https://www.phwcare.com/therapy/family",
+      "icon": "🧠"
+    },
+    {
+      "category": "Service Pages",
+      "label": "Anger Management",
+      "url": "https://www.phwcare.com/therapy/anger",
+      "icon": "🧠"
+    },
+    {
+      "category": "Service Pages",
+      "label": "Conflict Resolution",
+      "url": "https://www.phwcare.com/therapy/conflict-resolution",
+      "icon": "🧠"
+    },
+    {
+      "category": "Service Pages",
+      "label": "Substance & Addiction",
+      "url": "https://www.phwcare.com/therapy/substance-addiction",
+      "icon": "🧠"
+    },
+    {
+      "category": "Service Pages",
+      "label": "Faith-Based Therapy",
+      "url": "https://www.phwcare.com/therapy/faith-based",
+      "icon": "🧠"
+    },
+    {
+      "category": "Service Pages",
+      "label": "LGBTQ+ Therapy",
+      "url": "https://www.phwcare.com/therapy/lgbtqplus-issues",
+      "icon": "🧠"
+    },
+    {
+      "category": "Service Pages",
+      "label": "Major Life Transitions",
+      "url": "https://www.phwcare.com/therapy/major-life-transitions",
+      "icon": "🧠"
+    },
+    {
+      "category": "Resources",
+      "label": "Mental Health Resources",
+      "url": "https://www.phwcare.com/mental-health-resources-california",
+      "icon": "📚"
+    },
+    {
+      "category": "Blog Posts",
+      "label": "Blog Home",
+      "url": "https://www.phwcare.com/mental-health-blog",
+      "icon": "📝"
+    },
+    {
       "category": "Blog Posts",
       "label": "How Online Therapy Works",
       "url": "https://www.phwcare.com/mental-health-blog/how-online-therapy-works-in-california",
@@ -564,6 +660,24 @@
       "category": "Blog Posts",
       "label": "Couples Therapy California",
       "url": "https://www.phwcare.com/mental-health-blog/couples-therapy-california",
+      "icon": "📄"
+    },
+    {
+      "category": "Blog Posts",
+      "label": "Online Anxiety Therapy California",
+      "url": "https://www.phwcare.com/mental-health-blog/online-anxiety-therapy-california",
+      "icon": "📄"
+    },
+    {
+      "category": "Blog Posts",
+      "label": "Therapy for Anxiety Online",
+      "url": "https://www.phwcare.com/mental-health-blog/therapy-for-anxiety-online-california",
+      "icon": "📄"
+    },
+    {
+      "category": "Blog Posts",
+      "label": "Managing Holiday Stress",
+      "url": "https://www.phwcare.com/mental-health-blog/managing-holiday-stress-mental-health-tips",
       "icon": "📄"
     }
   ],
