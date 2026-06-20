@@ -5373,6 +5373,14 @@ function dashboardHTML() {
     }
 
     function escapeHTML(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+    function siteBrandName(site) {
+      if (site && site.brandName && String(site.brandName).trim()) return String(site.brandName).trim();
+      try {
+        const host = new URL(site.url).hostname.replace(/^www\./, '');
+        const base = host.replace(/\.[^.]+$/, '');
+        return base.split(/[-_]/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+      } catch (_) { return site ? (site.url || '') : ''; }
+    }
     function formatDate(iso) { if (!iso) return '—'; const d = new Date(iso); return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }
 
     async function api(method, path, body) {
