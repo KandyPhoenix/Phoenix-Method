@@ -494,9 +494,9 @@
     },
     {
       "category": "Main Pages",
-      "label": "Contact",
-      "url": "https://www.phoenixmethodseo.com/contact/",
-      "icon": "✉️"
+      "label": "About",
+      "url": "https://www.phoenixmethodseo.com/about/",
+      "icon": "👤"
     },
     {
       "category": "Main Pages",
@@ -505,22 +505,58 @@
       "icon": "📝"
     },
     {
-      "category": "Service Pages",
-      "label": "AI Overview Optimization",
-      "url": "https://www.phoenixmethodseo.com/services/ai-overview-optimization/",
-      "icon": "🤖"
+      "category": "Main Pages",
+      "label": "Industries",
+      "url": "https://www.phoenixmethodseo.com/industries/",
+      "icon": "🏭"
+    },
+    {
+      "category": "Main Pages",
+      "label": "Get Started",
+      "url": "https://www.phoenixmethodseo.com/get-started/",
+      "icon": "🚀"
+    },
+    {
+      "category": "Main Pages",
+      "label": "Contact",
+      "url": "https://www.phoenixmethodseo.com/contact/",
+      "icon": "✉️"
+    },
+    {
+      "category": "Main Pages",
+      "label": "Client Portal Page",
+      "url": "https://www.phoenixmethodseo.com/portal/",
+      "icon": "🔐"
+    },
+    {
+      "category": "Pricing",
+      "label": "All Plans & Pricing",
+      "url": "https://www.phoenixmethodseo.com/small-business-seo-pricing/",
+      "icon": "💰"
+    },
+    {
+      "category": "Pricing",
+      "label": "Spark Plan",
+      "url": "https://www.phoenixmethodseo.com/plans/spark/",
+      "icon": "⚡"
+    },
+    {
+      "category": "Pricing",
+      "label": "Blaze Plan",
+      "url": "https://www.phoenixmethodseo.com/plans/blaze/",
+      "icon": "🔥"
+    },
+    {
+      "category": "Pricing",
+      "label": "Inferno Plan",
+      "url": "https://www.phoenixmethodseo.com/plans/inferno/",
+      "icon": "🌋"
     },
     {
       "category": "Service Pages",
-      "label": "Content SEO",
-      "url": "https://www.phoenixmethodseo.com/services/content-seo/",
-      "icon": "📝"
-    },
-    {
-      "category": "Service Pages",
-      "label": "Technical SEO",
-      "url": "https://www.phoenixmethodseo.com/services/technical-seo/",
-      "icon": "⚙️"
+      "label": "Small Business SEO",
+      "url": "https://www.phoenixmethodseo.com/small-business-seo/",
+      "icon": "🎯"
     },
     {
       "category": "Service Pages",
@@ -530,9 +566,75 @@
     },
     {
       "category": "Service Pages",
+      "label": "Technical SEO",
+      "url": "https://www.phoenixmethodseo.com/services/technical-seo/",
+      "icon": "⚙️"
+    },
+    {
+      "category": "Service Pages",
+      "label": "Content SEO",
+      "url": "https://www.phoenixmethodseo.com/services/content-seo/",
+      "icon": "📝"
+    },
+    {
+      "category": "Service Pages",
       "label": "GBP Optimization",
       "url": "https://www.phoenixmethodseo.com/services/gbp-optimization/",
       "icon": "📊"
+    },
+    {
+      "category": "Service Pages",
+      "label": "AI Overview Optimization",
+      "url": "https://www.phoenixmethodseo.com/services/ai-overview-optimization/",
+      "icon": "🤖"
+    },
+    {
+      "category": "Service Pages",
+      "label": "SEO Development",
+      "url": "https://www.phoenixmethodseo.com/services/seo-development/",
+      "icon": "💻"
+    },
+    {
+      "category": "Industry Pages",
+      "label": "Healthcare SEO",
+      "url": "https://www.phoenixmethodseo.com/industries/healthcare-seo/",
+      "icon": "🏥"
+    },
+    {
+      "category": "Industry Pages",
+      "label": "Mental Health SEO",
+      "url": "https://www.phoenixmethodseo.com/industries/mental-health-seo/",
+      "icon": "🧠"
+    },
+    {
+      "category": "Industry Pages",
+      "label": "Dental SEO",
+      "url": "https://www.phoenixmethodseo.com/industries/dental-seo/",
+      "icon": "🦷"
+    },
+    {
+      "category": "Industry Pages",
+      "label": "Agriculture SEO",
+      "url": "https://www.phoenixmethodseo.com/industries/agriculture-seo/",
+      "icon": "🌾"
+    },
+    {
+      "category": "Industry Pages",
+      "label": "Oil & Gas SEO",
+      "url": "https://www.phoenixmethodseo.com/industries/oil-gas-seo/",
+      "icon": "⛽"
+    },
+    {
+      "category": "Admin",
+      "label": "Phoenix AI Dashboard",
+      "url": "https://phoenix-ai.phoenixmethod.workers.dev/app/",
+      "icon": "🤖"
+    },
+    {
+      "category": "Admin",
+      "label": "Portal Admin",
+      "url": "https://portal.phoenixmethod.workers.dev/admin",
+      "icon": "🔧"
     }
   ],
   "worklog": [
