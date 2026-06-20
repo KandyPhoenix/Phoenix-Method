@@ -86,7 +86,10 @@ async function encryptSecret(plain, secret) {
   return `${b64urlEncode(iv)}.${b64urlEncode(ct)}`;
 }
 async function decryptSecret(blob, secret) {
-  if (!blob || !blob.includes('.')) return null;
+  if (!blob) return null;
+  // Plain-text fallback: values without the iv.ct separator were stored
+  // unencrypted (e.g. bootstrapped directly into KV). Return as-is.
+  if (!blob.includes('.')) return blob;
   const [ivPart, ctPart] = blob.split('.');
   const iv = Uint8Array.from(b64urlDecode(ivPart), (c) => c.charCodeAt(0));
   const ct = Uint8Array.from(b64urlDecode(ctPart), (c) => c.charCodeAt(0));
@@ -5719,7 +5722,7 @@ function dashboardHTML() {
             '<div>' +
               '<label>Client portal slug</label>' +
               '<input type="text" name="portalSlug" value="' + escapeHTML(site.portalSlug || '') + '" placeholder="e.g. lori, phw, pm" maxlength="40" style="width:100%;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:\\'Outfit\\',sans-serif;font-size:0.95rem;">' +
-              '<p class="help" style="margin-top:6px;">Links this site to a Phoenix Method client portal. After each article is generated, it automatically appears in the portal\\'s Phoenix AI tab. Leave empty to disable. (Example: enter <code>lori</code> to push to the Lori Kimmerly portal.)</p>' +
+              '<p class="help" style="margin-top:6px;">Links this site to a Phoenix Method client portal. After each article is generated, it automatically appears in the portal\\'s AI tab. Leave empty to disable.</p>' +
             '</div>' +
             '<div class="row-actions"><button type="submit" class="btn btn-ghost">Save settings</button></div>' +
           '</form>' +
