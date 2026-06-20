@@ -4392,6 +4392,7 @@ export default {
 
     if (path === '/auth/request' && request.method === 'POST') return cors(await handleAuthRequest(request, env, url), request);
     if (path === '/auth/verify') return await handleAuthVerify(request, env, url);
+    if (path === '/auth/setcookie') return await handleSetCookie(request, env, url);
     if (path === '/auth/logout') return logout();
     if (path === '/auth/google/start') return await handleGoogleStart(request, env, url);
     if (path === '/auth/google/callback') return await handleGoogleCallback(request, env, url);
@@ -4522,6 +4523,23 @@ async function handleAuthRequest(request, env, url) {
     console.error('resend send failed', err);
   }
   return json({ ok: true });
+}
+
+async function handleSetCookie(request, env, url) {
+  const s = url.searchParams.get('s');
+  if (!s) return new Response('Missing token', { status: 400 });
+  const payload = await verifyToken(s, env.SESSION_SECRET);
+  if (!payload || payload.kind !== 'session' || !validEmail(payload.email)) {
+    return new Response('Invalid or expired session token.', { status: 403 });
+  }
+  const sessionDays = parseInt(env.SESSION_DAYS || '30', 10);
+  return new Response(null, {
+    status: 302,
+    headers: {
+      'Location': '/app/',
+      'Set-Cookie': `${COOKIE_NAME}=${s}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${sessionDays * 86400}`,
+    },
+  });
 }
 
 async function handleAuthVerify(request, env, url) {
