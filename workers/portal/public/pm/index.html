@@ -66,14 +66,11 @@
 
         /* ── TABS ── */
         .tabs {
-            display: flex; gap: 4px; margin-bottom: 24px;
+            display: flex; flex-wrap: wrap; gap: 2px; margin-bottom: 24px;
             border-bottom: 1px solid rgba(255,255,255,0.06);
-            overflow-x: auto;
-            scrollbar-width: none;
         }
-        .tabs::-webkit-scrollbar { display: none; }
         .tab {
-            padding: 10px 16px; font-size: 13px; font-weight: 500;
+            padding: 8px 10px; font-size: 12px; font-weight: 500;
             color: #9A95A8; cursor: pointer; border: none; background: none;
             border-bottom: 2px solid transparent; margin-bottom: -1px;
             transition: color 0.2s, border-color 0.2s; white-space: nowrap;
@@ -358,7 +355,7 @@
         /* ── SITE LINKS ── */
         .links-group { margin-bottom: 32px; } .links-group:last-child { margin-bottom: 0; }
         .links-group-title { font-size: 12px; color: #9A95A8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; font-weight: 500; }
-        .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+        .links-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; max-width: 100%; }
         .link-card {
             background: #0E0E18; border-radius: 8px; padding: 16px 18px;
             border: 0.5px solid rgba(255,255,255,0.06);
@@ -921,31 +918,26 @@ function buildPortal(d) {
     const aiArticles = d.ai_articles || [];
     const aiStatusLabel = { ready: 'Ready', publish: 'Published', draft: 'Draft', failed: 'Failed' };
     const aiStatusColor = { ready: '#E87B2F', publish: '#2ecc71', draft: '#9b59b6', failed: '#e74c3c' };
-    const aiListEl = document.getElementById('ai-articles-list');
-    if (aiListEl) {
-        if (aiArticles.length) {
-            aiListEl.innerHTML = '<div class="worklog-list">' + aiArticles.map(a => {
-                const st = a.status || 'draft';
-                const badgeColor = aiStatusColor[st] || '#9A95A8';
-                const label = aiStatusLabel[st] || st;
-                const titleHtml = a.publicUrl
-                    ? `<a href="${escapeHTML(a.publicUrl)}" target="_blank" rel="noopener" style="color:#F0ECE6;text-decoration:none;border-bottom:1px solid rgba(240,236,230,0.2)">${escapeHTML(a.title)}</a>`
-                    : escapeHTML(a.title);
-                return `<div class="worklog-entry">
-                    <div class="worklog-left">
-                        <div class="worklog-date">${escapeHTML(a.date || '')}</div>
-                        <span class="worklog-type" style="background:${badgeColor}22;color:${badgeColor}">${label}</span>
-                    </div>
-                    <div class="worklog-body">
-                        <div class="worklog-title">${titleHtml}</div>
-                        <div class="worklog-detail">Keyword: ${escapeHTML(a.keyword || '')}${a.siteUrl ? ' · ' + escapeHTML(new URL(a.siteUrl).hostname) : ''}</div>
-                    </div>
-                </div>`;
-            }).join('') + '</div>';
-        } else {
-            aiListEl.innerHTML = '<p style="color:#9A95A8;font-size:13px;padding:16px 0">No articles generated yet. Open Phoenix AI to generate your first article.</p>';
-        }
-    }
+    const aiArticlesHtml = aiArticles.length
+        ? '<div class="worklog-list">' + aiArticles.map(a => {
+            const st = a.status || 'draft';
+            const badgeColor = aiStatusColor[st] || '#9A95A8';
+            const label = aiStatusLabel[st] || st;
+            const titleHtml = a.publicUrl
+                ? `<a href="${escapeHTML(a.publicUrl)}" target="_blank" rel="noopener" style="color:#F0ECE6;text-decoration:none;border-bottom:1px solid rgba(240,236,230,0.2)">${escapeHTML(a.title)}</a>`
+                : escapeHTML(a.title);
+            return `<div class="worklog-entry">
+                <div class="worklog-left">
+                    <div class="worklog-date">${escapeHTML(a.date || '')}</div>
+                    <span class="worklog-type" style="background:${badgeColor}22;color:${badgeColor}">${label}</span>
+                </div>
+                <div class="worklog-body">
+                    <div class="worklog-title">${titleHtml}</div>
+                    <div class="worklog-detail">Keyword: ${escapeHTML(a.keyword || '')}${a.siteUrl ? ' · ' + escapeHTML(new URL(a.siteUrl).hostname) : ''}</div>
+                </div>
+            </div>`;
+        }).join('') + '</div>'
+        : '<p style="color:#9A95A8;font-size:13px;padding:16px 0">No articles generated yet. Open Phoenix AI to generate your first article.</p>';
 
     // ── SITE LINKS ──
     const siteLinks = d.site_links || [];
@@ -993,7 +985,7 @@ function buildPortal(d) {
             <button class="tab active" data-tab="overview">Overview</button>
             <button class="tab" data-tab="rankings">Rank Tracking</button>
             <button class="tab" data-tab="calendar">Content Calendar</button>
-            <button class="tab" data-tab="ai">Phoenix AI</button>
+            <button class="tab" data-tab="ai">AI</button>
             <button class="tab" data-tab="billing">Billing & Plan</button>
             <button class="tab" data-tab="roadmap">SEO Roadmap</button>
             <button class="tab" data-tab="messages">Messages</button>
@@ -1106,7 +1098,7 @@ function buildPortal(d) {
                 <span class="sec-title">Phoenix AI Articles</span>
                 <span class="sec-sub">Auto-generated by Phoenix AI · <a href="https://phoenix-ai.phoenixmethod.workers.dev/app/" target="_blank" rel="noopener" style="color:#E87B2F;text-decoration:none">Open Phoenix AI →</a></span>
             </div>
-            <div id="ai-articles-list"></div>
+            <div id="ai-articles-list">${aiArticlesHtml}</div>
         </div>
 
         <!-- BILLING -->
