@@ -56,7 +56,7 @@
         </li>
         <li><a href="/blog/">Blog</a></li>
         <li><a href="/#faq">FAQ</a></li>
-        <li><a href="https://phoenix-ai.phoenixmethod.workers.dev/">Phoenix AI</a></li>
+        <li><a href="/phoenix-ai/">Phoenix AI</a></li>
         <li><a href="/contact/" class="nav-cta">Contact</a></li>
       </ul>
     </div>
