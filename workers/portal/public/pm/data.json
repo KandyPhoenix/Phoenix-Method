@@ -560,6 +560,13 @@
       "type": "audit",
       "title": "May GSC checkpoint — 652 impressions, 73 keywords",
       "detail": "6.7x impression growth from April. 73 keyword queries vs 35 in April. Average position 73.7 (new content in deep positions — expected)."
+    },
+    {
+      "date": "June 18–20, 2026",
+      "type": "technical",
+      "title": "Phoenix AI worker built and deployed",
+      "detail": "Phoenix AI content generation tool is live at phoenix-ai.phoenixmethod.workers.dev. Features: magic link login, Google OAuth, article generation with Preview/HTML/Meta & FAQ tabs, Manual CMS mode for phoenixmethodseo.com. Connected phoenixmethodseo.com as first site — 19 keywords loaded, full article generated and tested end-to-end. PM-347 (bypass login endpoint) and PM-348 (dashboard brand name fix) completed.",
+      "ticket": "PM-347"
     }
   ],
   "homepage": "https://phoenixmethodseo.com"
