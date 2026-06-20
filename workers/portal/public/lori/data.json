@@ -8,7 +8,7 @@
   "hours_used": 0,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-06-18",
+  "updated": "2026-06-20",
   "next_invoice": {
     "date": "July 1, 2026",
     "amount": "$575.00"
@@ -20,15 +20,15 @@
     "keywords": 141,
     "keywords_change": "+73",
     "keywords_trend": "up",
-    "position": 11.3,
-    "position_change": "+1.5",
+    "position": 8.8,
+    "position_change": "+1.1",
     "position_trend": "up",
-    "impressions": 2688,
-    "impressions_change": "+332",
+    "impressions": 3557,
+    "impressions_change": "+869",
     "impressions_trend": "up",
-    "ctr": 5.69,
-    "ctr_change": "+0.04",
-    "ctr_trend": "up"
+    "ctr": 3.74,
+    "ctr_change": "-1.95",
+    "ctr_trend": "down"
   },
   "deliverables": [
     {
@@ -657,6 +657,11 @@
       "from": "Kandy",
       "date": "June 18, 2026",
       "text": "Your June blog post is confirmed — and we love that you picked your own topic. We're ready to work with your grief piece whenever your draft is ready. Send it over and we'll optimize it for search, get it formatted, and have it live on your site before the end of the month."
+    },
+    {
+      "from": "Kandy",
+      "date": "June 20, 2026",
+      "text": "Tech validation session today — confirmed everything is clean. The breadcrumb schema fix and FAQ schema fix from last week are both verified live on production across all pages. Impressions are up to 3,557 (from 2,895 last period, +23%) and average position improved from 9.9 to 8.8 — the site is gaining ground. The insurance blog is pulling 20+ new keyword rankings this week, including 'does insurance cover therapy,' 'how does insurance work with therapy,' and 'FSA vs HSA.' Couples counseling Renton also appeared as a new keyword at position 10. On the schema side, we identified some structural improvements we're planning — details next session."
     }
   ],
   "site_links": [
@@ -834,6 +839,19 @@
       "type": "fix",
       "title": "Comments disabled site-wide",
       "detail": "Closed comments and pingbacks on all 5 existing posts. Site default set to closed for future posts."
+    },
+    {
+      "date": "June 20, 2026",
+      "type": "technical",
+      "title": "Tech audit — breadcrumb + FAQ schema fixes verified live",
+      "detail": "Confirmed LOR-335 (FAQ schema HTML strip) and LOR-336 (breadcrumb position integer fix) are both clean on production across all checked pages.",
+      "ticket": "LOR-335 LOR-336"
+    },
+    {
+      "date": "June 20, 2026",
+      "type": "seo",
+      "title": "Weekly performance check — impressions +23%, position 8.8",
+      "detail": "Impressions up from 2,895 to 3,557 vs prior period. Avg position improved from 9.9 to 8.8. Insurance blog pulling 20+ new keyword rankings. Couples counseling Renton appeared as new keyword at pos 10."
     }
   ],
   "homepage": "https://lorikimmerly.com"
