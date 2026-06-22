@@ -37,8 +37,7 @@
     },
     {
       "text": "Blog Post — Grief",
-      "status": "in_progress",
-      "due": "Jun 30"
+      "status": "done"
     },
     {
       "text": "Site Work — 1 Hr",
@@ -329,8 +328,9 @@
     "blog": {
       "title": "Grief Blog Post",
       "keyword": "grief therapy",
-      "status": "in_progress",
-      "note": "Lori's own topic — she's writing it herself. We'll publish and optimize when the draft arrives."
+      "status": "done",
+      "note": "Published June 20, 2026. Fully SEO-optimized — BlogPosting schema, Rank Math title/meta, focus keywords, submitted to Google Instant Indexing.",
+      "url": "https://lorikimmerly.com/2026/06/20/grief-therapy-5-gates-of-grief/"
     },
     "page": {
       "title": "Homepage — Couples Therapy SEO Pass",
@@ -655,6 +655,11 @@
     },
     {
       "from": "Kandy",
+      "date": "June 20, 2026",
+      "text": "Your grief blog post is live and fully optimized. Published today at lorikimmerly.com — authored under your name with full therapist credentials attached. The post covers Francis Weller's 5 Gates of Grief framework, includes recommended resources (books and a podcast), and ends with a call to action to your contact page. On the SEO side: optimized title, meta description, focus keywords (5 gates of grief, grief therapy Washington, grief therapist Washington state), BlogPosting schema with your name and credentials as author, Table of Contents for long-form content signals, and submitted to Google's Instant Indexing API so the crawl request went in today. We also cleaned up the blog home page while we were in it — cards are now equal height in every row, the blue accent border extends the full card height, category labels are clean, and we created a proper Grief category for the new post. All fixes verified live."
+    },
+    {
+      "from": "Kandy",
       "date": "June 18, 2026",
       "text": "Your June blog post is confirmed — and we love that you picked your own topic. We're ready to work with your grief piece whenever your draft is ready. Send it over and we'll optimize it for search, get it formatted, and have it live on your site before the end of the month."
     },
@@ -778,6 +783,12 @@
       "label": "Does Insurance Cover Therapy?",
       "url": "https://lorikimmerly.com/blog/does-insurance-cover-therapy/",
       "icon": "📄"
+    },
+    {
+      "category": "Blog Posts",
+      "label": "The 5 Gates of Grief",
+      "url": "https://lorikimmerly.com/2026/06/20/grief-therapy-5-gates-of-grief/",
+      "icon": "📄"
     }
   ],
   "worklog": [
@@ -888,6 +899,19 @@
       "type": "seo",
       "title": "Weekly performance check — impressions +23%, position 8.8",
       "detail": "Impressions up from 2,895 to 3,557 vs prior period. Avg position improved from 9.9 to 8.8. Insurance blog pulling 20+ new keyword rankings. Couples counseling Renton appeared as new keyword at pos 10."
+    },
+    {
+      "date": "June 20, 2026",
+      "type": "content",
+      "title": "Grief blog post published + fully SEO optimized",
+      "detail": "Published Lori's grief post covering Weller's 5 Gates of Grief. Author set to Lori Kimmerly LMFT for E-E-A-T. Rank Math title, meta description, focus keywords, BlogPosting schema, Table of Contents, and Instant Indexing submission all complete. Live at /2026/06/20/grief-therapy-5-gates-of-grief/",
+      "ticket": "LOR-338"
+    },
+    {
+      "date": "June 20, 2026",
+      "type": "fix",
+      "title": "Blog home UI fixes — equal-height cards, category cleanup",
+      "detail": "Cards now equal height per row via JS. Blue left-border extends full card height. 'Uncategorized' removed from Welcome post display. Grief category created. Blog post category list cleaned up (Tips category removed, Welcome category removed)."
     }
   ],
   "homepage": "https://lorikimmerly.com"
