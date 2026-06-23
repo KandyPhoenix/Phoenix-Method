@@ -3075,32 +3075,82 @@ function blogPostHTML({ site, article, faqHtml, imageUrl, firstPublishedAt, modi
 <meta property="article:author" content="${brandNameEsc}">
 ${ogImage}
 ${schemaTags}
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Outfit:wght@200;300;400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Outfit:wght@200;300;400;500;600&display=swap"></noscript>
 <link rel="stylesheet" href="/assets/site-chrome.css">
 <style>
-  body { font-family: 'Outfit', system-ui, sans-serif; line-height: 1.7; background: #07070D; color: #E8E8F0; margin: 0; }
-  .blog-post { max-width: 720px; margin: 60px auto; padding: 0 24px; }
-  .blog-post .hero { margin: 0 0 28px; }
-  .blog-post .hero img { width: 100%; aspect-ratio: 16/9; object-fit: cover; max-height: 360px; border-radius: 12px; display: block; }
-  .blog-post h1 { font-family: 'Cinzel', serif; font-size: 2rem; margin-bottom: 8px; }
-  .blog-post .meta { color: #8888A0; font-size: 0.88rem; margin-bottom: 32px; }
-  .blog-post h2 { font-family: 'Cinzel', serif; margin-top: 36px; margin-bottom: 12px; }
-  .blog-post h3 { font-family: 'Outfit', sans-serif; margin-top: 24px; margin-bottom: 8px; }
-  .blog-post p { margin-bottom: 16px; }
-  .blog-post a { color: #FF8C00; }
-  .blog-post ul, .blog-post ol { margin: 0 0 16px 24px; }
-  .blog-post .back { display: inline-block; margin-bottom: 24px; color: #8888A0; }
+  :root {
+    --bg-deep:#07070D;--bg-surface:#0E0E18;--bg-card:#131320;
+    --fire-start:#FF4D00;--fire-mid:#FF8C00;--fire-end:#FFB800;
+    --fire-glow:rgba(255,77,0,0.25);--border:rgba(255,77,0,0.12);
+    --border-subtle:rgba(255,255,255,0.06);
+    --text-primary:#F0ECE6;--text-secondary:#9A95A8;--text-muted:#5E5A6B;
+    --font-display:'Cinzel',serif;--font-body:'Outfit',sans-serif;--font-accent:'Rajdhani',sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-font-smoothing:antialiased;}
+  body{font-family:var(--font-body);font-weight:300;background:var(--bg-deep);color:var(--text-primary);line-height:1.7;overflow-x:hidden;}
+  a{color:inherit;text-decoration:none;}
+  .blog-article{padding:180px 0 80px;}
+  .blog-container{max-width:800px;margin:0 auto;padding:0 clamp(20px,4vw,48px);}
+  .blog-back{font-family:var(--font-accent);font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fire-mid);display:inline-flex;align-items:center;gap:8px;margin-bottom:40px;transition:color .3s;text-decoration:none;}
+  .blog-back:hover{color:var(--fire-end);}
+  .blog-meta{font-family:var(--font-accent);font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;color:var(--fire-mid);margin-bottom:16px;display:block;}
+  .blog-title{font-family:var(--font-display);font-weight:900;font-size:clamp(2rem,5vw,3rem);line-height:1.15;margin-bottom:20px;color:var(--text-primary);}
+  .blog-hero{margin:0 0 40px;}
+  .blog-hero img{width:100%;aspect-ratio:16/9;object-fit:cover;max-height:400px;border-radius:10px;display:block;}
+  .blog-body h2{font-family:var(--font-display);font-weight:700;font-size:1.6rem;color:var(--text-primary);margin:48px 0 16px;}
+  .blog-body h3{font-family:var(--font-display);font-weight:600;font-size:1.2rem;color:var(--fire-mid);margin:32px 0 12px;}
+  .blog-body p{color:var(--text-secondary);font-size:1.05rem;line-height:1.85;margin-bottom:20px;}
+  .blog-body strong{color:var(--text-primary);}
+  .blog-body a{color:var(--fire-mid);text-decoration:underline;text-underline-offset:3px;}
+  .blog-body a:hover{color:var(--fire-end);}
+  .blog-body .btn-primary,.blog-cta .btn-primary{color:#fff!important;text-decoration:none;}
+  .blog-body .btn-primary:hover,.blog-cta .btn-primary:hover{color:#fff!important;}
+  .blog-body ul,.blog-body ol{color:var(--text-secondary);font-size:1.05rem;line-height:1.85;margin-bottom:20px;padding-left:24px;}
+  .blog-body li{margin-bottom:8px;}
+  .blog-body li strong{color:var(--fire-mid);}
+  .blog-callout{background:var(--bg-card);border:1px solid var(--border);border-left:4px solid var(--fire-start);border-radius:6px;padding:24px 28px;margin:28px 0;}
+  .blog-callout p{color:var(--text-primary);font-size:.95rem;margin-bottom:0;}
+  .blog-divider{height:1px;background:linear-gradient(90deg,transparent,var(--fire-start),transparent);margin:48px 0;opacity:.3;}
+  .blog-cta{background:var(--bg-card);border:2px solid var(--fire-start);border-radius:10px;padding:40px;text-align:center;margin:48px 0;}
+  .blog-cta h3{font-family:var(--font-display);font-weight:700;font-size:1.4rem;color:var(--text-primary)!important;margin-bottom:12px!important;}
+  .blog-cta p{color:var(--text-secondary);margin-bottom:24px;}
+  .blog-author{background:var(--bg-surface);border-radius:8px;padding:28px;margin-top:48px;}
+  .blog-author p{font-size:.9rem;color:var(--text-secondary);font-style:italic;}
+  .btn-primary{display:inline-flex;align-items:center;justify-content:center;font-family:var(--font-accent);font-weight:600;font-size:.95rem;letter-spacing:.08em;text-transform:uppercase;padding:16px 36px;border:none;border-radius:4px;background:linear-gradient(135deg,var(--fire-start),var(--fire-mid));color:#fff;box-shadow:0 4px 25px var(--fire-glow);cursor:pointer;transition:all .35s;text-decoration:none;}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(255,77,0,.4);color:#fff;}
+  .faq-section{margin-top:48px;}
+  .faq-section h2{font-family:var(--font-display);font-weight:700;font-size:1.6rem;color:var(--text-primary);margin-bottom:24px;}
+  .faq-item{border-bottom:1px solid var(--border-subtle);padding:20px 0;}
+  .faq-item:last-child{border-bottom:none;}
+  .faq-item h3{font-family:var(--font-accent);font-weight:600;font-size:1rem;letter-spacing:.04em;color:var(--text-primary)!important;margin:0 0 10px!important;}
+  .faq-item p{font-size:.95rem;margin-bottom:0;}
 </style>
 </head>
 <body>
 <div id="pm-nav"></div>
-<main class="blog-post">
-<p class="back"><a href="/${site.blogPath || 'blog'}/">← All articles</a></p>
-<h1>${titleEsc}</h1>
-<p class="meta">Published ${new Date().toISOString().slice(0, 10)} · ${(article.tags || []).slice(0, 4).map(escape).join(' · ')}</p>
-${heroFigure}
+<article class="blog-article">
+<div class="blog-container">
+<a href="/${site.blogPath || 'blog'}/" class="blog-back">&larr; Back to Blog</a>
+<span class="blog-meta">Published ${new Date().toISOString().slice(0, 10)}${(article.tags || []).length ? ' &bull; ' + (article.tags || []).slice(0, 3).map(escape).join(' &bull; ') : ''}</span>
+<h1 class="blog-title">${ogTitleEsc}</h1>
+${imageUrl ? `<figure class="blog-hero"><img src="${imageUrl}" alt="${escape(rawTitle)}" loading="eager" width="1280" height="720"></figure>` : ''}
+<div class="blog-body">
 ${article.html || ''}
 ${faqHtml}
-</main>
+</div>
+<div class="blog-author">
+<p>${brandNameEsc} is an SEO and SEM consulting firm helping businesses rank higher and grow through search. Questions? <a href="mailto:hello@phoenixmethodseo.com" style="color:var(--fire-mid);">hello@phoenixmethodseo.com</a></p>
+</div>
+</div>
+</article>
 <div id="pm-footer"></div>
 <script src="/assets/site-chrome.js" defer></script>
 </body>
