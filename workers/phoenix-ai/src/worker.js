@@ -3111,6 +3111,8 @@ ${schemaTags}
   .blog-body strong{color:var(--text-primary);}
   .blog-body a{color:var(--fire-mid);text-decoration:underline;text-underline-offset:3px;}
   .blog-body a:hover{color:var(--fire-end);}
+  .blog-body .btn-primary,.blog-cta .btn-primary{color:#fff!important;text-decoration:none;}
+  .blog-body .btn-primary:hover,.blog-cta .btn-primary:hover{color:#fff!important;}
   .blog-body ul,.blog-body ol{color:var(--text-secondary);font-size:1.05rem;line-height:1.85;margin-bottom:20px;padding-left:24px;}
   .blog-body li{margin-bottom:8px;}
   .blog-body li strong{color:var(--fire-mid);}
