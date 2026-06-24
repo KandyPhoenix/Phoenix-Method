@@ -8,7 +8,7 @@
   "hours_used": 0,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-06-20",
+  "updated": "2026-06-24",
   "next_invoice": {
     "date": "July 1, 2026",
     "amount": "$575.00"
@@ -667,6 +667,11 @@
       "from": "Kandy",
       "date": "June 20, 2026",
       "text": "Tech validation session today — confirmed everything is clean. The breadcrumb schema fix and FAQ schema fix from last week are both verified live on production across all pages. Impressions are up to 3,557 (from 2,895 last period, +23%) and average position improved from 9.9 to 8.8 — the site is gaining ground. The insurance blog is pulling 20+ new keyword rankings this week, including 'does insurance cover therapy,' 'how does insurance work with therapy,' and 'FSA vs HSA.' Couples counseling Renton also appeared as a new keyword at position 10. On the schema side, we identified some structural improvements we're planning — details next session."
+    },
+    {
+      "from": "Kandy",
+      "date": "June 24, 2026",
+      "text": "Exciting next step — we're setting up your business social media presence! Your invoice for the Facebook Business Page + Instagram Business account setup is on its way. Once that's taken care of, we'll build both profiles for you: branded logo and cover images, optimized 'About' copy written around your therapy keywords, your service areas (Washington & Arizona telehealth), and a professional Instagram account linked to your Facebook Page so you can post to both at once. Everything is created under your own email so you keep full ownership — we'll be set up as a manager so we can post and maintain it for you. To get started after the invoice clears, we'll send a short checklist of a few details we need from you (logo file, a couple of handle options, and your preferred bio wording). Looking forward to getting you visible on social!"
     }
   ],
   "site_links": [
