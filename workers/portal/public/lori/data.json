@@ -8,7 +8,7 @@
   "hours_used": 0,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-06-24",
+  "updated": "2026-06-29",
   "next_invoice": {
     "date": "July 1, 2026",
     "amount": "$575.00"
@@ -794,6 +794,18 @@
       "label": "The 5 Gates of Grief",
       "url": "https://lorikimmerly.com/2026/06/20/grief-therapy-5-gates-of-grief/",
       "icon": "📄"
+    },
+    {
+      "category": "Social Media",
+      "label": "Facebook — Lori Kimmerly Therapy",
+      "url": "https://facebook.com/lorikimmerlytherapyandcoaching",
+      "icon": "📘"
+    },
+    {
+      "category": "Social Media",
+      "label": "Instagram — @lorikimmerlytherapy",
+      "url": "https://instagram.com/lorikimmerlytherapy",
+      "icon": "📸"
     }
   ],
   "worklog": [
