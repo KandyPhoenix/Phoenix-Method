@@ -474,6 +474,18 @@
       "label": "Contact",
       "url": "https://sunbrightrecovery.org/contact/",
       "icon": "✉️"
+    },
+    {
+      "category": "Social Media",
+      "label": "Facebook — Sunbright Recovery",
+      "url": "https://www.facebook.com/profile.php?id=61590180493030",
+      "icon": "📘"
+    },
+    {
+      "category": "Social Media",
+      "label": "Instagram — @sunbrightrecovery",
+      "url": "https://www.instagram.com/sunbrightrecovery",
+      "icon": "📸"
     }
   ],
   "worklog": [
