@@ -635,6 +635,18 @@
       "label": "Portal Admin",
       "url": "https://portal.phoenixmethod.workers.dev/admin",
       "icon": "🔧"
+    },
+    {
+      "category": "Social Media",
+      "label": "Facebook — Phoenix Method",
+      "url": "https://www.facebook.com/profile.php?id=61576693598720",
+      "icon": "📘"
+    },
+    {
+      "category": "Social Media",
+      "label": "Instagram — @phoenixmethodseo",
+      "url": "https://www.instagram.com/phoenixmethodseo/",
+      "icon": "📸"
     }
   ],
   "worklog": [
