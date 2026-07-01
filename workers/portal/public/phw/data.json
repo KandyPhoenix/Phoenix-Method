@@ -1,13 +1,13 @@
 {
   "client": "Parish Health and Wellness",
   "short_name": "PHW",
-  "month": "June 2026",
+  "month": "July 2026",
   "plan": null,
   "plan_hours": 6,
-  "hours_used": 3,
+  "hours_used": 0,
   "rollover_enabled": true,
-  "hours_rolled_over": 5,
-  "updated": "2026-06-09",
+  "hours_rolled_over": 8,
+  "updated": "2026-07-01",
   "stats": {
     "sessions": 147,
     "sessions_change": "-7",
@@ -173,17 +173,17 @@
   ],
   "content_calendar": [
     {
-      "date": "Jun 2026",
+      "date": "Jul 2026",
       "title": "Red Bluff hero H1 + step text fix (PHW-148)",
       "type": "fix"
     },
     {
-      "date": "Jun 2026",
+      "date": "Jul 2026",
       "title": "GBP optimization — photos, posts, services",
       "type": "deliverable"
     },
     {
-      "date": "Jun 2026",
+      "date": "Jul 2026",
       "title": "Service page — Anxiety Therapy California",
       "type": "page"
     }
@@ -515,6 +515,11 @@
       "from": "Kandy",
       "date": "June 9, 2026",
       "text": "PHW-260: Rewrote SEO title and meta for the couples therapy blog post (/mental-health-blog/couples-therapy-california). That page has 7,650 impressions/month at position 35 with 0 clicks — the old title was 'Couples Therapy California — Rebuild Trust & Connection', which is fine but generic. New title: 'Online Couples Therapy California | Same-Week Appointments' — more specific, surfaces telehealth and the same-week availability which is a real conversion differentiator. Live and verified."
+    },
+    {
+      "from": "Kandy",
+      "date": "July 1, 2026",
+      "text": "July is active. June closed at 147 clicks from 40,614 impressions at average position 23.4 — impressions up +2,930 from May and position continuing to improve. You're carrying 8 banked hours into July (5 rolled from prior months plus the 3 unused from June's 6-hour plan). On deck this month: the Red Bluff hero H1 fix (PHW-148, been on the list — let's get it done), GBP optimization pass, and the first service page expansion targeting anxiety therapy California. The technical wins from June (FAQ schema fix, blog post republished, title rewrites on the online therapy and couples therapy pages) should continue to gain traction in rankings over the next few weeks."
     }
   ],
   "site_links": [
