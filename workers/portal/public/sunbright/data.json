@@ -1,14 +1,14 @@
 {
   "client": "Sunbright Recovery Center",
   "short_name": "Sunbright",
-  "month": "June 2026",
+  "month": "July 2026",
   "plan": "Launch",
   "plan_price": "Full-Build Project",
   "plan_hours": null,
   "hours_used": 0,
   "rollover_enabled": false,
   "hours_rolled_over": 0,
-  "updated": "2026-06-06",
+  "updated": "2026-07-01",
   "next_invoice": null,
   "stats": {
     "sessions": null,
@@ -412,6 +412,11 @@
       "from": "Kandy",
       "date": "June 6, 2026",
       "text": "Welcome to your Phoenix Method client portal, Linda! This is your home base for the Sunbright Recovery website project — you can check progress on every deliverable, see what's coming up in the content calendar, and track our build phases in real time.\n\nWhere we are: the homepage is fully built and in review. It covers all 13 sections — hero, programs, about, what we treat, your daily schedule, the donation/volunteer block, FAQ, and footer. You can view the preview at the Cloudflare Pages URL Kandy sent you.\n\nNext step: send back your feedback on the homepage and we'll begin building the inner pages — Programs, About (with your bio), Admissions, and the Donate page. Once all pages are built, we'll apply the full SEO setup and get the blog and social media off the ground before your domain goes live."
+    },
+    {
+      "from": "Kandy",
+      "date": "July 1, 2026",
+      "text": "Checking in as we head into July. The homepage is built and deployed at the preview URL. As soon as we hear back on your homepage feedback, we move straight into the inner pages — Programs, About, Admissions, and Donate. Per the build schedule, those pages are the July priority, followed by SEO setup on all pages and the first two blog posts. We're on track for an August launch if we keep momentum. Reach out anytime with feedback or questions — we're ready to move when you are."
     }
   ],
   "site_links": [

@@ -1,21 +1,21 @@
 {
   "client": "Lori Kimmerly Therapy and Coaching",
   "short_name": "Lori",
-  "month": "June 2026",
+  "month": "July 2026",
   "plan": "Custom",
   "plan_price": "$575/mo",
   "plan_hours": 1,
   "hours_used": 0,
   "rollover_enabled": true,
-  "hours_rolled_over": 0,
-  "updated": "2026-06-29",
+  "hours_rolled_over": 1,
+  "updated": "2026-07-01",
   "next_invoice": {
     "date": "July 1, 2026",
     "amount": "$575.00"
   },
   "stats": {
-    "sessions": 153,
-    "sessions_change": "+20",
+    "sessions": 221,
+    "sessions_change": "+68",
     "sessions_trend": "up",
     "keywords": 141,
     "keywords_change": "+73",
@@ -308,12 +308,12 @@
   ],
   "content_calendar": [
     {
-      "date": "Jun 15",
+      "date": "Jul 15",
       "title": "Blog Topic or Draft Submission Due",
       "type": "client"
     },
     {
-      "date": "Jun 22",
+      "date": "Jul 22",
       "title": "Blog Post or SEO Op",
       "type": "deliverable"
     },
@@ -672,6 +672,11 @@
       "from": "Kandy",
       "date": "June 24, 2026",
       "text": "Exciting next step — we're setting up your business social media presence! Your invoice for the Facebook Business Page + Instagram Business account setup is on its way. Once that's taken care of, we'll build both profiles for you: branded logo and cover images, optimized 'About' copy written around your therapy keywords, your service areas (Washington & Arizona telehealth), and a professional Instagram account linked to your Facebook Page so you can post to both at once. Everything is created under your own email so you keep full ownership — we'll be set up as a manager so we can post and maintain it for you. To get started after the invoice clears, we'll send a short checklist of a few details we need from you (logo file, a couple of handle options, and your preferred bio wording). Looking forward to getting you visible on social!"
+    },
+    {
+      "from": "Kandy",
+      "date": "July 1, 2026",
+      "text": "July package is active. June stats are strong: 3,557 impressions (up +23% from May), 141 keywords indexed, average position improved from 9.9 to 8.8. The grief blog post is live, indexed, and already pulling traffic. Your unused June site hour has rolled over — you now have 1 banked hour going into July. This month's blog or SEO op slot is open: send your topic by July 15 and we'll have it live by July 22. If we don't hear from you, we'll pick your best current keyword opportunity. Quarterly performance report is due July 31 — that will cover the full Q2 picture with ranking trends, what we've built, and what's next."
     }
   ],
   "site_links": [
