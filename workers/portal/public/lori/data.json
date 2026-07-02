@@ -294,20 +294,19 @@
     }
   ],
   "content_choice": {
-    "chosen": "blog",
+    "chosen": "page",
     "blog": {
-      "title": "Grief Blog Post",
-      "keyword": "grief therapy",
-      "status": "done",
-      "note": "Published June 20, 2026. Fully SEO-optimized — BlogPosting schema, Rank Math title/meta, focus keywords, submitted to Google Instant Indexing.",
-      "url": "https://lorikimmerly.com/2026/06/20/grief-therapy-5-gates-of-grief/"
+      "title": null,
+      "keyword": null,
+      "status": "pending",
+      "note": "Open slot — send your blog topic by July 15 and we will write and fully optimize it, live by July 22."
     },
     "page": {
-      "title": "Homepage — Couples Therapy SEO Pass",
-      "url": "lorikimmerly.com/",
-      "keyword": "couples therapy renton",
-      "status": "suggested",
-      "note": "Currently ranking pos 9.4 with 20 impressions. Optimize H2, intro copy, and meta for this keyword — target top 5."
+      "title": "Insurance page — CTR / SEO optimization",
+      "url": "lorikimmerly.com/2026/05/19/does-insurance-cover-therapy-washington-state/",
+      "keyword": "does state insurance cover therapy",
+      "status": "chosen",
+      "note": "Pre-selected July SEO op (existing page — no new build). Currently pos 8.5 with 39 impressions and 0 clicks; also surfaces \"therapy without insurance WA\" and \"how much does therapy cost with insurance.\" We will optimize the title, meta, H1/intro and internal links to lift CTR into the top 5. You have until July 15 to send a blog topic instead."
     }
   },
   "blog_topics": [
