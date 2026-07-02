@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phoenix Method — Your SEO Report: Lori Kimmerly Therapy</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Georgia', serif; color: #2c3e50; background: #f5f6fa; }
+
+  /* Cover */
+  .cover {
+    background: linear-gradient(135deg, #0d1b2e 0%, #1a3a5c 100%);
+    color: white; text-align: center; padding: 80px 40px;
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+  }
+  .cover .brand { font-size: 13px; letter-spacing: 4px; text-transform: uppercase; color: #7fb3d3; margin-bottom: 12px; }
+  .cover .tagline-small { font-size: 12px; letter-spacing: 3px; color: #7fb3d3; margin-bottom: 60px; }
+  .cover h1 { font-size: 34px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; color: #ffffff; }
+  .cover .subtitle { font-size: 16px; color: #a8c8e0; letter-spacing: 1px; margin-bottom: 60px; }
+  .cover .client-name { font-size: 28px; font-weight: bold; color: #ffffff; margin-bottom: 8px; }
+  .cover .client-url { font-size: 14px; color: #7fb3d3; margin-bottom: 4px; }
+  .cover .client-loc { font-size: 13px; color: #7fb3d3; margin-bottom: 60px; }
+  .cover .prep { font-size: 12px; color: #5d8ba8; }
+  .cover .divider { width: 60px; height: 2px; background: #3498db; margin: 30px auto; }
+
+  /* Page structure */
+  .page { max-width: 900px; margin: 0 auto; padding: 50px 40px; }
+  .page-break { page-break-before: always; }
+
+  /* Section headers */
+  h2.section-title {
+    font-size: 24px; font-weight: bold; color: #0d1b2e;
+    border-bottom: 3px solid #3498db; padding-bottom: 12px;
+    margin-bottom: 24px; margin-top: 48px;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  h2.section-title:first-of-type { margin-top: 0; }
+  h3.sub-title {
+    font-size: 17px; font-weight: bold; color: #1a3a5c;
+    margin: 28px 0 14px; border-left: 4px solid #3498db;
+    padding-left: 12px;
+  }
+
+  /* Grade badges */
+  .grade-badge {
+    display: inline-block; color: white; font-weight: bold;
+    font-size: 22px; width: 48px; height: 48px; line-height: 48px;
+    text-align: center; border-radius: 6px; margin-right: 12px;
+  }
+  .grade-row {
+    display: flex; align-items: center; padding: 14px 0;
+    border-bottom: 1px solid #ecf0f1;
+  }
+  .grade-row .grade-label { font-size: 15px; font-weight: bold; flex: 1; }
+  .grade-row .grade-note { font-size: 13px; color: #7f8c8d; flex: 2; }
+  .grades-box { background: white; border-radius: 8px; padding: 20px 24px; box-shadow: 0 2px 8px rgba(0,0,0,.06); margin-bottom: 32px; }
+
+  /* Win cards */
+  .win {
+    background: white; border-left: 4px solid #27ae60; border-radius: 4px;
+    padding: 16px 20px; margin: 12px 0; box-shadow: 0 1px 4px rgba(0,0,0,.05);
+  }
+  .win h4 { font-size: 14px; font-weight: bold; margin-bottom: 6px; color: #2c3e50; }
+  .win p { font-size: 13px; color: #555; line-height: 1.6; }
+
+  /* Opportunity cards */
+  .opportunity {
+    background: white; border-left: 4px solid #3498db; border-radius: 4px;
+    padding: 16px 20px; margin: 12px 0; box-shadow: 0 1px 4px rgba(0,0,0,.05);
+  }
+  .opportunity h4 { font-size: 14px; font-weight: bold; margin-bottom: 6px; color: #2c3e50; }
+  .opportunity p { font-size: 13px; color: #555; line-height: 1.6; }
+  .opportunity .to-a { margin-top: 12px; padding-top: 10px; border-top: 1px solid #dce8f2; font-size: 12px; color: #4a5568; background: none; }
+  .opportunity .to-a strong { display: block; margin-bottom: 5px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: #2980b9; }
+
+  /* Attention cards */
+  .attention {
+    background: white; border-left: 4px solid #e67e22; border-radius: 4px;
+    padding: 16px 20px; margin: 12px 0; box-shadow: 0 1px 4px rgba(0,0,0,.05);
+  }
+  .attention h4 { font-size: 14px; font-weight: bold; margin-bottom: 6px; color: #2c3e50; }
+  .attention p { font-size: 13px; color: #555; line-height: 1.6; }
+  .attention .to-a { margin-top: 12px; padding-top: 10px; border-top: 1px solid #ede9e0; font-size: 12px; color: #4a5568; background: none; }
+  .attention .to-a strong { display: block; margin-bottom: 5px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: #c0762a; }
+
+  /* Phase boxes */
+  .phase {
+    background: white; border-radius: 8px; padding: 22px 26px;
+    margin: 16px 0; box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    border-top: 4px solid #3498db;
+  }
+  .phase.p2 { border-top-color: #2ecc71; }
+  .phase.p3 { border-top-color: #f39c12; }
+  .phase.p4 { border-top-color: #9b59b6; }
+  .phase h3 { font-size: 16px; font-weight: bold; color: #0d1b2e; margin-bottom: 6px; }
+  .phase .timeline { font-size: 12px; color: #7f8c8d; margin-bottom: 14px; }
+  .phase ul { list-style: none; padding: 0; }
+  .phase ul li { padding: 5px 0; font-size: 13px; padding-left: 20px; position: relative; color: #444; }
+  .phase ul li:before { content: "→"; position: absolute; left: 0; color: #3498db; font-weight: bold; }
+
+  /* Blog topics */
+  .topic-card {
+    background: white; border-radius: 6px; padding: 14px 18px;
+    margin: 8px 0; box-shadow: 0 1px 4px rgba(0,0,0,.05);
+    border-left: 3px solid #3498db;
+  }
+  .topic-card h4 { font-size: 13px; font-weight: bold; margin-bottom: 4px; }
+  .topic-card p { font-size: 12px; color: #7f8c8d; }
+
+  /* Competitor cards */
+  .comp-card {
+    background: white; border-radius: 8px; padding: 18px 22px;
+    margin: 12px 0; box-shadow: 0 2px 6px rgba(0,0,0,.06);
+  }
+  .comp-card h4 { font-size: 15px; font-weight: bold; color: #0d1b2e; margin-bottom: 10px; }
+  .comp-card ul { list-style: none; padding: 0; }
+  .comp-card ul li { font-size: 13px; padding: 3px 0 3px 16px; position: relative; color: #555; }
+  .comp-card ul li:before { content: "•"; position: absolute; left: 0; color: #3498db; }
+
+  /* Advantage card */
+  .advantage-card {
+    background: linear-gradient(135deg, #eaf4fb, #d6eaf8);
+    border-radius: 8px; padding: 18px 22px;
+    margin: 12px 0; border-left: 4px solid #2980b9;
+  }
+  .advantage-card h4 { font-size: 14px; font-weight: bold; color: #1a3a5c; margin-bottom: 6px; }
+  .advantage-card p { font-size: 13px; color: #444; line-height: 1.6; }
+
+  /* Summary box */
+  .summary-box {
+    background: linear-gradient(135deg, #0d1b2e, #1a3a5c);
+    color: white; border-radius: 8px; padding: 28px 32px; margin: 24px 0;
+  }
+  .summary-box p { font-size: 14px; line-height: 1.8; margin-bottom: 12px; color: #cde; }
+
+  /* Highlight box */
+  .highlight-box {
+    background: #f0f9ff; border: 1px solid #bee3f8; border-radius: 8px;
+    padding: 20px 24px; margin: 20px 0;
+  }
+  .highlight-box p { font-size: 14px; color: #1a3a5c; line-height: 1.7; margin-bottom: 8px; }
+  .highlight-box p:last-child { margin-bottom: 0; }
+
+  /* Footer */
+  .footer {
+    background: #0d1b2e; color: white; text-align: center;
+    padding: 40px; margin-top: 60px;
+  }
+  .footer .brand-f { font-size: 20px; font-weight: bold; letter-spacing: 3px; margin-bottom: 6px; }
+  .footer .tag { font-size: 12px; color: #7fb3d3; letter-spacing: 2px; margin-bottom: 16px; }
+  .footer .contact { font-size: 12px; color: #5d8ba8; }
+  .footer .dead { font-size: 11px; color: #3d5a70; margin-top: 8px; letter-spacing: 2px; }
+
+  p { line-height: 1.7; margin-bottom: 12px; font-size: 14px; }
+  ul.plain { list-style: disc; padding-left: 22px; }
+  ul.plain li { font-size: 13px; margin-bottom: 5px; color: #444; }
+
+  .flag-ok { color: #27ae60; font-weight: bold; }
+  .flag-warn { color: #e67e22; font-weight: bold; }
+  .flag-bad { color: #e74c3c; font-weight: bold; }
+
+  @media print {
+    .cover { min-height: auto; padding: 60px 40px; }
+    .page-break { page-break-before: always; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="brand">PHOENIX METHOD</div>
+  <div class="tagline-small">Search. Rise. Dominate.</div>
+  <h1>Your SEO Performance Report</h1>
+  <div class="subtitle">Where You Stand · Where You're Going · How We Get There</div>
+  <div class="divider"></div>
+  <div class="client-name">Lori Kimmerly Therapy</div>
+  <div class="client-url">lorikimmerly.com</div>
+  <div class="client-loc">Renton, WA · Telehealth: Washington &amp; Arizona</div>
+  <div class="divider"></div>
+  <div class="prep">Prepared: May 01, 2026<br>Prepared by Phoenix Method<br>hello@phoenixmethodseo.com &nbsp;|&nbsp; phoenixmethodseo.com</div>
+</div>
+
+
+<!-- OVERVIEW -->
+<div class="page page-break">
+  <h2 class="section-title">A Message From Your Team</h2>
+
+  <p>We've completed a full analysis of lorikimmerly.com — every page, every signal Google uses to decide where your site ranks. This report gives you a clear picture of where things stand today, what's already working in your favor, and exactly what needs to happen to get your practice in front of more clients who are actively searching for what you offer.</p>
+
+  <p>You have a strong team, real credentials, and the right technical setup already in place. The areas below show what needs to be done to improve your rankings.</p>
+
+  <div class="highlight-box">
+    <p><strong>What we audited:</strong> 22 pages across your entire site — every therapist bio, every service mention, every piece of content Google has indexed — analyzed against the 6 areas that determine search rankings for therapy practices.</p>
+    <p><strong>Your starting position:</strong> Your technical setup is solid. Your therapist bios are strong. Your IFS content is genuinely ahead of competitors. The growth opportunities below are about what can be built, not about what's broken.</p>
+  </div>
+
+  <h2 class="section-title" style="margin-top: 40px;">Your Report Card</h2>
+
+  <p>We grade every site across six areas that determine how Google ranks therapy practices. Here's where you stand today:</p>
+
+  <div class="grades-box">
+    <div class="grade-row">
+      <span class="grade-badge" style="background:#2ecc71">B</span>
+      <div class="grade-label">Technical SEO</div>
+      <div class="grade-note">Your site is built right — secure, fast-loading, and Google can crawl every page without issues. A few small cleanups will get this to an A.</div>
+    </div>
+    <div class="grade-row">
+      <span class="grade-badge" style="background:#f39c12">C</span>
+      <div class="grade-label">On-Page SEO</div>
+      <div class="grade-note">Your existing pages have strong titles and descriptions. The C reflects what's not yet there — your practice has no dedicated pages for anxiety therapy, couples counseling, IFS, or any of your core services.</div>
+    </div>
+    <div class="grade-row">
+      <span class="grade-badge" style="background:#f39c12">C</span>
+      <div class="grade-label">Site Speed</div>
+      <div class="grade-note">Sites like yours on WordPress typically score in the middle of the range on mobile. There are a handful of easy improvements that will move this grade up quickly.</div>
+    </div>
+    <div class="grade-row">
+      <span class="grade-badge" style="background:#f39c12">C</span>
+      <div class="grade-label">Local SEO</div>
+      <div class="grade-note">You have a phone number on your homepage and a map on your contact page — both good. Moving to a B means completing your Google Business Profile and getting listed in key therapy directories.</div>
+    </div>
+    <div class="grade-row">
+      <span class="grade-badge" style="background:#e67e22">D</span>
+      <div class="grade-label">Content Strategy</div>
+      <div class="grade-note">This is the area with the most room to grow. Your competitors rank for "anxiety therapist Renton" and "couples counseling Renton WA" because they have full pages dedicated to each service. You don't — yet. This is your biggest opportunity.</div>
+    </div>
+    <div class="grade-row">
+      <span class="grade-badge" style="background:#f39c12">C</span>
+      <div class="grade-label">Trust Signals</div>
+      <div class="grade-note">Your therapist credentials and insurance information are clearly visible — that's a genuine strength. Getting to a B means adding a Privacy Policy and client testimonials, which Google looks for specifically on healthcare sites.</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- WHAT'S WORKING -->
+<div class="page page-break">
+  <h2 class="section-title">What's Working in Your Favor</h2>
+
+  <p>These are areas where your site is currently performing well:</p>
+
+  <div class="win">
+    <h4>✓ Your Site Is Technically Sound</h4>
+    <p>Your website is secure (HTTPS), loads correctly on every device, and Google can find and index every page without issues. Your sitemap is in place and your redirects are working correctly.</p>
+  </div>
+
+  <div class="win">
+    <h4>✓ Therapist Bios Are a Genuine Differentiator</h4>
+    <p>You have 12 individual therapist bio pages. Most local competitors have 3–6 profiles. Each page gives Google an additional entry point for therapist-specific searches, and they include real credentials and specializations.</p>
+  </div>
+
+  <div class="win">
+    <h4>✓ Your Credentials Are Clearly Visible</h4>
+    <p>Every therapist's licensure is prominently displayed — LMFT, LMFTA, LMHCA. This matters enormously for healthcare sites. Google specifically evaluates whether the people providing mental health guidance have verifiable qualifications, and you're passing that test on every bio page.</p>
+  </div>
+
+  <div class="win">
+    <h4>✓ Your IFS Content Is Ahead of the Market</h4>
+    <p>Your IFS blog post is a substantive piece of content. IFS is a growing search term with lower competition compared to broader terms like "anxiety therapist" or "couples counseling" — your existing content is a foundation to build on.</p>
+  </div>
+
+  <div class="win">
+    <h4>✓ Insurance Information Is Front and Center</h4>
+    <p>Listing Premera, Cigna, Aetna, and Kaiser on your homepage is exactly the right call. Potential clients who want to use insurance shortlist practices immediately based on this — and you make it easy for them to confirm before they even pick up the phone.</p>
+  </div>
+
+  <div class="win">
+    <h4>✓ You Have a Schema Advantage Over Most Competitors</h4>
+    <p>Your site already uses structured data markup that tells Google exactly what kind of business you are and who your therapists are. Most of your local competitors have nothing like this in place. It's a quiet advantage that's already working in your favor.</p>
+  </div>
+
+  <div class="win">
+    <h4>✓ You Are the Only Practice in This Market Serving Arizona</h4>
+    <p>None of your local competitors serve Arizona via telehealth. You are currently the only practice in this competitive set with the ability to rank for Arizona online therapy searches. When dedicated Arizona pages are built, you can appear in a market where competition at the local practice level is effectively zero — a geographic advantage none of your competitors can replicate.</p>
+  </div>
+</div>
+
+
+<!-- GRADE CONTEXT -->
+<div class="page page-break">
+  <h2 class="section-title">What the Grades Mean for Rankings</h2>
+
+  <p>Each grade reflects where your site stands against what Google weighs most heavily for therapy practice searches. The two grades with the most direct impact on new client traffic are Content Strategy and Local SEO — both are driven by content and pages that don't exist yet, not by anything broken on your current site.</p>
+
+  <div class="opportunity">
+    <h4>On-Page SEO — C</h4>
+    <p>Your existing pages are optimized correctly. The C reflects a structural gap: no dedicated pages for any of your core services. When someone searches "anxiety therapist Renton WA" or "IFS therapy Washington," Google needs a page that specifically targets that search. Your competitors who rank for those terms have those pages — your site doesn't yet.</p>
+  </div>
+
+  <div class="attention">
+    <h4>Content Strategy — D</h4>
+    <p>Competitors ranking on the first page for your primary keywords have between 40–50+ pages of service and location content. Your site has 22 pages, the majority being therapist bios. The D reflects the volume of service content that doesn't exist yet, not the quality of what's there.</p>
+  </div>
+
+  <div class="opportunity">
+    <h4>Local SEO — C</h4>
+    <p>The basics are in place. The C reflects that your Google Business Profile is not fully built out, your therapists are not yet listed in the major therapy directories, and there are no location-specific or telehealth service area pages on the site.</p>
+  </div>
+
+  <div class="opportunity">
+    <h4>Trust Signals — C</h4>
+    <p>Google applies its highest scrutiny to healthcare sites. Your therapist credentials and insurance information are clearly visible — that covers a significant part of the trust requirement. The remaining gap is a Privacy Policy page and a client testimonials section, both of which Google looks for specifically on sites in this category.</p>
+  </div>
+</div>
+
+
+<!-- YOUR GROWTH OPPORTUNITY -->
+<div class="page page-break">
+  <h2 class="section-title">Your Biggest Growth Opportunities</h2>
+
+  <h3 class="sub-title">The #1 Opportunity: Service Pages</h3>
+  <p>If there's one thing we want you to take away from this report, it's this: <strong>building dedicated service pages is the single action that will move your rankings more than anything else combined.</strong></p>
+
+  <p>Right now, when someone in Renton searches "IFS therapist near me" or "anxiety therapy Washington State," your site doesn't have a page that directly answers that search. Google needs a page, and your competitors who do have those pages are taking that traffic. Here's how this plays out:</p>
+
+  <div class="opportunity">
+    <h4>Pages to Build — What Each One Unlocks</h4>
+    <p><strong>IFS Therapy Washington</strong> — IFS is a growing search term with lower competition than broad therapy terms. A dedicated page targeting it is currently missing from the site.</p>
+    <p><strong>Anxiety Therapy Renton WA</strong> — One of the highest-searched therapy terms in your area. A dedicated page targeting this term with your therapists' credentials and specializations addresses a direct gap in your current content.</p>
+    <p><strong>Couples Counseling Renton WA</strong> — High commercial intent: people searching this are ready to book. Linking this page to your couples-specialized therapist bios makes it even stronger.</p>
+    <p><strong>Online Therapy — Washington &amp; Arizona</strong> — Your telehealth coverage across two states is a competitive advantage. Dedicated pages for each state capture searches from clients who aren't in Renton but want to work with your team remotely.</p>
+    <p><strong>Depression, Trauma, Family Therapy</strong> — Three additional pages that together cover the majority of the high-intent therapy searches in your geographic market.</p>
+  </div>
+
+  <h3 class="sub-title">The #2 Opportunity: Local Visibility</h3>
+
+  <div class="opportunity">
+    <h4>Google Business Profile — Your Free Storefront</h4>
+    <p>When someone searches "therapist near me" on Google, the map results that appear above everything else are driven by Google Business Profile. A complete, active GBP listing with your services listed, photos uploaded, and regular posts is one of the fastest ways to appear in front of local searchers. Your competitors who appear in the local map pack are there largely because of a well-maintained GBP — not necessarily because their website is better than yours.</p>
+    <div class="to-a">
+      <strong>What a complete GBP does for you:</strong>
+      Appears in local map searches · Shows your phone number, address, and hours without the client needing to visit your site · Displays Google reviews · Posts show mental health tips and office updates · Pre-answered Q&amp;A builds trust before first contact
+    </div>
+  </div>
+
+  <div class="opportunity">
+    <h4>Therapy Directories — Where Your Clients Are Already Looking</h4>
+    <p>Psychology Today, TherapyDen, and Healthgrades are the directories that therapy clients specifically use when searching for a provider. Each listing is also a citation that reinforces your practice's legitimacy with Google. Every therapist on your team should have a profile on Psychology Today — it's the single most-used directory in your field and appears at or near the top of nearly every local therapy search.</p>
+  </div>
+
+  <h3 class="sub-title">The #3 Opportunity: Blog Content</h3>
+
+  <p>Your IFS blog post is a start. Below are the topics identified as highest-priority for your market based on search volume and relevance to your services:</p>
+
+  <div class="topic-card">
+    <h4>"How to Find a Therapist in Renton WA — What to Look For"</h4>
+    <p>Captures local searches from people ready to start therapy but not sure where to begin</p>
+  </div>
+  <div class="topic-card">
+    <h4>"IFS Therapy for Anxiety: How Internal Family Systems Helps You Heal"</h4>
+    <p>Builds on your existing IFS post — connects your signature approach to your most-searched condition</p>
+  </div>
+  <div class="topic-card">
+    <h4>"Couples Therapy vs. Marriage Counseling: What's the Difference?"</h4>
+    <p>High-search evergreen piece that directly supports your couples counseling service page</p>
+  </div>
+  <div class="topic-card">
+    <h4>"Does Insurance Cover Therapy in Washington State? (Premera, Aetna, Kaiser)"</h4>
+    <p>Very high commercial intent — people who are ready to book and need to confirm costs</p>
+  </div>
+  <div class="topic-card">
+    <h4>"Online Therapy in Washington State: Is Telehealth Right for You?"</h4>
+    <p>Directly supports your telehealth service area and captures WA-wide searches</p>
+  </div>
+  <div class="topic-card">
+    <h4>"What to Expect in Your First Therapy Session"</h4>
+    <p>Top-of-funnel for people who are therapy-curious — builds trust before they've decided to book</p>
+  </div>
+</div>
+
+
+<!-- COMPETITIVE LANDSCAPE -->
+<div class="page page-break">
+  <h2 class="section-title">Where You Stand Against Competitors</h2>
+
+  <p>We analyzed the practices currently ranking in the top 10 for your primary search terms — "therapist Renton WA," "IFS therapy Washington," "couples counseling Renton," and "online therapy Washington state." Here's what we found:</p>
+
+  <div class="comp-card">
+    <h4>Renton Counseling Center</h4>
+    <ul>
+      <li>Their advantage: 50+ pages of service and therapy-specific content — they've been building this for years</li>
+      <li>Their weakness: Their site structure is outdated and they don't have FAQ content, which is a direct ranking opportunity for you</li>
+      <li>Your path: Service pages + structured FAQ content lets you compete directly, even with their head start</li>
+    </ul>
+  </div>
+
+  <div class="comp-card">
+    <h4>Tapestry Therapy</h4>
+    <ul>
+      <li>Their advantage: 45+ therapy pages, multi-location coverage, strong Google review count</li>
+      <li>Their weakness: No FAQ structure on their pages — you can differentiate on answer-based content</li>
+      <li>Your path: Active Google Business Profile + service pages + review strategy narrows this gap significantly</li>
+    </ul>
+  </div>
+
+  <div class="comp-card">
+    <h4>Ohana Behavioral Health</h4>
+    <ul>
+      <li>Their advantage: 6 dedicated service pages, a full FAQ page</li>
+      <li>Their weakness: No structured data markup at all — you're already ahead of them technically</li>
+      <li>Your path: You outrank them the moment your service pages are live</li>
+    </ul>
+  </div>
+
+  <h3 class="sub-title">Your Unfair Advantages — When Activated</h3>
+
+  <div class="advantage-card">
+    <h4>12 Therapists vs. Their 3–6</h4>
+    <p>You have 12 therapist bio pages. Connecting each bio to relevant service pages via internal links increases topical depth and gives Google more signals about what your practice covers. Most local competitors have 3–6 profiles, so there is more content to work with here than at most comparable practices.</p>
+  </div>
+
+  <div class="advantage-card">
+    <h4>IFS as a Specialty — An Ownable Market Position</h4>
+    <p>IFS therapy is growing in search volume and has less competition than generic therapy terms. None of the competitors in this audit have dedicated IFS content. A focused IFS page paired with your existing blog post creates coverage in this area that is currently uncontested locally.</p>
+  </div>
+
+  <div class="advantage-card">
+    <h4>Arizona Telehealth — An Open Market No Competitor Is Serving</h4>
+    <p>Among the practices analyzed for this audit, none of your competitors serve Arizona. You are the only practice in this set with the ability to target Arizona online therapy searches. Building out dedicated Arizona service and location pages puts you in front of an audience that no one else in your competitive market is competing for — with rankings that would be difficult for a competitor to challenge because they don't serve that state.</p>
+  </div>
+
+  <div class="advantage-card">
+    <h4>Technical Head Start</h4>
+    <p>Structured data markup is already in place on your site. Most local competitors have none. Google uses this markup to understand your site structure and business type — it is an SEO signal that the majority of competing practices are not providing.</p>
+  </div>
+</div>
+
+
+<!-- ROADMAP -->
+<div class="page page-break">
+  <h2 class="section-title">Your Growth Roadmap</h2>
+
+  <p>Based on everything this audit uncovered, here's how we're structuring the work to move your rankings forward. Each phase builds on the last:</p>
+
+  <div class="phase">
+    <h3>PHASE 1 — Build Your Trust Foundation</h3>
+    <div class="timeline">Trust Signals</div>
+    <ul>
+      <li>Add a Privacy Policy page</li>
+      <li>Add a Disclaimer page clarifying the role of your website content</li>
+      <li>Add a client testimonials section to your homepage</li>
+    </ul>
+  </div>
+
+  <div class="phase p2">
+    <h3>PHASE 2 — Dominate Local Search</h3>
+    <div class="timeline">Local SEO · Directory Listings</div>
+    <ul>
+      <li>Complete and optimize your Google Business Profile — services, photos, Q&amp;A, weekly posts</li>
+      <li>Submit every therapist to Psychology Today and TherapyDen</li>
+      <li>Claim your Yelp, Bing, Apple Maps, and Healthgrades listings with consistent information</li>
+      <li>Build location pages: Renton, online therapy in Washington, online therapy in Arizona</li>
+    </ul>
+  </div>
+
+  <div class="phase p3">
+    <h3>PHASE 3 — Build Your Service Page Architecture</h3>
+    <div class="timeline">On-Page SEO · Content Architecture</div>
+    <ul>
+      <li>IFS Therapy Washington — your signature service, fully built with FAQ content</li>
+      <li>Anxiety Therapy Renton WA — one of your highest-value keyword opportunities</li>
+      <li>Couples Counseling Renton WA — high-intent searches from clients ready to book</li>
+      <li>Depression Therapy Washington — connects to multiple therapists on your team</li>
+      <li>Trauma Therapy Washington — supports your trauma-specialized therapists</li>
+      <li>Online Therapy — Washington &amp; Arizona — captures your full telehealth service area</li>
+      <li>Family Therapy Renton WA — rounds out the full service architecture</li>
+      <li>Connect each service page to the therapist bios that specialize in that area</li>
+      <li>Add FAQ sections to every therapist bio page</li>
+      <li>Launch blog content from our priority topics list</li>
+    </ul>
+  </div>
+
+  <div class="phase p4">
+    <h3>PHASE 4 — Build Authority That Compounds</h3>
+    <div class="timeline">Authority · Content · Ongoing Maintenance</div>
+    <ul>
+      <li>Assign blog posts to individual therapist authors — their credentials strengthen the content's authority with Google</li>
+      <li>Submit your practice to high-authority federal and nonprofit mental health directories</li>
+      <li>Build condition-specific FAQ pages for your highest-volume specialties</li>
+      <li>Monthly Google Business Profile posts</li>
+      <li>Monthly keyword monitoring to identify new ranking opportunities</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- SUMMARY -->
+<div class="page page-break">
+  <h2 class="section-title">Where This Takes You</h2>
+
+  <div class="summary-box">
+    <p>The practices that currently rank for "anxiety therapist Renton" and "IFS therapy Washington" have dedicated pages targeting those searches. Your site does not have those pages yet. The roadmap above outlines what needs to be built to address each of the gaps identified in this audit.</p>
+    <p>If you have questions about any part of this report, reach out anytime.</p>
+  </div>
+
+  <div style="text-align: center; margin-top: 40px; padding: 30px; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,.06);">
+    <p style="font-size: 16px; font-weight: bold; color: #0d1b2e; margin-bottom: 8px;">Questions about your report?</p>
+    <p style="font-size: 14px; color: #7f8c8d; margin-bottom: 0;">hello@phoenixmethodseo.com &nbsp;|&nbsp; phoenixmethodseo.com</p>
+  </div>
+</div>
+
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="brand-f">PHOENIX METHOD</div>
+  <div class="tag">Search. Rise. Dominate.</div>
+  <div class="contact">hello@phoenixmethodseo.com &nbsp;|&nbsp; phoenixmethodseo.com</div>
+  <div class="dead">DEAD RANKINGS RISING.</div>
+</div>
+
+</body>
+</html>
