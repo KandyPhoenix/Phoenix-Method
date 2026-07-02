@@ -14,9 +14,9 @@
     "amount": "$575.00"
   },
   "stats": {
-    "sessions": 221,
-    "sessions_change": "+68",
-    "sessions_trend": "up",
+    "sessions": 225,
+    "sessions_change": "-46",
+    "sessions_trend": "down",
     "keywords": 224,
     "keywords_change": "+81",
     "keywords_trend": "up",
@@ -646,7 +646,7 @@
     {
       "from": "Kandy",
       "date": "July 2, 2026",
-      "text": "July package is active — and June finished stronger than the early read showed. June closed at 4,702 impressions, up 92% from May (2,443), with 140 clicks and average position improving to 10.1 from 12.8. You're now surfacing for 224 distinct search queries, up from 143 in May. Clicks held roughly flat because most of the new impressions are in deeper positions we're now working to lift — that's also why click-through rate normalized this month. The grief blog post is live, indexed, and pulling traffic. Your unused June site hour has rolled over — you have 1 banked hour going into July. This month's blog or SEO op slot is open: send your topic by July 15 and we'll have it live by July 22; if we don't hear from you, we'll pick your best current keyword opportunity. Your Q2 quarterly performance report is due July 31 and will cover the full ranking picture."
+      "text": "July package is active — and June finished stronger than the early read showed. June closed at 4,702 impressions, up 92% from May (2,443), with 140 clicks and average position improving to 10.1 from 12.8. You're now surfacing for 224 distinct search queries, up from 143 in May. Clicks held roughly flat because most of the new impressions are in deeper positions we're now working to lift — that's also why click-through rate normalized this month. Overall organic sessions dipped slightly month-over-month (225 vs 271 in May) even as search visibility grew — expected while the new rankings are still maturing in deeper positions. The grief blog post is live, indexed, and pulling traffic. Your unused June site hour has rolled over — you have 1 banked hour going into July. This month's blog or SEO op slot is open: send your topic by July 15 and we'll have it live by July 22; if we don't hear from you, we'll pick your best current keyword opportunity. Your Q2 quarterly performance report is due July 31 and will cover the full ranking picture."
     }
   ],
   "site_links": [
