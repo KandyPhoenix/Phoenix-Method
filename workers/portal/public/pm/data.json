@@ -1,14 +1,14 @@
 {
   "client": "Phoenix Method SEO",
   "short_name": "PM",
-  "month": "June 2026",
+  "month": "July 2026",
   "plan": "Internal",
   "plan_price": "Agency Site",
   "plan_hours": 0,
   "hours_used": 0,
   "rollover_enabled": false,
   "hours_rolled_over": 0,
-  "updated": "2026-06-01",
+  "updated": "2026-07-02",
   "next_invoice": {
     "date": "N/A",
     "amount": "Internal"
@@ -17,19 +17,19 @@
     "sessions": 1,
     "sessions_change": "0",
     "sessions_trend": "neutral",
-    "keywords": 73,
-    "keywords_change": "+38",
+    "keywords": 93,
+    "keywords_change": "+20",
     "keywords_trend": "up",
-    "position": 73.7,
-    "position_change": "+63.7",
-    "position_trend": "down",
-    "impressions": 652,
-    "impressions_change": "+555",
+    "position": 59.2,
+    "position_change": "-15.1",
+    "position_trend": "up",
+    "impressions": 1701,
+    "impressions_change": "+1004",
     "impressions_trend": "up",
-    "ctr": 0.15,
-    "ctr_change": "-0.88",
+    "ctr": 0.0,
+    "ctr_change": "-0.14",
     "ctr_trend": "down",
-    "clicks": 1
+    "clicks": 0
   },
   "deliverables": [
     {
@@ -77,8 +77,12 @@
       "status": "done"
     },
     {
-      "text": "First blog post — publish and optimize for keyword + internal links",
-      "status": "todo"
+      "text": "First blog post — \"5 Tips for Improving Website Rankings\" published + fully optimized (PM-278)",
+      "status": "done"
+    },
+    {
+      "text": "Title tags — shortened across all pages to ≤60 chars (PM-128)",
+      "status": "done"
     },
     {
       "text": "Google Business Profile — create and optimize GBP listing for Phoenix Method",
@@ -101,126 +105,25 @@
     "overage": "N/A — internal site."
   },
   "gsc_keywords": [
-    {
-      "keyword": "mental health seo",
-      "position": 84.9,
-      "clicks": 0,
-      "impressions": 51
-    },
-    {
-      "keyword": "behavioral health seo",
-      "position": 91.8,
-      "clicks": 0,
-      "impressions": 19
-    },
-    {
-      "keyword": "ai citation optimization",
-      "position": 78.0,
-      "clicks": 0,
-      "impressions": 17
-    },
-    {
-      "keyword": "ai citations optimization",
-      "position": 86.8,
-      "clicks": 0,
-      "impressions": 5
-    },
-    {
-      "keyword": "google business profile help 77375",
-      "position": 1.0,
-      "clicks": 0,
-      "impressions": 6
-    },
-    {
-      "keyword": "local search engine optimization services the woodlands",
-      "position": 1.0,
-      "clicks": 0,
-      "impressions": 3
-    },
-    {
-      "keyword": "local seo sop",
-      "position": 91.7,
-      "clicks": 0,
-      "impressions": 3
-    },
-    {
-      "keyword": "counseling seo",
-      "position": 96.7,
-      "clicks": 0,
-      "impressions": 3
-    },
-    {
-      "keyword": "how to get cited in ai overviews",
-      "position": 92.3,
-      "clicks": 0,
-      "impressions": 3
-    },
-    {
-      "keyword": "conroe seo company",
-      "position": 21.0,
-      "clicks": 0,
-      "impressions": 2
-    },
-    {
-      "keyword": "citation optimization framework",
-      "position": 16.0,
-      "clicks": 0,
-      "impressions": 2
-    },
-    {
-      "keyword": "how does a therapy niche impact your seo strategy",
-      "position": 98.0,
-      "clicks": 0,
-      "impressions": 2
-    },
-    {
-      "keyword": "counselling seo",
-      "position": 84.5,
-      "clicks": 0,
-      "impressions": 2
-    },
-    {
-      "keyword": "seo audit service",
-      "position": 11.3,
-      "clicks": 0,
-      "impressions": 9
-    },
-    {
-      "keyword": "google business profile",
-      "position": 2.4,
-      "clicks": 0,
-      "impressions": 5
-    },
-    {
-      "keyword": "google business profile optimization",
-      "position": 8.5,
-      "clicks": 0,
-      "impressions": 4
-    },
-    {
-      "keyword": "local seo phoenix",
-      "position": 16.0,
-      "clicks": 0,
-      "impressions": 1
-    },
-    {
-      "keyword": "local seo company the woodlands",
-      "position": 48.0,
-      "clicks": 0,
-      "impressions": 1
-    },
-    {
-      "keyword": "conroe seo",
-      "position": 1.0,
-      "clicks": 0,
-      "impressions": 1
-    },
-    {
-      "keyword": "ai overview citations",
-      "position": 91.0,
-      "clicks": 0,
-      "impressions": 1
-    }
+    { "keyword": "mental health seo", "position": 46.7, "clicks": 0, "impressions": 175 },
+    { "keyword": "seo for mental health", "position": 48.5, "clicks": 0, "impressions": 172 },
+    { "keyword": "psychiatrist seo", "position": 90.1, "clicks": 0, "impressions": 124 },
+    { "keyword": "behavioral health seo", "position": 55.9, "clicks": 0, "impressions": 116 },
+    { "keyword": "seo psychology", "position": 78.2, "clicks": 0, "impressions": 101 },
+    { "keyword": "seo the woodlands", "position": 1.0, "clicks": 0, "impressions": 77 },
+    { "keyword": "seo for psychiatrists in private practice", "position": 63.9, "clicks": 0, "impressions": 76 },
+    { "keyword": "seo for psychiatrists", "position": 88.2, "clicks": 0, "impressions": 75 },
+    { "keyword": "mental health seo services", "position": 71.0, "clicks": 0, "impressions": 50 },
+    { "keyword": "how does a therapy niche impact your seo strategy", "position": 87.4, "clicks": 0, "impressions": 36 },
+    { "keyword": "therapy seo", "position": 83.3, "clicks": 0, "impressions": 35 },
+    { "keyword": "phoenix seo company", "position": 1.0, "clicks": 0, "impressions": 32 },
+    { "keyword": "therapist niche seo positioning", "position": 68.4, "clicks": 0, "impressions": 25 },
+    { "keyword": "phoenix seo", "position": 26.6, "clicks": 0, "impressions": 24 },
+    { "keyword": "psychotherapy clinic seo", "position": 48.4, "clicks": 0, "impressions": 21 },
+    { "keyword": "phoenix seo package", "position": 93.9, "clicks": 0, "impressions": 19 },
+    { "keyword": "seo for domestic violence therapists", "position": 74.3, "clicks": 0, "impressions": 19 },
+    { "keyword": "seo for behavioral health providers", "position": 58.5, "clicks": 0, "impressions": 17 },
+    { "keyword": "local seo phoenix", "position": 27.6, "clicks": 0, "impressions": 16 }
   ],
   "keywords": [
     {
@@ -255,14 +158,14 @@
     },
     {
       "keyword": "mental health seo",
-      "position": 84.9,
-      "last_month": null,
+      "position": 46.7,
+      "last_month": 84.9,
       "clicks": 0
     },
     {
       "keyword": "behavioral health seo",
-      "position": 91.8,
-      "last_month": null,
+      "position": 55.9,
+      "last_month": 91.8,
       "clicks": 0
     },
     {
@@ -305,11 +208,11 @@
     }
   ],
   "content_choice": {
-    "chosen": null,
+    "chosen": "blog",
     "blog": {
-      "title": null,
-      "keyword": null,
-      "status": "pending"
+      "title": "5 Tips for Improving Website Rankings That Actually Move the Needle",
+      "keyword": "improving website rankings",
+      "status": "done"
     },
     "page": {
       "title": "Services Page",
@@ -411,10 +314,10 @@
         {
           "id": 8,
           "title": "First Blog Post",
-          "why": "Blog is live at /blog/. Needs one fully optimized post targeting 'seo for therapists' or 'mental health seo' to start building topical authority.",
+          "why": "PM-278: First post \"5 Tips for Improving Website Rankings That Actually Move the Needle\" is published and fully optimized (meta, Article + BreadcrumbList schema, internal links) at /blog/tips-for-improving-website-rankings.html. Blog section now links to real content.",
           "priority": "high",
-          "effort": "2–3 hrs",
-          "status": "todo"
+          "effort": "Done",
+          "status": "done"
         },
         {
           "id": 9,
@@ -483,6 +386,11 @@
       "from": "Kandy",
       "date": "June 1, 2026",
       "text": "May data shows strong early traction. Impressions grew from 97 (April) to 652 — a 6.7x jump — as the service pages and canonicalization work from May settle into Google's index. The site now shows up for 73 distinct keyword queries, up from 35 in April. Average position is 73.7 (vs 10.0 in April) because the new keywords entering the index are in deep positions — expected for new content, will improve as pages build authority and we start pushing them with links. Top early signals: 'mental health seo' (51 impressions), 'behavioral health seo' (19 impressions), and 'ai citation optimization' (17 impressions). No agency keyword clicks yet but the footprint is growing. June priority: first blog post targeting 'seo for therapists', GBP listing, and FAQ page."
+    },
+    {
+      "from": "Kandy",
+      "date": "July 2, 2026",
+      "text": "June was another strong growth month. Impressions climbed from ~700 in May to 1,701 in June — up 2.4x — and the site now surfaces for 93 distinct keyword queries (up from 73). Average position improved to 59.2 from 74.3 as Google gives the mental-health-seo hub and service pages more weight — the first time position has moved the right direction since launch. The mental-health cluster is now the clear strength: 'mental health seo' (175 impressions, pos 46.7), 'seo for mental health' (172, pos 48.5), and 'behavioral health seo' (116, pos 55.9) are all climbing toward page 3. On the delivery side, the first blog post — '5 Tips for Improving Website Rankings That Actually Move the Needle' — is published and fully optimized (PM-278), and title tags were shortened sitewide to render cleanly in search results (PM-128). Still no clicks yet, which is expected while everything sits in deep positions; the job now is to push the mental-health pages toward page 1 with more content and internal links. July priority: second blog post, Google Business Profile listing, and the FAQ page with schema."
     }
   ],
   "site_links": [
@@ -650,6 +558,26 @@
     }
   ],
   "worklog": [
+    {
+      "date": "July 2, 2026",
+      "type": "audit",
+      "title": "June GSC checkpoint — 1,701 impressions, 93 keywords",
+      "detail": "2.4x impression growth from May (697 → 1,701). 93 distinct keyword queries vs 73 in May. Average position improved to 59.2 from 74.3 as service pages and the mental-health-seo hub gain authority. Still 0 clicks — deep positions on new content, expected. Top June queries: 'mental health seo' (175 imp, pos 46.7), 'seo for mental health' (172 imp, pos 48.5), 'behavioral health seo' (116 imp, pos 55.9)."
+    },
+    {
+      "date": "June 24, 2026",
+      "type": "content",
+      "title": "First blog post published + fully optimized",
+      "detail": "\"5 Tips for Improving Website Rankings That Actually Move the Needle\" is live at /blog/tips-for-improving-website-rankings.html. E-E-A-T aligned, single H1, Article + BreadcrumbList JSON-LD, optimized meta title/description, internal links to service pages. Homepage blog section now links to real content.",
+      "ticket": "PM-278"
+    },
+    {
+      "date": "June 17, 2026",
+      "type": "technical",
+      "title": "Title tags shortened across all pages to ≤60 chars",
+      "detail": "Trimmed over-length title tags (previously 62–88 chars) sitewide so titles render fully in SERPs without truncation.",
+      "ticket": "PM-128"
+    },
     {
       "date": "May 2, 2026",
       "type": "audit",
