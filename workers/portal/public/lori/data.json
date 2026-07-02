@@ -8,7 +8,7 @@
   "hours_used": 0,
   "rollover_enabled": true,
   "hours_rolled_over": 1,
-  "updated": "2026-07-01",
+  "updated": "2026-07-02",
   "next_invoice": {
     "date": "July 1, 2026",
     "amount": "$575.00"
@@ -17,17 +17,17 @@
     "sessions": 221,
     "sessions_change": "+68",
     "sessions_trend": "up",
-    "keywords": 141,
-    "keywords_change": "+73",
+    "keywords": 224,
+    "keywords_change": "+81",
     "keywords_trend": "up",
-    "position": 8.8,
-    "position_change": "+1.1",
+    "position": 10.1,
+    "position_change": "+2.7",
     "position_trend": "up",
-    "impressions": 3557,
-    "impressions_change": "+869",
+    "impressions": 4702,
+    "impressions_change": "+2259",
     "impressions_trend": "up",
-    "ctr": 3.74,
-    "ctr_change": "-1.95",
+    "ctr": 2.98,
+    "ctr_change": "-2.63",
     "ctr_trend": "down"
   },
   "deliverables": [
@@ -64,132 +64,102 @@
   },
   "gsc_keywords": [
     {
-      "keyword": "lori kimmerly therapy",
-      "position": 1.3,
-      "clicks": 38,
-      "impressions": 75
-    },
-    {
       "keyword": "natalie kim",
-      "position": 8.2,
-      "clicks": 2,
-      "impressions": 42
+      "position": 3.9,
+      "clicks": 1,
+      "impressions": 73
     },
     {
-      "keyword": "anxiety therapy renton",
-      "position": 13.0,
+      "keyword": "lori kimmerly therapy",
+      "position": 1.1,
+      "clicks": 39,
+      "impressions": 58
+    },
+    {
+      "keyword": "does state insurance cover therapy",
+      "position": 8.5,
       "clicks": 0,
-      "impressions": 35
+      "impressions": 39
     },
     {
       "keyword": "john hubbs",
-      "position": 2.6,
-      "clicks": 3,
-      "impressions": 32
-    },
-    {
-      "keyword": "anxiety therapist renton wa",
-      "position": 11.4,
-      "clicks": 0,
-      "impressions": 22
-    },
-    {
-      "keyword": "couples therapy renton",
-      "position": 9.4,
-      "clicks": 0,
-      "impressions": 20
-    },
-    {
-      "keyword": "couples therapist renton",
-      "position": 11.3,
-      "clicks": 0,
-      "impressions": 19
+      "position": 2.1,
+      "clicks": 2,
+      "impressions": 25
     },
     {
       "keyword": "caroline bacon",
-      "position": 3.1,
-      "clicks": 1,
-      "impressions": 19
-    },
-    {
-      "keyword": "kristen sievert",
-      "position": 2.0,
-      "clicks": 4,
-      "impressions": 19
-    },
-    {
-      "keyword": "marriage counseling renton wa",
-      "position": 14.8,
-      "clicks": 0,
-      "impressions": 16
-    },
-    {
-      "keyword": "ryan carragher",
-      "position": 2.2,
-      "clicks": 1,
-      "impressions": 9
-    },
-    {
-      "keyword": "affordable licensed therapist online washington",
-      "position": 18.1,
-      "clicks": 0,
-      "impressions": 7
-    },
-    {
-      "keyword": "american psychological association internal family systems therapy",
-      "position": 7.8,
-      "clicks": 0,
-      "impressions": 5
-    },
-    {
-      "keyword": "anxiety therapist near me renton wa",
-      "position": 16.4,
-      "clicks": 0,
-      "impressions": 5
-    },
-    {
-      "keyword": "affordable private pay therapy washington",
-      "position": 54.0,
-      "clicks": 0,
-      "impressions": 4
-    },
-    {
-      "keyword": "jennifer kenworthy",
-      "position": 2.6,
-      "clicks": 0,
-      "impressions": 17
-    },
-    {
-      "keyword": "show me sliding scale online counseling services in washington",
-      "position": 13.9,
-      "clicks": 0,
-      "impressions": 17
-    },
-    {
-      "keyword": "evening therapy sessions wa",
-      "position": 16.8,
+      "position": 3.3,
       "clicks": 0,
       "impressions": 23
     },
     {
-      "keyword": "online marriage counseling federal way",
-      "position": 13.4,
+      "keyword": "alleger",
+      "position": 8.8,
       "clicks": 0,
-      "impressions": 12
+      "impressions": 17
     },
     {
-      "keyword": "online individual therapy in washington",
-      "position": 33.2,
-      "clicks": 0,
+      "keyword": "kristen sievert",
+      "position": 1.9,
+      "clicks": 4,
       "impressions": 13
+    },
+    {
+      "keyword": "evening therapy sessions wa",
+      "position": 44.5,
+      "clicks": 0,
+      "impressions": 11
+    },
+    {
+      "keyword": "dr shana hubbs",
+      "position": 12.2,
+      "clicks": 0,
+      "impressions": 10
+    },
+    {
+      "keyword": "couples therapy renton",
+      "position": 10.9,
+      "clicks": 0,
+      "impressions": 8
+    },
+    {
+      "keyword": "does my insurance cover therapy",
+      "position": 42.2,
+      "clicks": 0,
+      "impressions": 8
+    },
+    {
+      "keyword": "couples therapist renton",
+      "position": 18.3,
+      "clicks": 0,
+      "impressions": 7
+    },
+    {
+      "keyword": "does insurance cover therapy",
+      "position": 3.0,
+      "clicks": 0,
+      "impressions": 7
+    },
+    {
+      "keyword": "find a therapist washington state sliding scale",
+      "position": 37.4,
+      "clicks": 0,
+      "impressions": 7
+    },
+    {
+      "keyword": "ifs explained simply",
+      "position": 9.1,
+      "clicks": 0,
+      "impressions": 7
     }
   ],
   "keywords": [
     {
       "keyword": "lori kimmerly therapy",
-      "position": 1.3,
-      "last_month": 1.4,
-      "clicks": 38
+      "position": 1.1,
+      "last_month": 1.3,
+      "clicks": 39
     },
     {
       "keyword": "therapist renton wa",
@@ -229,20 +199,20 @@
     },
     {
       "keyword": "couples therapy renton",
-      "position": 9.4,
-      "last_month": 10.2,
+      "position": 10.9,
+      "last_month": 9.5,
       "clicks": 0
     },
     {
       "keyword": "couples therapist renton",
-      "position": 11.3,
-      "last_month": 9.7,
+      "position": 18.3,
+      "last_month": 11.4,
       "clicks": 0
     },
     {
       "keyword": "marriage counseling renton wa",
-      "position": 14.8,
-      "last_month": 14.6,
+      "position": 10.0,
+      "last_month": 14.8,
       "clicks": 0
     },
     {
@@ -253,8 +223,8 @@
     },
     {
       "keyword": "anxiety therapist renton wa",
-      "position": 11.4,
-      "last_month": 12.1,
+      "position": null,
+      "last_month": 10.8,
       "clicks": 0
     },
     {
@@ -289,15 +259,15 @@
     },
     {
       "keyword": "life transitions therapy renton",
-      "position": 10.1,
-      "last_month": 10.1,
+      "position": 11.0,
+      "last_month": 9.8,
       "clicks": 0
     },
     {
       "keyword": "family therapy renton wa",
-      "position": 11.7,
+      "position": 9.6,
       "last_month": null,
-      "clicks": 1
+      "clicks": 0
     },
     {
       "keyword": "family counselor washington",
@@ -675,8 +645,8 @@
     },
     {
       "from": "Kandy",
-      "date": "July 1, 2026",
-      "text": "July package is active. June stats are strong: 3,557 impressions (up +23% from May), 141 keywords indexed, average position improved from 9.9 to 8.8. The grief blog post is live, indexed, and already pulling traffic. Your unused June site hour has rolled over — you now have 1 banked hour going into July. This month's blog or SEO op slot is open: send your topic by July 15 and we'll have it live by July 22. If we don't hear from you, we'll pick your best current keyword opportunity. Quarterly performance report is due July 31 — that will cover the full Q2 picture with ranking trends, what we've built, and what's next."
+      "date": "July 2, 2026",
+      "text": "July package is active — and June finished stronger than the early read showed. June closed at 4,702 impressions, up 92% from May (2,443), with 140 clicks and average position improving to 10.1 from 12.8. You're now surfacing for 224 distinct search queries, up from 143 in May. Clicks held roughly flat because most of the new impressions are in deeper positions we're now working to lift — that's also why click-through rate normalized this month. The grief blog post is live, indexed, and pulling traffic. Your unused June site hour has rolled over — you have 1 banked hour going into July. This month's blog or SEO op slot is open: send your topic by July 15 and we'll have it live by July 22; if we don't hear from you, we'll pick your best current keyword opportunity. Your Q2 quarterly performance report is due July 31 and will cover the full ranking picture."
     }
   ],
   "site_links": [
@@ -934,6 +904,12 @@
       "type": "fix",
       "title": "Blog home UI fixes — equal-height cards, category cleanup",
       "detail": "Cards now equal height per row via JS. Blue left-border extends full card height. 'Uncategorized' removed from Welcome post display. Grief category created. Blog post category list cleaned up (Tips category removed, Welcome category removed)."
+    },
+    {
+      "date": "July 2, 2026",
+      "type": "audit",
+      "title": "June GSC checkpoint — 4,702 impressions, 140 clicks",
+      "detail": "June closed at 4,702 impressions (up 92% from 2,443 in May) and 140 clicks, with average position improving to 10.1 from 12.8. Surfaced for 224 distinct search queries, up from 143 in May. Top queries: 'natalie kim' (73 imp), 'lori kimmerly therapy' (58 imp, 39 clicks, pos 1.1), 'does state insurance cover therapy' (39 imp, pos 8.5)."
     }
   ],
   "homepage": "https://lorikimmerly.com"
