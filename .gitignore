@@ -7,3 +7,7 @@ build/
 _archive/
 phoenix-github-upload/
 .wrangler/
+# wrangler local secrets
+.dev.vars*
+!.dev.vars.example
+!.env.example
