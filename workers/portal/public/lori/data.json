@@ -8,7 +8,7 @@
   "hours_used": 0,
   "rollover_enabled": true,
   "hours_rolled_over": 1,
-  "updated": "2026-07-02",
+  "updated": "2026-07-07",
   "next_invoice": {
     "date": "July 1, 2026",
     "amount": "$575.00"
@@ -651,6 +651,11 @@
       "from": "Kandy",
       "date": "July 2, 2026",
       "text": "Full optimization pass on your Facebook and Instagram business profiles today, plus setting you up to take over posting. On both profiles I completed your business info — address (15 S Grady Way, Suite 632, Renton), phone, email, website, and booking link — so your name, address, and phone number now match consistently across your website, Facebook, Instagram, and Google (that consistency is what strengthens your local presence in Google). On Facebook: expanded your bio to include Arizona, confirmed all 3 categories and 10 service specialties with descriptions, your credentials (MS, LMFT, AAMFT Approved Supervisor), and pointed the 'Contact us' button to your booking page. On Instagram: fixed the bio so your 'book' call-to-action now links to your scheduling page (5 links total, including Schedule an Appointment), and updated the wording to cover both Washington & Arizona. I also confirmed your Google Business Profile is live and consistent. Finally, I sent an invite to your Facebook email giving you full admin access to your Meta Business Suite — both Facebook and Instagram — so you can take over posting whenever you're ready; just accept the email invite when you get a chance. Best next step for local visibility: start collecting a few Google reviews. (LOR-360)"
+    },
+    {
+      "from": "Kandy",
+      "date": "July 7, 2026",
+      "text": "Your LinkedIn Business Page is built and fully optimized — it's now linked in your Site Links under Social Media. We claimed the existing page (keeping its followers), set the name to Lori Kimmerly Therapy and Coaching, PLLC, and added a branded banner and logo, a keyword-rich About section, all 20 specialties, your Renton location, a 'Visit website' button, and your services. Everything is created under your ownership, with us set up as manager so we can maintain it. The natural next step is regular posting to keep the page active and in front of potential clients and referral partners — we'll follow up with options for that. (LOR-355)"
     }
   ],
   "site_links": [
@@ -773,6 +778,12 @@
       "label": "The 5 Gates of Grief",
       "url": "https://lorikimmerly.com/2026/06/20/grief-therapy-5-gates-of-grief/",
       "icon": "📄"
+    },
+    {
+      "category": "Social Media",
+      "label": "LinkedIn — Lori Kimmerly Therapy and Coaching",
+      "url": "https://www.linkedin.com/company/lori-kimmerly-therapy/",
+      "icon": "💼"
     },
     {
       "category": "Social Media",
