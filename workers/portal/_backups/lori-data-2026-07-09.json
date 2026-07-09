@@ -8,7 +8,7 @@
   "hours_used": 0,
   "rollover_enabled": true,
   "hours_rolled_over": 1,
-  "updated": "2026-07-09",
+  "updated": "2026-07-07",
   "next_invoice": {
     "date": "July 1, 2026",
     "amount": "$575.00"
@@ -656,11 +656,6 @@
       "from": "Kandy",
       "date": "July 7, 2026",
       "text": "Your LinkedIn Business Page is built and fully optimized — it's now linked in your Site Links under Social Media. We claimed the existing page (keeping its followers), set the name to Lori Kimmerly Therapy and Coaching, PLLC, and added a branded banner and logo, a keyword-rich About section, all 20 specialties, your Renton location, a 'Visit website' button, and your services. Everything is created under your ownership, with us set up as manager so we can maintain it. The natural next step is regular posting to keep the page active and in front of potential clients and referral partners — we'll follow up with options for that. (LOR-355)"
-    },
-    {
-      "from": "Kandy",
-      "date": "July 9, 2026",
-      "text": "Your new blog post introducing your three newest providers is live! We took the intros you sent for Iwona Abraham, Erin Spicer, and Devi Viswanathan and built them into a warm, interactive post — each provider gets their own profile card with a get-to-know-you Q&A (their why for becoming a therapist, what future clients should know, and a few fun personal questions), styled in your site colors with a quick-jump menu at the top and Book a Complimentary Consultation and Read Full Bio buttons on every card. On the SEO side we wrote a keyword-rich title and blog-card summary (new Washington therapists, online therapy in Washington, in-person therapy in Renton, plus specialties like anxiety, grief, and life transitions), added optimized image alt text, and filed it under your Mental Health and Washington Therapy categories. We also made sure every card on your blog home is now equal height so the grid looks clean. Everything is live and verified at lorikimmerly.com/2026/07/09/meet-our-newest-providers. Two quick follow-ups: Erin's bio button shows a Coming Soon placeholder until her full bio page is built, and we'd love a higher-resolution photo of Devi whenever she can send one."
     }
   ],
   "site_links": [
@@ -782,12 +777,6 @@
       "category": "Blog Posts",
       "label": "The 5 Gates of Grief",
       "url": "https://lorikimmerly.com/2026/06/20/grief-therapy-5-gates-of-grief/",
-      "icon": "📄"
-    },
-    {
-      "category": "Blog Posts",
-      "label": "Meet Our Newest Providers",
-      "url": "https://lorikimmerly.com/2026/07/09/meet-our-newest-providers/",
       "icon": "📄"
     },
     {
@@ -936,12 +925,6 @@
       "type": "audit",
       "title": "June GSC checkpoint — 4,702 impressions, 140 clicks",
       "detail": "June closed at 4,702 impressions (up 92% from 2,443 in May) and 140 clicks, with average position improving to 10.1 from 12.8. Surfaced for 224 distinct search queries, up from 143 in May. Top queries: 'natalie kim' (73 imp), 'lori kimmerly therapy' (58 imp, 39 clicks, pos 1.1), 'does state insurance cover therapy' (39 imp, pos 8.5)."
-    },
-    {
-      "date": "July 9, 2026",
-      "type": "content",
-      "title": "New providers blog post published — Meet Our Newest Providers",
-      "detail": "Built and published Lori's intro post for the three newest providers (Iwona Abraham, Erin Spicer, Devi Viswanathan) as interactive per-provider profile cards with get-to-know-you Q&A, site-teal styling, a quick-jump menu, and Book a Complimentary Consultation plus Read Full Bio buttons. SEO: keyword-rich title, blog-card summary, image alt text, Mental Health + Washington Therapy categories. Blog grid set to equal-height cards. Live at /2026/07/09/meet-our-newest-providers/."
     }
   ],
   "homepage": "https://lorikimmerly.com"
