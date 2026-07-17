@@ -8,11 +8,19 @@
   "hours_used": 0,
   "rollover_enabled": true,
   "hours_rolled_over": 1,
-  "updated": "2026-07-09",
+  "updated": "2026-07-17",
   "next_invoice": {
-    "date": "July 1, 2026",
+    "date": "August 1, 2026",
     "amount": "$575.00"
   },
+  "add_ons": [
+    {
+      "name": "Social Media Posting — 2 LinkedIn + 2 Instagram",
+      "price": "$175/mo",
+      "due": "August 10, 2026",
+      "status": "active"
+    }
+  ],
   "stats": {
     "sessions": 225,
     "sessions_change": "-46",
@@ -36,8 +44,12 @@
       "status": "in_progress"
     },
     {
-      "text": "Blog Post — Grief",
-      "status": "done"
+      "text": "Blog Post — Healing Trauma Through Connection (Kristen Sievert)",
+      "status": "in_progress"
+    },
+    {
+      "text": "Social Media Posting — 2 LinkedIn + 2 Instagram",
+      "status": "in_progress"
     },
     {
       "text": "Site Work — 1 Hr",
@@ -283,30 +295,47 @@
       "type": "client"
     },
     {
+      "date": "Jul 15",
+      "title": "LinkedIn Post Due",
+      "type": "social"
+    },
+    {
+      "date": "Jul 17",
+      "title": "Instagram Post Due",
+      "type": "social"
+    },
+    {
       "date": "Jul 22",
       "title": "Blog Post or SEO Op",
       "type": "deliverable"
     },
     {
-      "date": "Jul 31",
-      "title": "Quarterly Performance Report",
-      "type": "deliverable"
+      "date": "Jul 22",
+      "title": "Instagram Post Due",
+      "type": "social"
+    },
+    {
+      "date": "Jul 29",
+      "title": "LinkedIn Post Due",
+      "type": "social"
     }
   ],
   "content_choice": {
-    "chosen": "page",
+    "chosen": "blog",
     "blog": {
-      "title": null,
+      "title": "Healing Trauma Through Connection: Why Relationships Matter",
+      "author": "Kristen Sievert",
       "keyword": null,
-      "status": "pending",
-      "note": "Open slot — send your blog topic by July 15 and we will write and fully optimize it, live by July 22."
+      "status": "chosen",
+      "source": "client_written",
+      "note": "Submitted by Lori (written by Kristen Sievert) on July 14 — we'll SEO-optimize and publish, live by July 22."
     },
     "page": {
       "title": "Insurance page — CTR / SEO optimization",
       "url": "lorikimmerly.com/2026/05/19/does-insurance-cover-therapy-washington-state/",
       "keyword": "does state insurance cover therapy",
-      "status": "chosen",
-      "note": "Pre-selected July SEO op (existing page — no new build). Currently pos 8.5 with 39 impressions and 0 clicks; also surfaces \"therapy without insurance WA\" and \"how much does therapy cost with insurance.\" We will optimize the title, meta, H1/intro and internal links to lift CTR into the top 5. You have until July 15 to send a blog topic instead."
+      "status": "bumped",
+      "note": "Was the pre-selected July SEO op — bumped to next available month since Lori submitted a blog post instead. Currently pos 8.5, 39 impressions, 0 clicks."
     }
   },
   "blog_topics": [
@@ -361,6 +390,40 @@
       "title": "What Is LMFTA vs. LMFT? Understanding Therapist Credentials in Washington",
       "keyword": "therapist credentials Washington",
       "status": "suggested"
+    }
+  ],
+  "posting_plan": [
+    {
+      "platform": "linkedin",
+      "title": "IFS Therapy - No Bad Parts",
+      "status": "posted",
+      "due": "Jul 15",
+      "date": "July 15, 2026",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7483201164356763649"
+    },
+    {
+      "platform": "instagram",
+      "title": null,
+      "status": "pending",
+      "due": "Jul 17",
+      "date": null,
+      "url": null
+    },
+    {
+      "platform": "instagram",
+      "title": null,
+      "status": "pending",
+      "due": "Jul 22",
+      "date": null,
+      "url": null
+    },
+    {
+      "platform": "linkedin",
+      "title": null,
+      "status": "pending",
+      "due": "Jul 29",
+      "date": null,
+      "url": null
     }
   ],
   "reports": [
@@ -661,6 +724,11 @@
       "from": "Kandy",
       "date": "July 9, 2026",
       "text": "Your new blog post introducing your three newest providers is live! We took the intros you sent for Iwona Abraham, Erin Spicer, and Devi Viswanathan and built them into a warm, interactive post — each provider gets their own profile card with a get-to-know-you Q&A (their why for becoming a therapist, what future clients should know, and a few fun personal questions), styled in your site colors with a quick-jump menu at the top and Book a Complimentary Consultation and Read Full Bio buttons on every card. On the SEO side we wrote a keyword-rich title and blog-card summary (new Washington therapists, online therapy in Washington, in-person therapy in Renton, plus specialties like anxiety, grief, and life transitions), added optimized image alt text, and filed it under your Mental Health and Washington Therapy categories. We also made sure every card on your blog home is now equal height so the grid looks clean. Everything is live and verified at lorikimmerly.com/2026/07/09/meet-our-newest-providers. Two quick follow-ups: Erin's bio button shows a Coming Soon placeholder until her full bio page is built, and we'd love a higher-resolution photo of Devi whenever she can send one."
+    },
+    {
+      "from": "Kandy",
+      "date": "July 17, 2026",
+      "text": "Exciting next step — we're getting your stickers online! Your invoice for the shop build is on its way. Once that's taken care of, we'll set your shop up through Square: your stickers built out as proper products with sizes, singles and bundle pricing, your product photos cleaned up and cropped, and simple flat-rate shipping so orders are easy to fulfill. From there we'll build a Shop page styled to match the rest of your site — a clean product grid with buy buttons wired straight into secure checkout — and add it to your main navigation so visitors can actually find it. Before anything goes live we'll run a real test purchase from start to finish to confirm the money lands in your account correctly, and you'll get a round of revisions to fine-tune anything you'd like changed. To get started once the invoice clears, we'll need a few things from you: your final sticker list with sizes and prices, your bundle pricing, and your product images."
     }
   ],
   "site_links": [
@@ -942,6 +1010,46 @@
       "type": "content",
       "title": "New providers blog post published — Meet Our Newest Providers",
       "detail": "Built and published Lori's intro post for the three newest providers (Iwona Abraham, Erin Spicer, Devi Viswanathan) as interactive per-provider profile cards with get-to-know-you Q&A, site-teal styling, a quick-jump menu, and Book a Complimentary Consultation plus Read Full Bio buttons. SEO: keyword-rich title, blog-card summary, image alt text, Mental Health + Washington Therapy categories. Blog grid set to equal-height cards. Live at /2026/07/09/meet-our-newest-providers/."
+    },
+    {
+      "date": "July 2, 2026",
+      "type": "content",
+      "title": "Facebook + Instagram business profiles fully optimized",
+      "detail": "Completed business info (address, phone, email, website, booking link) on both profiles so NAP is consistent across site, Facebook, Instagram, and Google. Facebook: expanded bio to include Arizona, confirmed 3 categories + 10 service specialties, credentials, Contact Us button linked to booking. Instagram: fixed bio link to scheduling page, updated wording for WA + AZ. Sent Meta Business Suite admin invite to Lori's email.",
+      "ticket": "LOR-360"
+    },
+    {
+      "date": "July 7, 2026",
+      "type": "content",
+      "title": "LinkedIn Business Page built + optimized",
+      "detail": "Claimed the existing page (kept followers), set name to Lori Kimmerly Therapy and Coaching, PLLC, added branded banner + logo, keyword-rich About section, all 20 specialties, Renton location, Visit Website button, and services. Linked in Site Links under Social Media. Lori owns the page; we're set up as manager.",
+      "ticket": "LOR-355"
+    },
+    {
+      "date": "July 13, 2026",
+      "type": "launch",
+      "title": "Social media posting plan launched — $175/mo add-on",
+      "detail": "New recurring service: 2 LinkedIn + 2 Instagram posts per month, spread roughly weekly (currently the 15th/29th for LinkedIn, 17th/22nd for Instagram). Billed monthly, invoice due the 10th. Added to portal billing and content calendar."
+    },
+    {
+      "date": "July 14, 2026",
+      "type": "content",
+      "title": "July blog post received from Lori — pending SEO optimization + publish",
+      "detail": "Lori forwarded this month's blog post, written by Kristen Sievert: \"Healing Trauma Through Connection: Why Relationships Matter.\" We'll credit Kristen as author, SEO-optimize, and publish — targeting live by July 22.",
+      "ticket": "LOR-345"
+    },
+    {
+      "date": "July 15, 2026",
+      "type": "content",
+      "title": "First LinkedIn post published — IFS Therapy: No Bad Parts",
+      "detail": "First post under the new monthly social posting plan is live on the LinkedIn Business Page. Logged in the portal's Posting Plan with a link to the live post."
+    },
+    {
+      "date": "July 17, 2026",
+      "type": "launch",
+      "title": "Online sticker shop — Square checkout build scheduled ($375 one-time)",
+      "detail": "New one-time build (Route A): a Square-powered shop for Lori's stickers. Scope — Square payout/bank setup, item library with sizes, singles and bundle pricing, product image cleanup, flat-rate shipping, Buy Buttons / Checkout Links per item, a Shop page styled to match the site with a product grid, nav menu update, a real end-to-end test purchase, and one revision round. Invoice out July 17; build begins July 22.",
+      "ticket": "LOR-368"
     }
   ],
   "homepage": "https://lorikimmerly.com"

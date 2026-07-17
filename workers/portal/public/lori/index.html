@@ -254,6 +254,29 @@
         }
         .topic-kw { font-size: 11px; color: #5E5A6B; margin-top: 2px; }
 
+        /* ── SOCIAL SQUARES ── */
+        .social-squares { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+        .social-square {
+            background: #0E0E18; border-radius: 10px; padding: 18px 12px;
+            border: 0.5px solid rgba(255,255,255,0.06); text-align: center;
+        }
+        .social-square.done { border-color: rgba(39,174,96,0.4); background: rgba(39,174,96,0.05); }
+        .social-square-icon { font-size: 22px; line-height: 1; }
+        .social-square-platform { font-size: 12px; color: #9A95A8; margin-top: 8px; }
+        .social-square-date { font-size: 11px; color: #F0ECE6; margin-top: 4px; font-weight: 500; }
+        @media (max-width:720px) { .social-squares { grid-template-columns: 1fr 1fr; } }
+
+        /* ── SOCIAL POSTING PLAN ── */
+        .posting-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 14px; background: #0E0E18;
+            border-radius: 8px; border: 0.5px solid rgba(255,255,255,0.06);
+        }
+        .posting-platform { font-size: 12px; color: #9A95A8; width: 90px; flex-shrink: 0; }
+        .posting-status {
+            font-size: 10px; padding: 2px 8px; border-radius: 99px; font-weight: 500; white-space: nowrap;
+        }
+
         /* ── MESSAGES ── */
         .message-card {
             background: #0E0E18; border-radius: 10px; padding: 20px;
@@ -690,27 +713,55 @@ function buildPortal(d) {
         }).join('')
         : '<p style="color:#9A95A8;font-size:13px;padding:10px 0">Blog topic suggestions will be added monthly.</p>';
 
+    // ── SOCIAL POSTING PLAN ──
+    const postingPlan = d.posting_plan || [];
+    const platformMeta = { linkedin: { icon: '💼', label: 'LinkedIn' }, instagram: { icon: '📸', label: 'Instagram' } };
+    const postingPlanHtml = postingPlan.length
+        ? postingPlan.map(p => {
+            const pm = platformMeta[p.platform] || { icon: '📱', label: p.platform };
+            const posted = p.status === 'posted';
+            return `<div class="posting-item">
+                <span class="posting-platform">${pm.icon} ${pm.label}</span>
+                <div style="flex:1;min-width:0">
+                    <div class="topic-title">${posted ? p.title : 'Awaiting content'}</div>
+                    ${posted
+                        ? `<div class="topic-kw">Posted ${p.date}${p.url ? ` &mdash; <a href="${p.url}" target="_blank" rel="noopener" style="color:#E87B2F;text-decoration:none">View post</a>` : ''}</div>`
+                        : (p.due ? `<div class="topic-kw">Due ${p.due}</div>` : '')}
+                </div>
+                <span class="posting-status ${posted ? 'status-published' : 'status-planned'}">${posted ? 'Posted' : 'Pending'}</span>
+            </div>`;
+        }).join('')
+        : '<p style="color:#9A95A8;font-size:13px;padding:10px 0">Posting plan will be added monthly.</p>';
+
     // ── MONTHLY CONTENT CHOICE ──
     const choice = d.content_choice || {};
     const chosenType = choice.chosen || null;
     const blogInfo = choice.blog || {};
     const pageInfo = choice.page || {};
+    const sourceLabels = { client_written: 'Client Written', pm_written: 'PM Written', seo_optimization: 'SEO Optimization' };
+    const blogSourceBadge = blogInfo.source && sourceLabels[blogInfo.source]
+        ? `<span class="choice-badge" style="background:#3bafbf;margin-left:8px">${sourceLabels[blogInfo.source]}</span>` : '';
     const choiceCardsHtml = `
-        <div class="choice-grid">
-            <div class="choice-card${chosenType === 'blog' ? ' chosen' : ''}">
-                <div class="choice-type">Blog Post</div>
-                <div class="choice-title${blogInfo.title ? '' : ' tbd'}">${blogInfo.title || 'Awaiting topic — due the 15th'}</div>
-                ${blogInfo.keyword ? `<div class="choice-kw">Target keyword: ${blogInfo.keyword}</div>` : ''}
-                ${chosenType === 'blog' ? '<div class="choice-badge">This Month</div>' : ''}
-            </div>
-            <div class="choice-card${chosenType === 'page' ? ' chosen' : ''}">
-                <div class="choice-type">SEO Op</div>
-                <div class="choice-title${pageInfo.title ? '' : ' tbd'}">${pageInfo.title || 'To be selected'}</div>
-                ${pageInfo.url ? `<div class="choice-kw">${pageInfo.url}</div>` : ''}
-                ${pageInfo.keyword ? `<div class="choice-kw">Target keyword: ${pageInfo.keyword}</div>` : ''}
-                ${chosenType === 'page' ? '<div class="choice-badge">This Month</div>' : ''}
-            </div>
+        <div class="choice-card${chosenType === 'blog' ? ' chosen' : ''}">
+            <div class="choice-type">Blog Post${blogSourceBadge}</div>
+            <div class="choice-title${blogInfo.title ? '' : ' tbd'}">${blogInfo.title || 'Awaiting topic — due the 15th'}</div>
+            ${blogInfo.author ? `<div class="choice-kw">By ${blogInfo.author}</div>` : ''}
+            ${blogInfo.keyword ? `<div class="choice-kw">Target keyword: ${blogInfo.keyword}</div>` : ''}
+            ${chosenType === 'blog' ? `<div class="choice-badge">${(d.month || 'This Month').split(' ')[0]}</div>` : ''}
         </div>`;
+
+    // ── SOCIAL SQUARES (4 posts this month) ──
+    const socialSquaresHtml = postingPlan.length
+        ? postingPlan.map(p => {
+            const pm = platformMeta[p.platform] || { icon: '📱', label: p.platform };
+            const posted = p.status === 'posted';
+            return `<div class="social-square${posted ? ' done' : ''}">
+                <div class="social-square-icon">${pm.icon}</div>
+                <div class="social-square-platform">${pm.label}</div>
+                <div class="social-square-date">${posted ? 'Posted ' + p.date : (p.due ? 'Due ' + p.due : 'TBD')}</div>
+            </div>`;
+        }).join('')
+        : '';
 
     // ── MESSAGES ──
     const messages = d.messages || (d.message ? [d.message] : []);
@@ -721,6 +772,18 @@ function buildPortal(d) {
             <div class="message-text">${m.text}</div>
         </div>
     `).join('');
+
+    // ── BILLING ADD-ONS ──
+    const addOns = d.add_ons || [];
+    const addOnsHtml = addOns.length
+        ? addOns.map(a => `
+            <div class="billing-card">
+                <div class="billing-label">${a.name}</div>
+                <div class="billing-value">${a.price}</div>
+                <div class="billing-sub">Due ${a.due}</div>
+            </div>
+        `).join('')
+        : '';
 
     // ── BILLING ──
     const hoursUsed = d.hours_used || 0;
@@ -1058,15 +1121,27 @@ function buildPortal(d) {
 
             <div class="sec-header" style="margin-top:28px">
                 <span class="sec-title">This Month's Deliverable</span>
-                <span class="sec-sub">Blog post or page SEO op</span>
+                <span class="sec-sub">Blog post — client written, PM written, or SEO op</span>
             </div>
             ${choiceCardsHtml}
+
+            <div class="sec-header" style="margin-top:28px">
+                <span class="sec-title">This Month's Social Posts</span>
+                <span class="sec-sub">2 LinkedIn + 2 Instagram</span>
+            </div>
+            <div class="social-squares">${socialSquaresHtml}</div>
 
             <div class="sec-header" style="margin-top:32px">
                 <span class="sec-title">Blog Topics</span>
                 <span class="sec-sub">Suggested content for upcoming months</span>
             </div>
             <div class="topic-list">${blogTopicsHtml}</div>
+
+            <div class="sec-header" style="margin-top:32px">
+                <span class="sec-title">Posting Plan</span>
+                <span class="sec-sub">LinkedIn + Instagram &mdash; this month's social content</span>
+            </div>
+            <div class="topic-list">${postingPlanHtml}</div>
         </div>
 
         <!-- BILLING -->
@@ -1096,6 +1171,13 @@ function buildPortal(d) {
                     </div>
                 </div>
             </div>
+
+            ${addOns.length ? `
+            <div class="sec-header" style="margin-top:8px">
+                <span class="sec-title">Add-On Services</span>
+            </div>
+            <div class="billing-grid">${addOnsHtml}</div>
+            ` : ''}
 
             <div class="sec-header" style="margin-top:8px">
                 <span class="sec-title">Plan Options</span>
