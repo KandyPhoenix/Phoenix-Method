@@ -612,12 +612,19 @@ function calTypeLabel(type) {
 function buildPortal(d) {
     const s = d.stats;
 
+    // PHW is an internal account: no plan, no price, no billable hours. Everything
+    // plan/billing-related is hidden rather than rendered as "null".
+    const hasHours   = !!d.plan_hours;
+    const hasBilling = !!(d.plan || d.plan_price || d.next_invoice);
+
     // ── STAT CARDS ──
     const statCards = [
         { label: 'Organic Sessions', value: s.sessions != null ? s.sessions.toLocaleString() : '—', delta: s.sessions_change, trend: s.sessions_trend },
         { label: 'Keywords Ranking', value: s.keywords != null ? s.keywords : '—', delta: s.keywords_change, trend: s.keywords_trend },
         { label: 'Avg. Position', value: s.position != null ? s.position : '—', delta: s.position_change, trend: s.position_trend },
-        { label: 'Current Plan', value: d.plan, delta: d.plan_price, trend: 'plan-sub', isPlan: true },
+        hasBilling
+            ? { label: 'Current Plan', value: d.plan, delta: d.plan_price, trend: 'plan-sub', isPlan: true }
+            : { label: 'Impressions', value: s.impressions != null ? s.impressions.toLocaleString() : '—', delta: s.impressions_change, trend: s.impressions_trend },
     ].map(c => `
         <div class="stat-card">
             <div class="stat-label">${c.label}</div>
@@ -723,10 +730,12 @@ function buildPortal(d) {
     `).join('');
 
     // ── BILLING ──
+    // PHW is an internal account with no billable hours — hide the hours block
+    // entirely unless plan_hours is actually set.
     const hoursUsed = d.hours_used || 0;
     const rolledOver = (d.rollover_enabled && d.hours_rolled_over) ? d.hours_rolled_over : 0;
-    const totalHours = d.plan_hours + rolledOver;
-    const hoursPct = Math.min(100, Math.round((hoursUsed / totalHours) * 100));
+    const totalHours = (d.plan_hours || 0) + rolledOver;
+    const hoursPct = totalHours > 0 ? Math.min(100, Math.round((hoursUsed / totalHours) * 100)) : 0;
     const nextInvoice = d.next_invoice || null;
 
     const PLANS = [
@@ -1069,7 +1078,8 @@ function buildPortal(d) {
             <div class="topic-list">${blogTopicsHtml}</div>
         </div>
 
-        <!-- BILLING -->
+        <!-- BILLING (hidden for internal accounts with no plan — see hasBilling) -->
+        ${hasBilling ? `
         <div class="section" id="sec-billing">
             <div class="sec-header">
                 <span class="sec-title">Plan & Billing</span>
@@ -1079,13 +1089,13 @@ function buildPortal(d) {
                     <div class="billing-label">Current Plan</div>
                     <div class="billing-value">${d.plan}</div>
                     <div class="billing-sub">${d.plan_price}</div>
-                    <div style="margin-top:14px">
+                    ${hasHours ? `<div style="margin-top:14px">
                         <div class="billing-sub">${hoursUsed} of ${totalHours} hours used (${hoursPct}%)</div>
                         ${rolledOver > 0 ? `<div class="billing-sub" style="margin-top:4px;color:#FF8C00;">+${rolledOver} hrs rolled over from last month</div>` : ''}
                         <div class="hours-bar-bg">
                             <div class="hours-bar-fill" style="width:${hoursPct}%"></div>
                         </div>
-                    </div>
+                    </div>` : ''}
                 </div>
                 <div class="billing-card">
                     <div class="billing-label">Next Invoice</div>
@@ -1102,7 +1112,7 @@ function buildPortal(d) {
                 <span class="sec-sub">Questions? <a href="mailto:kandy@phoenixmethodseo.com" style="color:#E87B2F;text-decoration:none">Contact us to upgrade</a></span>
             </div>
             <div class="plan-compare">${planCompare}</div>
-        </div>
+        </div>` : ''}
 
         <!-- SEO ROADMAP -->
         <div class="section" id="sec-roadmap">

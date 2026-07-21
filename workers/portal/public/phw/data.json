@@ -3,10 +3,6 @@
   "short_name": "PHW",
   "month": "July 2026",
   "plan": null,
-  "plan_hours": 6,
-  "hours_used": 0,
-  "rollover_enabled": true,
-  "hours_rolled_over": 8,
   "updated": "2026-07-21",
   "stats": {
     "sessions": 141,
