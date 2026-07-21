@@ -7,7 +7,7 @@
   "plan_hours": 1,
   "hours_used": 0,
   "rollover_enabled": true,
-  "hours_rolled_over": 1,
+  "hours_rolled_over": 0,
   "updated": "2026-07-21",
   "next_invoice": {
     "date": "August 1, 2026",
