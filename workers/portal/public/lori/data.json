@@ -8,7 +8,7 @@
   "hours_used": 0,
   "rollover_enabled": true,
   "hours_rolled_over": 1,
-  "updated": "2026-07-17",
+  "updated": "2026-07-21",
   "next_invoice": {
     "date": "August 1, 2026",
     "amount": "$575.00"
@@ -1050,6 +1050,12 @@
       "title": "Online sticker shop — Square checkout build scheduled ($375 one-time)",
       "detail": "New one-time build (Route A): a Square-powered shop for Lori's stickers. Scope — Square payout/bank setup, item library with sizes, singles and bundle pricing, product image cleanup, flat-rate shipping, Buy Buttons / Checkout Links per item, a Shop page styled to match the site with a product grid, nav menu update, a real end-to-end test purchase, and one revision round. Invoice out July 17; build begins July 22.",
       "ticket": "LOR-368"
+    },
+    {
+      "date": "July 21, 2026",
+      "type": "technical",
+      "title": "Site speed work — therapist photos optimized sitewide",
+      "detail": "Your homepage and Meet the Team page now load roughly a third lighter. We resized and recompressed 9 therapist headshots that were being delivered at full camera resolution, cutting image weight by 65% with no visible change to the photos. Faster pages help both visitors and search rankings."
     }
   ],
   "homepage": "https://lorikimmerly.com"
