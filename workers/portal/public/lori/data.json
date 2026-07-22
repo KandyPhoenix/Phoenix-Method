@@ -5,7 +5,7 @@
   "plan": "Custom",
   "plan_price": "$575/mo",
   "plan_hours": 1,
-  "hours_used": 0,
+  "hours_used": 1,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
   "updated": "2026-07-21",
@@ -1056,6 +1056,12 @@
       "type": "technical",
       "title": "Site speed work — therapist photos optimized sitewide",
       "detail": "Your homepage and Meet the Team page now load roughly a third lighter. We resized and recompressed 9 therapist headshots that were being delivered at full camera resolution, cutting image weight by 65% with no visible change to the photos. Faster pages help both visitors and search rankings."
+    },
+    {
+      "date": "July 21, 2026",
+      "type": "content",
+      "title": "Therapist credentials updated — Sheena Nicolay and Jennifer Kenworthy",
+      "detail": "Sheena now shows as LMFTA (pending) and Jennifer as LMFTA everywhere they appear — their bio pages, the Meet the Team page, the homepage therapist grid, the therapist navigation menu, and the structured data search engines read. We check every location a credential appears, since these are easy to update in one place and miss in four."
     }
   ],
   "homepage": "https://lorikimmerly.com"
