@@ -411,11 +411,11 @@
     },
     {
       "platform": "instagram",
-      "title": null,
-      "status": "pending",
+      "title": "Depression can make even the small things feel impossible",
+      "status": "posted",
       "due": "Jul 22",
-      "date": null,
-      "url": null
+      "date": "July 23, 2026",
+      "url": "https://www.instagram.com/p/DbJuXjegDoc/"
     },
     {
       "platform": "linkedin",
@@ -1062,6 +1062,13 @@
       "type": "content",
       "title": "Therapist credentials updated — Sheena Nicolay and Jennifer Kenworthy",
       "detail": "Sheena and Jennifer now both show as LMFTA everywhere they appear — their bio pages, the Meet the Team page, the homepage therapist grid, the therapist navigation menu, and the structured data search engines read. We check every location a credential appears, since these are easy to update in one place and miss in four."
+    },
+    {
+      "date": "July 23, 2026",
+      "type": "content",
+      "title": "Second July Instagram post published — depression therapy awareness",
+      "detail": "Drafted the caption and visual concept, then Lori published the post to @lorikimmerlytherapy. Covers depression therapy, both in-office in Renton, WA and online therapy across Washington. Logged in the portal's Posting Plan with a link to the live post.",
+      "ticket": "LOR-378"
     }
   ],
   "homepage": "https://lorikimmerly.com"
