@@ -1069,6 +1069,12 @@
       "title": "Second July Instagram post published — depression therapy awareness",
       "detail": "Drafted the caption and visual concept, then Lori published the post to @lorikimmerlytherapy. Covers depression therapy, both in-office in Renton, WA and online therapy across Washington. Logged in the portal's Posting Plan with a link to the live post.",
       "ticket": "LOR-378"
+    },
+    {
+      "date": "July 29, 2026",
+      "type": "fix",
+      "title": "Blog closing section fixed — “Meet Our Newest Providers”",
+      "detail": "The post introducing Iwona, Erin, and Devi was missing the dark call-to-action closing every other blog post ends with — it had been left with an older, plainer design. We rebuilt it to match: a closing message written specifically for that post, a “Book a Consultation” button, and the same flush-to-footer layout as your other recent posts. Checked the fix against all 6 live posts to confirm nothing else was affected."
     }
   ],
   "homepage": "https://lorikimmerly.com"
