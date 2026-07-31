@@ -8,7 +8,7 @@
   "hours_used": 1,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-07-21",
+  "updated": "2026-07-31",
   "next_invoice": {
     "date": "August 1, 2026",
     "amount": "$575.00"
@@ -419,11 +419,11 @@
     },
     {
       "platform": "linkedin",
-      "title": null,
-      "status": "pending",
+      "title": "Support for Today. Strength for Tomorrow.",
+      "status": "posted",
       "due": "Jul 29",
-      "date": null,
-      "url": null
+      "date": "July 31, 2026",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7489069062224760832"
     }
   ],
   "reports": [
