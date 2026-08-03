@@ -1,14 +1,14 @@
 {
   "client": "Sunbright Recovery Center",
   "short_name": "Sunbright",
-  "month": "July 2026",
+  "month": "August 2026",
   "plan": "Launch",
   "plan_price": "Full-Build Project",
   "plan_hours": null,
   "hours_used": 0,
   "rollover_enabled": false,
   "hours_rolled_over": 0,
-  "updated": "2026-07-01",
+  "updated": "2026-08-03",
   "next_invoice": null,
   "stats": {
     "sessions": null,
@@ -417,6 +417,11 @@
       "from": "Kandy",
       "date": "July 1, 2026",
       "text": "Checking in as we head into July. The homepage is built and deployed at the preview URL. As soon as we hear back on your homepage feedback, we move straight into the inner pages — Programs, About, Admissions, and Donate. Per the build schedule, those pages are the July priority, followed by SEO setup on all pages and the first two blog posts. We're on track for an August launch if we keep momentum. Reach out anytime with feedback or questions — we're ready to move when you are."
+    },
+    {
+      "from": "Kandy",
+      "date": "August 3, 2026",
+      "text": "August update — this is your launch month! The homepage has been built and deployed at the preview URL since June, and we're ready to move as soon as we hear your feedback on it. August priorities per the build schedule: inner pages (Programs, About, Admissions, Donate), SEO foundation on all pages, first two blog posts, social media profile setup, pre-launch QA, and the domain cutover to sunbrightrecovery.org. We need your homepage feedback to kick off the inner page builds — please send that over whenever you're ready and we'll hit the ground running."
     }
   ],
   "site_links": [
@@ -505,6 +510,11 @@
       "type": "launch",
       "title": "Admissions page mockup built",
       "detail": "Draft at /admissions-preview on Cloudflare Pages. Pending form backend decision before finalizing."
+    },
+    {
+      "date": "August 3, 2026",
+      "type": "seo",
+      "title": "August portal refresh — month and calendar updated"
     }
   ],
   "homepage": "https://sunbrightrecovery.org"

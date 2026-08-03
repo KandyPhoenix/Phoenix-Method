@@ -1,14 +1,14 @@
 {
   "client": "Phoenix Method SEO",
   "short_name": "PM",
-  "month": "July 2026",
+  "month": "August 2026",
   "plan": "Internal",
   "plan_price": "Agency Site",
   "plan_hours": 0,
   "hours_used": 0,
   "rollover_enabled": false,
   "hours_rolled_over": 0,
-  "updated": "2026-07-02",
+  "updated": "2026-08-03",
   "next_invoice": {
     "date": "N/A",
     "amount": "Internal"
@@ -177,48 +177,48 @@
   ],
   "content_calendar": [
     {
-      "date": "Jun 2026",
-      "title": "First blog post — publish and optimize for target keyword",
-      "type": "deliverable"
-    },
-    {
-      "date": "Jun 2026",
-      "title": "Google Business Profile — create and optimize GBP listing",
-      "type": "deliverable"
-    },
-    {
-      "date": "Jun 2026",
-      "title": "FAQ page — /faq with FAQ schema (PM-147)",
-      "type": "deliverable"
-    },
-    {
-      "date": "Jul 2026",
-      "title": "Case studies page — ranking results as social proof",
-      "type": "deliverable"
-    },
-    {
-      "date": "Jul 2026",
-      "title": "Agency directory listings — Clutch, UpCity, GoodFirms",
+      "date": "Aug 2026",
+      "title": "Second blog post — target 'seo for therapists' or 'mental health seo'",
       "type": "deliverable"
     },
     {
       "date": "Aug 2026",
+      "title": "Google Business Profile — create and optimize GBP listing",
+      "type": "deliverable"
+    },
+    {
+      "date": "Aug 2026",
+      "title": "FAQ page — /faq with FAQ schema (PM-147)",
+      "type": "deliverable"
+    },
+    {
+      "date": "Aug 2026",
+      "title": "Case studies page — Lori + PHW results as social proof",
+      "type": "deliverable"
+    },
+    {
+      "date": "Sep 2026",
       "title": "Backlink outreach — therapy-adjacent publications and niche citations",
+      "type": "deliverable"
+    },
+    {
+      "date": "Sep 2026",
+      "title": "Agency directory listings — Clutch, UpCity, GoodFirms",
       "type": "deliverable"
     }
   ],
   "content_choice": {
-    "chosen": "blog",
+    "chosen": null,
     "blog": {
-      "title": "5 Tips for Improving Website Rankings That Actually Move the Needle",
-      "keyword": "improving website rankings",
-      "status": "done"
+      "title": null,
+      "keyword": null,
+      "status": "pending"
     },
     "page": {
-      "title": "Services Page",
-      "url": "phoenixmethodseo.com/services",
-      "keyword": "seo for therapists",
-      "status": "done"
+      "title": null,
+      "url": null,
+      "keyword": null,
+      "status": "suggested"
     }
   },
   "blog_topics": [
@@ -391,6 +391,11 @@
       "from": "Kandy",
       "date": "July 2, 2026",
       "text": "June was another strong growth month. Impressions climbed from ~700 in May to 1,701 in June — up 2.4x — and the site now surfaces for 93 distinct keyword queries (up from 73). Average position improved to 59.2 from 74.3 as Google gives the mental-health-seo hub and service pages more weight — the first time position has moved the right direction since launch. The mental-health cluster is now the clear strength: 'mental health seo' (175 impressions, pos 46.7), 'seo for mental health' (172, pos 48.5), and 'behavioral health seo' (116, pos 55.9) are all climbing toward page 3. On the delivery side, the first blog post — '5 Tips for Improving Website Rankings That Actually Move the Needle' — is published and fully optimized (PM-278), and title tags were shortened sitewide to render cleanly in search results (PM-128). Still no clicks yet, which is expected while everything sits in deep positions; the job now is to push the mental-health pages toward page 1 with more content and internal links. July priority: second blog post, Google Business Profile listing, and the FAQ page with schema."
+    },
+    {
+      "from": "Kandy",
+      "date": "August 3, 2026",
+      "text": "August update. July was a consolidation month — the first blog post is live and indexed, title tags are trimmed sitewide, and the Phoenix AI content tool is deployed and operational. June's numbers held strong: 1,701 impressions across 93 keywords with average position improving to 59.2 from 74.3. The mental-health-seo keyword cluster is the clear growth engine — 'mental health seo' at pos 46.7 (175 impressions) and 'behavioral health seo' at pos 55.9 (116 impressions) are both climbing toward page 3. August priorities: second blog post targeting therapist SEO, Google Business Profile listing, FAQ page with schema, and beginning the case studies page using Lori and PHW results."
     }
   ],
   "site_links": [
@@ -609,6 +614,11 @@
       "title": "Phoenix AI worker built and deployed",
       "detail": "Phoenix AI content generation tool is live at phoenix-ai.phoenixmethod.workers.dev. Features: magic link login, Google OAuth, article generation with Preview/HTML/Meta & FAQ tabs, Manual CMS mode for phoenixmethodseo.com. Connected phoenixmethodseo.com as first site — 19 keywords loaded, full article generated and tested end-to-end. PM-347 (bypass login endpoint) and PM-348 (dashboard brand name fix) completed.",
       "ticket": "PM-347"
+    },
+    {
+      "date": "August 3, 2026",
+      "type": "seo",
+      "title": "August portal refresh — stats, deliverables, calendar, and content choice reset"
     }
   ],
   "homepage": "https://phoenixmethodseo.com",
