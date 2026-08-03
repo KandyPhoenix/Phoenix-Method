@@ -24,7 +24,7 @@ jobs:
       - name: Write GSC credentials
         env:
           GSC_CREDENTIALS_JSON: ${{ secrets.GSC_CREDENTIALS_JSON }}
-        run: echo "$GSC_CREDENTIALS_JSON" | base64 -d > /tmp/gsc-credentials.json
+        run: printenv GSC_CREDENTIALS_JSON > /tmp/gsc-credentials.json
 
       - name: Reset Lori portal
         env:
@@ -32,10 +32,16 @@ jobs:
           LORI_GSC_PROPERTY: sc-domain:lorikimmerly.com
         run: python tools/portal-monthly-reset.py lori
 
+      - name: Reset PHW portal
+        env:
+          GSC_CREDS_PATH: /tmp/gsc-credentials.json
+          PHW_GSC_PROPERTY: sc-domain:phwcare.com
+        run: python tools/portal-monthly-reset.py phw
+
       - name: Commit and push
         run: |
           git config user.name "Phoenix Method Bot"
           git config user.email "hello@phoenixmethodseo.com"
-          git add workers/portal/public/lori/data.json
-          git diff --staged --quiet || git commit -m "auto: monthly reset lori $(date +%Y-%m)"
+          git add workers/portal/public/lori/data.json workers/portal/public/phw/data.json
+          git diff --staged --quiet || git commit -m "auto: monthly reset $(date +%Y-%m)"
           git push
