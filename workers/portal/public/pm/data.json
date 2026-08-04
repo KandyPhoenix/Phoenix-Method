@@ -8,27 +8,27 @@
   "hours_used": 0,
   "rollover_enabled": false,
   "hours_rolled_over": 0,
-  "updated": "2026-08-03",
+  "updated": "2026-08-04",
   "next_invoice": {
     "date": "N/A",
     "amount": "Internal"
   },
   "stats": {
-    "sessions": 1,
-    "sessions_change": "0",
-    "sessions_trend": "neutral",
-    "keywords": 93,
-    "keywords_change": "+20",
+    "sessions": 2,
+    "sessions_change": "+1",
+    "sessions_trend": "up",
+    "keywords": 196,
+    "keywords_change": "+103",
     "keywords_trend": "up",
-    "position": 59.2,
-    "position_change": "-15.1",
+    "position": 56.3,
+    "position_change": "+2.9",
     "position_trend": "up",
-    "impressions": 1701,
-    "impressions_change": "+1004",
+    "impressions": 2697,
+    "impressions_change": "+996",
     "impressions_trend": "up",
-    "ctr": 0.0,
-    "ctr_change": "-0.14",
-    "ctr_trend": "down",
+    "ctr": 0.07,
+    "ctr_change": "+0.1",
+    "ctr_trend": "up",
     "clicks": 0
   },
   "deliverables": [
@@ -105,25 +105,120 @@
     "overage": "N/A — internal site."
   },
   "gsc_keywords": [
-    { "keyword": "mental health seo", "position": 46.7, "clicks": 0, "impressions": 175 },
-    { "keyword": "seo for mental health", "position": 48.5, "clicks": 0, "impressions": 172 },
-    { "keyword": "psychiatrist seo", "position": 90.1, "clicks": 0, "impressions": 124 },
-    { "keyword": "behavioral health seo", "position": 55.9, "clicks": 0, "impressions": 116 },
-    { "keyword": "seo psychology", "position": 78.2, "clicks": 0, "impressions": 101 },
-    { "keyword": "seo the woodlands", "position": 1.0, "clicks": 0, "impressions": 77 },
-    { "keyword": "seo for psychiatrists in private practice", "position": 63.9, "clicks": 0, "impressions": 76 },
-    { "keyword": "seo for psychiatrists", "position": 88.2, "clicks": 0, "impressions": 75 },
-    { "keyword": "mental health seo services", "position": 71.0, "clicks": 0, "impressions": 50 },
-    { "keyword": "how does a therapy niche impact your seo strategy", "position": 87.4, "clicks": 0, "impressions": 36 },
-    { "keyword": "therapy seo", "position": 83.3, "clicks": 0, "impressions": 35 },
-    { "keyword": "phoenix seo company", "position": 1.0, "clicks": 0, "impressions": 32 },
-    { "keyword": "therapist niche seo positioning", "position": 68.4, "clicks": 0, "impressions": 25 },
-    { "keyword": "phoenix seo", "position": 26.6, "clicks": 0, "impressions": 24 },
-    { "keyword": "psychotherapy clinic seo", "position": 48.4, "clicks": 0, "impressions": 21 },
-    { "keyword": "phoenix seo package", "position": 93.9, "clicks": 0, "impressions": 19 },
-    { "keyword": "seo for domestic violence therapists", "position": 74.3, "clicks": 0, "impressions": 19 },
-    { "keyword": "seo for behavioral health providers", "position": 58.5, "clicks": 0, "impressions": 17 },
-    { "keyword": "local seo phoenix", "position": 27.6, "clicks": 0, "impressions": 16 }
+    {
+      "keyword": "mental health seo",
+      "position": 46.7,
+      "clicks": 0,
+      "impressions": 175
+    },
+    {
+      "keyword": "seo for mental health",
+      "position": 48.5,
+      "clicks": 0,
+      "impressions": 172
+    },
+    {
+      "keyword": "psychiatrist seo",
+      "position": 90.1,
+      "clicks": 0,
+      "impressions": 124
+    },
+    {
+      "keyword": "behavioral health seo",
+      "position": 55.9,
+      "clicks": 0,
+      "impressions": 116
+    },
+    {
+      "keyword": "seo psychology",
+      "position": 78.2,
+      "clicks": 0,
+      "impressions": 101
+    },
+    {
+      "keyword": "seo the woodlands",
+      "position": 1.0,
+      "clicks": 0,
+      "impressions": 77
+    },
+    {
+      "keyword": "seo for psychiatrists in private practice",
+      "position": 63.9,
+      "clicks": 0,
+      "impressions": 76
+    },
+    {
+      "keyword": "seo for psychiatrists",
+      "position": 88.2,
+      "clicks": 0,
+      "impressions": 75
+    },
+    {
+      "keyword": "mental health seo services",
+      "position": 71.0,
+      "clicks": 0,
+      "impressions": 50
+    },
+    {
+      "keyword": "how does a therapy niche impact your seo strategy",
+      "position": 87.4,
+      "clicks": 0,
+      "impressions": 36
+    },
+    {
+      "keyword": "therapy seo",
+      "position": 83.3,
+      "clicks": 0,
+      "impressions": 35
+    },
+    {
+      "keyword": "phoenix seo company",
+      "position": 1.0,
+      "clicks": 0,
+      "impressions": 32
+    },
+    {
+      "keyword": "therapist niche seo positioning",
+      "position": 68.4,
+      "clicks": 0,
+      "impressions": 25
+    },
+    {
+      "keyword": "phoenix seo",
+      "position": 26.6,
+      "clicks": 0,
+      "impressions": 24
+    },
+    {
+      "keyword": "psychotherapy clinic seo",
+      "position": 48.4,
+      "clicks": 0,
+      "impressions": 21
+    },
+    {
+      "keyword": "phoenix seo package",
+      "position": 93.9,
+      "clicks": 0,
+      "impressions": 19
+    },
+    {
+      "keyword": "seo for domestic violence therapists",
+      "position": 74.3,
+      "clicks": 0,
+      "impressions": 19
+    },
+    {
+      "keyword": "seo for behavioral health providers",
+      "position": 58.5,
+      "clicks": 0,
+      "impressions": 17
+    },
+    {
+      "keyword": "local seo phoenix",
+      "position": 27.6,
+      "clicks": 0,
+      "impressions": 16
+    }
   ],
   "keywords": [
     {

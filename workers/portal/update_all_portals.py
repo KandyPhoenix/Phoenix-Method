@@ -21,7 +21,7 @@ from google.auth.transport.requests import Request
 import requests as http_requests
 
 CREDS_PATH = Path("C:/Users/kandy/Work/config/gsc-credentials.json")
-PORTAL_DIR = Path("C:/Users/kandy/PHOENIX METHOD/workers/portal")
+PORTAL_DIR = Path("C:/Users/kandy/GitHub/Phoenix Method/workers/portal")
 
 # Per-portal config. GA4_PROPERTY=None means GSC-only (no organic-sessions metric pull).
 PORTALS = [

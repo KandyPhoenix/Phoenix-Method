@@ -8,7 +8,7 @@
   "hours_used": 0,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-08-03",
+  "updated": "2026-08-04",
   "next_invoice": {
     "date": "September 1, 2026",
     "amount": "$575.00"
@@ -22,20 +22,20 @@
     }
   ],
   "stats": {
-    "sessions": 225,
-    "sessions_change": "-46",
-    "sessions_trend": "down",
-    "keywords": 224,
-    "keywords_change": "+81",
+    "sessions": 289,
+    "sessions_change": "+64",
+    "sessions_trend": "up",
+    "keywords": 272,
+    "keywords_change": "+48",
     "keywords_trend": "up",
-    "position": 10.1,
-    "position_change": "+2.7",
-    "position_trend": "up",
-    "impressions": 4702,
-    "impressions_change": "+2259",
+    "position": 12.8,
+    "position_change": "-2.7",
+    "position_trend": "down",
+    "impressions": 6011,
+    "impressions_change": "+1309",
     "impressions_trend": "up",
-    "ctr": 2.98,
-    "ctr_change": "-2.63",
+    "ctr": 2.65,
+    "ctr_change": "-0.3",
     "ctr_trend": "down"
   },
   "deliverables": [
