@@ -1089,6 +1089,12 @@
       "date": "August 3, 2026",
       "type": "seo",
       "title": "August portal refresh — stats, deliverables, calendar, and content choice reset"
+    },
+    {
+      "date": "August 3, 2026",
+      "type": "technical",
+      "title": "PHP upgraded from 8.1 to 8.3 — DreamHost panel",
+      "detail": "Your hosting server was running PHP 8.1, which reached end-of-life and would have triggered a $5/mo Extended Support charge from DreamHost on August 9. We upgraded to PHP 8.3 (DreamHost's recommended version) via the hosting panel with automatic rollback enabled in case of compatibility issues. The upgrade completed successfully — site verified live and loading normally. No additional monthly charge."
     }
   ],
   "homepage": "https://lorikimmerly.com"
