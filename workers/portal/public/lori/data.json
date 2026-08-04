@@ -730,7 +730,7 @@
     {
       "from": "Kandy",
       "date": "August 3, 2026",
-      "text": "August is here! July was a productive month — we published Kristen Sievert's trauma blog post, ran all four social media posts (3 of 4 published, one LinkedIn still pending), completed a sitewide image optimization pass that cut page weight by a third, updated Sheena and Jennifer's credentials, and fixed the closing section on the new providers blog post. Your sticker shop is live at lorikimmerly.com/shop — all 12 stickers are up with singles and bundle pricing, real Square checkout, and it's in your main nav. This month your blog or SEO op slot is open — send your topic by August 15 and we'll have it live by the 22nd. If we don't hear from you, we'll optimize the insurance page (currently pos 8.5 with 39 impressions and 0 clicks — strong candidate for a title and meta rewrite). Your next quarterly performance report (covering Aug 1 – Oct 31) is due October 31."
+      "text": "August is here! July was a productive month — we published Kristen Sievert's trauma blog post, ran all four social media posts (the last LinkedIn post, \"Support for Today. Strength for Tomorrow,\" went out July 31), completed a sitewide image optimization pass that cut page weight by a third, updated Sheena and Jennifer's credentials, and fixed the closing section on the new providers blog post. Your sticker shop is live at lorikimmerly.com/shop — all 12 stickers are up with singles and bundle pricing, real Square checkout, and it's in your main nav. This month your blog or SEO op slot is open — send your topic by August 15 and we'll have it live by the 22nd. If we don't hear from you, we'll optimize the insurance page (currently pos 8.5 with 39 impressions and 0 clicks — strong candidate for a title and meta rewrite). Your next quarterly performance report (covering Aug 1 – Oct 31) is due October 31."
     }
   ],
   "site_links": [
@@ -1077,6 +1077,13 @@
       "type": "fix",
       "title": "Blog closing section fixed — “Meet Our Newest Providers”",
       "detail": "The post introducing Iwona, Erin, and Devi was missing the dark call-to-action closing every other blog post ends with — it had been left with an older, plainer design. We rebuilt it to match: a closing message written specifically for that post, a “Book a Consultation” button, and the same flush-to-footer layout as your other recent posts. Checked the fix against all 6 live posts to confirm nothing else was affected."
+    },
+    {
+      "date": "July 31, 2026",
+      "type": "content",
+      "title": "Fourth July LinkedIn post published — Support for Today. Strength for Tomorrow.",
+      "detail": "Final social post of the July plan, published two days after its July 29 due date. Covers stress and anxiety management, life transitions, and personal growth, with a call to schedule a consultation. All four July social posts are now live.",
+      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7489069062224760832/"
     },
     {
       "date": "July 31, 2026",
