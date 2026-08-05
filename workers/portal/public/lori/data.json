@@ -8,7 +8,7 @@
   "hours_used": 0,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-08-04",
+  "updated": "2026-08-05",
   "next_invoice": {
     "date": "September 1, 2026",
     "amount": "$575.00"
@@ -1096,6 +1096,12 @@
       "date": "August 3, 2026",
       "type": "seo",
       "title": "August portal refresh — stats, deliverables, calendar, and content choice reset"
+    },
+    {
+      "date": "August 5, 2026",
+      "type": "seo",
+      "title": "Grief blog post title shortened for Google display",
+      "detail": "The title on your grief blog post was running over Google's 60-character display limit, causing it to get cut off in search results. We shortened it so the full title renders cleanly in SERPs — visitors now see the complete headline rather than a truncated version with an ellipsis."
     },
     {
       "date": "August 3, 2026",

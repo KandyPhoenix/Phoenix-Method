@@ -3,7 +3,7 @@
   "short_name": "PHW",
   "month": "August 2026",
   "plan": null,
-  "updated": "2026-08-04",
+  "updated": "2026-08-05",
   "stats": {
     "sessions": 215,
     "sessions_change": "+74",
@@ -766,6 +766,13 @@
       "date": "August 3, 2026",
       "type": "seo",
       "title": "August portal refresh — stats, deliverables, calendar reset"
+    },
+    {
+      "date": "August 5, 2026",
+      "type": "seo",
+      "title": "3 page titles shortened to fit Google's display limit",
+      "detail": "Three page titles were running over 60 characters and getting truncated in search results. We shortened them so the full title renders cleanly: /therapy-red-bluff-ca (now 59 chars), /phw-counselors (now 57 chars), and /therapy-downtown-red-bluff (now 56 chars). Visitors now see complete headlines instead of cut-off text with ellipses.",
+      "ticket": "PHW-280"
     }
   ],
   "homepage": "https://www.phwcare.com"
