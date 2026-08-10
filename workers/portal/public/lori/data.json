@@ -449,6 +449,12 @@
       "date": "May 1, 2026",
       "icon": "✍️",
       "url": "/lori/reports/lori-blog-topics-2026-05.pdf"
+    },
+    {
+      "name": "Estimate — Service Pages Project (8 Pages)",
+      "date": "August 10, 2026",
+      "icon": "📄",
+      "url": "https://app.squareup.com/pay-invoice/estimate/invetmp:663df930-23df-4cde-8bb7-6a9ff4cb99d9"
     }
   ],
   "roadmap": [
@@ -750,6 +756,11 @@
       "from": "Kandy",
       "date": "August 10, 2026",
       "text": "Caroline's blog post on tokophobia is live! We published it with full SEO treatment and a dedicated author profile for Caroline so Google credits a licensed therapist — and per your note, it ends with a Book with Caroline Bacon, LMHCA button. We also added the same personal booking sections to your grief post and Kristen's trauma post, fixed the blog topic filter so choosing a topic pulls those posts right to the top, and rotated the homepage carousel to feature Ryan, Erin, and Iwona for August. The carousel now rotates automatically on the 1st of each month to the next three therapists (20 minutes of your included site-work hour per rotation)."
+    },
+    {
+      "from": "Kandy",
+      "date": "August 10, 2026",
+      "text": "We've sent over the estimate for your Service Pages Project — 8 dedicated, fully optimized service pages, with three payment schedule options so you can pick the pace that fits (full project, two pages a month, or one page a month). The estimate is also linked in your Reports section here in the portal. Take a look and let us know which option feels right!"
     }
   ],
   "site_links": [
@@ -1151,6 +1162,12 @@
       "type": "content",
       "title": "Homepage carousel rotation — August (20 min against included hours)",
       "detail": "Rotated the homepage therapist carousel so Ryan Carragher, Erin Spicer, and Iwona Abraham are featured this month. Also set up an automatic rotation for the 1st of every month so the next three therapists are always featured — each monthly rotation uses 20 minutes of the included site-work hour."
+    },
+    {
+      "date": "August 10, 2026",
+      "type": "planning",
+      "title": "Service Pages Project estimate sent (8 dedicated pages)",
+      "detail": "Sent the estimate for the Service Pages Project — a dedicated, fully optimized page for each of 8 services (Individual, Couples, Family, Anxiety, Depression, Intimacy & Relationship Issues, IFS, and Trauma & PTSD). Each page includes keyword research, original SEO-optimized content, full on-page SEO with schema, homepage/navigation integration, and Google submission with follow-up. Three payment schedule options included: full project, two pages per month, or one page per month. View the estimate: https://app.squareup.com/pay-invoice/estimate/invetmp:663df930-23df-4cde-8bb7-6a9ff4cb99d9"
     }
   ],
   "homepage": "https://lorikimmerly.com"
