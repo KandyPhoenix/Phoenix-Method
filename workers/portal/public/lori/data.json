@@ -5,10 +5,10 @@
   "plan": "Custom",
   "plan_price": "$575/mo",
   "plan_hours": 1,
-  "hours_used": 0,
+  "hours_used": 0.33,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-08-05",
+  "updated": "2026-08-10",
   "next_invoice": {
     "date": "September 1, 2026",
     "amount": "$575.00"
@@ -45,7 +45,7 @@
     },
     {
       "text": "Blog Post or SEO Op",
-      "status": "todo"
+      "status": "done"
     },
     {
       "text": "Social Media Posting — 2 LinkedIn + 2 Instagram",
@@ -321,11 +321,16 @@
     }
   ],
   "content_choice": {
-    "chosen": null,
+    "chosen": "blog",
     "blog": {
-      "title": null,
-      "keyword": null,
-      "status": "pending"
+      "title": "When Fear Overshadows Joy: Understanding Tokophobia and the Fear of Childbirth",
+      "keyword": "tokophobia, fear of childbirth",
+      "status": "published",
+      "url": "https://lorikimmerly.com/2026/08/10/tokophobia-fear-of-childbirth/",
+      "wp_post_id": 50981,
+      "author": "Caroline Bacon, LMHCA",
+      "published": "2026-08-10",
+      "note": "Client-submitted post written by Caroline Bacon, LMHCA — maternal mental health, pregnancy, postpartum."
     },
     "page": {
       "title": "Insurance page — CTR / SEO optimization",
@@ -387,6 +392,15 @@
       "title": "What Is LMFTA vs. LMFT? Understanding Therapist Credentials in Washington",
       "keyword": "therapist credentials Washington",
       "status": "suggested"
+    },
+    {
+      "title": "When Fear Overshadows Joy: Understanding Tokophobia and the Fear of Childbirth",
+      "keyword": "tokophobia, fear of childbirth",
+      "status": "used",
+      "month_used": "August",
+      "wp_post_id": 50981,
+      "source": "client",
+      "note": "Written by Caroline Bacon, LMHCA; submitted by Lori 08-03."
     }
   ],
   "posting_plan": [
@@ -731,6 +745,11 @@
       "from": "Kandy",
       "date": "August 3, 2026",
       "text": "August is here! July was a productive month — we published Kristen Sievert's trauma blog post, ran all four social media posts (the last LinkedIn post, \"Support for Today. Strength for Tomorrow,\" went out July 31), completed a sitewide image optimization pass that cut page weight by a third, updated Sheena and Jennifer's credentials, and fixed the closing section on the new providers blog post. Your sticker shop is live at lorikimmerly.com/shop — all 12 stickers are up with singles and bundle pricing, real Square checkout, and it's in your main nav. This month your blog or SEO op slot is open — send your topic by August 15 and we'll have it live by the 22nd. If we don't hear from you, we'll optimize the insurance page (currently pos 8.5 with 39 impressions and 0 clicks — strong candidate for a title and meta rewrite). Your next quarterly performance report (covering Aug 1 – Oct 31) is due October 31."
+    },
+    {
+      "from": "Kandy",
+      "date": "August 10, 2026",
+      "text": "Caroline's blog post on tokophobia is live! We published it with full SEO treatment and a dedicated author profile for Caroline so Google credits a licensed therapist — and per your note, it ends with a Book with Caroline Bacon, LMHCA button. We also added the same personal booking sections to your grief post and Kristen's trauma post, fixed the blog topic filter so choosing a topic pulls those posts right to the top, and rotated the homepage carousel to feature Ryan, Erin, and Iwona for August. The carousel now rotates automatically on the 1st of each month to the next three therapists (20 minutes of your included site-work hour per rotation)."
     }
   ],
   "site_links": [
@@ -1108,6 +1127,30 @@
       "type": "technical",
       "title": "PHP upgraded from 8.1 to 8.3 — DreamHost panel",
       "detail": "Your hosting server was running PHP 8.1, which reached end-of-life and would have triggered a $5/mo Extended Support charge from DreamHost on August 9. We upgraded to PHP 8.3 (DreamHost's recommended version) via the hosting panel with automatic rollback enabled in case of compatibility issues. The upgrade completed successfully — site verified live and loading normally. No additional monthly charge."
+    },
+    {
+      "date": "August 10, 2026",
+      "type": "content",
+      "title": "New blog post published — Caroline Bacon on tokophobia",
+      "detail": "Published \"When Fear Overshadows Joy: Understanding Tokophobia and the Fear of Childbirth\" — the post Caroline Bacon, LMHCA wrote on maternal mental health and fear of childbirth. Built with the full blog template (topic index, resource links, About-the-Author), SEO title/description/keyword set, categorized and tagged (Maternal Mental Health, Pregnancy, Postpartum, Tokophobia, Anxiety), and attributed to a dedicated Caroline Bacon author profile so search engines see a licensed therapist as the author. Ends with a Book with Caroline Bacon, LMHCA button linking to her bio page, as requested. Verified live: https://lorikimmerly.com/2026/08/10/tokophobia-fear-of-childbirth/"
+    },
+    {
+      "date": "August 10, 2026",
+      "type": "content",
+      "title": "Personalized booking sections added to therapist-authored posts",
+      "detail": "The 5 Gates of Grief and Healing Trauma Through Connection now close with the same treatment as the new post: the author's name highlighted in the About-the-Author section and a personal booking button — Book with Lori Kimmerly, LMFT and Book with Kristen Sievert, LMFTA — linking to their bio pages instead of the generic contact page."
+    },
+    {
+      "date": "August 10, 2026",
+      "type": "technical",
+      "title": "Blog topic filter fixed",
+      "detail": "Choosing a topic on the blog page used to leave the matching posts scattered far down the page. Filtering now brings the matching posts to the top of the page immediately, and the filter dropdown was restyled to match the post cards."
+    },
+    {
+      "date": "August 10, 2026",
+      "type": "content",
+      "title": "Homepage carousel rotation — August (20 min against included hours)",
+      "detail": "Rotated the homepage therapist carousel so Ryan Carragher, Erin Spicer, and Iwona Abraham are featured this month. Also set up an automatic rotation for the 1st of every month so the next three therapists are always featured — each monthly rotation uses 20 minutes of the included site-work hour."
     }
   ],
   "homepage": "https://lorikimmerly.com"
