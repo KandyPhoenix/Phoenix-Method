@@ -721,15 +721,18 @@ function buildPortal(d) {
         ? postingPlan.map(p => {
             const pm = platformMeta[p.platform] || { icon: '📱', label: p.platform };
             const posted = p.status === 'posted';
+            const scheduled = p.status === 'scheduled';
             return `<div class="posting-item">
                 <span class="posting-platform">${pm.icon} ${pm.label}</span>
                 <div style="flex:1;min-width:0">
-                    <div class="topic-title">${posted ? p.title : 'Awaiting content'}</div>
+                    <div class="topic-title">${posted || scheduled ? p.title : 'Awaiting content'}</div>
                     ${posted
                         ? `<div class="topic-kw">Posted ${p.date}${p.url ? ` &mdash; <a href="${p.url}" target="_blank" rel="noopener" style="color:#E87B2F;text-decoration:none">View post</a>` : ''}</div>`
-                        : (p.due ? `<div class="topic-kw">Due ${p.due}</div>` : '')}
+                        : scheduled
+                            ? `<div class="topic-kw">Scheduled ${p.due || p.date}</div>`
+                            : (p.due ? `<div class="topic-kw">Due ${p.due}</div>` : '')}
                 </div>
-                <span class="posting-status ${posted ? 'status-published' : 'status-planned'}">${posted ? 'Posted' : 'Pending'}</span>
+                <span class="posting-status ${posted ? 'status-published' : 'status-planned'}">${posted ? 'Posted' : scheduled ? 'Scheduled' : 'Pending'}</span>
             </div>`;
         }).join('')
         : '<p style="color:#9A95A8;font-size:13px;padding:10px 0">Posting plan will be added monthly.</p>';
@@ -756,10 +759,11 @@ function buildPortal(d) {
         ? postingPlan.map(p => {
             const pm = platformMeta[p.platform] || { icon: '📱', label: p.platform };
             const posted = p.status === 'posted';
+            const scheduled = p.status === 'scheduled';
             return `<div class="social-square${posted ? ' done' : ''}">
                 <div class="social-square-icon">${pm.icon}</div>
                 <div class="social-square-platform">${pm.label}</div>
-                <div class="social-square-date">${posted ? 'Posted ' + p.date : (p.due ? 'Due ' + p.due : 'TBD')}</div>
+                <div class="social-square-date">${posted ? 'Posted ' + p.date : scheduled ? 'Scheduled ' + (p.due || p.date) : (p.due ? 'Due ' + p.due : 'TBD')}</div>
             </div>`;
         }).join('')
         : '';
