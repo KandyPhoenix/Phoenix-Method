@@ -8,7 +8,7 @@
   "hours_used": 0.33,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-08-10",
+  "updated": "2026-08-12",
   "next_invoice": {
     "date": "September 1, 2026",
     "amount": "$575.00"
@@ -406,18 +406,18 @@
   "posting_plan": [
     {
       "platform": "linkedin",
-      "title": null,
-      "status": "pending",
+      "title": "5 Quiet Signs of High-Functioning Anxiety (carousel)",
+      "status": "posted",
       "due": "Aug 15",
-      "date": null,
-      "url": null
+      "date": "August 12, 2026",
+      "url": "https://lnkd.in/p/gAMXFZCR"
     },
     {
       "platform": "instagram",
-      "title": null,
-      "status": "pending",
+      "title": "5 Quiet Signs of High-Functioning Anxiety (carousel)",
+      "status": "scheduled",
       "due": "Aug 17",
-      "date": null,
+      "date": "August 13, 2026",
       "url": null
     },
     {
@@ -910,6 +910,12 @@
     }
   ],
   "worklog": [
+    {
+      "date": "August 12, 2026",
+      "type": "content",
+      "title": "First August LinkedIn post published — 5 Quiet Signs of High-Functioning Anxiety",
+      "detail": "First of the month's social posts is live on the LinkedIn Business Page: a 7-slide carousel, \"5 Quiet Signs of High-Functioning Anxiety,\" with a professional caption, a verified NIMH/ADAA anxiety statistic, and a link back to lorikimmerly.com. The companion Instagram carousel is scheduled to publish August 13. Logged in the Posting Plan with a link to the live post."
+    },
     {
       "date": "May 10, 2026",
       "type": "technical",
