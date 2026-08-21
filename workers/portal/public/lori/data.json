@@ -415,10 +415,11 @@
     {
       "platform": "instagram",
       "title": "5 Quiet Signs of High-Functioning Anxiety (carousel)",
-      "status": "scheduled",
+      "status": "posted",
       "due": "Aug 17",
-      "date": "August 13, 2026",
-      "url": null
+      "date": "August 21, 2026",
+      "url": null,
+      "post_id": "18196906588377992"
     },
     {
       "platform": "instagram",
@@ -1174,6 +1175,13 @@
       "type": "planning",
       "title": "Service Pages Project estimate sent (8 dedicated pages)",
       "detail": "Sent the estimate for the Service Pages Project — a dedicated, fully optimized page for each of 8 services (Individual, Couples, Family, Anxiety, Depression, Intimacy & Relationship Issues, IFS, and Trauma & PTSD). Each page includes keyword research, original SEO-optimized content, full on-page SEO with schema, homepage/navigation integration, and Google submission with follow-up. Three payment schedule options included: full project, two pages per month, or one page per month. View the estimate: https://app.squareup.com/pay-invoice/estimate/invetmp:663df930-23df-4cde-8bb7-6a9ff4cb99d9"
+    },
+    {
+      "date": "August 21, 2026",
+      "type": "content",
+      "title": "August Instagram post published — \"5 Quiet Signs of High-Functioning Anxiety\" carousel",
+      "detail": "Marked live in the Posting Plan. Instagram media ID 18196906588377992 — direct permalink to be added once confirmed.",
+      "ticket": "LOR-403"
     }
   ],
   "homepage": "https://lorikimmerly.com"
