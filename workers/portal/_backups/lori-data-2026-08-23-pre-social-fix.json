@@ -8,7 +8,7 @@
   "hours_used": 0.33,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-08-23",
+  "updated": "2026-08-12",
   "next_invoice": {
     "date": "September 1, 2026",
     "amount": "$575.00"
@@ -417,16 +417,17 @@
       "title": "5 Quiet Signs of High-Functioning Anxiety (carousel)",
       "status": "posted",
       "due": "Aug 17",
-      "date": "August 13, 2026",
-      "url": "https://www.instagram.com/p/Db-5ybdjbOH/"
+      "date": "August 21, 2026",
+      "url": "https://www.instagram.com/p/DcTZBy0AAOw/",
+      "post_id": "18196906588377992"
     },
     {
       "platform": "instagram",
-      "title": "5-4-3-2-1 Grounding Technique",
-      "status": "posted",
+      "title": null,
+      "status": "pending",
       "due": "Aug 22",
-      "date": "August 21, 2026",
-      "url": "https://www.instagram.com/p/DcTZBy0AAOw/"
+      "date": null,
+      "url": null
     },
     {
       "platform": "linkedin",
@@ -1178,8 +1179,8 @@
     {
       "date": "August 21, 2026",
       "type": "content",
-      "title": "Second August Instagram post published — 5-4-3-2-1 Grounding Technique",
-      "detail": "The month’s second Instagram post is live on @lorikimmerlytherapy: a \"Try the 5-4-3-2-1 Grounding Technique\" graphic for anxious or overwhelmed moments, with the sensory steps laid out, a note on why grounding calms the nervous system, and a link back to lorikimmerly.com. Logged in the Posting Plan with a link to the live post: https://www.instagram.com/p/DcTZBy0AAOw/ — this completes both Instagram posts for August.",
+      "title": "August Instagram post published — \"5 Quiet Signs of High-Functioning Anxiety\" carousel",
+      "detail": "Marked live in the Posting Plan with a link to the live post: https://www.instagram.com/p/DcTZBy0AAOw/",
       "ticket": "LOR-403"
     }
   ],
