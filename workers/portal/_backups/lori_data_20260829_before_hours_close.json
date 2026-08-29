@@ -5,7 +5,7 @@
   "plan": "Custom",
   "plan_price": "$575/mo",
   "plan_hours": 1,
-  "hours_used": 1,
+  "hours_used": 0.33,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
   "updated": "2026-08-29",
@@ -41,7 +41,7 @@
   "deliverables": [
     {
       "text": "SEO Monitoring — Tech, Rankings, Schema, Indexing, Content",
-      "status": "done"
+      "status": "todo"
     },
     {
       "text": "Blog Post or SEO Op",
@@ -53,7 +53,7 @@
     },
     {
       "text": "Site Work — 1 Hr",
-      "status": "done",
+      "status": "todo",
       "label": "Included"
     },
     {
@@ -910,18 +910,6 @@
     }
   ],
   "worklog": [
-    {
-      "date": "August 29, 2026",
-      "type": "audit",
-      "title": "August SEO monitoring complete — tech, schema, indexing and rankings",
-      "detail": "Full technical pass across lorikimmerly.com. Google Search Console audit re-run and reviewed: 27 of 27 sitemap URLs indexed, zero broken internal links, zero HTTPS issues, sitemap clean with no errors or warnings, breadcrumbs valid on all 26 pages. Schema checked across the homepage, bio and about pages. Rankings reviewed week over week — clicks up 29 and impressions up 620, average position improved to 18.5, with 22 new keywords appearing including an emerging IFS cluster. Several flagged items were verified against the live site and confirmed as intentional rather than faults, so they were not actioned: the www redirects are correct canonical behaviour with no internal links pointing at them, and the two “unknown to Google” URLs are anchor fragments, not real pages."
-    },
-    {
-      "date": "August 29, 2026",
-      "type": "site",
-      "title": "Included site hour used — Square cart setup research for the sticker shop",
-      "detail": "The month’s included site hour went to working through how to add a working cart to the Square setup behind the sticker shop, so purchases can be completed rather than sending people out to a separate checkout. This was hands-on investigation of what Square supports for this storefront and how it would need to be wired into the shop page. The full hour is used for August, so there are no unused hours banking into September."
-    },
     {
       "date": "August 29, 2026",
       "type": "content",
