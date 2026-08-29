@@ -8,7 +8,7 @@
   "hours_used": 0.33,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-08-29",
+  "updated": "2026-08-23",
   "next_invoice": {
     "date": "September 1, 2026",
     "amount": "$575.00"
@@ -49,7 +49,7 @@
     },
     {
       "text": "Social Media Posting — 2 LinkedIn + 2 Instagram",
-      "status": "done"
+      "status": "todo"
     },
     {
       "text": "Site Work — 1 Hr",
@@ -430,11 +430,11 @@
     },
     {
       "platform": "linkedin",
-      "title": "Tokophobia — What to Say When Someone’s Afraid of Giving Birth (carousel)",
-      "status": "posted",
+      "title": null,
+      "status": "pending",
       "due": "Aug 29",
-      "date": "August 29, 2026",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7499528885995442178"
+      "date": null,
+      "url": null
     }
   ],
   "reports": [
@@ -910,12 +910,6 @@
     }
   ],
   "worklog": [
-    {
-      "date": "August 29, 2026",
-      "type": "content",
-      "title": "Final August LinkedIn post published — tokophobia support carousel",
-      "detail": "Fourth and final social post of the month is live on the LinkedIn Business Page, completing the 2 LinkedIn + 2 Instagram commitment. A 7-slide carousel built around the newest blog post, \"When Fear Overshadows Joy: Understanding Tokophobia and the Fear of Childbirth.\" The post deliberately takes a DIFFERENT angle from the article so the two teach separate things: the carousel is written for the people around someone who is frightened of giving birth — four well-meant phrases that shut the conversation down, and what helps instead — while the blog covers what tokophobia actually is from the inside. Verified zero content overlap against the live article before drafting. Closes on a verbatim quote from Caroline Bacon, LMHCA, who wrote the piece and specializes in maternal mental health, with links to both the article and her bio page. Timing note: GSC flagged the tokophobia URL as up 145% in impressions, and \"how to overcome tokophobia\" appeared as a new ranking query this month, so the social push sits behind a page already gaining traction."
-    },
     {
       "date": "August 12, 2026",
       "type": "content",
