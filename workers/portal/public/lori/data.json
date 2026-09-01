@@ -5,10 +5,10 @@
   "plan": "Custom",
   "plan_price": "$575/mo",
   "plan_hours": 1,
-  "hours_used": 1,
+  "hours_used": 1.33,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-08-29",
+  "updated": "2026-09-01",
   "next_invoice": {
     "date": "September 1, 2026",
     "amount": "$575.00"
@@ -1199,6 +1199,12 @@
       "title": "Second August Instagram post published — 5-4-3-2-1 Grounding Technique",
       "detail": "The month’s second Instagram post is live on @lorikimmerlytherapy: a \"Try the 5-4-3-2-1 Grounding Technique\" graphic for anxious or overwhelmed moments, with the sensory steps laid out, a note on why grounding calms the nervous system, and a link back to lorikimmerly.com. Logged in the Posting Plan with a link to the live post: https://www.instagram.com/p/DcTZBy0AAOw/ — this completes both Instagram posts for August.",
       "ticket": "LOR-403"
+    },
+    {
+      "date": "September 1, 2026",
+      "type": "content",
+      "title": "Monthly homepage therapist carousel rotation",
+      "detail": "Rotated the homepage carousel so Lori Kimmerly, Kristen Sievert and Jared Alleger are featured this month. Verified live. (19 min against included hours.)"
     }
   ],
   "homepage": "https://lorikimmerly.com"
