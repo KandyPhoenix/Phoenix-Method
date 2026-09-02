@@ -1,14 +1,14 @@
 {
   "client": "Sunbright Recovery Center",
   "short_name": "Sunbright",
-  "month": "August 2026",
+  "month": "September 2026",
   "plan": "Launch",
   "plan_price": "Full-Build Project",
   "plan_hours": null,
   "hours_used": 0,
   "rollover_enabled": false,
   "hours_rolled_over": 0,
-  "updated": "2026-08-04",
+  "updated": "2026-09-02",
   "next_invoice": null,
   "stats": {
     "sessions": null,
@@ -422,6 +422,11 @@
       "from": "Kandy",
       "date": "August 3, 2026",
       "text": "August update — this is your launch month! The homepage has been built and deployed at the preview URL since June, and we're ready to move as soon as we hear your feedback on it. August priorities per the build schedule: inner pages (Programs, About, Admissions, Donate), SEO foundation on all pages, first two blog posts, social media profile setup, pre-launch QA, and the domain cutover to sunbrightrecovery.org. We need your homepage feedback to kick off the inner page builds — please send that over whenever you're ready and we'll hit the ground running."
+    },
+    {
+      "from": "Kandy",
+      "date": "September 2, 2026",
+      "text": "September check-in. The homepage is still built, deployed, and waiting at the preview URL — your feedback on it is the one thing holding the schedule. The moment it lands we move straight into the inner pages (Programs, About, Admissions, Donate), then the SEO foundation, the first two blog posts, social profiles, pre-launch QA, and the domain cutover to sunbrightrecovery.org. The launch date moves out with each week of waiting, so even a few quick notes on the homepage are enough to get the build moving again."
     }
   ],
   "site_links": [
@@ -515,6 +520,11 @@
       "date": "August 3, 2026",
       "type": "seo",
       "title": "August portal refresh — month and calendar updated"
+    },
+    {
+      "date": "September 2, 2026",
+      "type": "seo",
+      "title": "September portal refresh — month updated"
     }
   ],
   "homepage": "https://sunbrightrecovery.org"
