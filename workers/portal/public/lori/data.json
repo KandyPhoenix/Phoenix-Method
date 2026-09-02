@@ -1,16 +1,16 @@
 {
   "client": "Lori Kimmerly Therapy and Coaching",
   "short_name": "Lori",
-  "month": "August 2026",
+  "month": "September 2026",
   "plan": "Custom",
   "plan_price": "$575/mo",
   "plan_hours": 1,
-  "hours_used": 1.33,
+  "hours_used": 0.33,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-09-01",
+  "updated": "2026-09-02",
   "next_invoice": {
-    "date": "September 1, 2026",
+    "date": "October 1, 2026",
     "amount": "$575.00"
   },
   "add_ons": [
@@ -41,19 +41,19 @@
   "deliverables": [
     {
       "text": "SEO Monitoring — Tech, Rankings, Schema, Indexing, Content",
-      "status": "done"
+      "status": "todo"
     },
     {
       "text": "Blog Post or SEO Op",
-      "status": "done"
+      "status": "todo"
     },
     {
       "text": "Social Media Posting — 2 LinkedIn + 2 Instagram",
-      "status": "done"
+      "status": "todo"
     },
     {
       "text": "Site Work — 1 Hr",
-      "status": "done",
+      "status": "todo",
       "label": "Included"
     },
     {
@@ -290,54 +290,49 @@
   ],
   "content_calendar": [
     {
-      "date": "Aug 15",
+      "date": "Sep 15",
       "title": "Blog Topic or Draft Submission Due",
       "type": "client"
     },
     {
-      "date": "Aug 15",
+      "date": "Sep 15",
       "title": "LinkedIn Post Due",
       "type": "social"
     },
     {
-      "date": "Aug 17",
+      "date": "Sep 17",
       "title": "Instagram Post Due",
       "type": "social"
     },
     {
-      "date": "Aug 22",
+      "date": "Sep 22",
       "title": "Blog Post or SEO Op",
       "type": "deliverable"
     },
     {
-      "date": "Aug 22",
+      "date": "Sep 22",
       "title": "Instagram Post Due",
       "type": "social"
     },
     {
-      "date": "Aug 29",
+      "date": "Sep 29",
       "title": "LinkedIn Post Due",
       "type": "social"
     }
   ],
   "content_choice": {
-    "chosen": "blog",
+    "chosen": null,
     "blog": {
-      "title": "When Fear Overshadows Joy: Understanding Tokophobia and the Fear of Childbirth",
-      "keyword": "tokophobia, fear of childbirth",
-      "status": "published",
-      "url": "https://lorikimmerly.com/2026/08/10/tokophobia-fear-of-childbirth/",
-      "wp_post_id": 50981,
-      "author": "Caroline Bacon, LMHCA",
-      "published": "2026-08-10",
-      "note": "Client-submitted post written by Caroline Bacon, LMHCA — maternal mental health, pregnancy, postpartum."
+      "title": null,
+      "keyword": null,
+      "status": "pending"
     },
     "page": {
       "title": "Insurance page — CTR / SEO optimization",
       "url": "lorikimmerly.com/2026/05/19/does-insurance-cover-therapy-washington-state/",
       "keyword": "does state insurance cover therapy",
       "status": "suggested",
-      "note": "Bumped from July. Currently pos 8.5, 39 impressions, 0 clicks — strong SEO op candidate."
+      "note": "Bumped from July and August — client-submitted posts filled both months. Currently pos 8.5, 39 impressions, 0 clicks — strong SEO op candidate."
     }
   },
   "blog_topics": [
@@ -406,35 +401,35 @@
   "posting_plan": [
     {
       "platform": "linkedin",
-      "title": "5 Quiet Signs of High-Functioning Anxiety (carousel)",
-      "status": "posted",
-      "due": "Aug 15",
-      "date": "August 12, 2026",
-      "url": "https://lnkd.in/p/gAMXFZCR"
+      "title": null,
+      "status": "pending",
+      "due": "Sep 15",
+      "date": null,
+      "url": null
     },
     {
       "platform": "instagram",
-      "title": "5 Quiet Signs of High-Functioning Anxiety (carousel)",
-      "status": "posted",
-      "due": "Aug 17",
-      "date": "August 13, 2026",
-      "url": "https://www.instagram.com/p/Db-5ybdjbOH/"
+      "title": null,
+      "status": "pending",
+      "due": "Sep 17",
+      "date": null,
+      "url": null
     },
     {
       "platform": "instagram",
-      "title": "5-4-3-2-1 Grounding Technique",
-      "status": "posted",
-      "due": "Aug 22",
-      "date": "August 21, 2026",
-      "url": "https://www.instagram.com/p/DcTZBy0AAOw/"
+      "title": null,
+      "status": "pending",
+      "due": "Sep 22",
+      "date": null,
+      "url": null
     },
     {
       "platform": "linkedin",
-      "title": "Tokophobia — What to Say When Someone’s Afraid of Giving Birth (carousel)",
-      "status": "posted",
-      "due": "Aug 29",
-      "date": "August 29, 2026",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7499528885995442178"
+      "title": null,
+      "status": "pending",
+      "due": "Sep 29",
+      "date": null,
+      "url": null
     }
   ],
   "reports": [
@@ -761,6 +756,11 @@
       "from": "Kandy",
       "date": "August 10, 2026",
       "text": "We've sent over the estimate for your Service Pages Project — 8 dedicated, fully optimized service pages, with three payment schedule options so you can pick the pace that fits (full project, two pages a month, or one page a month). The estimate is also linked in your Reports section here in the portal. Take a look and let us know which option feels right!"
+    },
+    {
+      "from": "Kandy",
+      "date": "September 2, 2026",
+      "text": "September is here — and thank you, your September invoice is paid and your package is active. August wrapped up strong: Caroline's tokophobia post went live August 10 with full SEO treatment and her own author profile, all four social posts published (2 LinkedIn + 2 Instagram, closing with the tokophobia support carousel on the 29th), and the August monitoring pass came back clean — all 27 sitemap URLs indexed, zero broken internal links, breadcrumbs valid on all 26 pages. Your included site hour went to working out how to add a real cart to the sticker shop's Square setup, and on September 1 the homepage carousel rotated to feature you, Kristen, and Jared this month. For September: your blog or SEO op slot is open — send your topic by September 15 and we'll have it live by the 22nd. If we don't hear from you, we'll optimize the insurance page (currently pos 8.5 with 39 impressions and 0 clicks — it's been patiently waiting since July). Your quarterly performance report (covering Aug 1 – Oct 31) is due October 31, and the Service Pages estimate is still available in your Reports section whenever you're ready to take a look."
     }
   ],
   "site_links": [
@@ -1205,6 +1205,11 @@
       "type": "content",
       "title": "Monthly homepage therapist carousel rotation",
       "detail": "Rotated the homepage carousel so Lori Kimmerly, Kristen Sievert and Jared Alleger are featured this month. Verified live. (19 min against included hours.)"
+    },
+    {
+      "date": "September 2, 2026",
+      "type": "seo",
+      "title": "September portal refresh — deliverables, calendar, posting plan and content choice reset; September invoice paid"
     }
   ],
   "homepage": "https://lorikimmerly.com"
