@@ -241,6 +241,25 @@ After completing any meaningful client work session (fixes, SEO changes, schema 
 
 ---
 
+## MANDATORY: First-of-the-Month Portal Update — Full Refresh, Stats Included
+
+On the 1st of each month (or the first working session after it), EVERY client portal gets a FULL refresh — all stats and all sections, not just the month label. The refresh is not complete until all of the following are done for all four portals:
+
+1. **Stats — real data only.** Last full calendar month's GSC actuals (impressions, clicks, CTR, avg position, distinct keyword count) with change/trend vs the prior month, plus the refreshed `gsc_keywords` top-query table. Lori also gets GA4 organic sessions (property 511809869); GSC-only portals use GSC clicks as the sessions metric. Sources, in order of preference:
+   - The **Refresh Portal Stats** GitHub Action (`.github/workflows/refresh-portal-stats.yml`) — scheduled for the 1st, runnable any time from the Actions tab. Requires the `GSC_CREDENTIALS` repo secret (JSON contents of `C:\Users\kandy\Work\config\gsc-credentials.json`).
+   - Locally on Kandy's machine: `py "C:\Users\kandy\PHOENIX METHOD\workers\portal\update_all_portals.py"`.
+   - Numbers Kandy supplies directly in the session.
+
+   **Never estimate, extrapolate, or hand-write stats.** If no data source is available in the session, ship the rest of the refresh, state plainly that stats are pending a real pull, and get one of the sources above run — do not leave it silent.
+2. **Month label + `updated` date** on all four portals.
+3. **Billing:** advance `next_invoice` and add-on due dates only for payments Kandy has explicitly confirmed.
+4. **Lori:** deliverables reset to todo, content calendar + posting plan re-dated to the new month (blog topic due the 15th, live by the 22nd; LinkedIn 15th/29th, Instagram 17th/22nd), content choice reset, hours/rollover reconciled against the prior month's close-out.
+5. **PHW / PM / Sunbright:** calendars rolled forward, unfinished priorities explicitly carried over.
+6. **Messages + worklog:** a month-kickoff message from Kandy on each portal (verifiable facts from the portal data and worklog only — no invented numbers or claims) and a portal-refresh worklog entry.
+7. Ship via the Silas PR workflow (branch → PR → merge → KV auto-push).
+
+---
+
 ## Repo Details
 - **Remote:** https://github.com/KandyPhoenix/Phoenix-Method
 - **Protected branch:** main (force-push + deletion blocked; no review requirement)
