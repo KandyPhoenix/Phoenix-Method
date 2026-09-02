@@ -175,7 +175,7 @@ This repo's `main` branch is protected against force-pushes and deletions. Direc
        print('PR created:', data['html_url'])
    ```
 
-6. **Tell Kandy the PR is ready.** She reviews. Claude may merge the PR **only when Kandy explicitly instructs** (e.g., "merge PR-X", "merge all open PRs", "merge them in order"). **Never auto-merge.** When merging, close the associated Jira ticket and delete the remote feature branch afterward.
+6. **Merge it.** Standing instruction from Kandy (2026-09-02, "always merge"): Claude merges its own PRs immediately after opening them — no waiting for per-PR approval. Hold a PR unmerged only if Kandy asks to review that one first, or if it contains anything these rules require rejecting (e.g., Phoenix-AZ content, unverified claims). When merging, close the associated Jira ticket (if one exists) and delete the remote feature branch afterward (skip the deletion if the environment blocks it).
 
 ---
 
@@ -265,4 +265,4 @@ On the 1st of each month (or the first working session after it), EVERY client p
 - **Protected branch:** main (force-push + deletion blocked; no review requirement)
 - **Jira project:** PM
 - **Owner/reviewer:** Kandy (KandyPhoenix)
-- **Merge authority:** Kandy only, or Claude when explicitly instructed
+- **Merge authority:** Kandy, and Claude on PRs it opens (standing "always merge" instruction from Kandy, 2026-09-02)
