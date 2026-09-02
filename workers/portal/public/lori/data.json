@@ -1210,6 +1210,13 @@
       "date": "September 2, 2026",
       "type": "seo",
       "title": "September portal refresh — deliverables, calendar, posting plan and content choice reset; September invoice paid"
+    },
+    {
+      "date": "September 2, 2026",
+      "type": "site",
+      "title": "Team roster updated site-wide following Devi Viswanathan’s departure",
+      "detail": "With Devi’s departure from the practice, we updated every surface of the site in one coordinated pass. Her bio page was retired with a permanent 301 redirect to the About Our Therapists page, so any search traffic or saved links land somewhere useful instead of a dead page. Her card was removed from the homepage therapist carousel, the About page team grid, and the site navigation, and the structured Person data search engines read was updated to match. The “Meet Our Newest Providers” announcement was rewritten around Iwona and Erin, including its search snippet, and the XML sitemaps were regenerated so Google picks up the new roster right away. The service-page drafts in the current redesign were updated to the new roster as well, and every change was verified on the live site. Ticket LOR-415.",
+      "ticket": "LOR-415"
     }
   ],
   "homepage": "https://lorikimmerly.com"
