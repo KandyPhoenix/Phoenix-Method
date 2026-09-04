@@ -1230,6 +1230,13 @@
       "title": "New team member Monique Meissner added to the site",
       "detail": "Monique Meissner, MFT Intern, is live on the site. We built her full bio page from the same template used for the rest of the team - her background and training, who she works with, her specialties, session and insurance information, and a more personal section in her own words - then added her everywhere the team appears: the homepage therapist carousel, the Meet the Team page, and the therapist dropdown in the main navigation. Her photo was optimised before upload, cutting it to a sixth of its original size so it does not slow the pages down, and her page was given its own search title, description and keywords. She has also been added to the clinician-preference dropdown on the Contact page, so prospective clients can request her by name. While updating the portal we also refreshed the therapist links in your Site Links list - Devi has been removed and Erin and Monique added.",
       "ticket": "LOR-412"
+    },
+    {
+      "date": "September 4, 2026",
+      "type": "fix",
+      "title": "Meet the Team photos reframed - Monique, Kristen and Ryan",
+      "detail": "Three of the Meet the Team cards were cropping awkwardly because the photos are close-up portraits and the card frame is wide and short. We reframed each one so the whole face and shoulders sit centred in the card with space above the head, and filled the narrow strips either side with a softly blurred copy of the same photo so nothing looks stretched or cut. Ryan previously had flat grey bars down both sides of his photo; those are gone. No part of anyone’s photo was altered or invented - the blurred edges are their own background. All three verified on the live site.",
+      "ticket": "LOR-412"
     }
   ],
   "homepage": "https://lorikimmerly.com"
