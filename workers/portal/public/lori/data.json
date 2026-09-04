@@ -862,14 +862,20 @@
     },
     {
       "category": "Therapist Bios",
-      "label": "Devi Viswanathan",
-      "url": "https://lorikimmerly.com/devi-viswanathan-therapist/",
+      "label": "Iwona Abraham",
+      "url": "https://lorikimmerly.com/iwona-abraham-therapist/",
       "icon": "👤"
     },
     {
       "category": "Therapist Bios",
-      "label": "Iwona Abraham",
-      "url": "https://lorikimmerly.com/iwona-abraham-therapist/",
+      "label": "Erin Spicer",
+      "url": "https://lorikimmerly.com/erin-spicer-therapist/",
+      "icon": "👤"
+    },
+    {
+      "category": "Therapist Bios",
+      "label": "Monique Meissner",
+      "url": "https://lorikimmerly.com/monique-meissner-therapist/",
       "icon": "👤"
     },
     {
@@ -1217,6 +1223,13 @@
       "title": "Team roster updated site-wide following Devi Viswanathan’s departure",
       "detail": "With Devi’s departure from the practice, we updated every surface of the site in one coordinated pass. Her bio page was retired with a permanent 301 redirect to the About Our Therapists page, so any search traffic or saved links land somewhere useful instead of a dead page. Her card was removed from the homepage therapist carousel, the About page team grid, and the site navigation, and the structured Person data search engines read was updated to match. The “Meet Our Newest Providers” announcement was rewritten around Iwona and Erin, including its search snippet, and the XML sitemaps were regenerated so Google picks up the new roster right away. The service-page drafts in the current redesign were updated to the new roster as well, and every change was verified on the live site. Ticket LOR-415. The balance of September's included site-work hour went to this pass — together with the September 1 carousel rotation, the full hour is now used for September, so there are no unused hours banking forward.",
       "ticket": "LOR-415"
+    },
+    {
+      "date": "September 4, 2026",
+      "type": "content",
+      "title": "New team member Monique Meissner added to the site",
+      "detail": "Monique Meissner, MFT Intern, is live on the site. We built her full bio page from the same template used for the rest of the team - her background and training, who she works with, her specialties, session and insurance information, and a more personal section in her own words - then added her everywhere the team appears: the homepage therapist carousel, the Meet the Team page, and the therapist dropdown in the main navigation. Her photo was optimised before upload, cutting it to a sixth of its original size so it does not slow the pages down, and her page was given its own search title, description and keywords. One piece is still outstanding: adding her to the clinician-preference dropdown on the Contact page, which needs a manual step in the site admin and is being finished separately. While updating the portal we also refreshed the therapist links in your Site Links list - Devi has been removed and Erin and Monique added.",
+      "ticket": "LOR-412"
     }
   ],
   "homepage": "https://lorikimmerly.com"
