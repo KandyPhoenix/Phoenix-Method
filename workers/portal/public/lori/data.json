@@ -5,10 +5,10 @@
   "plan": "Custom",
   "plan_price": "$575/mo",
   "plan_hours": 1,
-  "hours_used": 0.33,
+  "hours_used": 1,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-09-02",
+  "updated": "2026-09-04",
   "next_invoice": {
     "date": "October 1, 2026",
     "amount": "$575.00"
@@ -53,7 +53,7 @@
     },
     {
       "text": "Site Work — 1 Hr",
-      "status": "todo",
+      "status": "done",
       "label": "Included"
     },
     {
@@ -1215,7 +1215,7 @@
       "date": "September 2, 2026",
       "type": "site",
       "title": "Team roster updated site-wide following Devi Viswanathan’s departure",
-      "detail": "With Devi’s departure from the practice, we updated every surface of the site in one coordinated pass. Her bio page was retired with a permanent 301 redirect to the About Our Therapists page, so any search traffic or saved links land somewhere useful instead of a dead page. Her card was removed from the homepage therapist carousel, the About page team grid, and the site navigation, and the structured Person data search engines read was updated to match. The “Meet Our Newest Providers” announcement was rewritten around Iwona and Erin, including its search snippet, and the XML sitemaps were regenerated so Google picks up the new roster right away. The service-page drafts in the current redesign were updated to the new roster as well, and every change was verified on the live site. Ticket LOR-415.",
+      "detail": "With Devi’s departure from the practice, we updated every surface of the site in one coordinated pass. Her bio page was retired with a permanent 301 redirect to the About Our Therapists page, so any search traffic or saved links land somewhere useful instead of a dead page. Her card was removed from the homepage therapist carousel, the About page team grid, and the site navigation, and the structured Person data search engines read was updated to match. The “Meet Our Newest Providers” announcement was rewritten around Iwona and Erin, including its search snippet, and the XML sitemaps were regenerated so Google picks up the new roster right away. The service-page drafts in the current redesign were updated to the new roster as well, and every change was verified on the live site. Ticket LOR-415. The balance of September's included site-work hour went to this pass — together with the September 1 carousel rotation, the full hour is now used for September, so there are no unused hours banking forward.",
       "ticket": "LOR-415"
     }
   ],
