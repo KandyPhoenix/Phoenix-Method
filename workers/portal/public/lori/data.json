@@ -1234,8 +1234,8 @@
     {
       "date": "September 4, 2026",
       "type": "fix",
-      "title": "Meet the Team photos reframed - Monique, Kristen and Ryan",
-      "detail": "Three of the Meet the Team cards were cropping awkwardly because the photos are close-up portraits and the card frame is wide and short. We reframed each one so the whole face and shoulders sit centred in the card with space above the head, and filled the narrow strips either side with a softly blurred copy of the same photo so nothing looks stretched or cut. Ryan previously had flat grey bars down both sides of his photo; those are gone. No part of anyone’s photo was altered or invented - the blurred edges are their own background. All three verified on the live site.",
+      "title": "Meet the Team photo reframed for Monique Meissner",
+      "detail": "Monique’s card on the Meet the Team page was cropping her chin, because her photo is a close-up portrait and the card frame is wide and short. We reframed it so her whole face and shoulders sit centred with space above her head, filling the narrow strips either side with a softly blurred copy of her own background so nothing looks stretched or cut. No part of the photo was altered or invented. We trialled the same treatment on two other cards and preferred the existing versions, so those were left exactly as they were. Verified on the live site.",
       "ticket": "LOR-412"
     }
   ],
