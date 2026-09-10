@@ -808,6 +808,12 @@
       "icon": "📝"
     },
     {
+      "category": "Main Pages",
+      "label": "Shop",
+      "url": "https://lorikimmerly.com/shop/",
+      "icon": "🛍️"
+    },
+    {
       "category": "Therapist Bios",
       "label": "Lori Kimmerly",
       "url": "https://lorikimmerly.com/lori-kimmerly-lmft-therapist/",
@@ -899,8 +905,20 @@
     },
     {
       "category": "Blog Posts",
-      "label": "Does Insurance Cover Therapy?",
-      "url": "https://lorikimmerly.com/blog/does-insurance-cover-therapy/",
+      "label": "Welcome — A Note From Our Therapists",
+      "url": "https://lorikimmerly.com/2026/04/25/welcome-to-our-blog-a-note-from-our-therapists/",
+      "icon": "📄"
+    },
+    {
+      "category": "Blog Posts",
+      "label": "What Is Internal Family Systems (IFS) Therapy?",
+      "url": "https://lorikimmerly.com/2026/04/26/what-is-ifs-therapy-internal-family-systems/",
+      "icon": "📄"
+    },
+    {
+      "category": "Blog Posts",
+      "label": "Does Insurance Cover Therapy in Washington State?",
+      "url": "https://lorikimmerly.com/2026/05/19/does-insurance-cover-therapy-washington-state/",
       "icon": "📄"
     },
     {
@@ -913,6 +931,24 @@
       "category": "Blog Posts",
       "label": "Meet Our Newest Providers",
       "url": "https://lorikimmerly.com/2026/07/09/meet-our-newest-providers/",
+      "icon": "📄"
+    },
+    {
+      "category": "Blog Posts",
+      "label": "Healing Trauma Through Connection",
+      "url": "https://lorikimmerly.com/2026/07/18/healing-trauma-through-connection-why-relationships-matter/",
+      "icon": "📄"
+    },
+    {
+      "category": "Blog Posts",
+      "label": "When Fear Overshadows Joy: Understanding Tokophobia",
+      "url": "https://lorikimmerly.com/2026/08/10/tokophobia-fear-of-childbirth/",
+      "icon": "📄"
+    },
+    {
+      "category": "Blog Posts",
+      "label": "Building Resiliency in Your Kids",
+      "url": "https://lorikimmerly.com/2026/09/04/building-resiliency-in-children/",
       "icon": "📄"
     },
     {
