@@ -192,8 +192,11 @@ async function adminDashboardHTML(env) {
       if (!raw) return { slug, error: 'no data in KV' };
       const data = JSON.parse(raw);
       const lastMsg = (data.messages && data.messages[data.messages.length - 1]) || null;
-      const completedDeliv = (data.deliverables || []).filter((d) => d.status === 'completed').length;
-      const totalDeliv = (data.deliverables || []).length;
+      // Portals mark finished work as 'done'; 'info' rows (e.g. "On Request") are
+      // informational, not deliverables, so they stay out of the denominator.
+      const realDeliv = (data.deliverables || []).filter((d) => d.status !== 'info');
+      const completedDeliv = realDeliv.filter((d) => d.status === 'done' || d.status === 'completed').length;
+      const totalDeliv = realDeliv.length;
       return {
         slug,
         client: data.client || slug,
