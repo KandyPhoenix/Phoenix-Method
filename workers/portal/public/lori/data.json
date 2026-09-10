@@ -8,7 +8,7 @@
   "hours_used": 1,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-09-09",
+  "updated": "2026-09-10",
   "next_invoice": {
     "date": "October 1, 2026",
     "amount": "$575.00"
@@ -18,7 +18,8 @@
       "name": "Social Media Posting — 2 LinkedIn + 2 Instagram",
       "price": "$175/mo",
       "due": "September 10, 2026",
-      "status": "active"
+      "status": "paid",
+      "paid_date": "September 10, 2026"
     }
   ],
   "stats": {
@@ -774,6 +775,11 @@
       "from": "Kandy",
       "date": "September 9, 2026",
       "text": "September's blog or SEO op slot is complete — Leah Maughan's post, “Building Resiliency in Your Kids: A Natural Process,” went live September 4 at https://lorikimmerly.com/2026/09/04/building-resiliency-in-children/. It's a back-to-school piece on how resiliency grows in children through attachment, regulation, efficacy and social connection, and we published it with the full SEO treatment, an author section crediting Leah by name and credential, and a Book with Leah Maughan, LMFTA button at the end. Because the blog filled this month's slot, the insurance page optimization moves to a future month. Thank you as well — the invoice for the team member addition is paid, and that work is finished: Monique Meissner, MFT Intern, is live at https://lorikimmerly.com/monique-meissner/ with her full bio, and she's on the homepage carousel, the Meet the Team page, the therapist dropdown in your navigation, and the clinician-preference dropdown on your Contact page so people can request her by name. Her link is in your Site Links list here in the portal. We've also re-synced this month's social posting dates to match the schedule — Instagram on the 11th and 22nd, LinkedIn on the 17th and 29th. Your quarterly performance report (covering Aug 1 – Oct 31) is due October 31, and the Service Pages estimate is still in your Reports section whenever you'd like to look it over."
+    },
+    {
+      "from": "Kandy",
+      "date": "September 10, 2026",
+      "text": "Thank you — your social posting plan invoice is paid and this month's posting plan is fully covered. Your four September posts are scheduled: Instagram on the 11th and 22nd, LinkedIn on the 17th and 29th. Everything else for September is on track — the blog slot is complete with Leah Maughan's resiliency post, and your next package invoice is October 1."
     }
   ],
   "site_links": [
