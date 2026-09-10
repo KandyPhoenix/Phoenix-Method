@@ -785,7 +785,7 @@ function buildPortal(d) {
             <div class="billing-card">
                 <div class="billing-label">${a.name}</div>
                 <div class="billing-value">${a.price}</div>
-                <div class="billing-sub">Due ${a.due}</div>
+                <div class="billing-sub"${a.status === 'paid' ? ' style="color:#27ae60"' : ''}>${a.status === 'paid' ? 'Paid ' + (a.paid_date || a.due) : 'Due ' + a.due}</div>
             </div>
         `).join('')
         : '';
