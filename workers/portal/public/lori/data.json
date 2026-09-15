@@ -972,347 +972,267 @@
   ],
   "worklog": [
     {
-      "date": "August 29, 2026",
-      "type": "audit",
-      "title": "August SEO monitoring complete — tech, schema, indexing and rankings",
-      "detail": "Full technical pass across lorikimmerly.com. Google Search Console audit re-run and reviewed: 27 of 27 sitemap URLs indexed, zero broken internal links, zero HTTPS issues, sitemap clean with no errors or warnings, breadcrumbs valid on all 26 pages. Schema checked across the homepage, bio and about pages. Rankings reviewed week over week — clicks up 29 and impressions up 620, average position improved to 18.5, with 22 new keywords appearing including an emerging IFS cluster. Several flagged items were verified against the live site and confirmed as intentional rather than faults, so they were not actioned: the www redirects are correct canonical behaviour with no internal links pointing at them, and the two “unknown to Google” URLs are anchor fragments, not real pages."
-    },
-    {
-      "date": "August 29, 2026",
-      "type": "site",
-      "title": "Included site hour used — Square cart setup research for the sticker shop",
-      "detail": "The month’s included site hour went to working through how to add a working cart to the Square setup behind the sticker shop, so purchases can be completed rather than sending people out to a separate checkout. This was hands-on investigation of what Square supports for this storefront and how it would need to be wired into the shop page. The full hour is used for August, so there are no unused hours banking into September."
-    },
-    {
-      "date": "August 29, 2026",
-      "type": "content",
-      "title": "Final August LinkedIn post published — tokophobia support carousel",
-      "detail": "Fourth and final social post of the month is live on the LinkedIn Business Page, completing the 2 LinkedIn + 2 Instagram commitment. A 7-slide carousel built around the newest blog post, \"When Fear Overshadows Joy: Understanding Tokophobia and the Fear of Childbirth.\" The post deliberately takes a DIFFERENT angle from the article so the two teach separate things: the carousel is written for the people around someone who is frightened of giving birth — four well-meant phrases that shut the conversation down, and what helps instead — while the blog covers what tokophobia actually is from the inside. Verified zero content overlap against the live article before drafting. Closes on a verbatim quote from Caroline Bacon, LMHCA, who wrote the piece and specializes in maternal mental health, with links to both the article and her bio page. Timing note: GSC flagged the tokophobia URL as up 145% in impressions, and \"how to overcome tokophobia\" appeared as a new ranking query this month, so the social push sits behind a page already gaining traction."
-    },
-    {
-      "date": "August 12, 2026",
-      "type": "content",
-      "title": "First August LinkedIn post published — 5 Quiet Signs of High-Functioning Anxiety",
-      "detail": "First of the month's social posts is live on the LinkedIn Business Page: a 7-slide carousel, \"5 Quiet Signs of High-Functioning Anxiety,\" with a professional caption, a verified NIMH/ADAA anxiety statistic, and a link back to lorikimmerly.com. The companion Instagram carousel is scheduled to publish August 13. Logged in the Posting Plan with a link to the live post."
-    },
-    {
       "date": "May 10, 2026",
       "type": "technical",
-      "title": "12 retired portfolio URLs redirected to Meet the Team",
-      "detail": "Old Avada demo pages (cardiology, pediatrics, ultrasound) permanently deleted and 301-redirected."
+      "title": "301 redirects — retired portfolio URLs"
     },
     {
       "date": "May 10, 2026",
       "type": "fix",
-      "title": "3 duplicate/old therapist slugs redirected",
-      "detail": "Old Ryan Carragher URL + Faynesha Haragan and Keziah Grindeland former-therapist pages closed."
+      "title": "301 redirects — duplicate therapist bio URLs"
     },
     {
       "date": "May 10, 2026",
       "type": "seo",
-      "title": "Meta title + description rewrites — Lori bio, contact, Meet the Team",
-      "detail": "Lori bio rebuilt around 'Online Therapist' intent. Contact and team page titles tightened for CTR."
+      "title": "Meta titles + descriptions optimized — bio, Contact, Meet the Team"
     },
     {
       "date": "May 10, 2026",
       "type": "technical",
-      "title": "~20 auto-generated FAQ pages noindexed + removed from sitemap",
-      "detail": "Thin pages duplicating FAQ schema on contact page. Pulled from Google's coverage report."
+      "title": "Thin FAQ pages noindexed + removed from sitemap"
     },
     {
       "date": "May 10, 2026",
       "type": "schema",
-      "title": "Person schema rebuilt on all therapist bio pages",
-      "detail": "Full credentials, license info, specialties, Psychology Today links. Lori's bio includes AZ service area."
+      "title": "Person schema — therapist bio pages"
     },
     {
       "date": "May 10, 2026",
       "type": "schema",
-      "title": "WebSite + SearchAction schema added sitewide",
-      "detail": "Enables sitelinks search box on brand searches. Sitemap submitted, www GSC property removed."
+      "title": "WebSite + SearchAction schema added"
     },
     {
       "date": "May 10, 2026",
       "type": "content",
-      "title": "Iwona Abraham + Devi Viswanathan onboarded",
-      "detail": "Full bio pages, homepage carousel, Meet the Team, mega menu, contact form dropdown, schema. John Hubbs credentials updated to fully licensed."
+      "title": "New therapist bio pages — Iwona Abraham, Devi Viswanathan"
     },
     {
       "date": "May 12, 2026",
       "type": "fix",
-      "title": "SilentShield plugin replaced with honeypot — contact forms restored",
-      "detail": "Plugin was blocking all form submissions. Both main contact and in-page booking forms verified working.",
+      "title": "Contact form spam protection updated",
       "ticket": "LOR-325"
     },
     {
       "date": "May 12, 2026",
       "type": "content",
-      "title": "Session rates updated — Devi + Iwona bio pages",
-      "detail": "Corrected listed fees on both therapist bios.",
+      "title": "Session rates updated — therapist bios",
       "ticket": "LOR-324 LOR-326"
     },
     {
       "date": "May 21, 2026",
       "type": "fix",
-      "title": "Bio hero layout fixed — Lori + Kristen pages",
-      "detail": "Hero card was rendering behind nav bar. Root cause: padding too low for 155px fixed header. Updated to match Jared's working layout.",
+      "title": "Bio page hero layout fixed",
       "ticket": "LOR-333"
     },
     {
       "date": "June 9, 2026",
       "type": "seo",
-      "title": "Insurance blog title rewrite — CTR improvement",
-      "detail": "Position 8 with 84 impressions, 1 click (1.2% CTR). New title leads with insurance hook.",
+      "title": "Blog title optimized for CTR — insurance post",
       "ticket": "LOR-334"
     },
     {
       "date": "June 9, 2026",
       "type": "schema",
-      "title": "24 structured data warnings resolved — breadcrumb + FAQ",
-      "detail": "Breadcrumb position field was string not integer (20 warnings). FAQ answer text included raw HTML (4 warnings). Fixed via mu-plugin rewriting JSON-LD before browser.",
+      "title": "Structured data warnings resolved — breadcrumb + FAQ schema",
       "ticket": "LOR-335 LOR-336"
     },
     {
       "date": "June 9, 2026",
       "type": "seo",
-      "title": "About Therapists page title regression corrected",
-      "detail": "'Online Counseling' had replaced 'Online Therapy' in title — impressions had dropped from 1,293 to 397. Restored to: Online Therapy Washington | Licensed Therapists WA."
+      "title": "Page title corrected — About Our Therapists"
     },
     {
       "date": "June 9, 2026",
       "type": "seo",
-      "title": "Bio title rewrites — Jennifer Kenworthy, Sheena Nicolay, Devi Viswanathan",
-      "detail": "'MFT Intern' was leading title tags — reduced CTR. Titles now service-first, leading with each therapist's specialty."
+      "title": "Meta titles optimized — therapist bios"
     },
     {
       "date": "June 18, 2026",
       "type": "fix",
-      "title": "Comments disabled site-wide",
-      "detail": "Closed comments and pingbacks on all 5 existing posts. Site default set to closed for future posts."
-    },
-    {
-      "date": "June 20, 2026",
-      "type": "technical",
-      "title": "Tech audit — breadcrumb + FAQ schema fixes verified live",
-      "detail": "Confirmed LOR-335 (FAQ schema HTML strip) and LOR-336 (breadcrumb position integer fix) are both clean on production across all checked pages.",
-      "ticket": "LOR-335 LOR-336"
+      "title": "Blog comments disabled site-wide"
     },
     {
       "date": "June 20, 2026",
       "type": "seo",
-      "title": "Weekly performance check — impressions +23%, position 8.8",
-      "detail": "Impressions up from 2,895 to 3,557 vs prior period. Avg position improved from 9.9 to 8.8. Insurance blog pulling 20+ new keyword rankings. Couples counseling Renton appeared as new keyword at pos 10."
+      "title": "Weekly Search Console performance review"
     },
     {
       "date": "June 20, 2026",
       "type": "content",
-      "title": "Grief blog post published + fully SEO optimized",
-      "detail": "Published Lori's grief post covering Weller's 5 Gates of Grief. Author set to Lori Kimmerly LMFT for E-E-A-T. Rank Math title, meta description, focus keywords, BlogPosting schema, Table of Contents, and Instant Indexing submission all complete. Live at /2026/06/20/grief-therapy-5-gates-of-grief/",
+      "title": "Blog post published + optimized — grief",
       "ticket": "LOR-338"
     },
     {
       "date": "June 20, 2026",
       "type": "fix",
-      "title": "Blog home UI fixes — equal-height cards, category cleanup",
-      "detail": "Cards now equal height per row via JS. Blue left-border extends full card height. 'Uncategorized' removed from Welcome post display. Grief category created. Blog post category list cleaned up (Tips category removed, Welcome category removed)."
+      "title": "Blog page layout fixes"
     },
     {
       "date": "July 2, 2026",
       "type": "audit",
-      "title": "June GSC checkpoint — 4,702 impressions, 140 clicks",
-      "detail": "June closed at 4,702 impressions (up 92% from 2,443 in May) and 140 clicks, with average position improving to 10.1 from 12.8. Surfaced for 224 distinct search queries, up from 143 in May. Top queries: 'natalie kim' (73 imp), 'lori kimmerly therapy' (58 imp, 39 clicks, pos 1.1), 'does state insurance cover therapy' (39 imp, pos 8.5)."
-    },
-    {
-      "date": "July 9, 2026",
-      "type": "content",
-      "title": "New providers blog post published — Meet Our Newest Providers",
-      "detail": "Built and published Lori's intro post for the three newest providers (Iwona Abraham, Erin Spicer, Devi Viswanathan) as interactive per-provider profile cards with get-to-know-you Q&A, site-teal styling, a quick-jump menu, and Book a Complimentary Consultation plus Read Full Bio buttons. SEO: keyword-rich title, blog-card summary, image alt text, Mental Health + Washington Therapy categories. Blog grid set to equal-height cards. Live at /2026/07/09/meet-our-newest-providers/."
+      "title": "Monthly Search Console review — June"
     },
     {
       "date": "July 2, 2026",
       "type": "content",
-      "title": "Facebook + Instagram business profiles fully optimized",
-      "detail": "Completed business info (address, phone, email, website, booking link) on both profiles so NAP is consistent across site, Facebook, Instagram, and Google. Facebook: expanded bio to include Arizona, confirmed 3 categories + 10 service specialties, credentials, Contact Us button linked to booking. Instagram: fixed bio link to scheduling page, updated wording for WA + AZ. Sent Meta Business Suite admin invite to Lori's email.",
+      "title": "Facebook + Instagram profiles optimized",
       "ticket": "LOR-360"
     },
     {
       "date": "July 7, 2026",
       "type": "content",
-      "title": "LinkedIn Business Page built + optimized",
-      "detail": "Claimed the existing page (kept followers), set name to Lori Kimmerly Therapy and Coaching, PLLC, added branded banner + logo, keyword-rich About section, all 20 specialties, Renton location, Visit Website button, and services. Linked in Site Links under Social Media. Lori owns the page; we're set up as manager.",
+      "title": "LinkedIn business page set up + optimized",
       "ticket": "LOR-355"
+    },
+    {
+      "date": "July 9, 2026",
+      "type": "content",
+      "title": "Blog post published — new providers"
     },
     {
       "date": "July 13, 2026",
       "type": "launch",
-      "title": "Social media posting plan launched — $175/mo add-on",
-      "detail": "New recurring service: 2 LinkedIn + 2 Instagram posts per month, spread roughly weekly (currently the 15th/29th for LinkedIn, 17th/22nd for Instagram). Billed monthly, invoice due the 10th. Added to portal billing and content calendar."
-    },
-    {
-      "date": "July 14, 2026",
-      "type": "content",
-      "title": "July blog post received from Lori — pending SEO optimization + publish",
-      "detail": "Lori forwarded this month's blog post, written by Kristen Sievert: \"Healing Trauma Through Connection: Why Relationships Matter.\" We'll credit Kristen as author, SEO-optimize, and publish — targeting live by July 22.",
-      "ticket": "LOR-345"
+      "title": "Social media posting plan launched"
     },
     {
       "date": "July 15, 2026",
       "type": "content",
-      "title": "First LinkedIn post published — IFS Therapy: No Bad Parts",
-      "detail": "First post under the new monthly social posting plan is live on the LinkedIn Business Page. Logged in the portal's Posting Plan with a link to the live post."
+      "title": "LinkedIn post published"
     },
     {
-      "date": "July 17, 2026",
-      "type": "launch",
-      "title": "Online sticker shop — Square checkout build scheduled ($375 one-time)",
-      "detail": "New one-time build (Route A): a Square-powered shop for Lori's stickers. Scope — Square payout/bank setup, item library with sizes, singles and bundle pricing, product image cleanup, flat-rate shipping, Buy Buttons / Checkout Links per item, a Shop page styled to match the site with a product grid, nav menu update, a real end-to-end test purchase, and one revision round. Invoice out July 17; build begins July 22.",
-      "ticket": "LOR-368"
+      "date": "July 18, 2026",
+      "type": "content",
+      "title": "Blog post published + optimized — trauma and relationships",
+      "ticket": "LOR-345"
     },
     {
       "date": "July 21, 2026",
       "type": "technical",
-      "title": "Site speed work — therapist photos optimized sitewide",
-      "detail": "Your homepage and Meet the Team page now load roughly a third lighter. We resized and recompressed 9 therapist headshots that were being delivered at full camera resolution, cutting image weight by 65% with no visible change to the photos. Faster pages help both visitors and search rankings."
+      "title": "Site speed — therapist images optimized"
     },
     {
       "date": "July 21, 2026",
       "type": "content",
-      "title": "Therapist credentials updated — Sheena Nicolay and Jennifer Kenworthy",
-      "detail": "Sheena and Jennifer now both show as LMFTA everywhere they appear — their bio pages, the Meet the Team page, the homepage therapist grid, the therapist navigation menu, and the structured data search engines read. We check every location a credential appears, since these are easy to update in one place and miss in four."
+      "title": "Therapist credentials updated"
     },
     {
       "date": "July 23, 2026",
       "type": "content",
-      "title": "Second July Instagram post published — depression therapy awareness",
-      "detail": "Drafted the caption and visual concept, then Lori published the post to @lorikimmerlytherapy. Covers depression therapy, both in-office in Renton, WA and online therapy across Washington. Logged in the portal's Posting Plan with a link to the live post.",
+      "title": "Instagram post published",
       "ticket": "LOR-378"
     },
     {
       "date": "July 29, 2026",
       "type": "fix",
-      "title": "Blog closing section fixed — “Meet Our Newest Providers”",
-      "detail": "The post introducing Iwona, Erin, and Devi was missing the dark call-to-action closing every other blog post ends with — it had been left with an older, plainer design. We rebuilt it to match: a closing message written specifically for that post, a “Book a Consultation” button, and the same flush-to-footer layout as your other recent posts. Checked the fix against all 6 live posts to confirm nothing else was affected."
+      "title": "Blog post layout fix"
     },
     {
       "date": "July 31, 2026",
       "type": "content",
-      "title": "Fourth July LinkedIn post published — Support for Today. Strength for Tomorrow.",
-      "detail": "Final social post of the July plan, published two days after its July 29 due date. Covers stress and anxiety management, life transitions, and personal growth, with a call to schedule a consultation. All four July social posts are now live.",
+      "title": "LinkedIn post published",
       "url": "https://www.linkedin.com/feed/update/urn:li:activity:7489069062224760832/"
     },
     {
       "date": "July 31, 2026",
       "type": "launch",
-      "title": "Online sticker shop launched — lorikimmerly.com/shop",
-      "detail": "All 12 stickers are live with singles and bundle pricing, product photos cleaned up, flat-rate shipping, and real Square checkout on every item. Added the Shop page to the main nav and ran an end-to-end test purchase to confirm orders land correctly before announcing.",
+      "title": "Online shop launched — /shop",
       "ticket": "LOR-368"
     },
     {
       "date": "August 3, 2026",
-      "type": "seo",
-      "title": "August portal refresh — stats, deliverables, calendar, and content choice reset"
+      "type": "technical",
+      "title": "PHP version upgrade"
     },
     {
       "date": "August 5, 2026",
       "type": "seo",
-      "title": "Grief blog post title shortened for Google display",
-      "detail": "The title on your grief blog post was running over Google's 60-character display limit, causing it to get cut off in search results. We shortened it so the full title renders cleanly in SERPs — visitors now see the complete headline rather than a truncated version with an ellipsis."
-    },
-    {
-      "date": "August 3, 2026",
-      "type": "technical",
-      "title": "PHP upgraded from 8.1 to 8.3 — DreamHost panel",
-      "detail": "Your hosting server was running PHP 8.1, which reached end-of-life and would have triggered a $5/mo Extended Support charge from DreamHost on August 9. We upgraded to PHP 8.3 (DreamHost's recommended version) via the hosting panel with automatic rollback enabled in case of compatibility issues. The upgrade completed successfully — site verified live and loading normally. No additional monthly charge."
+      "title": "Blog title shortened for search results"
     },
     {
       "date": "August 10, 2026",
       "type": "content",
-      "title": "New blog post published — Caroline Bacon on tokophobia",
-      "detail": "Published \"When Fear Overshadows Joy: Understanding Tokophobia and the Fear of Childbirth\" — the post Caroline Bacon, LMHCA wrote on maternal mental health and fear of childbirth. Built with the full blog template (topic index, resource links, About-the-Author), SEO title/description/keyword set, categorized and tagged (Maternal Mental Health, Pregnancy, Postpartum, Tokophobia, Anxiety), and attributed to a dedicated Caroline Bacon author profile so search engines see a licensed therapist as the author. Ends with a Book with Caroline Bacon, LMHCA button linking to her bio page, as requested. Verified live: https://lorikimmerly.com/2026/08/10/tokophobia-fear-of-childbirth/"
+      "title": "Blog post published + optimized — tokophobia"
     },
     {
       "date": "August 10, 2026",
       "type": "content",
-      "title": "Personalized booking sections added to therapist-authored posts",
-      "detail": "The 5 Gates of Grief and Healing Trauma Through Connection now close with the same treatment as the new post: the author's name highlighted in the About-the-Author section and a personal booking button — Book with Lori Kimmerly, LMFT and Book with Kristen Sievert, LMFTA — linking to their bio pages instead of the generic contact page."
+      "title": "Booking CTAs added to blog posts"
     },
     {
       "date": "August 10, 2026",
       "type": "technical",
-      "title": "Blog topic filter fixed",
-      "detail": "Choosing a topic on the blog page used to leave the matching posts scattered far down the page. Filtering now brings the matching posts to the top of the page immediately, and the filter dropdown was restyled to match the post cards."
+      "title": "Blog category filter fixed"
     },
     {
       "date": "August 10, 2026",
       "type": "content",
-      "title": "Homepage carousel rotation — August (20 min against included hours)",
-      "detail": "Rotated the homepage therapist carousel so Ryan Carragher, Erin Spicer, and Iwona Abraham are featured this month. Also set up an automatic rotation for the 1st of every month so the next three therapists are always featured — each monthly rotation uses 20 minutes of the included site-work hour."
+      "title": "Homepage therapist carousel rotated"
     },
     {
       "date": "August 10, 2026",
       "type": "planning",
-      "title": "Service Pages Project estimate sent (8 dedicated pages)",
-      "detail": "Sent the estimate for the Service Pages Project — a dedicated, fully optimized page for each of 8 services (Individual, Couples, Family, Anxiety, Depression, Intimacy & Relationship Issues, IFS, and Trauma & PTSD). Each page includes keyword research, original SEO-optimized content, full on-page SEO with schema, homepage/navigation integration, and Google submission with follow-up. Three payment schedule options included: full project, two pages per month, or one page per month. View the estimate: https://app.squareup.com/pay-invoice/estimate/invetmp:663df930-23df-4cde-8bb7-6a9ff4cb99d9"
+      "title": "Service pages project estimate sent"
+    },
+    {
+      "date": "August 12, 2026",
+      "type": "content",
+      "title": "LinkedIn post published"
     },
     {
       "date": "August 21, 2026",
       "type": "content",
-      "title": "Second August Instagram post published — 5-4-3-2-1 Grounding Technique",
-      "detail": "The month’s second Instagram post is live on @lorikimmerlytherapy: a \"Try the 5-4-3-2-1 Grounding Technique\" graphic for anxious or overwhelmed moments, with the sensory steps laid out, a note on why grounding calms the nervous system, and a link back to lorikimmerly.com. Logged in the Posting Plan with a link to the live post: https://www.instagram.com/p/DcTZBy0AAOw/ — this completes both Instagram posts for August.",
+      "title": "Instagram post published",
       "ticket": "LOR-403"
+    },
+    {
+      "date": "August 29, 2026",
+      "type": "audit",
+      "title": "Monthly SEO audit — technical, schema, indexing, rankings"
+    },
+    {
+      "date": "August 29, 2026",
+      "type": "site",
+      "title": "Site work — online shop cart setup"
+    },
+    {
+      "date": "August 29, 2026",
+      "type": "content",
+      "title": "LinkedIn post published"
     },
     {
       "date": "September 1, 2026",
       "type": "content",
-      "title": "Monthly homepage therapist carousel rotation",
-      "detail": "Rotated the homepage carousel so Lori Kimmerly, Kristen Sievert and Jared Alleger are featured this month. Verified live. (19 min against included hours.)"
-    },
-    {
-      "date": "September 2, 2026",
-      "type": "seo",
-      "title": "September portal refresh — deliverables, calendar, posting plan and content choice reset; September invoice paid"
+      "title": "Homepage therapist carousel rotated"
     },
     {
       "date": "September 2, 2026",
       "type": "site",
-      "title": "Team roster updated site-wide following Devi Viswanathan’s departure",
-      "detail": "With Devi’s departure from the practice, we updated every surface of the site in one coordinated pass. Her bio page was retired with a permanent 301 redirect to the About Our Therapists page, so any search traffic or saved links land somewhere useful instead of a dead page. Her card was removed from the homepage therapist carousel, the About page team grid, and the site navigation, and the structured Person data search engines read was updated to match. The “Meet Our Newest Providers” announcement was rewritten around Iwona and Erin, including its search snippet, and the XML sitemaps were regenerated so Google picks up the new roster right away. The service-page drafts in the current redesign were updated to the new roster as well, and every change was verified on the live site. Ticket LOR-415. The balance of September's included site-work hour went to this pass — together with the September 1 carousel rotation, the full hour is now used for September, so there are no unused hours banking forward.",
+      "title": "Therapist roster updated site-wide + 301 redirect",
       "ticket": "LOR-415"
     },
     {
       "date": "September 4, 2026",
       "type": "content",
-      "title": "New team member Monique Meissner added to the site",
-      "detail": "Monique Meissner, MFT Intern, is live on the site. We built her full bio page from the same template used for the rest of the team - her background and training, who she works with, her specialties, session and insurance information, and a more personal section in her own words - then added her everywhere the team appears: the homepage therapist carousel, the Meet the Team page, and the therapist dropdown in the main navigation. Her photo was optimised before upload, cutting it to a sixth of its original size so it does not slow the pages down, and her page was given its own search title, description and keywords. She has also been added to the clinician-preference dropdown on the Contact page, so prospective clients can request her by name. While updating the portal we also refreshed the therapist links in your Site Links list - Devi has been removed and Erin and Monique added.",
+      "title": "New therapist bio page — Monique Meissner",
       "ticket": "LOR-412"
     },
     {
       "date": "September 4, 2026",
       "type": "fix",
-      "title": "Meet the Team photo reframed for Monique Meissner",
-      "detail": "Monique’s card on the Meet the Team page was cropping her chin, because her photo is a close-up portrait and the card frame is wide and short. We reframed it so her whole face and shoulders sit centred with space above her head, filling the narrow strips either side with a softly blurred copy of her own background so nothing looks stretched or cut. No part of the photo was altered or invented. We trialled the same treatment on two other cards and preferred the existing versions, so those were left exactly as they were. Verified on the live site.",
+      "title": "Therapist photo cropping fixed — Meet the Team",
       "ticket": "LOR-412"
     },
     {
       "date": "September 4, 2026",
       "type": "schema",
-      "title": "Search-engine credit corrected on Monique’s bio, and departed therapists removed from structured data",
-      "detail": "Two structured-data fixes. First, Monique’s new bio page was telling Google the page was written by a generic site admin account rather than by Monique herself. On health and wellbeing pages Google looks specifically for a real, credentialled clinician behind the content, so we replaced it with a full professional profile for her - her name, title, training at Antioch, the practice she works for, her areas of focus and the areas she serves. Her page now matches the rest of the team. Second, the structured data behind the Meet the Team page still listed two therapists who left the practice some time ago; both have been removed so search engines only ever see the current team. Everything verified live.",
+      "title": "Person schema corrected — therapist bios",
       "ticket": "LOR-418"
     },
     {
       "date": "September 4, 2026",
       "type": "content",
-      "title": "September blog post published — Building Resiliency in Your Kids",
-      "detail": "Leah Maughan's post on building resiliency in children is live at https://lorikimmerly.com/2026/09/04/building-resiliency-in-children/ — a back-to-school piece on how resiliency grows through attachment, regulation, efficacy and social connection. We gave it the full SEO treatment: search title, meta description and target keywords built around “building resiliency in children,” her cited references kept intact, and an author section that credits Leah by name and credential so search engines see a licensed clinician behind the content. It closes with a link to her bio and a Book with Leah Maughan, LMFTA button, the same treatment the grief, trauma and tokophobia posts have. This fills September's blog or SEO op slot. Verified live.",
+      "title": "Blog post published + optimized — resiliency in kids",
       "ticket": "LOR-417"
-    },
-    {
-      "date": "September 9, 2026",
-      "type": "content",
-      "title": "Team member addition invoice paid — Monique Meissner's bio complete",
-      "detail": "The invoice for adding a new team member to the site has been paid, and that work is finished. Monique Meissner, MFT Intern, has her full bio page live at https://lorikimmerly.com/monique-meissner/ and appears everywhere the team does — the homepage therapist carousel, the Meet the Team page, the therapist dropdown in the main navigation, and the clinician-preference dropdown on the Contact page, so prospective clients can ask for her by name. Her page carries its own search title, description and keywords, and her professional profile in the structured data search engines read. Her link is in your Site Links list here in the portal.",
-      "ticket": "LOR-414"
     }
   ],
   "homepage": "https://lorikimmerly.com"
