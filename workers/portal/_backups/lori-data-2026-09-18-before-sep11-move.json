@@ -409,6 +409,14 @@
   ],
   "posting_plan": [
     {
+      "platform": "instagram",
+      "title": null,
+      "status": "pending",
+      "due": "Sep 11",
+      "date": null,
+      "url": null
+    },
+    {
       "platform": "linkedin",
       "title": "PTSD & Trauma: What It Can Feel Like - and What Can Help (carousel)",
       "status": "posted",
@@ -429,14 +437,6 @@
       "title": null,
       "status": "pending",
       "due": "Sep 29",
-      "date": null,
-      "url": null
-    },
-    {
-      "platform": "instagram",
-      "title": null,
-      "status": "pending",
-      "due": "Week of Oct 1",
       "date": null,
       "url": null
     }
@@ -1237,3 +1237,4 @@
   ],
   "homepage": "https://lorikimmerly.com"
 }
+
