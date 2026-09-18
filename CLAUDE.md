@@ -138,6 +138,7 @@ This repo's `main` branch is protected against force-pushes and deletions. Direc
 1. **Create a Jira ticket** in project PM (https://phoenixmethod.atlassian.net)
    - Use credentials from `C:\Users\kandy\Work\config\jira-config.json`
    - Describe what is being changed and why
+   - **If the change is CLIENT work (a client portal, most often), you need TWO tickets — not one.** The PM ticket records the repo change; the client's own project (`SBR` Sunbright, `LOR` Lori, `PHW` PHW Care) records the deliverable. Link them, name the branch and PR after the **client** ticket since that's the substance of the work, and comment the outcome back on the client ticket. Close the PM ticket once merged and deployed. **Never delete one as a "duplicate" of the other — both are wanted** (Kandy, 2026-09-18: *"you can add a ticket to PM for each change, but I need a ticket in the sites repo as well."*)
 
 2. **Create a branch** named after the Jira ticket:
    ```bash
@@ -236,6 +237,7 @@ After completing any meaningful client work session (fixes, SEO changes, schema 
 - `detail` and `ticket` are optional — omit if not relevant
 - `ticket` is plain text only — no links, no URLs
 - Add entries to the END of the `worklog` array (newest-last; display reverses them)
+- **Two tickets, always:** one in the client's project (`SBR` / `LOR` / `PHW`) for the deliverable, and one in `PM` for the repo change. Link them, branch and PR named after the **client** ticket, comment the result back on it, close the PM one on merge. Both are wanted — never delete one as a duplicate.
 - Commit via the Silas PR workflow (branch → PR → merge immediately → KV auto-pushes on merge)
 - The GitHub Action in `.github/workflows/deploy-portal.yml` auto-pushes all data.json files to Cloudflare KV on every merge to main — no manual wrangler command needed
 
