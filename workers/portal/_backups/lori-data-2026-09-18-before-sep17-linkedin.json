@@ -8,7 +8,7 @@
   "hours_used": 1,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-09-18",
+  "updated": "2026-09-10",
   "next_invoice": {
     "date": "October 1, 2026",
     "amount": "$575.00"
@@ -418,11 +418,11 @@
     },
     {
       "platform": "linkedin",
-      "title": "PTSD & Trauma: What It Can Feel Like - and What Can Help (carousel)",
-      "status": "posted",
+      "title": null,
+      "status": "pending",
       "due": "Sep 17",
-      "date": "September 18, 2026",
-      "url": "https://www.linkedin.com/posts/lori-kimmerly-therapy_traumarecovery-mentalhealth-ptsdawareness-activity-7506713697713713152-zMNf"
+      "date": null,
+      "url": null
     },
     {
       "platform": "instagram",
