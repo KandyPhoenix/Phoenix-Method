@@ -53,7 +53,12 @@
       "status": "todo"
     },
     {
-      "text": "Site Work — 1 Hr",
+      "text": "Monthly Rotations — Therapist Carousel & Featured Blog Posts (30 min)",
+      "status": "done",
+      "label": "Included"
+    },
+    {
+      "text": "Quick-Fix Site Work — 30 Min",
       "status": "done",
       "label": "Included"
     },
@@ -71,7 +76,7 @@
   "package_details": {
     "monthly_audit": "Weekly scan for broken links, slow pages, missing meta tags, indexing issues, duplicate content, and schema errors. Issues flagged and prioritized for repair.",
     "blog_or_seo": "One blog post OR one full page SEO treatment per month. Your choice — send us your topic or a written draft by the 15th. If we don't hear from you by the 15th, we'll choose based on your best keyword opportunities. Deliverable live by the 22nd.",
-    "site_hour": "One included hour of site work each month — used for updates you request or audit fixes that go beyond routine maintenance. Unused hours roll over and bank up month to month. They never expire.",
+    "site_hour": "One included hour of site work each month, split in two. The first 30 minutes covers your monthly rotations: every therapist gets time at the front of the homepage carousel and the top of the team cards, and the featured blog posts rotate on every page outside the blog itself. The other 30 minutes is yours for quick fixes you ask for, so small changes don't need to be billed. Unused quick-fix time rolls over and banks up month to month. It never expires.",
     "quarterly_report": "Every three months you'll receive a full performance report covering keyword rankings, traffic trends, what we've done, and what's coming next.",
     "overage": "Additional work beyond your banked hours is billed at $50/hr (our standard rate is $100/hr — you receive a 50% discount for the life of your package)."
   },
