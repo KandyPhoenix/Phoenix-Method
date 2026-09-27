@@ -1,1244 +1,1294 @@
 {
-  "client": "Lori Kimmerly Therapy and Coaching",
-  "short_name": "Lori",
-  "month": "September 2026",
-  "plan": "Custom",
-  "plan_price": "$575/mo",
-  "plan_hours": 1,
-  "hours_used": 1,
-  "rollover_enabled": true,
-  "hours_rolled_over": 0,
-  "updated": "2026-09-18",
-  "next_invoice": {
-    "date": "October 1, 2026",
-    "amount": "$575.00"
+ "client": "Lori Kimmerly Therapy and Coaching",
+ "short_name": "Lori",
+ "month": "September 2026",
+ "plan": "Custom",
+ "plan_price": "$575/mo",
+ "plan_hours": 1,
+ "hours_used": 1,
+ "rollover_enabled": true,
+ "hours_rolled_over": 0,
+ "updated": "2026-09-27",
+ "next_invoice": {
+  "date": "October 1, 2026",
+  "amount": "$575.00"
+ },
+ "add_ons": [
+  {
+   "name": "Social Media Posting — 2 LinkedIn + 2 Instagram",
+   "price": "$175/mo",
+   "due": "September 10, 2026",
+   "status": "paid",
+   "paid_date": "September 10, 2026"
+  }
+ ],
+ "stats": {
+  "sessions": 289,
+  "sessions_change": "+64",
+  "sessions_trend": "up",
+  "keywords": 272,
+  "keywords_change": "+48",
+  "keywords_trend": "up",
+  "position": 12.8,
+  "position_change": "-2.7",
+  "position_trend": "down",
+  "impressions": 6011,
+  "impressions_change": "+1309",
+  "impressions_trend": "up",
+  "ctr": 2.65,
+  "ctr_change": "-0.3",
+  "ctr_trend": "down"
+ },
+ "deliverables": [
+  {
+   "text": "SEO Monitoring — Tech, Rankings, Schema, Indexing, Content",
+   "status": "todo"
   },
-  "add_ons": [
-    {
-      "name": "Social Media Posting — 2 LinkedIn + 2 Instagram",
-      "price": "$175/mo",
-      "due": "September 10, 2026",
-      "status": "paid",
-      "paid_date": "September 10, 2026"
-    }
-  ],
-  "stats": {
-    "sessions": 289,
-    "sessions_change": "+64",
-    "sessions_trend": "up",
-    "keywords": 272,
-    "keywords_change": "+48",
-    "keywords_trend": "up",
-    "position": 12.8,
-    "position_change": "-2.7",
-    "position_trend": "down",
-    "impressions": 6011,
-    "impressions_change": "+1309",
-    "impressions_trend": "up",
-    "ctr": 2.65,
-    "ctr_change": "-0.3",
-    "ctr_trend": "down"
+  {
+   "text": "Blog Post or SEO Op",
+   "status": "done"
   },
-  "deliverables": [
-    {
-      "text": "SEO Monitoring — Tech, Rankings, Schema, Indexing, Content",
-      "status": "todo"
-    },
-    {
-      "text": "Blog Post or SEO Op",
-      "status": "done"
-    },
-    {
-      "text": "Social Media Posting — 2 LinkedIn + 2 Instagram",
-      "status": "todo"
-    },
-    {
-      "text": "Monthly Rotations — Therapist Carousel & Featured Blog Posts (30 min)",
-      "status": "done",
-      "label": "Included"
-    },
-    {
-      "text": "Quick-Fix Site Work — 30 Min",
-      "status": "done",
-      "label": "Included"
-    },
-    {
-      "text": "Quarterly Performance Report",
-      "status": "todo",
-      "due": "Oct 31"
-    },
-    {
-      "text": "Discretionary Work — $50/hr (50% off)",
-      "status": "info",
-      "label": "On Request"
-    }
-  ],
-  "package_details": {
-    "monthly_audit": "Weekly scan for broken links, slow pages, missing meta tags, indexing issues, duplicate content, and schema errors. Issues flagged and prioritized for repair.",
-    "blog_or_seo": "One blog post OR one full page SEO treatment per month. Your choice — send us your topic or a written draft by the 15th. If we don't hear from you by the 15th, we'll choose based on your best keyword opportunities. Deliverable live by the 22nd.",
-    "site_hour": "One included hour of site work each month, split in two. The first 30 minutes covers your monthly rotations: every therapist gets time at the front of the homepage carousel and the top of the team cards, and the featured blog posts rotate on every page outside the blog itself. The other 30 minutes is yours for quick fixes you ask for, so small changes don't need to be billed. Unused quick-fix time rolls over and banks up month to month. It never expires.",
-    "quarterly_report": "Every three months you'll receive a full performance report covering keyword rankings, traffic trends, what we've done, and what's coming next.",
-    "overage": "Additional work beyond your banked hours is billed at $50/hr (our standard rate is $100/hr — you receive a 50% discount for the life of your package)."
+  {
+   "text": "Social Media Posting — 2 LinkedIn + 2 Instagram",
+   "status": "todo"
   },
-  "gsc_keywords": [
-    {
-      "keyword": "natalie kim",
-      "position": 3.9,
-      "clicks": 1,
-      "impressions": 73
-    },
-    {
-      "keyword": "lori kimmerly therapy",
-      "position": 1.1,
-      "clicks": 39,
-      "impressions": 58
-    },
-    {
-      "keyword": "does state insurance cover therapy",
-      "position": 8.5,
-      "clicks": 0,
-      "impressions": 39
-    },
-    {
-      "keyword": "john hubbs",
-      "position": 2.1,
-      "clicks": 2,
-      "impressions": 25
-    },
-    {
-      "keyword": "caroline bacon",
-      "position": 3.3,
-      "clicks": 0,
-      "impressions": 23
-    },
-    {
-      "keyword": "alleger",
-      "position": 8.8,
-      "clicks": 0,
-      "impressions": 17
-    },
-    {
-      "keyword": "kristen sievert",
-      "position": 1.9,
-      "clicks": 4,
-      "impressions": 13
-    },
-    {
-      "keyword": "evening therapy sessions wa",
-      "position": 44.5,
-      "clicks": 0,
-      "impressions": 11
-    },
-    {
-      "keyword": "dr shana hubbs",
-      "position": 12.2,
-      "clicks": 0,
-      "impressions": 10
-    },
-    {
-      "keyword": "couples therapy renton",
-      "position": 10.9,
-      "clicks": 0,
-      "impressions": 8
-    },
-    {
-      "keyword": "does my insurance cover therapy",
-      "position": 42.2,
-      "clicks": 0,
-      "impressions": 8
-    },
-    {
-      "keyword": "couples therapist renton",
-      "position": 18.3,
-      "clicks": 0,
-      "impressions": 7
-    },
-    {
-      "keyword": "does insurance cover therapy",
-      "position": 3.0,
-      "clicks": 0,
-      "impressions": 7
-    },
-    {
-      "keyword": "find a therapist washington state sliding scale",
-      "position": 37.4,
-      "clicks": 0,
-      "impressions": 7
-    },
-    {
-      "keyword": "ifs explained simply",
-      "position": 9.1,
-      "clicks": 0,
-      "impressions": 7
-    }
-  ],
-  "keywords": [
-    {
-      "keyword": "lori kimmerly therapy",
-      "position": 1.1,
-      "last_month": 1.3,
-      "clicks": 39
-    },
-    {
-      "keyword": "therapist renton wa",
-      "position": null,
-      "last_month": null,
-      "clicks": 0
-    },
-    {
-      "keyword": "therapy renton washington",
-      "position": null,
-      "last_month": null,
-      "clicks": 0
-    },
-    {
-      "keyword": "ifs therapist renton wa",
-      "position": null,
-      "last_month": null,
-      "clicks": 0
-    },
-    {
-      "keyword": "ifs therapist seattle",
-      "position": null,
-      "last_month": null,
-      "clicks": 0
-    },
-    {
-      "keyword": "ifs therapy washington",
-      "position": null,
-      "last_month": null,
-      "clicks": 0
-    },
-    {
-      "keyword": "internal family systems therapist",
-      "position": null,
-      "last_month": null,
-      "clicks": 0
-    },
-    {
-      "keyword": "couples therapy renton",
-      "position": 10.9,
-      "last_month": 9.5,
-      "clicks": 0
-    },
-    {
-      "keyword": "couples therapist renton",
-      "position": 18.3,
-      "last_month": 11.4,
-      "clicks": 0
-    },
-    {
-      "keyword": "marriage counseling renton wa",
-      "position": 10.0,
-      "last_month": 14.8,
-      "clicks": 0
-    },
-    {
-      "keyword": "marriage therapy renton wa",
-      "position": null,
-      "last_month": null,
-      "clicks": 0
-    },
-    {
-      "keyword": "anxiety therapist renton wa",
-      "position": null,
-      "last_month": 10.8,
-      "clicks": 0
-    },
-    {
-      "keyword": "anxiety therapist renton",
-      "position": null,
-      "last_month": null,
-      "clicks": 0
-    },
-    {
-      "keyword": "depression counseling renton wa",
-      "position": null,
-      "last_month": null,
-      "clicks": 0
-    },
-    {
-      "keyword": "trauma therapist washington",
-      "position": null,
-      "last_month": null,
-      "clicks": 0
-    },
-    {
-      "keyword": "online therapy washington state",
-      "position": null,
-      "last_month": null,
-      "clicks": 0
-    },
-    {
-      "keyword": "telehealth therapy washington",
-      "position": null,
-      "last_month": null,
-      "clicks": 0
-    },
-    {
-      "keyword": "life transitions therapy renton",
-      "position": 11.0,
-      "last_month": 9.8,
-      "clicks": 0
-    },
-    {
-      "keyword": "family therapy renton wa",
-      "position": 9.6,
-      "last_month": null,
-      "clicks": 0
-    },
-    {
-      "keyword": "family counselor washington",
-      "position": null,
-      "last_month": null,
-      "clicks": 0
-    }
-  ],
-  "content_calendar": [
-    {
-      "date": "Sep 4",
-      "title": "Blog Post or SEO Op — Published",
-      "type": "deliverable"
-    },
-    {
-      "date": "Sep 11",
-      "title": "Instagram Post Due",
-      "type": "social"
-    },
-    {
-      "date": "Sep 17",
-      "title": "LinkedIn Post Due",
-      "type": "social"
-    },
-    {
-      "date": "Sep 22",
-      "title": "Instagram Post Due",
-      "type": "social"
-    },
-    {
-      "date": "Sep 29",
-      "title": "LinkedIn Post Due",
-      "type": "social"
-    }
-  ],
-  "content_choice": {
-    "chosen": "blog",
-    "blog": {
-      "title": "Building Resiliency in Your Kids: A Natural Process",
-      "author": "Leah Maughan, LMFTA",
-      "keyword": "building resiliency in children",
-      "source": "client_written",
-      "status": "published",
-      "url": "https://lorikimmerly.com/2026/09/04/building-resiliency-in-children/",
-      "published": "September 4, 2026"
-    },
-    "page": {
-      "title": "Insurance page — CTR / SEO optimization",
-      "url": "lorikimmerly.com/2026/05/19/does-insurance-cover-therapy-washington-state/",
-      "keyword": "does state insurance cover therapy",
-      "status": "deferred",
-      "note": "Held over again — September's slot was filled by Leah Maughan's client-submitted resiliency post. Still on the shortlist for a future month."
-    }
+  {
+   "text": "Monthly Rotations — Therapist Carousel & Featured Blog Posts (30 min)",
+   "status": "done",
+   "label": "Included"
   },
-  "blog_topics": [
+  {
+   "text": "Quick-Fix Site Work — 30 Min",
+   "status": "done",
+   "label": "Included"
+  },
+  {
+   "text": "Quarterly Performance Report",
+   "status": "todo",
+   "due": "Oct 31"
+  },
+  {
+   "text": "Discretionary Work — $50/hr (50% off)",
+   "status": "info",
+   "label": "On Request"
+  }
+ ],
+ "package_details": {
+  "monthly_audit": "Weekly scan for broken links, slow pages, missing meta tags, indexing issues, duplicate content, and schema errors. Issues flagged and prioritized for repair.",
+  "blog_or_seo": "One blog post OR one full page SEO treatment per month. Your choice — send us your topic or a written draft by the 15th. If we don't hear from you by the 15th, we'll choose based on your best keyword opportunities. Deliverable live by the 22nd.",
+  "site_hour": "One included hour of site work each month, split in two. The first 30 minutes covers your monthly rotations: every therapist gets time at the front of the homepage carousel and the top of the team cards, and the featured blog posts rotate on every page outside the blog itself. The other 30 minutes is yours for quick fixes you ask for, so small changes don't need to be billed. Unused quick-fix time rolls over and banks up month to month. It never expires.",
+  "quarterly_report": "Every three months you'll receive a full performance report covering keyword rankings, traffic trends, what we've done, and what's coming next.",
+  "overage": "Additional work beyond your banked hours is billed at $50/hr (our standard rate is $100/hr — you receive a 50% discount for the life of your package)."
+ },
+ "gsc_keywords": [
+  {
+   "keyword": "natalie kim",
+   "position": 3.9,
+   "clicks": 1,
+   "impressions": 73
+  },
+  {
+   "keyword": "lori kimmerly therapy",
+   "position": 1.1,
+   "clicks": 39,
+   "impressions": 58
+  },
+  {
+   "keyword": "does state insurance cover therapy",
+   "position": 8.5,
+   "clicks": 0,
+   "impressions": 39
+  },
+  {
+   "keyword": "john hubbs",
+   "position": 2.1,
+   "clicks": 2,
+   "impressions": 25
+  },
+  {
+   "keyword": "caroline bacon",
+   "position": 3.3,
+   "clicks": 0,
+   "impressions": 23
+  },
+  {
+   "keyword": "alleger",
+   "position": 8.8,
+   "clicks": 0,
+   "impressions": 17
+  },
+  {
+   "keyword": "kristen sievert",
+   "position": 1.9,
+   "clicks": 4,
+   "impressions": 13
+  },
+  {
+   "keyword": "evening therapy sessions wa",
+   "position": 44.5,
+   "clicks": 0,
+   "impressions": 11
+  },
+  {
+   "keyword": "dr shana hubbs",
+   "position": 12.2,
+   "clicks": 0,
+   "impressions": 10
+  },
+  {
+   "keyword": "couples therapy renton",
+   "position": 10.9,
+   "clicks": 0,
+   "impressions": 8
+  },
+  {
+   "keyword": "does my insurance cover therapy",
+   "position": 42.2,
+   "clicks": 0,
+   "impressions": 8
+  },
+  {
+   "keyword": "couples therapist renton",
+   "position": 18.3,
+   "clicks": 0,
+   "impressions": 7
+  },
+  {
+   "keyword": "does insurance cover therapy",
+   "position": 3.0,
+   "clicks": 0,
+   "impressions": 7
+  },
+  {
+   "keyword": "find a therapist washington state sliding scale",
+   "position": 37.4,
+   "clicks": 0,
+   "impressions": 7
+  },
+  {
+   "keyword": "ifs explained simply",
+   "position": 9.1,
+   "clicks": 0,
+   "impressions": 7
+  }
+ ],
+ "keywords": [
+  {
+   "keyword": "lori kimmerly therapy",
+   "position": 1.1,
+   "last_month": 1.3,
+   "clicks": 39
+  },
+  {
+   "keyword": "therapist renton wa",
+   "position": null,
+   "last_month": null,
+   "clicks": 0
+  },
+  {
+   "keyword": "therapy renton washington",
+   "position": null,
+   "last_month": null,
+   "clicks": 0
+  },
+  {
+   "keyword": "ifs therapist renton wa",
+   "position": null,
+   "last_month": null,
+   "clicks": 0
+  },
+  {
+   "keyword": "ifs therapist seattle",
+   "position": null,
+   "last_month": null,
+   "clicks": 0
+  },
+  {
+   "keyword": "ifs therapy washington",
+   "position": null,
+   "last_month": null,
+   "clicks": 0
+  },
+  {
+   "keyword": "internal family systems therapist",
+   "position": null,
+   "last_month": null,
+   "clicks": 0
+  },
+  {
+   "keyword": "couples therapy renton",
+   "position": 10.9,
+   "last_month": 9.5,
+   "clicks": 0
+  },
+  {
+   "keyword": "couples therapist renton",
+   "position": 18.3,
+   "last_month": 11.4,
+   "clicks": 0
+  },
+  {
+   "keyword": "marriage counseling renton wa",
+   "position": 10.0,
+   "last_month": 14.8,
+   "clicks": 0
+  },
+  {
+   "keyword": "marriage therapy renton wa",
+   "position": null,
+   "last_month": null,
+   "clicks": 0
+  },
+  {
+   "keyword": "anxiety therapist renton wa",
+   "position": null,
+   "last_month": 10.8,
+   "clicks": 0
+  },
+  {
+   "keyword": "anxiety therapist renton",
+   "position": null,
+   "last_month": null,
+   "clicks": 0
+  },
+  {
+   "keyword": "depression counseling renton wa",
+   "position": null,
+   "last_month": null,
+   "clicks": 0
+  },
+  {
+   "keyword": "trauma therapist washington",
+   "position": null,
+   "last_month": null,
+   "clicks": 0
+  },
+  {
+   "keyword": "online therapy washington state",
+   "position": null,
+   "last_month": null,
+   "clicks": 0
+  },
+  {
+   "keyword": "telehealth therapy washington",
+   "position": null,
+   "last_month": null,
+   "clicks": 0
+  },
+  {
+   "keyword": "life transitions therapy renton",
+   "position": 11.0,
+   "last_month": 9.8,
+   "clicks": 0
+  },
+  {
+   "keyword": "family therapy renton wa",
+   "position": 9.6,
+   "last_month": null,
+   "clicks": 0
+  },
+  {
+   "keyword": "family counselor washington",
+   "position": null,
+   "last_month": null,
+   "clicks": 0
+  }
+ ],
+ "content_calendar": [
+  {
+   "date": "Sep 4",
+   "title": "Blog Post or SEO Op — Published",
+   "type": "deliverable"
+  },
+  {
+   "date": "Sep 11",
+   "title": "Instagram Post Due",
+   "type": "social"
+  },
+  {
+   "date": "Sep 17",
+   "title": "LinkedIn Post Due",
+   "type": "social"
+  },
+  {
+   "date": "Sep 22",
+   "title": "Instagram Post Due",
+   "type": "social"
+  },
+  {
+   "date": "Sep 29",
+   "title": "LinkedIn Post Due",
+   "type": "social"
+  }
+ ],
+ "content_choice": {
+  "chosen": "blog",
+  "blog": {
+   "title": "Building Resiliency in Your Kids: A Natural Process",
+   "author": "Leah Maughan, LMFTA",
+   "keyword": "building resiliency in children",
+   "source": "client_written",
+   "status": "published",
+   "url": "https://lorikimmerly.com/2026/09/04/building-resiliency-in-children/",
+   "published": "September 4, 2026"
+  },
+  "page": {
+   "title": "Insurance page — CTR / SEO optimization",
+   "url": "lorikimmerly.com/2026/05/19/does-insurance-cover-therapy-washington-state/",
+   "keyword": "does state insurance cover therapy",
+   "status": "deferred",
+   "note": "Held over again — September's slot was filled by Leah Maughan's client-submitted resiliency post. Still on the shortlist for a future month."
+  }
+ },
+ "blog_topics": [
+  {
+   "title": "How to Find a Therapist in Renton WA (What to Look For)",
+   "keyword": "therapist Renton WA",
+   "status": "suggested"
+  },
+  {
+   "title": "IFS Therapy for Anxiety: How Internal Family Systems Helps You Heal",
+   "keyword": "IFS therapy anxiety",
+   "status": "suggested"
+  },
+  {
+   "title": "Couples Therapy vs. Marriage Counseling: What's the Difference?",
+   "keyword": "couples counseling Renton WA",
+   "status": "suggested"
+  },
+  {
+   "title": "What to Expect in Your First Therapy Session (And How to Prepare)",
+   "keyword": "first therapy session",
+   "status": "suggested"
+  },
+  {
+   "title": "Online Therapy in Washington State: Is Telehealth Right for You?",
+   "keyword": "online therapy Washington state",
+   "status": "suggested"
+  },
+  {
+   "title": "Understanding Trauma: Signs You Might Benefit from Trauma Therapy",
+   "keyword": "trauma therapist Washington",
+   "status": "suggested"
+  },
+  {
+   "title": "Does Insurance Cover Therapy in Washington State? (Premera, Aetna, Kaiser)",
+   "keyword": "does Premera cover therapy",
+   "status": "used",
+   "month_used": "May",
+   "wp_post_id": 50610
+  },
+  {
+   "title": "Depression vs. Anxiety: How to Tell the Difference and Get the Right Help",
+   "keyword": "depression anxiety therapist",
+   "status": "suggested"
+  },
+  {
+   "title": "Therapy for Men: Why Men's Mental Health Deserves More Attention",
+   "keyword": "men's therapy Washington",
+   "status": "suggested"
+  },
+  {
+   "title": "What Is LMFTA vs. LMFT? Understanding Therapist Credentials in Washington",
+   "keyword": "therapist credentials Washington",
+   "status": "suggested"
+  },
+  {
+   "title": "When Fear Overshadows Joy: Understanding Tokophobia and the Fear of Childbirth",
+   "keyword": "tokophobia, fear of childbirth",
+   "status": "used",
+   "month_used": "August",
+   "wp_post_id": 50981,
+   "source": "client",
+   "note": "Written by Caroline Bacon, LMHCA; submitted by Lori 08-03."
+  },
+  {
+   "title": "Building Resiliency in Your Kids: A Natural Process",
+   "keyword": "building resiliency in children",
+   "status": "used",
+   "month_used": "September",
+   "wp_post_id": 51611,
+   "source": "client",
+   "note": "Written by Leah Maughan, LMFTA; published September 4, 2026."
+  }
+ ],
+ "posting_plan": [
+  {
+   "platform": "linkedin",
+   "title": "PTSD & Trauma: What It Can Feel Like - and What Can Help (carousel)",
+   "status": "posted",
+   "due": "Sep 17",
+   "date": "September 18, 2026",
+   "url": "https://www.linkedin.com/posts/lori-kimmerly-therapy_traumarecovery-mentalhealth-ptsdawareness-activity-7506713697713713152-zMNf"
+  },
+  {
+   "platform": "instagram",
+   "title": "You Don't Have to Have It All Figured Out to Begin (seasons of change)",
+   "status": "posted",
+   "due": "Sep 22",
+   "date": "September 25, 2026",
+   "url": "https://www.instagram.com/p/DdurftlCUdG/"
+  },
+  {
+   "platform": "linkedin",
+   "title": null,
+   "status": "pending",
+   "due": "Sep 29",
+   "date": null,
+   "url": null
+  },
+  {
+   "platform": "instagram",
+   "title": null,
+   "status": "pending",
+   "due": "Week of Oct 1",
+   "date": null,
+   "url": null
+  }
+ ],
+ "reports": [
+  {
+   "name": "SEO Audit — May 2026",
+   "date": "May 1, 2026",
+   "icon": "📋",
+   "url": "/lori/reports/paid-audit-lorikimmerly-CLIENT-2026-05-01.pdf"
+  },
+  {
+   "name": "Blog Topic Menu — May 2026",
+   "date": "May 1, 2026",
+   "icon": "✍️",
+   "url": "/lori/reports/lori-blog-topics-2026-05.pdf"
+  },
+  {
+   "name": "Estimate — Service Pages Project (8 Pages)",
+   "date": "August 10, 2026",
+   "icon": "📄",
+   "url": "https://app.squareup.com/pay-invoice/estimate/invetmp:663df930-23df-4cde-8bb7-6a9ff4cb99d9"
+  }
+ ],
+ "roadmap": [
+  {
+   "phase": 1,
+   "phase_title": "Foundation Fixes",
+   "items": [
     {
-      "title": "How to Find a Therapist in Renton WA (What to Look For)",
-      "keyword": "therapist Renton WA",
-      "status": "suggested"
+     "id": 1,
+     "title": "Schema Monitoring & Correction",
+     "why": "WordPress and the Avada theme can silently overwrite structured data during page saves and plugin updates. Monitored monthly — re-applied when conflicts are detected.",
+     "priority": "high",
+     "effort": "Ongoing",
+     "status": "in_progress"
     },
     {
-      "title": "IFS Therapy for Anxiety: How Internal Family Systems Helps You Heal",
-      "keyword": "IFS therapy anxiety",
-      "status": "suggested"
+     "id": 2,
+     "title": "Meta Description Monitoring",
+     "why": "Plugin updates and WordPress changes can occasionally reset meta data across pages. Verified and corrected as part of monthly maintenance.",
+     "priority": "high",
+     "effort": "Ongoing",
+     "status": "in_progress"
     },
     {
-      "title": "Couples Therapy vs. Marriage Counseling: What's the Difference?",
-      "keyword": "couples counseling Renton WA",
-      "status": "suggested"
+     "id": 3,
+     "title": "Indexing Monitoring",
+     "why": "New content, plugin changes, and site updates can affect how Google crawls and indexes the site. Search Console reviewed monthly — coverage issues resolved as they arise.",
+     "priority": "high",
+     "effort": "Ongoing",
+     "status": "in_progress"
     },
     {
-      "title": "What to Expect in Your First Therapy Session (And How to Prepare)",
-      "keyword": "first therapy session",
-      "status": "suggested"
+     "id": 4,
+     "title": "Author Archive Pages — Noindex",
+     "why": "WordPress generates author archive pages for every user account. These thin, auto-generated pages create duplicate content signals and expose internal admin structure to Google's index.",
+     "priority": "high",
+     "effort": "Quick fix",
+     "status": "done"
     },
     {
-      "title": "Online Therapy in Washington State: Is Telehealth Right for You?",
-      "keyword": "online therapy Washington state",
-      "status": "suggested"
+     "id": 5,
+     "title": "Blog Author Attribution",
+     "why": "The IFS blog post is attributed to a behind-the-scenes admin account rather than a licensed therapist. Google's quality raters check author credentials on YMYL health content — this is a direct E-E-A-T liability.",
+     "priority": "high",
+     "effort": "1 hr",
+     "status": "done"
     },
     {
-      "title": "Understanding Trauma: Signs You Might Benefit from Trauma Therapy",
-      "keyword": "trauma therapist Washington",
-      "status": "suggested"
+     "id": 6,
+     "title": "Spam Filter + Contact Forms",
+     "why": "SilentShield plugin was blocking all form submissions. Replaced with honeypot approach — both main contact and in-page booking forms verified working.",
+     "priority": "high",
+     "effort": "1 hr",
+     "status": "done"
     },
     {
-      "title": "Does Insurance Cover Therapy in Washington State? (Premera, Aetna, Kaiser)",
-      "keyword": "does Premera cover therapy",
-      "status": "used",
-      "month_used": "May",
-      "wp_post_id": 50610
+     "id": 7,
+     "title": "On-Site Testimonials",
+     "why": "Patient testimonials are a direct trust signal that Google quality raters look for on YMYL health sites. The site currently has no testimonials section — a gap that affects perceived credibility.",
+     "priority": "high",
+     "effort": "1–2 hrs",
+     "status": "backlog"
     },
     {
-      "title": "Depression vs. Anxiety: How to Tell the Difference and Get the Right Help",
-      "keyword": "depression anxiety therapist",
-      "status": "suggested"
+     "id": 8,
+     "title": "Google Business Profile Optimization",
+     "why": "GBP category alignment, service list, photos, and Q&A section all need a full optimization pass. A complete, verified profile is a hard requirement for local pack eligibility on therapy queries.",
+     "priority": "high",
+     "effort": "1–2 hrs",
+     "status": "backlog"
     },
     {
-      "title": "Therapy for Men: Why Men's Mental Health Deserves More Attention",
-      "keyword": "men's therapy Washington",
-      "status": "suggested"
+     "id": 9,
+     "title": "Psychology Today Profiles",
+     "why": "Initial pass complete: 7 of 12 therapist Person schemas now include Psychology Today profile URLs. Remaining 5 (Jared, Clayton, Natalie, Mariah, Leah) need profile URLs — pending Kandy follow-up.",
+     "priority": "high",
+     "effort": "2–3 hrs",
+     "status": "in_progress"
     },
     {
-      "title": "What Is LMFTA vs. LMFT? Understanding Therapist Credentials in Washington",
-      "keyword": "therapist credentials Washington",
-      "status": "suggested"
-    },
-    {
-      "title": "When Fear Overshadows Joy: Understanding Tokophobia and the Fear of Childbirth",
-      "keyword": "tokophobia, fear of childbirth",
-      "status": "used",
-      "month_used": "August",
-      "wp_post_id": 50981,
-      "source": "client",
-      "note": "Written by Caroline Bacon, LMHCA; submitted by Lori 08-03."
-    },
-    {
-      "title": "Building Resiliency in Your Kids: A Natural Process",
-      "keyword": "building resiliency in children",
-      "status": "used",
-      "month_used": "September",
-      "wp_post_id": 51611,
-      "source": "client",
-      "note": "Written by Leah Maughan, LMFTA; published September 4, 2026."
+     "id": 10,
+     "title": "Privacy Policy & Terms of Service",
+     "why": "Google quality raters check for trust pages on YMYL health sites. Once provided by the practice, these will be published and linked correctly across the site.",
+     "priority": "medium",
+     "effort": "Quick fix",
+     "status": "todo"
     }
-  ],
-  "posting_plan": [
+   ]
+  },
+  {
+   "phase": 2,
+   "phase_title": "Local Visibility",
+   "items": [
     {
-      "platform": "linkedin",
-      "title": "PTSD & Trauma: What It Can Feel Like - and What Can Help (carousel)",
-      "status": "posted",
-      "due": "Sep 17",
-      "date": "September 18, 2026",
-      "url": "https://www.linkedin.com/posts/lori-kimmerly-therapy_traumarecovery-mentalhealth-ptsdawareness-activity-7506713697713713152-zMNf"
+     "id": 11,
+     "title": "GBP Post Management",
+     "why": "Regular GBP posts — blog excerpts, mental health tips, practice announcements — signal an active, engaged listing to Google and improve local pack visibility.",
+     "priority": "high",
+     "effort": "Ongoing",
+     "status": "backlog"
     },
     {
-      "platform": "instagram",
-      "title": "You Don't Have to Have It All Figured Out to Begin (seasons of change)",
-      "status": "posted",
-      "due": "Sep 22",
-      "date": "September 25, 2026",
-      "url": "https://www.instagram.com/p/DdurftlCUdG/"
+     "id": 12,
+     "title": "Google Review Process",
+     "why": "Review count and average rating are direct local pack ranking factors. Growing toward 20+ reviews at 4.8+ average requires a consistent, compliant ask process — in-office or automated.",
+     "priority": "high",
+     "effort": "Setup",
+     "status": "backlog"
     },
     {
-      "platform": "linkedin",
-      "title": null,
-      "status": "pending",
-      "due": "Sep 29",
-      "date": null,
-      "url": null
+     "id": 13,
+     "title": "Priority Directory Submissions",
+     "why": "TherapyDen, Healthgrades, Zocdoc, Bing Places, Apple Maps, and GoodTherapy — high-authority citations missing from the backlink profile. Each submission builds local authority and opens a new referral channel.",
+     "priority": "high",
+     "effort": "2–3 hrs",
+     "status": "backlog"
     },
     {
-      "platform": "instagram",
-      "title": null,
-      "status": "pending",
-      "due": "Week of Oct 1",
-      "date": null,
-      "url": null
+     "id": 14,
+     "title": "Location Landing Pages",
+     "why": "Dedicated pages for Renton WA, Online Therapy Washington, and Online Therapy Arizona — each targeting location-specific search queries the site currently has no page to capture.",
+     "priority": "high",
+     "effort": "3–4 hrs each",
+     "status": "backlog"
     }
-  ],
-  "reports": [
+   ]
+  },
+  {
+   "phase": 3,
+   "phase_title": "Content Investment — Service Pages (LAUNCHED)",
+   "items": [
     {
-      "name": "SEO Audit — May 2026",
-      "date": "May 1, 2026",
-      "icon": "📋",
-      "url": "/lori/reports/paid-audit-lorikimmerly-CLIENT-2026-05-01.pdf"
+     "id": 15,
+     "title": "IFS Therapy",
+     "why": "'IFS therapist renton wa', 'ifs therapist seattle', 'ifs therapy washington' — no indexed landing page. Zero SERP presence for the practice's primary keyword differentiator and strongest competitive advantage.",
+     "priority": "high",
+     "effort": "3–4 hrs",
+     "status": "done"
     },
     {
-      "name": "Blog Topic Menu — May 2026",
-      "date": "May 1, 2026",
-      "icon": "✍️",
-      "url": "/lori/reports/lori-blog-topics-2026-05.pdf"
+     "id": 16,
+     "title": "Anxiety & OCD Therapy",
+     "why": "'Anxiety therapist renton wa' at pos 10.8 with 22 impressions and 0 clicks. Ranking but not capturing clicks without a dedicated page.",
+     "priority": "high",
+     "effort": "3–4 hrs",
+     "status": "done"
     },
     {
-      "name": "Estimate — Service Pages Project (8 Pages)",
-      "date": "August 10, 2026",
-      "icon": "📄",
-      "url": "https://app.squareup.com/pay-invoice/estimate/invetmp:663df930-23df-4cde-8bb7-6a9ff4cb99d9"
+     "id": 17,
+     "title": "Couples & Relationship Counseling",
+     "why": "'Couples therapy renton' at pos 9.4 — page 1 threshold. High commercial intent keyword cluster with no dedicated landing page.",
+     "priority": "high",
+     "effort": "3–4 hrs",
+     "status": "done"
+    },
+    {
+     "id": 18,
+     "title": "Depression Therapy",
+     "why": "Second most searched mental health condition after anxiety. Statewide keyword with no dedicated page — missed traffic across both in-person and telehealth service areas.",
+     "priority": "high",
+     "effort": "3–4 hrs",
+     "status": "done"
+    },
+    {
+     "id": 19,
+     "title": "Trauma & PTSD Therapy",
+     "why": "Supports the practice's trauma-specialized therapist team. High-empathy search cluster with strong conversion intent — searchers on this term are actively looking for help.",
+     "priority": "high",
+     "effort": "3–4 hrs",
+     "status": "done"
+    },
+    {
+     "id": 20,
+     "title": "Online Therapy Washington & Arizona",
+     "why": "'Online therapy washington state' appearing with impressions and zero clicks. A single optimized page consolidates authority across both telehealth service states.",
+     "priority": "high",
+     "effort": "3–4 hrs",
+     "status": "backlog"
+    },
+    {
+     "id": 24,
+     "title": "Individual Therapy",
+     "why": "Dedicated service page — built, optimized and launched as part of the full service-page rollout.",
+     "priority": "high",
+     "effort": "Done",
+     "status": "done"
+    },
+    {
+     "id": 25,
+     "title": "Intimacy & Relationship Issues",
+     "why": "Dedicated service page — built, optimized and launched as part of the full service-page rollout.",
+     "priority": "high",
+     "effort": "Done",
+     "status": "done"
+    },
+    {
+     "id": 26,
+     "title": "EFT Therapy",
+     "why": "Dedicated service page — built, optimized and launched as part of the full service-page rollout.",
+     "priority": "high",
+     "effort": "Done",
+     "status": "done"
+    },
+    {
+     "id": 22,
+     "title": "FAQ Sections on All Service Pages",
+     "why": "FAQ content qualifies pages for FAQ rich results in SERPs and directly addresses hesitant visitors. Every service page needs a FAQ section once built.",
+     "priority": "medium",
+     "effort": "1 hr each",
+     "status": "done"
+    },
+    {
+     "id": 23,
+     "title": "Internal Linking",
+     "why": "Foundation work begun — bio-to-bio supervisory links and one bio→blog topical link (IFS) are live. Full execution waits for dedicated service pages to exist so each bio can link to a relevant service page.",
+     "priority": "medium",
+     "effort": "1–2 hrs",
+     "status": "done"
     }
-  ],
-  "roadmap": [
-    {
-      "phase": 1,
-      "phase_title": "Foundation Fixes",
-      "items": [
-        {
-          "id": 1,
-          "title": "Schema Monitoring & Correction",
-          "why": "WordPress and the Avada theme can silently overwrite structured data during page saves and plugin updates. Monitored monthly — re-applied when conflicts are detected.",
-          "priority": "high",
-          "effort": "Ongoing",
-          "status": "in_progress"
-        },
-        {
-          "id": 2,
-          "title": "Meta Description Monitoring",
-          "why": "Plugin updates and WordPress changes can occasionally reset meta data across pages. Verified and corrected as part of monthly maintenance.",
-          "priority": "high",
-          "effort": "Ongoing",
-          "status": "in_progress"
-        },
-        {
-          "id": 3,
-          "title": "Indexing Monitoring",
-          "why": "New content, plugin changes, and site updates can affect how Google crawls and indexes the site. Search Console reviewed monthly — coverage issues resolved as they arise.",
-          "priority": "high",
-          "effort": "Ongoing",
-          "status": "in_progress"
-        },
-        {
-          "id": 4,
-          "title": "Author Archive Pages — Noindex",
-          "why": "WordPress generates author archive pages for every user account. These thin, auto-generated pages create duplicate content signals and expose internal admin structure to Google's index.",
-          "priority": "high",
-          "effort": "Quick fix",
-          "status": "done"
-        },
-        {
-          "id": 5,
-          "title": "Blog Author Attribution",
-          "why": "The IFS blog post is attributed to a behind-the-scenes admin account rather than a licensed therapist. Google's quality raters check author credentials on YMYL health content — this is a direct E-E-A-T liability.",
-          "priority": "high",
-          "effort": "1 hr",
-          "status": "done"
-        },
-        {
-          "id": 6,
-          "title": "Spam Filter + Contact Forms",
-          "why": "SilentShield plugin was blocking all form submissions. Replaced with honeypot approach — both main contact and in-page booking forms verified working.",
-          "priority": "high",
-          "effort": "1 hr",
-          "status": "done"
-        },
-        {
-          "id": 7,
-          "title": "On-Site Testimonials",
-          "why": "Patient testimonials are a direct trust signal that Google quality raters look for on YMYL health sites. The site currently has no testimonials section — a gap that affects perceived credibility.",
-          "priority": "high",
-          "effort": "1–2 hrs",
-          "status": "backlog"
-        },
-        {
-          "id": 8,
-          "title": "Google Business Profile Optimization",
-          "why": "GBP category alignment, service list, photos, and Q&A section all need a full optimization pass. A complete, verified profile is a hard requirement for local pack eligibility on therapy queries.",
-          "priority": "high",
-          "effort": "1–2 hrs",
-          "status": "backlog"
-        },
-        {
-          "id": 9,
-          "title": "Psychology Today Profiles",
-          "why": "Initial pass complete: 7 of 12 therapist Person schemas now include Psychology Today profile URLs. Remaining 5 (Jared, Clayton, Natalie, Mariah, Leah) need profile URLs — pending Kandy follow-up.",
-          "priority": "high",
-          "effort": "2–3 hrs",
-          "status": "in_progress"
-        },
-        {
-          "id": 10,
-          "title": "Privacy Policy & Terms of Service",
-          "why": "Google quality raters check for trust pages on YMYL health sites. Once provided by the practice, these will be published and linked correctly across the site.",
-          "priority": "medium",
-          "effort": "Quick fix",
-          "status": "todo"
-        }
-      ]
-    },
-    {
-      "phase": 2,
-      "phase_title": "Local Visibility",
-      "items": [
-        {
-          "id": 11,
-          "title": "GBP Post Management",
-          "why": "Regular GBP posts — blog excerpts, mental health tips, practice announcements — signal an active, engaged listing to Google and improve local pack visibility.",
-          "priority": "high",
-          "effort": "Ongoing",
-          "status": "backlog"
-        },
-        {
-          "id": 12,
-          "title": "Google Review Process",
-          "why": "Review count and average rating are direct local pack ranking factors. Growing toward 20+ reviews at 4.8+ average requires a consistent, compliant ask process — in-office or automated.",
-          "priority": "high",
-          "effort": "Setup",
-          "status": "backlog"
-        },
-        {
-          "id": 13,
-          "title": "Priority Directory Submissions",
-          "why": "TherapyDen, Healthgrades, Zocdoc, Bing Places, Apple Maps, and GoodTherapy — high-authority citations missing from the backlink profile. Each submission builds local authority and opens a new referral channel.",
-          "priority": "high",
-          "effort": "2–3 hrs",
-          "status": "backlog"
-        },
-        {
-          "id": 14,
-          "title": "Location Landing Pages",
-          "why": "Dedicated pages for Renton WA, Online Therapy Washington, and Online Therapy Arizona — each targeting location-specific search queries the site currently has no page to capture.",
-          "priority": "high",
-          "effort": "3–4 hrs each",
-          "status": "backlog"
-        }
-      ]
-    },
-    {
-      "phase": 3,
-      "phase_title": "Content Investment — Service Pages",
-      "items": [
-        {
-          "id": 15,
-          "title": "IFS Therapy Washington",
-          "why": "'IFS therapist renton wa', 'ifs therapist seattle', 'ifs therapy washington' — no indexed landing page. Zero SERP presence for the practice's primary keyword differentiator and strongest competitive advantage.",
-          "priority": "high",
-          "effort": "3–4 hrs",
-          "status": "backlog"
-        },
-        {
-          "id": 16,
-          "title": "Anxiety Therapy Renton WA",
-          "why": "'Anxiety therapist renton wa' at pos 10.8 with 22 impressions and 0 clicks. Ranking but not capturing clicks without a dedicated page.",
-          "priority": "high",
-          "effort": "3–4 hrs",
-          "status": "backlog"
-        },
-        {
-          "id": 17,
-          "title": "Couples Counseling Renton WA",
-          "why": "'Couples therapy renton' at pos 9.4 — page 1 threshold. High commercial intent keyword cluster with no dedicated landing page.",
-          "priority": "high",
-          "effort": "3–4 hrs",
-          "status": "backlog"
-        },
-        {
-          "id": 18,
-          "title": "Depression Therapy Washington",
-          "why": "Second most searched mental health condition after anxiety. Statewide keyword with no dedicated page — missed traffic across both in-person and telehealth service areas.",
-          "priority": "high",
-          "effort": "3–4 hrs",
-          "status": "backlog"
-        },
-        {
-          "id": 19,
-          "title": "Trauma Therapy Washington",
-          "why": "Supports the practice's trauma-specialized therapist team. High-empathy search cluster with strong conversion intent — searchers on this term are actively looking for help.",
-          "priority": "high",
-          "effort": "3–4 hrs",
-          "status": "backlog"
-        },
-        {
-          "id": 20,
-          "title": "Online Therapy Washington & Arizona",
-          "why": "'Online therapy washington state' appearing with impressions and zero clicks. A single optimized page consolidates authority across both telehealth service states.",
-          "priority": "high",
-          "effort": "3–4 hrs",
-          "status": "backlog"
-        },
-        {
-          "id": 21,
-          "title": "Family Therapy Renton WA",
-          "why": "Completes the core service page library. Without it the practice has no indexed page for family therapy queries despite offering the service.",
-          "priority": "medium",
-          "effort": "3–4 hrs",
-          "status": "backlog"
-        },
-        {
-          "id": 22,
-          "title": "FAQ Sections on All Service Pages",
-          "why": "FAQ content qualifies pages for FAQ rich results in SERPs and directly addresses hesitant visitors. Every service page needs a FAQ section once built.",
-          "priority": "medium",
-          "effort": "1 hr each",
-          "status": "backlog"
-        },
-        {
-          "id": 23,
-          "title": "Internal Linking",
-          "why": "Foundation work begun — bio-to-bio supervisory links and one bio→blog topical link (IFS) are live. Full execution waits for dedicated service pages to exist so each bio can link to a relevant service page.",
-          "priority": "medium",
-          "effort": "1–2 hrs",
-          "status": "in_progress"
-        }
-      ]
-    }
-  ],
-  "messages": [
-    {
-      "from": "Kandy",
-      "date": "April 30, 2026",
-      "text": "Welcome to your Phoenix Method client portal, Lori! This is your home base for everything we're doing on your site month to month — rankings, deliverables, your content calendar, and reports. Your May package is active. Reminder: if you'd like to pick the blog topic or page we work on this month, just send it over by the 15th. If we don't hear from you by the 15th, we'll pick the best opportunity from your current keyword data."
-    },
-    {
-      "from": "Kandy",
-      "date": "May 10, 2026",
-      "text": "This week we used Lori's included site hour to onboard the two new team members (Iwona Abraham and Devi Viswanathan) and update John Hubbs's credentials now that he's fully licensed. Both new therapists have full bio pages, and we added them to the homepage carousel, the Meet the Team page, the mega menu, the contact form dropdown, and the structured-data schema for Google. We also did a full SEO optimization pass on both new bios — single rich Person schema, focus keywords matching actual content, contextual internal links, sweet-spot meta lengths. While we were in there, we added Caroline Bacon to the contact form dropdown (she'd been missing since March), tightened up Jenn Kenworthy's specialty list per her request, fixed John's photo alignment on his Meet the Team card, and added one internal link from Lori's bio to the IFS blog post for SEO. Everything is live and verified."
-    },
-    {
-      "from": "Kandy",
-      "date": "May 10, 2026",
-      "text": "Big SEO + schema cleanup pass on the site this afternoon. Twelve retired Avada portfolio URLs (cardiology, pediatrics, ultrasound — leftover from the old theme demo) were permanently deleted and 301-redirected to the Meet the Team page so any inbound links keep working and Google updates faster. We also closed the loop on three duplicate/old slugs (an old Ryan Carragher URL, plus former-therapist pages for Faynesha Haragan and Keziah Grindeland) — all redirected, no more 404s for Google. Three of the highest-impression pages got rewritten meta titles + descriptions tuned for click-through (Lori's bio, the contact page, and the Meet the Team page) — the bio page especially was sitting at 1,124 impressions with a 0.6% CTR, so we rebuilt the title around 'Online Therapist' service intent rather than IFS jargon. Roughly twenty thin auto-generated FAQ pages were noindex'd and pulled out of the sitemap — they were duplicating the FAQ schema already on the contact page and just cluttering Google's coverage report. We also rebuilt the Person schema on every therapist bio page so each one now has full credentials, license info, areas of focus, and Psychology Today links where they exist — Lori's bio correctly lists both Washington and Arizona service areas, all others are Washington-only. Added a sitewide WebSite + SearchAction schema (enables Google's sitelinks search box on brand searches), submitted the cleaned sitemap, and removed the redundant www GSC property. Everything is verified live. Real impact (CTR, indexing, ranking) will show in the next 4 weeks — checkpoint scheduled for June 7 to compare before/after."
-    },
-    {
-      "from": "Kandy",
-      "date": "May 12, 2026",
-      "text": "Quick maintenance session this week. Fixed the contact forms on your site — a plugin called SilentShield was blocking all form submissions. Clients should now be able to reach you and your therapists without issues. Also updated session rates on Devi and Iwona's bio pages (correcting the listed fees). On the SEO side, cleaned up the About Our Therapists hero section: tightened the headline text, removed duplicate mentions of \"online\" and \"Washington\" that could flag as keyword stuffing, and polished the visual layout. (LOR-325, LOR-324, LOR-326)"
-    },
-    {
-      "from": "Kandy",
-      "date": "May 21, 2026",
-      "text": "Site maintenance session today covering two things. First: your contact form spam filter was rejecting real submissions with an error message — we replaced the old reCAPTCHA setup with a honeypot approach that stops bots without blocking clients. Both forms (main contact and the in-page booking form) are updated and tested. Second: fixed a layout issue on the Lori and Kristen bio pages — the hero card was rendering behind the navigation bar instead of below it, which was cutting off the top of each page. Root cause was a padding value set too low for the site's fixed header (155px tall). Updated both pages to match Jared's working layout, including the spacing between the schedule button and the bio card below it. All three therapist bios now match. (LOR-333)"
-    },
-    {
-      "from": "Kandy",
-      "date": "June 1, 2026",
-      "text": "June package is active. May stats are in: 2,356 impressions (up 750 from last month), 141 keywords indexed (up 73), and 133 organic clicks. The big cleanup work from earlier in May — redirects, schema rebuilds, meta rewrites, FAQ noindex — continues to settle with Google and ranking improvements should become more visible over the next 4–6 weeks as Google re-crawls. The insurance blog published in May is indexed. This month your blog or SEO op slot is open — send your topic by June 15 and we'll have it live by the 22nd. If we don't hear from you we'll pick your best keyword opportunity from the current data. Quarterly performance report is scheduled for June 30."
-    },
-    {
-      "from": "Kandy",
-      "date": "June 9, 2026",
-      "text": "June 7 checkpoint results: 153 clicks from 2,688 impressions — up 20 clicks and 332 impressions from the June 1 baseline. Average position improved from 12.8 to 11.3. Natalie Kim's bio jumped from position 11 to #8 this period. New keyword now appearing for the first time: 'family therapy renton wa' at position 11.7 — the bio and service page work is starting to surface new query clusters.\n\nThe main fix this cycle: a regression on the About Our Therapists page was caught and corrected. The page title had been changed to include 'Online Counseling' instead of 'Online Therapy' — that single word costs keyword match. Impressions on that page had dropped from 1,293 to 397 over 28 days. Title is restored to 'Online Therapy Washington | Licensed Therapists WA' and we're monitoring for recovery over the next two weeks.\n\nThree bio pages also got stronger titles — Jennifer Kenworthy, Sheena Nicolay, and Devi Viswanathan all had 'MFT Intern' leading their title tags, which reduces click-through when searchers are comparing therapists. Titles are now service-first, leading with each therapist's specialty.\n\nSchema audit in progress — completing MedicalBusiness structured data fields (telephone, address, areaServed) across key pages."
-    },
-    {
-      "from": "Kandy",
-      "date": "June 9, 2026",
-      "text": "Three technical SEO fixes shipped today. First: the insurance blog post (/blog/does-insurance-cover-therapy) was ranking at position 8 with 84 impressions but only 1 click — the old title was generic and buried the insurance angle. Rewrote it to 'Does Insurance Cover Therapy? What to Know Before Your First Session' with a tighter meta description leading with the insurance hook. Position 8 means searchers are already seeing this page; the title rewrite should push the click-through rate up from the current ~1.2%. (LOR-334)\n\nSecond and third: Google Search Console had 24 structured data warnings — 20 breadcrumb warnings (position field was outputting as a string instead of an integer) and 4 FAQ warnings (answer text was including raw HTML, which Google requires to be plain text). Both are a Rank Math output issue. Fixed both at once via a mu-plugin that rewrites the JSON-LD in the page response before it reaches the browser — no theme changes needed. Deployed and verified live on multiple pages. Google will clear the warnings on its next crawl, typically within 1–2 weeks. (LOR-335, LOR-336)"
-    },
-    {
-      "from": "Kandy",
-      "date": "June 20, 2026",
-      "text": "Your grief blog post is live and fully optimized. Published today at lorikimmerly.com — authored under your name with full therapist credentials attached. The post covers Francis Weller's 5 Gates of Grief framework, includes recommended resources (books and a podcast), and ends with a call to action to your contact page. On the SEO side: optimized title, meta description, focus keywords (5 gates of grief, grief therapy Washington, grief therapist Washington state), BlogPosting schema with your name and credentials as author, Table of Contents for long-form content signals, and submitted to Google's Instant Indexing API so the crawl request went in today. We also cleaned up the blog home page while we were in it — cards are now equal height in every row, the blue accent border extends the full card height, category labels are clean, and we created a proper Grief category for the new post. All fixes verified live."
-    },
-    {
-      "from": "Kandy",
-      "date": "June 18, 2026",
-      "text": "Your June blog post is confirmed — and we love that you picked your own topic. We're ready to work with your grief piece whenever your draft is ready. Send it over and we'll optimize it for search, get it formatted, and have it live on your site before the end of the month."
-    },
-    {
-      "from": "Kandy",
-      "date": "June 20, 2026",
-      "text": "Tech validation session today — confirmed everything is clean. The breadcrumb schema fix and FAQ schema fix from last week are both verified live on production across all pages. Impressions are up to 3,557 (from 2,895 last period, +23%) and average position improved from 9.9 to 8.8 — the site is gaining ground. The insurance blog is pulling 20+ new keyword rankings this week, including 'does insurance cover therapy,' 'how does insurance work with therapy,' and 'FSA vs HSA.' Couples counseling Renton also appeared as a new keyword at position 10. On the schema side, we identified some structural improvements we're planning — details next session."
-    },
-    {
-      "from": "Kandy",
-      "date": "June 24, 2026",
-      "text": "Exciting next step — we're setting up your business social media presence! Your invoice for the Facebook Business Page + Instagram Business account setup is on its way. Once that's taken care of, we'll build both profiles for you: branded logo and cover images, optimized 'About' copy written around your therapy keywords, your service areas (Washington & Arizona telehealth), and a professional Instagram account linked to your Facebook Page so you can post to both at once. Everything is created under your own email so you keep full ownership — we'll be set up as a manager so we can post and maintain it for you. To get started after the invoice clears, we'll send a short checklist of a few details we need from you (logo file, a couple of handle options, and your preferred bio wording). Looking forward to getting you visible on social!"
-    },
-    {
-      "from": "Kandy",
-      "date": "July 2, 2026",
-      "text": "July package is active — and June finished stronger than the early read showed. June closed at 4,702 impressions, up 92% from May (2,443), with 140 clicks and average position improving to 10.1 from 12.8. You're now surfacing for 224 distinct search queries, up from 143 in May. Clicks held roughly flat because most of the new impressions are in deeper positions we're now working to lift — that's also why click-through rate normalized this month. Overall organic sessions dipped slightly month-over-month (225 vs 271 in May) even as search visibility grew — expected while the new rankings are still maturing in deeper positions. The grief blog post is live, indexed, and pulling traffic. Your unused June site hour has rolled over — you have 1 banked hour going into July. This month's blog or SEO op slot is open: send your topic by July 15 and we'll have it live by July 22; if we don't hear from you, we'll pick your best current keyword opportunity. Your Q2 quarterly performance report is due July 31 and will cover the full ranking picture."
-    },
-    {
-      "from": "Kandy",
-      "date": "July 2, 2026",
-      "text": "Full optimization pass on your Facebook and Instagram business profiles today, plus setting you up to take over posting. On both profiles I completed your business info — address (15 S Grady Way, Suite 632, Renton), phone, email, website, and booking link — so your name, address, and phone number now match consistently across your website, Facebook, Instagram, and Google (that consistency is what strengthens your local presence in Google). On Facebook: expanded your bio to include Arizona, confirmed all 3 categories and 10 service specialties with descriptions, your credentials (MS, LMFT, AAMFT Approved Supervisor), and pointed the 'Contact us' button to your booking page. On Instagram: fixed the bio so your 'book' call-to-action now links to your scheduling page (5 links total, including Schedule an Appointment), and updated the wording to cover both Washington & Arizona. I also confirmed your Google Business Profile is live and consistent. Finally, I sent an invite to your Facebook email giving you full admin access to your Meta Business Suite — both Facebook and Instagram — so you can take over posting whenever you're ready; just accept the email invite when you get a chance. Best next step for local visibility: start collecting a few Google reviews. (LOR-360)"
-    },
-    {
-      "from": "Kandy",
-      "date": "July 7, 2026",
-      "text": "Your LinkedIn Business Page is built and fully optimized — it's now linked in your Site Links under Social Media. We claimed the existing page (keeping its followers), set the name to Lori Kimmerly Therapy and Coaching, PLLC, and added a branded banner and logo, a keyword-rich About section, all 20 specialties, your Renton location, a 'Visit website' button, and your services. Everything is created under your ownership, with us set up as manager so we can maintain it. The natural next step is regular posting to keep the page active and in front of potential clients and referral partners — we'll follow up with options for that. (LOR-355)"
-    },
-    {
-      "from": "Kandy",
-      "date": "July 9, 2026",
-      "text": "Your new blog post introducing your three newest providers is live! We took the intros you sent for Iwona Abraham, Erin Spicer, and Devi Viswanathan and built them into a warm, interactive post — each provider gets their own profile card with a get-to-know-you Q&A (their why for becoming a therapist, what future clients should know, and a few fun personal questions), styled in your site colors with a quick-jump menu at the top and Book a Complimentary Consultation and Read Full Bio buttons on every card. On the SEO side we wrote a keyword-rich title and blog-card summary (new Washington therapists, online therapy in Washington, in-person therapy in Renton, plus specialties like anxiety, grief, and life transitions), added optimized image alt text, and filed it under your Mental Health and Washington Therapy categories. We also made sure every card on your blog home is now equal height so the grid looks clean. Everything is live and verified at lorikimmerly.com/2026/07/09/meet-our-newest-providers. Two quick follow-ups: Erin's bio button shows a Coming Soon placeholder until her full bio page is built, and we'd love a higher-resolution photo of Devi whenever she can send one."
-    },
-    {
-      "from": "Kandy",
-      "date": "July 17, 2026",
-      "text": "Exciting next step — we're getting your stickers online! Your invoice for the shop build is on its way. Once that's taken care of, we'll set your shop up through Square: your stickers built out as proper products with sizes, singles and bundle pricing, your product photos cleaned up and cropped, and simple flat-rate shipping so orders are easy to fulfill. From there we'll build a Shop page styled to match the rest of your site — a clean product grid with buy buttons wired straight into secure checkout — and add it to your main navigation so visitors can actually find it. Before anything goes live we'll run a real test purchase from start to finish to confirm the money lands in your account correctly, and you'll get a round of revisions to fine-tune anything you'd like changed. To get started once the invoice clears, we'll need a few things from you: your final sticker list with sizes and prices, your bundle pricing, and your product images."
-    },
-    {
-      "from": "Kandy",
-      "date": "August 3, 2026",
-      "text": "August is here! July was a productive month — we published Kristen Sievert's trauma blog post, ran all four social media posts (the last LinkedIn post, \"Support for Today. Strength for Tomorrow,\" went out July 31), completed a sitewide image optimization pass that cut page weight by a third, updated Sheena and Jennifer's credentials, and fixed the closing section on the new providers blog post. Your sticker shop is live at lorikimmerly.com/shop — all 12 stickers are up with singles and bundle pricing, real Square checkout, and it's in your main nav. This month your blog or SEO op slot is open — send your topic by August 15 and we'll have it live by the 22nd. If we don't hear from you, we'll optimize the insurance page (currently pos 8.5 with 39 impressions and 0 clicks — strong candidate for a title and meta rewrite). Your next quarterly performance report (covering Aug 1 – Oct 31) is due October 31."
-    },
-    {
-      "from": "Kandy",
-      "date": "August 10, 2026",
-      "text": "Caroline's blog post on tokophobia is live! We published it with full SEO treatment and a dedicated author profile for Caroline so Google credits a licensed therapist — and per your note, it ends with a Book with Caroline Bacon, LMHCA button. We also added the same personal booking sections to your grief post and Kristen's trauma post, fixed the blog topic filter so choosing a topic pulls those posts right to the top, and rotated the homepage carousel to feature Ryan, Erin, and Iwona for August. The carousel now rotates automatically on the 1st of each month to the next three therapists (20 minutes of your included site-work hour per rotation)."
-    },
-    {
-      "from": "Kandy",
-      "date": "August 10, 2026",
-      "text": "We've sent over the estimate for your Service Pages Project — 8 dedicated, fully optimized service pages, with three payment schedule options so you can pick the pace that fits (full project, two pages a month, or one page a month). The estimate is also linked in your Reports section here in the portal. Take a look and let us know which option feels right!"
-    },
-    {
-      "from": "Kandy",
-      "date": "September 2, 2026",
-      "text": "September is here — and thank you, your September invoice is paid and your package is active. August wrapped up strong: Caroline's tokophobia post went live August 10 with full SEO treatment and her own author profile, all four social posts published (2 LinkedIn + 2 Instagram, closing with the tokophobia support carousel on the 29th), and the August monitoring pass came back clean — all 27 sitemap URLs indexed, zero broken internal links, breadcrumbs valid on all 26 pages. Your included site hour went to working out how to add a real cart to the sticker shop's Square setup, and on September 1 the homepage carousel rotated to feature you, Kristen, and Jared this month. For September: your blog or SEO op slot is open — send your topic by September 15 and we'll have it live by the 22nd. If we don't hear from you, we'll optimize the insurance page (currently pos 8.5 with 39 impressions and 0 clicks — it's been patiently waiting since July). Your quarterly performance report (covering Aug 1 – Oct 31) is due October 31, and the Service Pages estimate is still available in your Reports section whenever you're ready to take a look."
-    },
-    {
-      "from": "Kandy",
-      "date": "September 9, 2026",
-      "text": "September's blog or SEO op slot is complete — Leah Maughan's post, “Building Resiliency in Your Kids: A Natural Process,” went live September 4 at https://lorikimmerly.com/2026/09/04/building-resiliency-in-children/. It's a back-to-school piece on how resiliency grows in children through attachment, regulation, efficacy and social connection, and we published it with the full SEO treatment, an author section crediting Leah by name and credential, and a Book with Leah Maughan, LMFTA button at the end. Because the blog filled this month's slot, the insurance page optimization moves to a future month. Thank you as well — the invoice for the team member addition is paid, and that work is finished: Monique Meissner, MFT Intern, is live at https://lorikimmerly.com/monique-meissner/ with her full bio, and she's on the homepage carousel, the Meet the Team page, the therapist dropdown in your navigation, and the clinician-preference dropdown on your Contact page so people can request her by name. Her link is in your Site Links list here in the portal. We've also re-synced this month's social posting dates to match the schedule — Instagram on the 11th and 22nd, LinkedIn on the 17th and 29th. Your quarterly performance report (covering Aug 1 – Oct 31) is due October 31, and the Service Pages estimate is still in your Reports section whenever you'd like to look it over."
-    },
-    {
-      "from": "Kandy",
-      "date": "September 10, 2026",
-      "text": "Thank you — your social posting plan invoice is paid and this month's posting plan is fully covered. Your four September posts are scheduled: Instagram on the 11th and 22nd, LinkedIn on the 17th and 29th. Everything else for September is on track — the blog slot is complete with Leah Maughan's resiliency post, and your next package invoice is October 1."
-    }
-  ],
-  "site_links": [
-    {
-      "category": "Main Pages",
-      "label": "Homepage",
-      "url": "https://lorikimmerly.com/",
-      "icon": "🏠"
-    },
-    {
-      "category": "Main Pages",
-      "label": "About Our Therapists",
-      "url": "https://lorikimmerly.com/about-our-therapists/",
-      "icon": "👥"
-    },
-    {
-      "category": "Main Pages",
-      "label": "Contact",
-      "url": "https://lorikimmerly.com/contact/",
-      "icon": "✉️"
-    },
-    {
-      "category": "Main Pages",
-      "label": "Blog",
-      "url": "https://lorikimmerly.com/blog/",
-      "icon": "📝"
-    },
-    {
-      "category": "Main Pages",
-      "label": "Shop",
-      "url": "https://lorikimmerly.com/shop/",
-      "icon": "🛍️"
-    },
-    {
-      "category": "Therapist Bios",
-      "label": "Lori Kimmerly",
-      "url": "https://lorikimmerly.com/lori-kimmerly-lmft-therapist/",
-      "icon": "👤"
-    },
-    {
-      "category": "Therapist Bios",
-      "label": "Kristen Sievert",
-      "url": "https://lorikimmerly.com/kristen-sievert/",
-      "icon": "👤"
-    },
-    {
-      "category": "Therapist Bios",
-      "label": "Jared Alleger",
-      "url": "https://lorikimmerly.com/jared-alleger/",
-      "icon": "👤"
-    },
-    {
-      "category": "Therapist Bios",
-      "label": "Caroline Bacon",
-      "url": "https://lorikimmerly.com/caroline-bacon-lmhca/",
-      "icon": "👤"
-    },
-    {
-      "category": "Therapist Bios",
-      "label": "John Hubbs",
-      "url": "https://lorikimmerly.com/john-hubbs/",
-      "icon": "👤"
-    },
-    {
-      "category": "Therapist Bios",
-      "label": "Ryan Carragher",
-      "url": "https://lorikimmerly.com/ryan-carragher/",
-      "icon": "👤"
-    },
-    {
-      "category": "Therapist Bios",
-      "label": "Sheena Nicolay",
-      "url": "https://lorikimmerly.com/sheena-nicolay/",
-      "icon": "👤"
-    },
-    {
-      "category": "Therapist Bios",
-      "label": "Jennifer Kenworthy",
-      "url": "https://lorikimmerly.com/jennifer-kenworthy/",
-      "icon": "👤"
-    },
-    {
-      "category": "Therapist Bios",
-      "label": "Clayton Holman",
-      "url": "https://lorikimmerly.com/clayton-holman/",
-      "icon": "👤"
-    },
-    {
-      "category": "Therapist Bios",
-      "label": "Natalie Kim",
-      "url": "https://lorikimmerly.com/natalie-kim/",
-      "icon": "👤"
-    },
-    {
-      "category": "Therapist Bios",
-      "label": "Mariah Visco",
-      "url": "https://lorikimmerly.com/mariah-visco/",
-      "icon": "👤"
-    },
-    {
-      "category": "Therapist Bios",
-      "label": "Leah Maughan",
-      "url": "https://lorikimmerly.com/leah-maughan/",
-      "icon": "👤"
-    },
-    {
-      "category": "Therapist Bios",
-      "label": "Iwona Abraham",
-      "url": "https://lorikimmerly.com/iwona-abraham-therapist/",
-      "icon": "👤"
-    },
-    {
-      "category": "Therapist Bios",
-      "label": "Erin Spicer",
-      "url": "https://lorikimmerly.com/erin-spicer-therapist/",
-      "icon": "👤"
-    },
-    {
-      "category": "Therapist Bios",
-      "label": "Monique Meissner",
-      "url": "https://lorikimmerly.com/monique-meissner/",
-      "icon": "👤"
-    },
-    {
-      "category": "Blog Posts",
-      "label": "Welcome — A Note From Our Therapists",
-      "url": "https://lorikimmerly.com/2026/04/25/welcome-to-our-blog-a-note-from-our-therapists/",
-      "icon": "📄"
-    },
-    {
-      "category": "Blog Posts",
-      "label": "What Is Internal Family Systems (IFS) Therapy?",
-      "url": "https://lorikimmerly.com/2026/04/26/what-is-ifs-therapy-internal-family-systems/",
-      "icon": "📄"
-    },
-    {
-      "category": "Blog Posts",
-      "label": "Does Insurance Cover Therapy in Washington State?",
-      "url": "https://lorikimmerly.com/2026/05/19/does-insurance-cover-therapy-washington-state/",
-      "icon": "📄"
-    },
-    {
-      "category": "Blog Posts",
-      "label": "The 5 Gates of Grief",
-      "url": "https://lorikimmerly.com/2026/06/20/grief-therapy-5-gates-of-grief/",
-      "icon": "📄"
-    },
-    {
-      "category": "Blog Posts",
-      "label": "Meet Our Newest Providers",
-      "url": "https://lorikimmerly.com/2026/07/09/meet-our-newest-providers/",
-      "icon": "📄"
-    },
-    {
-      "category": "Blog Posts",
-      "label": "Healing Trauma Through Connection",
-      "url": "https://lorikimmerly.com/2026/07/18/healing-trauma-through-connection-why-relationships-matter/",
-      "icon": "📄"
-    },
-    {
-      "category": "Blog Posts",
-      "label": "When Fear Overshadows Joy: Understanding Tokophobia",
-      "url": "https://lorikimmerly.com/2026/08/10/tokophobia-fear-of-childbirth/",
-      "icon": "📄"
-    },
-    {
-      "category": "Blog Posts",
-      "label": "Building Resiliency in Your Kids",
-      "url": "https://lorikimmerly.com/2026/09/04/building-resiliency-in-children/",
-      "icon": "📄"
-    },
-    {
-      "category": "Social Media",
-      "label": "LinkedIn — Lori Kimmerly Therapy and Coaching",
-      "url": "https://www.linkedin.com/company/lori-kimmerly-therapy/",
-      "icon": "💼"
-    },
-    {
-      "category": "Social Media",
-      "label": "Facebook — Lori Kimmerly Therapy",
-      "url": "https://facebook.com/lorikimmerlytherapyandcoaching",
-      "icon": "📘"
-    },
-    {
-      "category": "Social Media",
-      "label": "Instagram — @lorikimmerlytherapy",
-      "url": "https://instagram.com/lorikimmerlytherapy",
-      "icon": "📸"
-    }
-  ],
-  "worklog": [
-    {
-      "date": "May 10, 2026",
-      "type": "technical",
-      "title": "301 redirects — retired portfolio URLs"
-    },
-    {
-      "date": "May 10, 2026",
-      "type": "fix",
-      "title": "301 redirects — duplicate therapist bio URLs"
-    },
-    {
-      "date": "May 10, 2026",
-      "type": "seo",
-      "title": "Meta titles + descriptions optimized — bio, Contact, Meet the Team"
-    },
-    {
-      "date": "May 10, 2026",
-      "type": "technical",
-      "title": "Thin FAQ pages noindexed + removed from sitemap"
-    },
-    {
-      "date": "May 10, 2026",
-      "type": "schema",
-      "title": "Person schema — therapist bio pages"
-    },
-    {
-      "date": "May 10, 2026",
-      "type": "schema",
-      "title": "WebSite + SearchAction schema added"
-    },
-    {
-      "date": "May 10, 2026",
-      "type": "content",
-      "title": "New therapist bio pages — Iwona Abraham, Devi Viswanathan"
-    },
-    {
-      "date": "May 12, 2026",
-      "type": "fix",
-      "title": "Contact form spam protection updated",
-      "ticket": "LOR-325"
-    },
-    {
-      "date": "May 12, 2026",
-      "type": "content",
-      "title": "Session rates updated — therapist bios",
-      "ticket": "LOR-324 LOR-326"
-    },
-    {
-      "date": "May 21, 2026",
-      "type": "fix",
-      "title": "Bio page hero layout fixed",
-      "ticket": "LOR-333"
-    },
-    {
-      "date": "June 9, 2026",
-      "type": "seo",
-      "title": "Blog title optimized for CTR — insurance post",
-      "ticket": "LOR-334"
-    },
-    {
-      "date": "June 9, 2026",
-      "type": "schema",
-      "title": "Structured data warnings resolved — breadcrumb + FAQ schema",
-      "ticket": "LOR-335 LOR-336"
-    },
-    {
-      "date": "June 9, 2026",
-      "type": "seo",
-      "title": "Page title corrected — About Our Therapists"
-    },
-    {
-      "date": "June 9, 2026",
-      "type": "seo",
-      "title": "Meta titles optimized — therapist bios"
-    },
-    {
-      "date": "June 18, 2026",
-      "type": "fix",
-      "title": "Blog comments disabled site-wide"
-    },
-    {
-      "date": "June 20, 2026",
-      "type": "seo",
-      "title": "Weekly Search Console performance review"
-    },
-    {
-      "date": "June 20, 2026",
-      "type": "content",
-      "title": "Blog post published + optimized — grief",
-      "ticket": "LOR-338"
-    },
-    {
-      "date": "June 20, 2026",
-      "type": "fix",
-      "title": "Blog page layout fixes"
-    },
-    {
-      "date": "July 2, 2026",
-      "type": "audit",
-      "title": "Monthly Search Console review — June"
-    },
-    {
-      "date": "July 2, 2026",
-      "type": "content",
-      "title": "Facebook + Instagram profiles optimized",
-      "ticket": "LOR-360"
-    },
-    {
-      "date": "July 7, 2026",
-      "type": "content",
-      "title": "LinkedIn business page set up + optimized",
-      "ticket": "LOR-355"
-    },
-    {
-      "date": "July 9, 2026",
-      "type": "content",
-      "title": "Blog post published — new providers"
-    },
-    {
-      "date": "July 13, 2026",
-      "type": "launch",
-      "title": "Social media posting plan launched"
-    },
-    {
-      "date": "July 15, 2026",
-      "type": "content",
-      "title": "LinkedIn post published"
-    },
-    {
-      "date": "July 18, 2026",
-      "type": "content",
-      "title": "Blog post published + optimized — trauma and relationships",
-      "ticket": "LOR-345"
-    },
-    {
-      "date": "July 21, 2026",
-      "type": "technical",
-      "title": "Site speed — therapist images optimized"
-    },
-    {
-      "date": "July 21, 2026",
-      "type": "content",
-      "title": "Therapist credentials updated"
-    },
-    {
-      "date": "July 23, 2026",
-      "type": "content",
-      "title": "Instagram post published",
-      "ticket": "LOR-378"
-    },
-    {
-      "date": "July 29, 2026",
-      "type": "fix",
-      "title": "Blog post layout fix"
-    },
-    {
-      "date": "July 31, 2026",
-      "type": "content",
-      "title": "LinkedIn post published",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7489069062224760832/"
-    },
-    {
-      "date": "July 31, 2026",
-      "type": "launch",
-      "title": "Online shop launched — /shop",
-      "ticket": "LOR-368"
-    },
-    {
-      "date": "August 3, 2026",
-      "type": "technical",
-      "title": "PHP version upgrade"
-    },
-    {
-      "date": "August 5, 2026",
-      "type": "seo",
-      "title": "Blog title shortened for search results"
-    },
-    {
-      "date": "August 10, 2026",
-      "type": "content",
-      "title": "Blog post published + optimized — tokophobia"
-    },
-    {
-      "date": "August 10, 2026",
-      "type": "content",
-      "title": "Booking CTAs added to blog posts"
-    },
-    {
-      "date": "August 10, 2026",
-      "type": "technical",
-      "title": "Blog category filter fixed"
-    },
-    {
-      "date": "August 10, 2026",
-      "type": "content",
-      "title": "Homepage therapist carousel rotated"
-    },
-    {
-      "date": "August 10, 2026",
-      "type": "planning",
-      "title": "Service pages project estimate sent"
-    },
-    {
-      "date": "August 12, 2026",
-      "type": "content",
-      "title": "LinkedIn post published"
-    },
-    {
-      "date": "August 21, 2026",
-      "type": "content",
-      "title": "Instagram post published",
-      "ticket": "LOR-403"
-    },
-    {
-      "date": "August 29, 2026",
-      "type": "audit",
-      "title": "Monthly SEO audit — technical, schema, indexing, rankings"
-    },
-    {
-      "date": "August 29, 2026",
-      "type": "site",
-      "title": "Site work — online shop cart setup"
-    },
-    {
-      "date": "August 29, 2026",
-      "type": "content",
-      "title": "LinkedIn post published"
-    },
-    {
-      "date": "September 1, 2026",
-      "type": "content",
-      "title": "Homepage therapist carousel rotated"
-    },
-    {
-      "date": "September 2, 2026",
-      "type": "site",
-      "title": "Therapist roster updated site-wide + 301 redirect",
-      "ticket": "LOR-415"
-    },
-    {
-      "date": "September 4, 2026",
-      "type": "content",
-      "title": "New therapist bio page — Monique Meissner",
-      "ticket": "LOR-412"
-    },
-    {
-      "date": "September 4, 2026",
-      "type": "fix",
-      "title": "Therapist photo cropping fixed — Meet the Team",
-      "ticket": "LOR-412"
-    },
-    {
-      "date": "September 4, 2026",
-      "type": "schema",
-      "title": "Person schema corrected — therapist bios",
-      "ticket": "LOR-418"
-    },
-    {
-      "date": "September 4, 2026",
-      "type": "content",
-      "title": "Blog post published + optimized — resiliency in kids",
-      "ticket": "LOR-417"
-    }
-  ],
-  "homepage": "https://lorikimmerly.com"
+   ]
+  }
+ ],
+ "messages": [
+  {
+   "from": "Kandy",
+   "date": "April 30, 2026",
+   "text": "Welcome to your Phoenix Method client portal, Lori! This is your home base for everything we're doing on your site month to month — rankings, deliverables, your content calendar, and reports. Your May package is active. Reminder: if you'd like to pick the blog topic or page we work on this month, just send it over by the 15th. If we don't hear from you by the 15th, we'll pick the best opportunity from your current keyword data."
+  },
+  {
+   "from": "Kandy",
+   "date": "May 10, 2026",
+   "text": "This week we used Lori's included site hour to onboard the two new team members (Iwona Abraham and Devi Viswanathan) and update John Hubbs's credentials now that he's fully licensed. Both new therapists have full bio pages, and we added them to the homepage carousel, the Meet the Team page, the mega menu, the contact form dropdown, and the structured-data schema for Google. We also did a full SEO optimization pass on both new bios — single rich Person schema, focus keywords matching actual content, contextual internal links, sweet-spot meta lengths. While we were in there, we added Caroline Bacon to the contact form dropdown (she'd been missing since March), tightened up Jenn Kenworthy's specialty list per her request, fixed John's photo alignment on his Meet the Team card, and added one internal link from Lori's bio to the IFS blog post for SEO. Everything is live and verified."
+  },
+  {
+   "from": "Kandy",
+   "date": "May 10, 2026",
+   "text": "Big SEO + schema cleanup pass on the site this afternoon. Twelve retired Avada portfolio URLs (cardiology, pediatrics, ultrasound — leftover from the old theme demo) were permanently deleted and 301-redirected to the Meet the Team page so any inbound links keep working and Google updates faster. We also closed the loop on three duplicate/old slugs (an old Ryan Carragher URL, plus former-therapist pages for Faynesha Haragan and Keziah Grindeland) — all redirected, no more 404s for Google. Three of the highest-impression pages got rewritten meta titles + descriptions tuned for click-through (Lori's bio, the contact page, and the Meet the Team page) — the bio page especially was sitting at 1,124 impressions with a 0.6% CTR, so we rebuilt the title around 'Online Therapist' service intent rather than IFS jargon. Roughly twenty thin auto-generated FAQ pages were noindex'd and pulled out of the sitemap — they were duplicating the FAQ schema already on the contact page and just cluttering Google's coverage report. We also rebuilt the Person schema on every therapist bio page so each one now has full credentials, license info, areas of focus, and Psychology Today links where they exist — Lori's bio correctly lists both Washington and Arizona service areas, all others are Washington-only. Added a sitewide WebSite + SearchAction schema (enables Google's sitelinks search box on brand searches), submitted the cleaned sitemap, and removed the redundant www GSC property. Everything is verified live. Real impact (CTR, indexing, ranking) will show in the next 4 weeks — checkpoint scheduled for June 7 to compare before/after."
+  },
+  {
+   "from": "Kandy",
+   "date": "May 12, 2026",
+   "text": "Quick maintenance session this week. Fixed the contact forms on your site — a plugin called SilentShield was blocking all form submissions. Clients should now be able to reach you and your therapists without issues. Also updated session rates on Devi and Iwona's bio pages (correcting the listed fees). On the SEO side, cleaned up the About Our Therapists hero section: tightened the headline text, removed duplicate mentions of \"online\" and \"Washington\" that could flag as keyword stuffing, and polished the visual layout. (LOR-325, LOR-324, LOR-326)"
+  },
+  {
+   "from": "Kandy",
+   "date": "May 21, 2026",
+   "text": "Site maintenance session today covering two things. First: your contact form spam filter was rejecting real submissions with an error message — we replaced the old reCAPTCHA setup with a honeypot approach that stops bots without blocking clients. Both forms (main contact and the in-page booking form) are updated and tested. Second: fixed a layout issue on the Lori and Kristen bio pages — the hero card was rendering behind the navigation bar instead of below it, which was cutting off the top of each page. Root cause was a padding value set too low for the site's fixed header (155px tall). Updated both pages to match Jared's working layout, including the spacing between the schedule button and the bio card below it. All three therapist bios now match. (LOR-333)"
+  },
+  {
+   "from": "Kandy",
+   "date": "June 1, 2026",
+   "text": "June package is active. May stats are in: 2,356 impressions (up 750 from last month), 141 keywords indexed (up 73), and 133 organic clicks. The big cleanup work from earlier in May — redirects, schema rebuilds, meta rewrites, FAQ noindex — continues to settle with Google and ranking improvements should become more visible over the next 4–6 weeks as Google re-crawls. The insurance blog published in May is indexed. This month your blog or SEO op slot is open — send your topic by June 15 and we'll have it live by the 22nd. If we don't hear from you we'll pick your best keyword opportunity from the current data. Quarterly performance report is scheduled for June 30."
+  },
+  {
+   "from": "Kandy",
+   "date": "June 9, 2026",
+   "text": "June 7 checkpoint results: 153 clicks from 2,688 impressions — up 20 clicks and 332 impressions from the June 1 baseline. Average position improved from 12.8 to 11.3. Natalie Kim's bio jumped from position 11 to #8 this period. New keyword now appearing for the first time: 'family therapy renton wa' at position 11.7 — the bio and service page work is starting to surface new query clusters.\n\nThe main fix this cycle: a regression on the About Our Therapists page was caught and corrected. The page title had been changed to include 'Online Counseling' instead of 'Online Therapy' — that single word costs keyword match. Impressions on that page had dropped from 1,293 to 397 over 28 days. Title is restored to 'Online Therapy Washington | Licensed Therapists WA' and we're monitoring for recovery over the next two weeks.\n\nThree bio pages also got stronger titles — Jennifer Kenworthy, Sheena Nicolay, and Devi Viswanathan all had 'MFT Intern' leading their title tags, which reduces click-through when searchers are comparing therapists. Titles are now service-first, leading with each therapist's specialty.\n\nSchema audit in progress — completing MedicalBusiness structured data fields (telephone, address, areaServed) across key pages."
+  },
+  {
+   "from": "Kandy",
+   "date": "June 9, 2026",
+   "text": "Three technical SEO fixes shipped today. First: the insurance blog post (/blog/does-insurance-cover-therapy) was ranking at position 8 with 84 impressions but only 1 click — the old title was generic and buried the insurance angle. Rewrote it to 'Does Insurance Cover Therapy? What to Know Before Your First Session' with a tighter meta description leading with the insurance hook. Position 8 means searchers are already seeing this page; the title rewrite should push the click-through rate up from the current ~1.2%. (LOR-334)\n\nSecond and third: Google Search Console had 24 structured data warnings — 20 breadcrumb warnings (position field was outputting as a string instead of an integer) and 4 FAQ warnings (answer text was including raw HTML, which Google requires to be plain text). Both are a Rank Math output issue. Fixed both at once via a mu-plugin that rewrites the JSON-LD in the page response before it reaches the browser — no theme changes needed. Deployed and verified live on multiple pages. Google will clear the warnings on its next crawl, typically within 1–2 weeks. (LOR-335, LOR-336)"
+  },
+  {
+   "from": "Kandy",
+   "date": "June 20, 2026",
+   "text": "Your grief blog post is live and fully optimized. Published today at lorikimmerly.com — authored under your name with full therapist credentials attached. The post covers Francis Weller's 5 Gates of Grief framework, includes recommended resources (books and a podcast), and ends with a call to action to your contact page. On the SEO side: optimized title, meta description, focus keywords (5 gates of grief, grief therapy Washington, grief therapist Washington state), BlogPosting schema with your name and credentials as author, Table of Contents for long-form content signals, and submitted to Google's Instant Indexing API so the crawl request went in today. We also cleaned up the blog home page while we were in it — cards are now equal height in every row, the blue accent border extends the full card height, category labels are clean, and we created a proper Grief category for the new post. All fixes verified live."
+  },
+  {
+   "from": "Kandy",
+   "date": "June 18, 2026",
+   "text": "Your June blog post is confirmed — and we love that you picked your own topic. We're ready to work with your grief piece whenever your draft is ready. Send it over and we'll optimize it for search, get it formatted, and have it live on your site before the end of the month."
+  },
+  {
+   "from": "Kandy",
+   "date": "June 20, 2026",
+   "text": "Tech validation session today — confirmed everything is clean. The breadcrumb schema fix and FAQ schema fix from last week are both verified live on production across all pages. Impressions are up to 3,557 (from 2,895 last period, +23%) and average position improved from 9.9 to 8.8 — the site is gaining ground. The insurance blog is pulling 20+ new keyword rankings this week, including 'does insurance cover therapy,' 'how does insurance work with therapy,' and 'FSA vs HSA.' Couples counseling Renton also appeared as a new keyword at position 10. On the schema side, we identified some structural improvements we're planning — details next session."
+  },
+  {
+   "from": "Kandy",
+   "date": "June 24, 2026",
+   "text": "Exciting next step — we're setting up your business social media presence! Your invoice for the Facebook Business Page + Instagram Business account setup is on its way. Once that's taken care of, we'll build both profiles for you: branded logo and cover images, optimized 'About' copy written around your therapy keywords, your service areas (Washington & Arizona telehealth), and a professional Instagram account linked to your Facebook Page so you can post to both at once. Everything is created under your own email so you keep full ownership — we'll be set up as a manager so we can post and maintain it for you. To get started after the invoice clears, we'll send a short checklist of a few details we need from you (logo file, a couple of handle options, and your preferred bio wording). Looking forward to getting you visible on social!"
+  },
+  {
+   "from": "Kandy",
+   "date": "July 2, 2026",
+   "text": "July package is active — and June finished stronger than the early read showed. June closed at 4,702 impressions, up 92% from May (2,443), with 140 clicks and average position improving to 10.1 from 12.8. You're now surfacing for 224 distinct search queries, up from 143 in May. Clicks held roughly flat because most of the new impressions are in deeper positions we're now working to lift — that's also why click-through rate normalized this month. Overall organic sessions dipped slightly month-over-month (225 vs 271 in May) even as search visibility grew — expected while the new rankings are still maturing in deeper positions. The grief blog post is live, indexed, and pulling traffic. Your unused June site hour has rolled over — you have 1 banked hour going into July. This month's blog or SEO op slot is open: send your topic by July 15 and we'll have it live by July 22; if we don't hear from you, we'll pick your best current keyword opportunity. Your Q2 quarterly performance report is due July 31 and will cover the full ranking picture."
+  },
+  {
+   "from": "Kandy",
+   "date": "July 2, 2026",
+   "text": "Full optimization pass on your Facebook and Instagram business profiles today, plus setting you up to take over posting. On both profiles I completed your business info — address (15 S Grady Way, Suite 632, Renton), phone, email, website, and booking link — so your name, address, and phone number now match consistently across your website, Facebook, Instagram, and Google (that consistency is what strengthens your local presence in Google). On Facebook: expanded your bio to include Arizona, confirmed all 3 categories and 10 service specialties with descriptions, your credentials (MS, LMFT, AAMFT Approved Supervisor), and pointed the 'Contact us' button to your booking page. On Instagram: fixed the bio so your 'book' call-to-action now links to your scheduling page (5 links total, including Schedule an Appointment), and updated the wording to cover both Washington & Arizona. I also confirmed your Google Business Profile is live and consistent. Finally, I sent an invite to your Facebook email giving you full admin access to your Meta Business Suite — both Facebook and Instagram — so you can take over posting whenever you're ready; just accept the email invite when you get a chance. Best next step for local visibility: start collecting a few Google reviews. (LOR-360)"
+  },
+  {
+   "from": "Kandy",
+   "date": "July 7, 2026",
+   "text": "Your LinkedIn Business Page is built and fully optimized — it's now linked in your Site Links under Social Media. We claimed the existing page (keeping its followers), set the name to Lori Kimmerly Therapy and Coaching, PLLC, and added a branded banner and logo, a keyword-rich About section, all 20 specialties, your Renton location, a 'Visit website' button, and your services. Everything is created under your ownership, with us set up as manager so we can maintain it. The natural next step is regular posting to keep the page active and in front of potential clients and referral partners — we'll follow up with options for that. (LOR-355)"
+  },
+  {
+   "from": "Kandy",
+   "date": "July 9, 2026",
+   "text": "Your new blog post introducing your three newest providers is live! We took the intros you sent for Iwona Abraham, Erin Spicer, and Devi Viswanathan and built them into a warm, interactive post — each provider gets their own profile card with a get-to-know-you Q&A (their why for becoming a therapist, what future clients should know, and a few fun personal questions), styled in your site colors with a quick-jump menu at the top and Book a Complimentary Consultation and Read Full Bio buttons on every card. On the SEO side we wrote a keyword-rich title and blog-card summary (new Washington therapists, online therapy in Washington, in-person therapy in Renton, plus specialties like anxiety, grief, and life transitions), added optimized image alt text, and filed it under your Mental Health and Washington Therapy categories. We also made sure every card on your blog home is now equal height so the grid looks clean. Everything is live and verified at lorikimmerly.com/2026/07/09/meet-our-newest-providers. Two quick follow-ups: Erin's bio button shows a Coming Soon placeholder until her full bio page is built, and we'd love a higher-resolution photo of Devi whenever she can send one."
+  },
+  {
+   "from": "Kandy",
+   "date": "July 17, 2026",
+   "text": "Exciting next step — we're getting your stickers online! Your invoice for the shop build is on its way. Once that's taken care of, we'll set your shop up through Square: your stickers built out as proper products with sizes, singles and bundle pricing, your product photos cleaned up and cropped, and simple flat-rate shipping so orders are easy to fulfill. From there we'll build a Shop page styled to match the rest of your site — a clean product grid with buy buttons wired straight into secure checkout — and add it to your main navigation so visitors can actually find it. Before anything goes live we'll run a real test purchase from start to finish to confirm the money lands in your account correctly, and you'll get a round of revisions to fine-tune anything you'd like changed. To get started once the invoice clears, we'll need a few things from you: your final sticker list with sizes and prices, your bundle pricing, and your product images."
+  },
+  {
+   "from": "Kandy",
+   "date": "August 3, 2026",
+   "text": "August is here! July was a productive month — we published Kristen Sievert's trauma blog post, ran all four social media posts (the last LinkedIn post, \"Support for Today. Strength for Tomorrow,\" went out July 31), completed a sitewide image optimization pass that cut page weight by a third, updated Sheena and Jennifer's credentials, and fixed the closing section on the new providers blog post. Your sticker shop is live at lorikimmerly.com/shop — all 12 stickers are up with singles and bundle pricing, real Square checkout, and it's in your main nav. This month your blog or SEO op slot is open — send your topic by August 15 and we'll have it live by the 22nd. If we don't hear from you, we'll optimize the insurance page (currently pos 8.5 with 39 impressions and 0 clicks — strong candidate for a title and meta rewrite). Your next quarterly performance report (covering Aug 1 – Oct 31) is due October 31."
+  },
+  {
+   "from": "Kandy",
+   "date": "August 10, 2026",
+   "text": "Caroline's blog post on tokophobia is live! We published it with full SEO treatment and a dedicated author profile for Caroline so Google credits a licensed therapist — and per your note, it ends with a Book with Caroline Bacon, LMHCA button. We also added the same personal booking sections to your grief post and Kristen's trauma post, fixed the blog topic filter so choosing a topic pulls those posts right to the top, and rotated the homepage carousel to feature Ryan, Erin, and Iwona for August. The carousel now rotates automatically on the 1st of each month to the next three therapists (20 minutes of your included site-work hour per rotation)."
+  },
+  {
+   "from": "Kandy",
+   "date": "August 10, 2026",
+   "text": "We've sent over the estimate for your Service Pages Project — 8 dedicated, fully optimized service pages, with three payment schedule options so you can pick the pace that fits (full project, two pages a month, or one page a month). The estimate is also linked in your Reports section here in the portal. Take a look and let us know which option feels right!"
+  },
+  {
+   "from": "Kandy",
+   "date": "September 2, 2026",
+   "text": "September is here — and thank you, your September invoice is paid and your package is active. August wrapped up strong: Caroline's tokophobia post went live August 10 with full SEO treatment and her own author profile, all four social posts published (2 LinkedIn + 2 Instagram, closing with the tokophobia support carousel on the 29th), and the August monitoring pass came back clean — all 27 sitemap URLs indexed, zero broken internal links, breadcrumbs valid on all 26 pages. Your included site hour went to working out how to add a real cart to the sticker shop's Square setup, and on September 1 the homepage carousel rotated to feature you, Kristen, and Jared this month. For September: your blog or SEO op slot is open — send your topic by September 15 and we'll have it live by the 22nd. If we don't hear from you, we'll optimize the insurance page (currently pos 8.5 with 39 impressions and 0 clicks — it's been patiently waiting since July). Your quarterly performance report (covering Aug 1 – Oct 31) is due October 31, and the Service Pages estimate is still available in your Reports section whenever you're ready to take a look."
+  },
+  {
+   "from": "Kandy",
+   "date": "September 9, 2026",
+   "text": "September's blog or SEO op slot is complete — Leah Maughan's post, “Building Resiliency in Your Kids: A Natural Process,” went live September 4 at https://lorikimmerly.com/2026/09/04/building-resiliency-in-children/. It's a back-to-school piece on how resiliency grows in children through attachment, regulation, efficacy and social connection, and we published it with the full SEO treatment, an author section crediting Leah by name and credential, and a Book with Leah Maughan, LMFTA button at the end. Because the blog filled this month's slot, the insurance page optimization moves to a future month. Thank you as well — the invoice for the team member addition is paid, and that work is finished: Monique Meissner, MFT Intern, is live at https://lorikimmerly.com/monique-meissner/ with her full bio, and she's on the homepage carousel, the Meet the Team page, the therapist dropdown in your navigation, and the clinician-preference dropdown on your Contact page so people can request her by name. Her link is in your Site Links list here in the portal. We've also re-synced this month's social posting dates to match the schedule — Instagram on the 11th and 22nd, LinkedIn on the 17th and 29th. Your quarterly performance report (covering Aug 1 – Oct 31) is due October 31, and the Service Pages estimate is still in your Reports section whenever you'd like to look it over."
+  },
+  {
+   "from": "Kandy",
+   "date": "September 10, 2026",
+   "text": "Thank you — your social posting plan invoice is paid and this month's posting plan is fully covered. Your four September posts are scheduled: Instagram on the 11th and 22nd, LinkedIn on the 17th and 29th. Everything else for September is on track — the blog slot is complete with Leah Maughan's resiliency post, and your next package invoice is October 1."
+  },
+  {
+   "from": "Kandy",
+   "date": "September 27, 2026",
+   "text": "Big milestone — all eight service pages are live: Individual, Couples & Relationship, Anxiety & OCD, Depression, Intimacy & Relationship Issues, IFS, Trauma & PTSD, and EFT. Each page carries your approved therapist lineups, full SEO and schema, and is wired into the menu, footer, homepage and blog. We submitted everything to Google and will review Search Console around October 15 to tune titles against real searches."
+  }
+ ],
+ "site_links": [
+  {
+   "category": "Main Pages",
+   "label": "Homepage",
+   "url": "https://lorikimmerly.com/",
+   "icon": "🏠"
+  },
+  {
+   "category": "Main Pages",
+   "label": "About Our Therapists",
+   "url": "https://lorikimmerly.com/about-our-therapists/",
+   "icon": "👥"
+  },
+  {
+   "category": "Main Pages",
+   "label": "Contact",
+   "url": "https://lorikimmerly.com/contact/",
+   "icon": "✉️"
+  },
+  {
+   "category": "Main Pages",
+   "label": "Blog",
+   "url": "https://lorikimmerly.com/blog/",
+   "icon": "📝"
+  },
+  {
+   "category": "Main Pages",
+   "label": "Shop",
+   "url": "https://lorikimmerly.com/shop/",
+   "icon": "🛍️"
+  },
+  {
+   "category": "Therapist Bios",
+   "label": "Lori Kimmerly",
+   "url": "https://lorikimmerly.com/lori-kimmerly-lmft-therapist/",
+   "icon": "👤"
+  },
+  {
+   "category": "Therapist Bios",
+   "label": "Kristen Sievert",
+   "url": "https://lorikimmerly.com/kristen-sievert/",
+   "icon": "👤"
+  },
+  {
+   "category": "Therapist Bios",
+   "label": "Jared Alleger",
+   "url": "https://lorikimmerly.com/jared-alleger/",
+   "icon": "👤"
+  },
+  {
+   "category": "Therapist Bios",
+   "label": "Caroline Bacon",
+   "url": "https://lorikimmerly.com/caroline-bacon-lmhca/",
+   "icon": "👤"
+  },
+  {
+   "category": "Therapist Bios",
+   "label": "John Hubbs",
+   "url": "https://lorikimmerly.com/john-hubbs/",
+   "icon": "👤"
+  },
+  {
+   "category": "Therapist Bios",
+   "label": "Ryan Carragher",
+   "url": "https://lorikimmerly.com/ryan-carragher/",
+   "icon": "👤"
+  },
+  {
+   "category": "Therapist Bios",
+   "label": "Sheena Nicolay",
+   "url": "https://lorikimmerly.com/sheena-nicolay/",
+   "icon": "👤"
+  },
+  {
+   "category": "Therapist Bios",
+   "label": "Jennifer Kenworthy",
+   "url": "https://lorikimmerly.com/jennifer-kenworthy/",
+   "icon": "👤"
+  },
+  {
+   "category": "Therapist Bios",
+   "label": "Clayton Holman",
+   "url": "https://lorikimmerly.com/clayton-holman/",
+   "icon": "👤"
+  },
+  {
+   "category": "Therapist Bios",
+   "label": "Natalie Kim",
+   "url": "https://lorikimmerly.com/natalie-kim/",
+   "icon": "👤"
+  },
+  {
+   "category": "Therapist Bios",
+   "label": "Mariah Visco",
+   "url": "https://lorikimmerly.com/mariah-visco/",
+   "icon": "👤"
+  },
+  {
+   "category": "Therapist Bios",
+   "label": "Leah Maughan",
+   "url": "https://lorikimmerly.com/leah-maughan/",
+   "icon": "👤"
+  },
+  {
+   "category": "Therapist Bios",
+   "label": "Iwona Abraham",
+   "url": "https://lorikimmerly.com/iwona-abraham-therapist/",
+   "icon": "👤"
+  },
+  {
+   "category": "Therapist Bios",
+   "label": "Erin Spicer",
+   "url": "https://lorikimmerly.com/erin-spicer-therapist/",
+   "icon": "👤"
+  },
+  {
+   "category": "Therapist Bios",
+   "label": "Monique Meissner",
+   "url": "https://lorikimmerly.com/monique-meissner/",
+   "icon": "👤"
+  },
+  {
+   "category": "Blog Posts",
+   "label": "Welcome — A Note From Our Therapists",
+   "url": "https://lorikimmerly.com/2026/04/25/welcome-to-our-blog-a-note-from-our-therapists/",
+   "icon": "📄"
+  },
+  {
+   "category": "Blog Posts",
+   "label": "What Is Internal Family Systems (IFS) Therapy?",
+   "url": "https://lorikimmerly.com/2026/04/26/what-is-ifs-therapy-internal-family-systems/",
+   "icon": "📄"
+  },
+  {
+   "category": "Blog Posts",
+   "label": "Does Insurance Cover Therapy in Washington State?",
+   "url": "https://lorikimmerly.com/2026/05/19/does-insurance-cover-therapy-washington-state/",
+   "icon": "📄"
+  },
+  {
+   "category": "Blog Posts",
+   "label": "The 5 Gates of Grief",
+   "url": "https://lorikimmerly.com/2026/06/20/grief-therapy-5-gates-of-grief/",
+   "icon": "📄"
+  },
+  {
+   "category": "Blog Posts",
+   "label": "Meet Our Newest Providers",
+   "url": "https://lorikimmerly.com/2026/07/09/meet-our-newest-providers/",
+   "icon": "📄"
+  },
+  {
+   "category": "Blog Posts",
+   "label": "Healing Trauma Through Connection",
+   "url": "https://lorikimmerly.com/2026/07/18/healing-trauma-through-connection-why-relationships-matter/",
+   "icon": "📄"
+  },
+  {
+   "category": "Blog Posts",
+   "label": "When Fear Overshadows Joy: Understanding Tokophobia",
+   "url": "https://lorikimmerly.com/2026/08/10/tokophobia-fear-of-childbirth/",
+   "icon": "📄"
+  },
+  {
+   "category": "Blog Posts",
+   "label": "Building Resiliency in Your Kids",
+   "url": "https://lorikimmerly.com/2026/09/04/building-resiliency-in-children/",
+   "icon": "📄"
+  },
+  {
+   "category": "Social Media",
+   "label": "LinkedIn — Lori Kimmerly Therapy and Coaching",
+   "url": "https://www.linkedin.com/company/lori-kimmerly-therapy/",
+   "icon": "💼"
+  },
+  {
+   "category": "Social Media",
+   "label": "Facebook — Lori Kimmerly Therapy",
+   "url": "https://facebook.com/lorikimmerlytherapyandcoaching",
+   "icon": "📘"
+  },
+  {
+   "category": "Social Media",
+   "label": "Instagram — @lorikimmerlytherapy",
+   "url": "https://instagram.com/lorikimmerlytherapy",
+   "icon": "📸"
+  }
+ ],
+ "worklog": [
+  {
+   "date": "May 10, 2026",
+   "type": "technical",
+   "title": "301 redirects — retired portfolio URLs"
+  },
+  {
+   "date": "May 10, 2026",
+   "type": "fix",
+   "title": "301 redirects — duplicate therapist bio URLs"
+  },
+  {
+   "date": "May 10, 2026",
+   "type": "seo",
+   "title": "Meta titles + descriptions optimized — bio, Contact, Meet the Team"
+  },
+  {
+   "date": "May 10, 2026",
+   "type": "technical",
+   "title": "Thin FAQ pages noindexed + removed from sitemap"
+  },
+  {
+   "date": "May 10, 2026",
+   "type": "schema",
+   "title": "Person schema — therapist bio pages"
+  },
+  {
+   "date": "May 10, 2026",
+   "type": "schema",
+   "title": "WebSite + SearchAction schema added"
+  },
+  {
+   "date": "May 10, 2026",
+   "type": "content",
+   "title": "New therapist bio pages — Iwona Abraham, Devi Viswanathan"
+  },
+  {
+   "date": "May 12, 2026",
+   "type": "fix",
+   "title": "Contact form spam protection updated",
+   "ticket": "LOR-325"
+  },
+  {
+   "date": "May 12, 2026",
+   "type": "content",
+   "title": "Session rates updated — therapist bios",
+   "ticket": "LOR-324 LOR-326"
+  },
+  {
+   "date": "May 21, 2026",
+   "type": "fix",
+   "title": "Bio page hero layout fixed",
+   "ticket": "LOR-333"
+  },
+  {
+   "date": "June 9, 2026",
+   "type": "seo",
+   "title": "Blog title optimized for CTR — insurance post",
+   "ticket": "LOR-334"
+  },
+  {
+   "date": "June 9, 2026",
+   "type": "schema",
+   "title": "Structured data warnings resolved — breadcrumb + FAQ schema",
+   "ticket": "LOR-335 LOR-336"
+  },
+  {
+   "date": "June 9, 2026",
+   "type": "seo",
+   "title": "Page title corrected — About Our Therapists"
+  },
+  {
+   "date": "June 9, 2026",
+   "type": "seo",
+   "title": "Meta titles optimized — therapist bios"
+  },
+  {
+   "date": "June 18, 2026",
+   "type": "fix",
+   "title": "Blog comments disabled site-wide"
+  },
+  {
+   "date": "June 20, 2026",
+   "type": "seo",
+   "title": "Weekly Search Console performance review"
+  },
+  {
+   "date": "June 20, 2026",
+   "type": "content",
+   "title": "Blog post published + optimized — grief",
+   "ticket": "LOR-338"
+  },
+  {
+   "date": "June 20, 2026",
+   "type": "fix",
+   "title": "Blog page layout fixes"
+  },
+  {
+   "date": "July 2, 2026",
+   "type": "audit",
+   "title": "Monthly Search Console review — June"
+  },
+  {
+   "date": "July 2, 2026",
+   "type": "content",
+   "title": "Facebook + Instagram profiles optimized",
+   "ticket": "LOR-360"
+  },
+  {
+   "date": "July 7, 2026",
+   "type": "content",
+   "title": "LinkedIn business page set up + optimized",
+   "ticket": "LOR-355"
+  },
+  {
+   "date": "July 9, 2026",
+   "type": "content",
+   "title": "Blog post published — new providers"
+  },
+  {
+   "date": "July 13, 2026",
+   "type": "launch",
+   "title": "Social media posting plan launched"
+  },
+  {
+   "date": "July 15, 2026",
+   "type": "content",
+   "title": "LinkedIn post published"
+  },
+  {
+   "date": "July 18, 2026",
+   "type": "content",
+   "title": "Blog post published + optimized — trauma and relationships",
+   "ticket": "LOR-345"
+  },
+  {
+   "date": "July 21, 2026",
+   "type": "technical",
+   "title": "Site speed — therapist images optimized"
+  },
+  {
+   "date": "July 21, 2026",
+   "type": "content",
+   "title": "Therapist credentials updated"
+  },
+  {
+   "date": "July 23, 2026",
+   "type": "content",
+   "title": "Instagram post published",
+   "ticket": "LOR-378"
+  },
+  {
+   "date": "July 29, 2026",
+   "type": "fix",
+   "title": "Blog post layout fix"
+  },
+  {
+   "date": "July 31, 2026",
+   "type": "content",
+   "title": "LinkedIn post published",
+   "url": "https://www.linkedin.com/feed/update/urn:li:activity:7489069062224760832/"
+  },
+  {
+   "date": "July 31, 2026",
+   "type": "launch",
+   "title": "Online shop launched — /shop",
+   "ticket": "LOR-368"
+  },
+  {
+   "date": "August 3, 2026",
+   "type": "technical",
+   "title": "PHP version upgrade"
+  },
+  {
+   "date": "August 5, 2026",
+   "type": "seo",
+   "title": "Blog title shortened for search results"
+  },
+  {
+   "date": "August 10, 2026",
+   "type": "content",
+   "title": "Blog post published + optimized — tokophobia"
+  },
+  {
+   "date": "August 10, 2026",
+   "type": "content",
+   "title": "Booking CTAs added to blog posts"
+  },
+  {
+   "date": "August 10, 2026",
+   "type": "technical",
+   "title": "Blog category filter fixed"
+  },
+  {
+   "date": "August 10, 2026",
+   "type": "content",
+   "title": "Homepage therapist carousel rotated"
+  },
+  {
+   "date": "August 10, 2026",
+   "type": "planning",
+   "title": "Service pages project estimate sent"
+  },
+  {
+   "date": "August 12, 2026",
+   "type": "content",
+   "title": "LinkedIn post published"
+  },
+  {
+   "date": "August 21, 2026",
+   "type": "content",
+   "title": "Instagram post published",
+   "ticket": "LOR-403"
+  },
+  {
+   "date": "August 29, 2026",
+   "type": "audit",
+   "title": "Monthly SEO audit — technical, schema, indexing, rankings"
+  },
+  {
+   "date": "August 29, 2026",
+   "type": "site",
+   "title": "Site work — online shop cart setup"
+  },
+  {
+   "date": "August 29, 2026",
+   "type": "content",
+   "title": "LinkedIn post published"
+  },
+  {
+   "date": "September 1, 2026",
+   "type": "content",
+   "title": "Homepage therapist carousel rotated"
+  },
+  {
+   "date": "September 2, 2026",
+   "type": "site",
+   "title": "Therapist roster updated site-wide + 301 redirect",
+   "ticket": "LOR-415"
+  },
+  {
+   "date": "September 4, 2026",
+   "type": "content",
+   "title": "New therapist bio page — Monique Meissner",
+   "ticket": "LOR-412"
+  },
+  {
+   "date": "September 4, 2026",
+   "type": "fix",
+   "title": "Therapist photo cropping fixed — Meet the Team",
+   "ticket": "LOR-412"
+  },
+  {
+   "date": "September 4, 2026",
+   "type": "schema",
+   "title": "Person schema corrected — therapist bios",
+   "ticket": "LOR-418"
+  },
+  {
+   "date": "September 4, 2026",
+   "type": "content",
+   "title": "Blog post published + optimized — resiliency in kids",
+   "ticket": "LOR-417"
+  },
+  {
+   "date": "September 26, 2026",
+   "type": "content",
+   "title": "Therapist lineups + credentials set per specialty",
+   "ticket": "LOR-386"
+  },
+  {
+   "date": "September 27, 2026",
+   "type": "content",
+   "title": "8 service pages launched — SEO + schema complete",
+   "ticket": "LOR-386"
+  },
+  {
+   "date": "September 27, 2026",
+   "type": "site",
+   "title": "Services menu + unified site-wide footer",
+   "ticket": "LOR-386"
+  },
+  {
+   "date": "September 27, 2026",
+   "type": "site",
+   "title": "Internal linking built out — bios, blog, homepage",
+   "ticket": "LOR-386"
+  },
+  {
+   "date": "September 27, 2026",
+   "type": "site",
+   "title": "Page headers refreshed — home, blog, contact, shop"
+  }
+ ],
+ "homepage": "https://lorikimmerly.com"
 }
