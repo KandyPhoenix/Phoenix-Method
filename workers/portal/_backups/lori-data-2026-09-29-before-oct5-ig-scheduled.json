@@ -444,10 +444,10 @@
   },
   {
    "platform": "instagram",
-   "title": "You Don't Have to Earn Rest",
-   "status": "scheduled",
+   "title": null,
+   "status": "pending",
    "due": "Oct 5",
-   "date": "October 5, 2026",
+   "date": null,
    "url": null
   }
  ],
