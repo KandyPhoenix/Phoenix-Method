@@ -512,6 +512,12 @@
       "title": "Phone number updated site-wide — new main line (530) 513-4294",
       "detail": "Replaced the old number everywhere it appeared: every call button and tap-to-call link, page copy, and the Organization schema Google reads. Also updated the unpublished clinical pages so the old number cannot reappear when those go live after licensing. 124 replacements in total; verified live on all five public pages.",
       "ticket": "SBR-33"
+    },
+    {
+      "date": "October 1, 2026",
+      "type": "seo",
+      "title": "October portal refresh — month and calendar updated",
+      "ticket": "SBR-35"
     }
   ],
   "homepage": "https://sunbrightrecovery.org"
