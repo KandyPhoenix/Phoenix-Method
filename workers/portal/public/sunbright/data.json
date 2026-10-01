@@ -1,21 +1,21 @@
 {
   "client": "Sunbright Recovery Center",
   "short_name": "Sunbright",
-  "month": "September 2026",
+  "month": "October 2026",
   "plan": "Launch",
   "plan_price": "Full-Build Project",
   "plan_hours": null,
   "hours_used": 0,
   "rollover_enabled": false,
   "hours_rolled_over": 0,
-  "updated": "2026-09-18",
+  "updated": "2026-10-01",
   "next_invoice": null,
   "stats": {
     "sessions": null,
-    "sessions_change": "Site not yet live",
+    "sessions_change": "Search data not yet connected",
     "sessions_trend": "neutral",
     "keywords": null,
-    "keywords_change": "Tracking begins at launch",
+    "keywords_change": "Tracking begins once Search Console is connected",
     "keywords_trend": "neutral",
     "position": null,
     "position_change": "—",
@@ -29,12 +29,16 @@
   },
   "deliverables": [
     {
+      "text": "Community Site Launch — live at sunbrightrecovery.org (Home, About, Events, Get Involved, Contact)",
+      "status": "done"
+    },
+    {
       "text": "Website Design & Build — Full custom site on Astro + Cloudflare Pages",
       "status": "in_progress"
     },
     {
       "text": "SEO Foundation — On-page optimization, schema, sitemap, GSC setup",
-      "status": "todo"
+      "status": "in_progress"
     },
     {
       "text": "Blog Setup — Structure, categories, initial posts, keyword strategy",
@@ -46,7 +50,7 @@
     },
     {
       "text": "Launch Checklist — Final QA, redirects, domain, analytics, go-live",
-      "status": "todo"
+      "status": "in_progress"
     }
   ],
   "package_details": {
@@ -109,38 +113,28 @@
   ],
   "content_calendar": [
     {
-      "date": "Jun 2026",
-      "title": "Homepage Design Complete — Client Review",
-      "type": "client"
-    },
-    {
-      "date": "Jul 2026",
-      "title": "Inner Pages Built — Programs, About, Contact, Donate",
+      "date": "Oct 2026",
+      "title": "Nonprofit status update — social profiles + Google Business Profile",
       "type": "deliverable"
     },
     {
-      "date": "Jul 2026",
-      "title": "SEO Foundation Applied to All Pages",
+      "date": "Oct 2026",
+      "title": "Subpage header refinements — About, Events, Get Involved",
       "type": "deliverable"
     },
     {
-      "date": "Jul 2026",
-      "title": "Blog Structure + First 2 Posts Live",
+      "date": "Oct 2026",
+      "title": "Homepage additions — aftercare planning, community partners, sponsors & supporters",
+      "type": "page"
+    },
+    {
+      "date": "Oct 2026",
+      "title": "Newsletter / email capture",
       "type": "deliverable"
     },
     {
-      "date": "Aug 2026",
-      "title": "Social Media Profiles Created + Branded",
-      "type": "deliverable"
-    },
-    {
-      "date": "Aug 2026",
-      "title": "Pre-Launch QA Pass",
-      "type": "deliverable"
-    },
-    {
-      "date": "Aug 2026",
-      "title": "Domain Cutover — sunbrightrecovery.org LIVE",
+      "date": "After licensing",
+      "title": "Clinical pages go live — Programs, Admissions",
       "type": "deliverable"
     }
   ],
@@ -199,10 +193,10 @@
         {
           "id": 1,
           "title": "Homepage Design & Build",
-          "why": "Full homepage with all 13 sections built and in client review. Deployed on Cloudflare Pages at preview URL.",
+          "why": "Live since June 27, 2026 at www.sunbrightrecovery.org as the homepage of the community site.",
           "priority": "critical",
           "effort": "Done",
-          "status": "in_progress"
+          "status": "done"
         },
         {
           "id": 2,
@@ -215,26 +209,26 @@
         {
           "id": 3,
           "title": "About Page — Linda Spyres + Team",
-          "why": "E-E-A-T is critical for YMYL health/recovery sites. Founder credentials, 20+ years experience, and team bios build trust with both users and Google.",
+          "why": "Live at /about with founder credentials and the approved 501(c)(3) nonprofit status. E-E-A-T is critical for YMYL health and recovery sites.",
           "priority": "high",
           "effort": "2–3 hrs",
-          "status": "todo"
+          "status": "done"
         },
         {
           "id": 4,
           "title": "Admissions Page + Contact Forms",
-          "why": "Multiple CTAs on homepage link to /admissions. This page needs a clear intake form, HIPAA language, and phone number prominently displayed.",
+          "why": "The Contact page is live. The Admissions page is drafted and held with the clinical pages until state licensing is complete.",
           "priority": "high",
           "effort": "2–3 hrs",
-          "status": "todo"
+          "status": "in_progress"
         },
         {
           "id": 5,
           "title": "Donate & Get Involved Page",
-          "why": "Critical for nonprofit fundraising. Tax-deductible donation info, Adopt-a-Space tiers, volunteer options, and partner outreach — all referenced in the homepage CTA.",
+          "why": "Live at /get-involved with tax-deductible donation information, Adopt-a-Space options and volunteer opportunities.",
           "priority": "high",
           "effort": "2–3 hrs",
-          "status": "todo"
+          "status": "done"
         },
         {
           "id": 6,
@@ -391,10 +385,10 @@
         {
           "id": 22,
           "title": "Domain Cutover — sunbrightrecovery.org",
-          "why": "DNS pointed to Cloudflare Pages. SSL verified, www redirect configured, old domain (if any) 301-redirected.",
+          "why": "www.sunbrightrecovery.org is live on Cloudflare Pages with SSL, and the bare sunbrightrecovery.org address 301-redirects to www.",
           "priority": "critical",
           "effort": "1 hr",
-          "status": "todo"
+          "status": "done"
         },
         {
           "id": 23,
@@ -427,67 +421,42 @@
       "from": "Kandy",
       "date": "September 2, 2026",
       "text": "September check-in. The homepage is still built, deployed, and waiting at the preview URL — your feedback on it is the one thing holding the schedule. The moment it lands we move straight into the inner pages (Programs, About, Admissions, Donate), then the SEO foundation, the first two blog posts, social profiles, pre-launch QA, and the domain cutover to sunbrightrecovery.org. The launch date moves out with each week of waiting, so even a few quick notes on the homepage are enough to get the build moving again."
+    },
+    {
+      "from": "Kandy",
+      "date": "October 1, 2026",
+      "text": "October update. The Sunbright community site has been live at www.sunbrightrecovery.org since June 27 with five pages — Home, About, Events, Get Involved and Contact — and the bare sunbrightrecovery.org address forwards to it. Since launch we added the approved 501(c)(3) nonprofit status and a viewable copy of the IRS determination letter (August 20), and on September 18 we replaced every phone number on the site with the new main line, (530) 513-4294. The clinical pages stay unpublished until state licensing is complete. On deck for October: carrying the nonprofit status through to the social profiles and Google Business Profile, refining the headers on the About, Events and Get Involved pages, and the next round of homepage additions."
     }
   ],
   "site_links": [
     {
-      "category": "Preview (Site Not Live Yet)",
-      "label": "Homepage Preview",
-      "url": "https://sunbright-recovery.pages.dev/design-preview",
-      "icon": "🏠"
-    },
-    {
-      "category": "Preview (Site Not Live Yet)",
-      "label": "Admissions Preview",
-      "url": "https://sunbright-recovery.pages.dev/admissions-preview",
-      "icon": "📋"
-    },
-    {
-      "category": "Planned Pages (sunbrightrecovery.org)",
+      "category": "Live Pages",
       "label": "Homepage",
-      "url": "https://sunbrightrecovery.org/",
+      "url": "https://www.sunbrightrecovery.org/",
       "icon": "🏠"
     },
     {
-      "category": "Planned Pages (sunbrightrecovery.org)",
-      "label": "Programs",
-      "url": "https://sunbrightrecovery.org/programs/",
-      "icon": "💊"
-    },
-    {
-      "category": "Planned Pages (sunbrightrecovery.org)",
-      "label": "About — Linda Spyres",
-      "url": "https://sunbrightrecovery.org/about/",
+      "category": "Live Pages",
+      "label": "About",
+      "url": "https://www.sunbrightrecovery.org/about/",
       "icon": "👤"
     },
     {
-      "category": "Planned Pages (sunbrightrecovery.org)",
-      "label": "Admissions",
-      "url": "https://sunbrightrecovery.org/admissions/",
-      "icon": "📋"
+      "category": "Live Pages",
+      "label": "Events",
+      "url": "https://www.sunbrightrecovery.org/events/",
+      "icon": "📅"
     },
     {
-      "category": "Planned Pages (sunbrightrecovery.org)",
-      "label": "Donate & Get Involved",
-      "url": "https://sunbrightrecovery.org/donate/",
+      "category": "Live Pages",
+      "label": "Get Involved",
+      "url": "https://www.sunbrightrecovery.org/get-involved/",
       "icon": "❤️"
     },
     {
-      "category": "Planned Pages (sunbrightrecovery.org)",
-      "label": "Blog",
-      "url": "https://sunbrightrecovery.org/blog/",
-      "icon": "📝"
-    },
-    {
-      "category": "Planned Pages (sunbrightrecovery.org)",
-      "label": "FAQ",
-      "url": "https://sunbrightrecovery.org/faq/",
-      "icon": "❓"
-    },
-    {
-      "category": "Planned Pages (sunbrightrecovery.org)",
+      "category": "Live Pages",
       "label": "Contact",
-      "url": "https://sunbrightrecovery.org/contact/",
+      "url": "https://www.sunbrightrecovery.org/contact/",
       "icon": "✉️"
     },
     {
@@ -517,9 +486,20 @@
       "detail": "Draft at /admissions-preview on Cloudflare Pages. Pending form backend decision before finalizing."
     },
     {
+      "date": "June 27, 2026",
+      "type": "launch",
+      "title": "Community site launched — www.sunbrightrecovery.org"
+    },
+    {
       "date": "August 3, 2026",
       "type": "seo",
       "title": "August portal refresh — month and calendar updated"
+    },
+    {
+      "date": "August 20, 2026",
+      "type": "content",
+      "title": "501(c)(3) approved status + IRS determination letter added",
+      "ticket": "SBR-31"
     },
     {
       "date": "September 2, 2026",

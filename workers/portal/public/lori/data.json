@@ -5,7 +5,7 @@
   "plan": "Custom",
   "plan_price": "$575/mo",
   "plan_hours": 1,
-  "hours_used": 1,
+  "hours_used": 0.5,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
   "updated": "2026-10-01",
@@ -23,21 +23,21 @@
     }
   ],
   "stats": {
-    "sessions": 289,
-    "sessions_change": "+64",
+    "sessions": 492,
+    "sessions_change": "+125",
     "sessions_trend": "up",
-    "keywords": 272,
-    "keywords_change": "+48",
+    "keywords": 271,
+    "keywords_change": "+38",
     "keywords_trend": "up",
-    "position": 12.8,
-    "position_change": "-2.7",
-    "position_trend": "down",
-    "impressions": 6011,
-    "impressions_change": "+1309",
-    "impressions_trend": "up",
-    "ctr": 2.65,
-    "ctr_change": "-0.3",
-    "ctr_trend": "down"
+    "position": 8.9,
+    "position_change": "+9.1",
+    "position_trend": "up",
+    "impressions": 6083,
+    "impressions_change": "-1348",
+    "impressions_trend": "down",
+    "ctr": 4.24,
+    "ctr_change": "+1.5",
+    "ctr_trend": "up"
   },
   "deliverables": [
     {
@@ -46,11 +46,11 @@
     },
     {
       "text": "Blog Post or SEO Op",
-      "status": "done"
+      "status": "todo"
     },
     {
       "text": "Social Media Posting — 2 LinkedIn + 2 Instagram",
-      "status": "todo"
+      "status": "in_progress"
     },
     {
       "text": "Monthly Rotations — Therapist Carousel & Featured Blog Posts (30 min)",
@@ -59,7 +59,7 @@
     },
     {
       "text": "Quick-Fix Site Work — 30 Min",
-      "status": "done",
+      "status": "todo",
       "label": "Included"
     },
     {
@@ -82,102 +82,132 @@
   },
   "gsc_keywords": [
     {
-      "keyword": "natalie kim",
-      "position": 3.9,
+      "keyword": "gate of grief",
+      "position": 6.6,
       "clicks": 1,
-      "impressions": 73
+      "impressions": 124
+    },
+    {
+      "keyword": "gates of grief",
+      "position": 5.0,
+      "clicks": 0,
+      "impressions": 92
+    },
+    {
+      "keyword": "5 gates of grief francis weller",
+      "position": 3.8,
+      "clicks": 12,
+      "impressions": 87
     },
     {
       "keyword": "lori kimmerly therapy",
       "position": 1.1,
-      "clicks": 39,
-      "impressions": 58
+      "clicks": 55,
+      "impressions": 87
     },
     {
-      "keyword": "does state insurance cover therapy",
-      "position": 8.5,
+      "keyword": "francis weller 5 gates of grief",
+      "position": 4.6,
+      "clicks": 7,
+      "impressions": 77
+    },
+    {
+      "keyword": "5 gates of grief",
+      "position": 3.7,
+      "clicks": 3,
+      "impressions": 75
+    },
+    {
+      "keyword": "five gates of grief",
+      "position": 3.5,
+      "clicks": 3,
+      "impressions": 73
+    },
+    {
+      "keyword": "tokophobia",
+      "position": 35.3,
       "clicks": 0,
-      "impressions": 39
+      "impressions": 71
     },
     {
-      "keyword": "john hubbs",
-      "position": 2.1,
-      "clicks": 2,
-      "impressions": 25
+      "keyword": "what is tokophobia",
+      "position": 10.9,
+      "clicks": 0,
+      "impressions": 55
     },
     {
       "keyword": "caroline bacon",
-      "position": 3.3,
+      "position": 2.8,
+      "clicks": 3,
+      "impressions": 51
+    },
+    {
+      "keyword": "the five gates of grief",
+      "position": 3.6,
+      "clicks": 1,
+      "impressions": 44
+    },
+    {
+      "keyword": "the gates of grief",
+      "position": 5.8,
       "clicks": 0,
-      "impressions": 23
+      "impressions": 43
+    },
+    {
+      "keyword": "francis weller gates of grief",
+      "position": 6.3,
+      "clicks": 2,
+      "impressions": 40
     },
     {
       "keyword": "alleger",
-      "position": 8.8,
-      "clicks": 0,
-      "impressions": 17
-    },
-    {
-      "keyword": "kristen sievert",
-      "position": 1.9,
-      "clicks": 4,
-      "impressions": 13
-    },
-    {
-      "keyword": "evening therapy sessions wa",
-      "position": 44.5,
-      "clicks": 0,
-      "impressions": 11
-    },
-    {
-      "keyword": "dr shana hubbs",
-      "position": 12.2,
-      "clicks": 0,
-      "impressions": 10
-    },
-    {
-      "keyword": "couples therapy renton",
-      "position": 10.9,
-      "clicks": 0,
-      "impressions": 8
-    },
-    {
-      "keyword": "does my insurance cover therapy",
-      "position": 42.2,
-      "clicks": 0,
-      "impressions": 8
-    },
-    {
-      "keyword": "couples therapist renton",
-      "position": 18.3,
-      "clicks": 0,
-      "impressions": 7
-    },
-    {
-      "keyword": "does insurance cover therapy",
-      "position": 3.0,
-      "clicks": 0,
-      "impressions": 7
-    },
-    {
-      "keyword": "find a therapist washington state sliding scale",
-      "position": 37.4,
-      "clicks": 0,
-      "impressions": 7
-    },
-    {
-      "keyword": "ifs explained simply",
       "position": 9.1,
       "clicks": 0,
-      "impressions": 7
+      "impressions": 35
+    },
+    {
+      "keyword": "natalie kim",
+      "position": 12.4,
+      "clicks": 3,
+      "impressions": 34
+    },
+    {
+      "keyword": "gates of grief francis weller",
+      "position": 5.8,
+      "clicks": 0,
+      "impressions": 32
+    },
+    {
+      "keyword": "five gates of grief francis weller",
+      "position": 5.1,
+      "clicks": 5,
+      "impressions": 26
+    },
+    {
+      "keyword": "what is internal family systems therapy",
+      "position": 69.3,
+      "clicks": 0,
+      "impressions": 26
+    },
+    {
+      "keyword": "the gate of grief",
+      "position": 6.8,
+      "clicks": 0,
+      "impressions": 25
+    },
+    {
+      "keyword": "john hubbs",
+      "position": 3.0,
+      "clicks": 3,
+      "impressions": 22
     }
   ],
   "keywords": [
     {
       "keyword": "lori kimmerly therapy",
       "position": 1.1,
-      "last_month": 1.3,
-      "clicks": 39
+      "last_month": 1,
+      "clicks": 55
     },
     {
       "keyword": "therapist renton wa",
@@ -217,20 +247,20 @@
     },
     {
       "keyword": "couples therapy renton",
-      "position": 10.9,
-      "last_month": 9.5,
+      "position": 10.8,
+      "last_month": 9.8,
       "clicks": 0
     },
     {
       "keyword": "couples therapist renton",
-      "position": 18.3,
-      "last_month": 11.4,
+      "position": null,
+      "last_month": 10,
       "clicks": 0
     },
     {
       "keyword": "marriage counseling renton wa",
-      "position": 10.0,
-      "last_month": 14.8,
+      "position": null,
+      "last_month": null,
       "clicks": 0
     },
     {
@@ -241,8 +271,8 @@
     },
     {
       "keyword": "anxiety therapist renton wa",
-      "position": null,
-      "last_month": 10.8,
+      "position": 12,
+      "last_month": null,
       "clicks": 0
     },
     {
@@ -277,13 +307,13 @@
     },
     {
       "keyword": "life transitions therapy renton",
-      "position": 11.0,
-      "last_month": 9.8,
+      "position": null,
+      "last_month": 5.5,
       "clicks": 0
     },
     {
       "keyword": "family therapy renton wa",
-      "position": 9.6,
+      "position": null,
       "last_month": null,
       "clicks": 0
     },
@@ -296,53 +326,54 @@
   ],
   "content_calendar": [
     {
-      "date": "Sep 4",
-      "title": "Blog Post or SEO Op — Published",
+      "date": "Oct 1",
+      "title": "Therapist Carousels + Featured Blog Posts Rotated",
       "type": "deliverable"
-    },
-    {
-      "date": "Sep 11",
-      "title": "Instagram Post Due",
-      "type": "social"
-    },
-    {
-      "date": "Sep 17",
-      "title": "LinkedIn Post Due",
-      "type": "social"
-    },
-    {
-      "date": "Sep 22",
-      "title": "Instagram Post Due",
-      "type": "social"
-    },
-    {
-      "date": "Sep 29",
-      "title": "LinkedIn Post Due",
-      "type": "social"
     },
     {
       "date": "Oct 5",
       "title": "Instagram Post Due",
       "type": "social"
+    },
+    {
+      "date": "Oct 10",
+      "title": "Next Posting Cycle Begins — 2 LinkedIn + 2 Instagram",
+      "type": "social"
+    },
+    {
+      "date": "Oct 15",
+      "title": "Blog Topic or Draft Due",
+      "type": "client"
+    },
+    {
+      "date": "Oct 15",
+      "title": "Service Pages — Search Console Review",
+      "type": "deliverable"
+    },
+    {
+      "date": "Oct 22",
+      "title": "Blog Post or SEO Op — Live",
+      "type": "deliverable"
+    },
+    {
+      "date": "Oct 31",
+      "title": "Quarterly Performance Report",
+      "type": "deliverable"
     }
   ],
   "content_choice": {
-    "chosen": "blog",
+    "chosen": null,
     "blog": {
-      "title": "Building Resiliency in Your Kids: A Natural Process",
-      "author": "Leah Maughan, LMFTA",
-      "keyword": "building resiliency in children",
-      "source": "client_written",
-      "status": "published",
-      "url": "https://lorikimmerly.com/2026/09/04/building-resiliency-in-children/",
-      "published": "September 4, 2026"
+      "title": null,
+      "keyword": null,
+      "status": "pending"
     },
     "page": {
-      "title": "Insurance page — CTR / SEO optimization",
-      "url": "lorikimmerly.com/2026/05/19/does-insurance-cover-therapy-washington-state/",
-      "keyword": "does state insurance cover therapy",
-      "status": "deferred",
-      "note": "Held over again — September's slot was filled by Leah Maughan's client-submitted resiliency post. Still on the shortlist for a future month."
+      "title": "Tokophobia post — SEO optimization",
+      "url": "lorikimmerly.com/2026/08/10/tokophobia-fear-of-childbirth/",
+      "keyword": "what is tokophobia",
+      "status": "suggested",
+      "note": "Position 10.9 with 55 impressions and 0 clicks in Search Console for September 1–28 — top of page 2 and within reach of page 1."
     }
   },
   "blog_topics": [
@@ -525,14 +556,6 @@
           "status": "done"
         },
         {
-          "id": 7,
-          "title": "On-Site Testimonials",
-          "why": "Patient testimonials are a direct trust signal that Google quality raters look for on YMYL health sites. The site currently has no testimonials section — a gap that affects perceived credibility.",
-          "priority": "high",
-          "effort": "1–2 hrs",
-          "status": "backlog"
-        },
-        {
           "id": 8,
           "title": "Google Business Profile Optimization",
           "why": "GBP category alignment, service list, photos, and Q&A section all need a full optimization pass. A complete, verified profile is a hard requirement for local pack eligibility on therapy queries.",
@@ -683,7 +706,7 @@
         {
           "id": 23,
           "title": "Internal Linking",
-          "why": "Foundation work begun — bio-to-bio supervisory links and one bio→blog topical link (IFS) are live. Full execution waits for dedicated service pages to exist so each bio can link to a relevant service page.",
+          "why": "Built out with the service-page launch — therapist bios, blog posts and the homepage now link to the relevant service pages, concentrating link equity on the pages built to rank.",
           "priority": "medium",
           "effort": "1–2 hrs",
           "status": "done"
@@ -811,6 +834,11 @@
       "from": "Kandy",
       "date": "September 27, 2026",
       "text": "Big milestone — all eight service pages are live: Individual, Couples & Relationship, Anxiety & OCD, Depression, Intimacy & Relationship Issues, IFS, Trauma & PTSD, and EFT. Each page carries your approved therapist lineups, full SEO and schema, and is wired into the menu, footer, homepage and blog. We submitted everything to Google and will review Search Console around October 15 to tune titles against real searches."
+    },
+    {
+      "from": "Kandy",
+      "date": "October 1, 2026",
+      "text": "October is here. September was a milestone month for your site: all eight service pages launched on the 27th with full SEO and schema, a Services menu, one unified footer, and internal links from the therapist bios, the blog and the homepage. Leah Maughan's post on building resiliency in kids went live September 4, Monique Meissner's bio page joined the site, and three of this cycle's four social posts are published, with the fourth (Instagram) scheduled for October 5. In Search Console for September 1–28, organic clicks rose to 258 from 203 over the same days in August, organic sessions rose to 492 from 367, and your average position improved from 18.0 to 8.9. Total impressions were lower (6,083 vs 7,431), so the appearances you earned sat much higher on the page. On October 1 we rotated the therapist carousels on the homepage and the About Our Therapists page, along with the featured blog posts. For October: your blog or SEO op slot is open — send your topic or draft by October 15 and it will be live by the 22nd. If we don't hear from you, we'll optimize the tokophobia post for “what is tokophobia” (position 10.9 with 55 impressions and no clicks yet). Your September 29 updates to the service pages are next on our list, we review Search Console for the new service pages around October 15, and your quarterly performance report is due October 31. Your 30 minutes of quick-fix time is available whenever you need it."
     }
   ],
   "site_links": [
