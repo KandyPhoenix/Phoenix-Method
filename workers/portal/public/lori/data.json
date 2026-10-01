@@ -1331,6 +1331,12 @@
       "date": "October 1, 2026",
       "type": "content",
       "title": "Featured blog posts rotated"
+    },
+    {
+      "date": "October 1, 2026",
+      "type": "seo",
+      "title": "October portal refresh — stats, month, calendar, and content choice reset",
+      "ticket": "LOR-429"
     }
   ],
   "homepage": "https://lorikimmerly.com"

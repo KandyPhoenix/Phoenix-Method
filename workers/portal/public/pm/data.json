@@ -735,6 +735,12 @@
       "date": "September 2, 2026",
       "type": "seo",
       "title": "September portal refresh — month, calendar, and priorities rolled forward"
+    },
+    {
+      "date": "October 1, 2026",
+      "type": "seo",
+      "title": "October portal refresh — stats, month, calendar, and priorities rolled forward",
+      "ticket": "PM-335"
     }
   ],
   "homepage": "https://phoenixmethodseo.com",

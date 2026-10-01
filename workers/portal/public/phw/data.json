@@ -939,6 +939,12 @@
       "type": "seo",
       "title": "Title + meta CTR pass — 7 pages",
       "ticket": "PHW-324"
+    },
+    {
+      "date": "October 1, 2026",
+      "type": "seo",
+      "title": "October portal refresh — stats, month, and calendar updated",
+      "ticket": "PHW-325"
     }
   ],
   "homepage": "https://www.phwcare.com"
