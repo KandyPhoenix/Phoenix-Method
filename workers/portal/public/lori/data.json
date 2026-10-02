@@ -1337,6 +1337,13 @@
       "type": "seo",
       "title": "October portal refresh — stats, month, calendar, and content choice reset",
       "ticket": "LOR-429"
+    },
+    {
+      "date": "October 2, 2026",
+      "type": "content",
+      "title": "Jen Kenworthy specialty label updated to Couples, Trauma & OCD — team card, nav dropdown, profile page, homepage carousel",
+      "detail": "Lori's request. Four spots updated in production and verified live with screenshots.",
+      "ticket": "LOR-431"
     }
   ],
   "homepage": "https://lorikimmerly.com"
