@@ -8,7 +8,7 @@
   "hours_used": 0.5,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-10-01",
+  "updated": "2026-10-05",
   "next_invoice": {
     "date": "October 1, 2026",
     "amount": "$575.00"
@@ -839,6 +839,11 @@
       "from": "Kandy",
       "date": "October 1, 2026",
       "text": "October is here. September was a milestone month for your site: all eight service pages launched on the 27th with full SEO and schema, a Services menu, one unified footer, and internal links from the therapist bios, the blog and the homepage. Leah Maughan's post on building resiliency in kids went live September 4, Monique Meissner's bio page joined the site, and three of this cycle's four social posts are published, with the fourth (Instagram) scheduled for October 5. In Search Console for September 1–28, organic clicks rose to 258 from 203 over the same days in August, organic sessions rose to 492 from 367, and your average position improved from 18.0 to 8.9. Total impressions were lower (6,083 vs 7,431), so the appearances you earned sat much higher on the page. On October 1 we rotated the therapist carousels on the homepage and the About Our Therapists page, along with the featured blog posts. For October: your blog or SEO op slot is open — send your topic or draft by October 15 and it will be live by the 22nd. If we don't hear from you, we'll optimize the tokophobia post for “what is tokophobia” (position 10.9 with 55 impressions and no clicks yet). Your September 29 updates to the service pages are next on our list, we review Search Console for the new service pages around October 15, and your quarterly performance report is due October 31. Your 30 minutes of quick-fix time is available whenever you need it."
+    },
+    {
+      "from": "Kandy",
+      "date": "October 4, 2026",
+      "text": "We completed a full technical SEO audit of your site this week along with a phone and tablet display pass. All 37 pages are indexed in Google with a clean sitemap and structured data, and all eight new service pages are confirmed indexed. We refined how the site displays on phones and tablets, so the menu button, page headers, the homepage and shop headers, therapist bio pages and blog articles now sit cleanly at every screen size. We also refreshed the licensing resource link on your contact page and tightened the search title and description on Jennifer Kenworthy's profile. We will keep tuning the service page titles as Google builds up search data for them."
     }
   ],
   "site_links": [
@@ -1344,6 +1349,33 @@
       "title": "Jen Kenworthy specialty label updated to Couples, Trauma & OCD — team card, nav dropdown, profile page, homepage carousel",
       "detail": "Lori's request. Four spots updated in production and verified live with screenshots.",
       "ticket": "LOR-431"
+    },
+    {
+      "date": "October 4, 2026",
+      "type": "seo",
+      "title": "Full technical SEO audit — 37 pages indexed, sitemap + schema clean"
+    },
+    {
+      "date": "October 4, 2026",
+      "type": "seo",
+      "title": "Service pages confirmed indexed in Google",
+      "ticket": "LOR-425"
+    },
+    {
+      "date": "October 4, 2026",
+      "type": "site",
+      "title": "Phone + tablet display pass — menu, headers, page spacing",
+      "ticket": "LOR-401"
+    },
+    {
+      "date": "October 4, 2026",
+      "type": "seo",
+      "title": "Title + meta description refined — Jennifer Kenworthy bio"
+    },
+    {
+      "date": "October 4, 2026",
+      "type": "site",
+      "title": "Contact page resource link updated"
     }
   ],
   "homepage": "https://lorikimmerly.com"
