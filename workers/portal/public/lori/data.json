@@ -5,7 +5,7 @@
   "plan": "Custom",
   "plan_price": "$575/mo",
   "plan_hours": 1,
-  "hours_used": 0.5,
+  "hours_used": 1,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
   "updated": "2026-10-05",
@@ -59,7 +59,7 @@
     },
     {
       "text": "Quick-Fix Site Work — 30 Min",
-      "status": "todo",
+      "status": "done",
       "label": "Included"
     },
     {
@@ -1349,6 +1349,12 @@
       "title": "Jen Kenworthy specialty label updated to Couples, Trauma & OCD — team card, nav dropdown, profile page, homepage carousel",
       "detail": "Lori's request. Four spots updated in production and verified live with screenshots.",
       "ticket": "LOR-431"
+    },
+    {
+      "date": "October 2, 2026",
+      "type": "content",
+      "title": "Jennifer Kenworthy bio updated — credential, new bio, rates + insurance",
+      "ticket": "LOR-430"
     },
     {
       "date": "October 4, 2026",
