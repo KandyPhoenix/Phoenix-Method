@@ -1,7 +1,9 @@
 # Phoenix Method Content Playbook
 
 Read this before writing any blog post, LinkedIn post, or Instagram post for phoenixmethodseo.com.
-The three monthly cloud routines (blog on the 1st, LinkedIn on the 10th/20th, Instagram on the 15th/25th) follow this file.
+The four monthly cloud routines follow this file: blog post 1 on the 1st (mental health SEO spoke), blog post 2 on the 16th
+(practice website management spoke, Cluster A2), LinkedIn on the 10th/20th, Instagram on the 15th/25th.
+Two posts a month was chosen on 10-06-2026 because the site is authority-starved: 4 posts total, pillar at position 74.
 Kandy edits this file to steer the routines. Jira: PM-341.
 
 ---
@@ -36,8 +38,9 @@ Refresh these numbers from `workers/portal/public/pm/data.json` (`gsc_keywords`,
 by the Refresh Portal Stats GitHub Action). If Ahrefs is available, pull volume and difficulty too.
 
 ### Cluster A — Mental health SEO (PRIMARY)
-Pillar page: `/industries/mental-health-seo/` — 4,557 impressions, avg position 74. Google already treats
-us as a candidate for this entire cluster; the page needs depth and spokes pointing at it.
+Pillar page: `/industries/mental-health-seo/` — 4,557 impressions, avg position 74. Rewritten 10-06-2026 (PM-343) to
+2,800+ words with psychiatry, group practice, telehealth, and website-management sections. Every spoke links to it;
+when a new spoke goes live, add a link to it from the pillar's Related grid or the matching section.
 
 | Keyword | Impressions | Position |
 |---|---|---|
@@ -70,7 +73,7 @@ practices, therapy practice website updates, who manages a therapist website, ou
 therapists, social media management for therapists, social media for private practice, marketing for
 small mental health practice, group practice marketing, psychiatry practice website.
 
-**Blog spoke plan (one per month, in this order unless data says otherwise):**
+**Blog spoke plan (two per month: the 1st takes the next SEO spoke, the 16th takes the next (A2) website-management spoke):**
 1. SEO for psychiatrists and psychiatric private practices (336 + 252 + 133 impressions, nothing on site targets it)
 2. Who should manage a therapy practice website? (A2: website management for mental health practices)
 3. Behavioral health SEO for group practices and clinics
@@ -137,9 +140,10 @@ practice page", "your clinicians"). Name the number. Name the page. No throat-cl
 
 ---
 
-## 4. Monthly blog post — build spec
+## 4. Monthly blog posts — build spec
 
-**Target:** the next unused spoke from the plan in §2 unless `gsc_keywords` shows a better opportunity
+**Target:** the 1st-of-month post takes the next unused SEO spoke; the 16th post takes the next unused (A2)
+website-management spoke, from the plan in §2 unless `gsc_keywords` shows a better opportunity
 (impressions >= 100 and no page on the site already targeting it). Length 1,100–1,600 words. Exactly one
 H1 containing the keyword. 4–6 H2s. One FAQ block (3 questions) with FAQPage schema. One callout.
 One CTA block. Author box.
@@ -160,7 +164,7 @@ One CTA block. Author box.
    `PHOENIX-AI-MANIFEST` / `phoenix-ai-articles` block; that is machine-managed.
 3. `feed.xml` — add an `<item>` at the top (title, link, guid, pubDate RFC-822, description).
 4. `sitemap.xml` — add the new URL (www) with `<lastmod>` today.
-5. `blog/tips-for-improving-website-rankings.html` — append an "Updated <Month Year>" paragraph
+5. (1st-of-month post only) `blog/tips-for-improving-website-rankings.html` — append an "Updated <Month Year>" paragraph
    before "The Bottom Line" that links to the new post, and bump `article:modified_time` + `dateModified`.
 6. `workers/portal/public/pm/data.json` — append a worklog entry `{"date","type":"content","title","ticket"}`
    and mark the matching `blog_topics` entry `"status":"drafted"` if one exists.
