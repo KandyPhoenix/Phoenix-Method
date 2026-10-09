@@ -105,6 +105,13 @@ Claude must **refuse to generate or approve** any content that:
 
 ## Social Media Standards
 
+### ⚠️ HARD STOP: Phoenix Method posts go ONLY to the Phoenix Method SEO LinkedIn — NEVER Lori Kimmerly's
+Phoenix Method content (anything drafted from `content/social/` or the content routines) is posted **only** to the
+**Phoenix Method SEO** LinkedIn page. Never to Lori Kimmerly's profile or page, and never to any other client's account.
+Before clicking Post, confirm the "posting as" identity on screen reads Phoenix Method SEO. If it shows Lori Kimmerly,
+or anything else, or you can't confirm it, **stop and do not post**. Ask Kandy instead. Lori's own posts are a separate
+client deliverable that is tracked in her portal and is never mixed with Phoenix Method content (Kandy, 2026-10-09).
+
 ### LinkedIn
 - Audience: **business owners, practice owners, healthcare operators, small business decision-makers**
 - Tone: authoritative, direct, practitioner-level — not salesy, not fluffy

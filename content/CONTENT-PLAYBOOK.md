@@ -237,6 +237,8 @@ Save to `content/social/YYYY-MM/instagram-DD.md`. Email Kandy the caption + imag
 3. Kandy reviews, generates images with ChatGPT if applicable, edits as needed
 4. Kandy tells Claude "approved": Claude merges the PR (blog goes live on merge) and, for social
    posts, posts them from Kandy's signed-in browser session
+   **to the Phoenix Method SEO LinkedIn page ONLY.** Never Lori Kimmerly's account or any client's. Confirm the
+   posting identity reads Phoenix Method SEO before clicking Post; if it doesn't, stop and ask Kandy (hard rule, 2026-10-09)
 5. Live link gets commented on the Jira ticket and a worklog entry lands in the PM portal
 
 Nothing publishes without step 3. That is the human review Google's unreviewed-AI-content rule requires.
