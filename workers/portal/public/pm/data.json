@@ -675,6 +675,13 @@
   ],
   "worklog": [
     {
+      "date": "October 9, 2026",
+      "type": "social",
+      "title": "LinkedIn post: SEO for psychiatrists (Phoenix Method SEO page)",
+      "detail": "Posted the October 10 LinkedIn post from the Phoenix Method SEO company page introducing the 'SEO for Psychiatrists' blog post and tying it to website management. Branded 1200x627 image. Live: https://www.linkedin.com/feed/update/urn:li:activity:7514346497098805248/",
+      "link": "https://www.linkedin.com/feed/update/urn:li:activity:7514346497098805248/"
+    },
+    {
       "date": "July 2, 2026",
       "type": "audit",
       "title": "June GSC checkpoint — 1,701 impressions, 93 keywords",
@@ -751,7 +758,6 @@
     {
       "date": "October 6, 2026",
       "type": "content",
-
       "title": "Blog post drafted: SEO for Psychiatrists: How a Private Practice Gets Found on Google (in review, not yet live)",
       "ticket": "PM-342"
     },

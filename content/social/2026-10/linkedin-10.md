@@ -5,7 +5,10 @@ keyword: seo for psychiatrists
 blog_url: https://www.phoenixmethodseo.com/blog/seo-for-psychiatrists.html
 service: Website management and updates
 image: content/social/2026-10/linkedin-10.webp
-status: approved
+status: posted
+live_url: https://www.linkedin.com/feed/update/urn:li:activity:7514346497098805248/
+posted_as: Phoenix Method company page (Phoenix Method SEO, linkedin.com/company/117924286)
+posted_on: 2026-10-09
 post_to: Phoenix Method SEO LinkedIn page ONLY (never Lori Kimmerly)
 ---
 
