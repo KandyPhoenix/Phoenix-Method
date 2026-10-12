@@ -1,11 +1,14 @@
 ---
 date: 2026-10-09
-platform: instagram
+platform: instagram + facebook
 keyword: seo for psychiatrists
 blog_url: https://www.phoenixmethodseo.com/blog/seo-for-psychiatrists.html
 image: C:\Users\kandy\Work\sites\phoenixmethod\social\2026-10-09-instagram-1.jpg
-status: draft
-post_to: "@phoenixmethodseo ONLY (never parishhealthphw, sunbrightrecovery, or Lori Kimmerly)"
+status: posted
+live_url: posted to @phoenixmethodseo on 2026-10-09 by Kandy (URL not recorded)
+facebook_url: https://www.facebook.com/61576693598720/posts/122133940190889786
+facebook_posted: 2026-10-12
+post_to: "@phoenixmethodseo + The Phoenix Method Facebook page (ID 61576693598720) ONLY; never PHW, Sunbright, or Lori Kimmerly"
 note: Manual "Run now" firing on 10-09; the routine normally fires on the 15th and 25th.
 ---
 
@@ -24,6 +27,24 @@ The fix is one page per service: who it is for, what the first visit looks like,
 Phoenix Method builds and runs it: the pages, the schema, the Google Business Profile, the monthly updates.
 
 Full breakdown on the blog. Link in bio.
+
+#psychiatristseo #mentalhealthseo #therapistseo #behavioralhealthseo #therapistwebsite #privatepractice #grouppractice #psychiatry #seo #seotips #smallbusinessseo #therapistsofinstagram
+
+## Facebook version (posted 2026-10-12)
+
+One "Services" page cannot rank for six searches.
+
+Medication management. Psychiatric evaluation. ADHD evaluation. Telepsychiatry. All crammed into one list on one page.
+
+Google ranks pages, not practices. One page gets matched to one search. The rest of what you do never shows up anywhere.
+
+Psychiatry sits under Google's "Your Money or Your Life" standard. A thin catch-all page is a trust gap stacked on a ranking gap.
+
+The fix is one page per service: who it is for, what the first visit looks like, how to book. Plumbing nobody at a small practice has time to build.
+
+Phoenix Method builds and runs it: the pages, the schema, the Google Business Profile, the monthly updates.
+
+Full breakdown on the blog: https://www.phoenixmethodseo.com/blog/seo-for-psychiatrists.html
 
 #psychiatristseo #mentalhealthseo #therapistseo #behavioralhealthseo #therapistwebsite #privatepractice #grouppractice #psychiatry #seo #seotips #smallbusinessseo #therapistsofinstagram
 
