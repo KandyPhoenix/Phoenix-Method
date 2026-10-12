@@ -8,7 +8,7 @@
   "hours_used": 1,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-10-05",
+  "updated": "2026-10-12",
   "next_invoice": {
     "date": "October 1, 2026",
     "amount": "$575.00"
@@ -17,9 +17,9 @@
     {
       "name": "Social Media Posting — 2 LinkedIn + 2 Instagram",
       "price": "$175/mo",
-      "due": "September 10, 2026",
+      "due": "October 10, 2026",
       "status": "paid",
-      "paid_date": "September 10, 2026"
+      "paid_date": "October 9, 2026"
     }
   ],
   "stats": {
@@ -450,36 +450,36 @@
   ],
   "posting_plan": [
     {
-      "platform": "linkedin",
-      "title": "PTSD & Trauma: What It Can Feel Like - and What Can Help (carousel)",
-      "status": "posted",
-      "due": "Sep 17",
-      "date": "September 18, 2026",
-      "url": "https://www.linkedin.com/posts/lori-kimmerly-therapy_traumarecovery-mentalhealth-ptsdawareness-activity-7506713697713713152-zMNf"
-    },
-    {
       "platform": "instagram",
-      "title": "You Don't Have to Have It All Figured Out to Begin (seasons of change)",
+      "title": "World Mental Health Day: How Are You, Really?",
       "status": "posted",
-      "due": "Sep 22",
-      "date": "September 25, 2026",
-      "url": "https://www.instagram.com/p/DdurftlCUdG/"
+      "due": "Oct 10",
+      "date": "October 10, 2026",
+      "url": "https://www.instagram.com/p/DeUdnzsCZM0/"
     },
     {
       "platform": "linkedin",
-      "title": "Building Resiliency in Your Kids: Resilience Is Built on Ordinary Days",
-      "status": "posted",
-      "due": "Sep 29",
-      "date": "September 29, 2026",
-      "url": "https://www.linkedin.com/feed/update/urn:li:share:7510716061021954048/"
+      "title": null,
+      "status": "pending",
+      "due": "Oct 17",
+      "date": null,
+      "url": null
     },
     {
       "platform": "instagram",
-      "title": "You Don't Have to Earn Rest",
-      "status": "posted",
-      "due": "Oct 5",
-      "date": "October 5, 2026",
-      "url": "https://www.instagram.com/p/DeHlsr_iHYp/"
+      "title": null,
+      "status": "pending",
+      "due": "Oct 22",
+      "date": null,
+      "url": null
+    },
+    {
+      "platform": "linkedin",
+      "title": null,
+      "status": "pending",
+      "due": "Oct 29",
+      "date": null,
+      "url": null
     }
   ],
   "reports": [
