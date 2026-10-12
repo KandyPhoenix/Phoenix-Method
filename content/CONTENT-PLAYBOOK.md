@@ -205,7 +205,7 @@ Save to `content/social/YYYY-MM/linkedin-DD.md`. Email Kandy the paste-ready tex
 
 ---
 
-## 6. Instagram posts (15th and 25th) — spec
+## 6. Instagram + Facebook posts (15th and 25th) — spec
 
 Instagram is for brand recall and search-by-name, not direct rankings. One SEO or website-management
 idea per post, in the grungy voice, pointed at the keyword cluster of the month and at the practice
@@ -224,7 +224,13 @@ Caption 600–1,000 characters. Structure:
 background, ember glow, grunge texture, the hook line as bold text, small "Phoenix Method" wordmark,
 no faces. For the 25th post, propose a 3-slide carousel (hook / mechanism / CTA) with a prompt per slide.
 
-Save to `content/social/YYYY-MM/instagram-DD.md`. Email Kandy the caption + image prompts.
+**Facebook (Kandy, 2026-10-12):** the same post goes to the Phoenix Method Facebook page
+(facebook.com/profile.php?id=61576693598720) the same day, same image, same approval. Facebook version
+of the caption: identical text, but "Full breakdown on the blog. Link in bio." becomes
+"Full breakdown on the blog: <blog URL>" with the hashtags after it (Facebook strips a URL that is the
+last thing in the post). Never post to PHW, Sunbright, or Lori Kimmerly's page.
+
+Save to `content/social/YYYY-MM/instagram-DD.md` with both versions. Email Kandy the caption + image prompts.
 
 ---
 
