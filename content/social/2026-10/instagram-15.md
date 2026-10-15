@@ -7,7 +7,11 @@ ticket: PM-342
 images:
   - C:/Users/kandy/Work/sites/phoenixmethod/social/2026-10-15/psychiatrist-seo-psychology-today-not-your-website.jpg
 image_note: PIL placeholder card (ChatGPT Classic access could not be approved during the scheduled run); regenerate in ChatGPT if Kandy wants the illustrated version
-status: draft
+status: posted
+live_url: https://www.instagram.com/phoenixmethodseo/p/Deh-MUwmlpm/
+facebook_url: https://www.facebook.com/61576693598720/posts/122134376378889786
+posted_on: 2026-10-15
+posted_via: Meta Business Suite composer (Instagram web only had kandy.phoenix signed in; no password typed)
 post_to: "@phoenixmethodseo + The Phoenix Method Facebook page (ID 61576693598720) ONLY; never PHW, Sunbright, or Lori Kimmerly"
 ---
 
