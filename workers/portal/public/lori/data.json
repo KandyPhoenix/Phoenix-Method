@@ -367,11 +367,11 @@
       "title": "Therapy for Men: Why So Many Wait — and What Actually Helps",
       "keyword": "therapy for men renton",
       "status": "live",
-      "url": "lorikimmerly.com/2026/10/19/therapy-for-men-renton-wa/"
+      "url": "lorikimmerly.com/therapy-for-men-renton-wa/"
     },
     "page": {
       "title": "Tokophobia post — SEO optimization",
-      "url": "lorikimmerly.com/2026/08/10/tokophobia-fear-of-childbirth/",
+      "url": "lorikimmerly.com/tokophobia-fear-of-childbirth/",
       "keyword": "what is tokophobia",
       "status": "suggested",
       "note": "Position 10.9 with 55 impressions and 0 clicks in Search Console for September 1–28 — top of page 2 and within reach of page 1."
@@ -826,7 +826,7 @@
     {
       "from": "Kandy",
       "date": "September 9, 2026",
-      "text": "September's blog or SEO op slot is complete — Leah Maughan's post, “Building Resiliency in Your Kids: A Natural Process,” went live September 4 at https://lorikimmerly.com/2026/09/04/building-resiliency-in-children/. It's a back-to-school piece on how resiliency grows in children through attachment, regulation, efficacy and social connection, and we published it with the full SEO treatment, an author section crediting Leah by name and credential, and a Book with Leah Maughan, LMFTA button at the end. Because the blog filled this month's slot, the insurance page optimization moves to a future month. Thank you as well — the invoice for the team member addition is paid, and that work is finished: Monique Meissner, MFT Intern, is live at https://lorikimmerly.com/monique-meissner/ with her full bio, and she's on the homepage carousel, the Meet the Team page, the therapist dropdown in your navigation, and the clinician-preference dropdown on your Contact page so people can request her by name. Her link is in your Site Links list here in the portal. We've also re-synced this month's social posting dates to match the schedule — Instagram on the 11th and 22nd, LinkedIn on the 17th and 29th. Your quarterly performance report (covering Aug 1 – Oct 31) is due October 31, and the Service Pages estimate is still in your Reports section whenever you'd like to look it over."
+      "text": "September's blog or SEO op slot is complete — Leah Maughan's post, “Building Resiliency in Your Kids: A Natural Process,” went live September 4 at https://lorikimmerly.com/building-resiliency-in-children/. It's a back-to-school piece on how resiliency grows in children through attachment, regulation, efficacy and social connection, and we published it with the full SEO treatment, an author section crediting Leah by name and credential, and a Book with Leah Maughan, LMFTA button at the end. Because the blog filled this month's slot, the insurance page optimization moves to a future month. Thank you as well — the invoice for the team member addition is paid, and that work is finished: Monique Meissner, MFT Intern, is live at https://lorikimmerly.com/monique-meissner/ with her full bio, and she's on the homepage carousel, the Meet the Team page, the therapist dropdown in your navigation, and the clinician-preference dropdown on your Contact page so people can request her by name. Her link is in your Site Links list here in the portal. We've also re-synced this month's social posting dates to match the schedule — Instagram on the 11th and 22nd, LinkedIn on the 17th and 29th. Your quarterly performance report (covering Aug 1 – Oct 31) is due October 31, and the Service Pages estimate is still in your Reports section whenever you'd like to look it over."
     },
     {
       "from": "Kandy",
@@ -973,25 +973,25 @@
     {
       "category": "Blog Posts",
       "label": "Welcome — A Note From Our Therapists",
-      "url": "https://lorikimmerly.com/2026/04/25/welcome-to-our-blog-a-note-from-our-therapists/",
+      "url": "https://lorikimmerly.com/welcome-to-our-blog-a-note-from-our-therapists/",
       "icon": "📄"
     },
     {
       "category": "Blog Posts",
       "label": "What Is Internal Family Systems (IFS) Therapy?",
-      "url": "https://lorikimmerly.com/2026/04/26/what-is-ifs-therapy-internal-family-systems/",
+      "url": "https://lorikimmerly.com/what-is-ifs-therapy-internal-family-systems/",
       "icon": "📄"
     },
     {
       "category": "Blog Posts",
       "label": "Does Insurance Cover Therapy in Washington State?",
-      "url": "https://lorikimmerly.com/2026/05/19/does-insurance-cover-therapy-washington-state/",
+      "url": "https://lorikimmerly.com/does-insurance-cover-therapy-washington-state/",
       "icon": "📄"
     },
     {
       "category": "Blog Posts",
       "label": "The 5 Gates of Grief",
-      "url": "https://lorikimmerly.com/2026/06/20/grief-therapy-5-gates-of-grief/",
+      "url": "https://lorikimmerly.com/grief-therapy-5-gates-of-grief/",
       "icon": "📄"
     },
     {
@@ -1003,19 +1003,19 @@
     {
       "category": "Blog Posts",
       "label": "Healing Trauma Through Connection",
-      "url": "https://lorikimmerly.com/2026/07/18/healing-trauma-through-connection-why-relationships-matter/",
+      "url": "https://lorikimmerly.com/healing-trauma-through-connection-why-relationships-matter/",
       "icon": "📄"
     },
     {
       "category": "Blog Posts",
       "label": "When Fear Overshadows Joy: Understanding Tokophobia",
-      "url": "https://lorikimmerly.com/2026/08/10/tokophobia-fear-of-childbirth/",
+      "url": "https://lorikimmerly.com/tokophobia-fear-of-childbirth/",
       "icon": "📄"
     },
     {
       "category": "Blog Posts",
       "label": "Building Resiliency in Your Kids",
-      "url": "https://lorikimmerly.com/2026/09/04/building-resiliency-in-children/",
+      "url": "https://lorikimmerly.com/building-resiliency-in-children/",
       "icon": "📄"
     },
     {
@@ -1390,8 +1390,15 @@
       "date": "October 19, 2026",
       "type": "content",
       "title": "New blog post published — Therapy for Men: Why So Many Wait",
-      "detail": "Live at lorikimmerly.com/2026/10/19/therapy-for-men-renton-wa/ with table of contents, myth-vs-reality block, FAQ schema and links to the individual, couples, IFS, depression, anxiety, trauma and grief pages.",
+      "detail": "Live at lorikimmerly.com/therapy-for-men-renton-wa/ with table of contents, myth-vs-reality block, FAQ schema and links to the individual, couples, IFS, depression, anxiety, trauma and grief pages.",
       "ticket": "LOR-435"
+    },
+    {
+      "date": "October 19, 2026",
+      "type": "technical",
+      "title": "Dates removed from blog URLs — all posts now use short /post-name/ links",
+      "detail": "All 8 blog posts moved to date-free URLs. Every old dated link permanently redirects (301) to the new one, internal links were updated, and the sitemap now lists only the new URLs.",
+      "ticket": "LOR-436"
     }
   ],
   "homepage": "https://lorikimmerly.com"
