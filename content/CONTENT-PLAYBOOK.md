@@ -195,6 +195,12 @@ Tone: authoritative practitioner. Length 900–1,300 characters. Structure:
 
 The 10th post introduces the month's blog post. The 20th post takes one section of it deeper or
 answers an objection ("we already have Psychology Today", "we can't afford an agency").
+**Big issue, then niche issue (Kandy, 10-20-2026):** social posts alternate. One post takes a BIG issue every small
+healthcare practice owner feels (site nobody updates, not showing on Google, no time to post, GBP neglected). The next takes
+a NICHE issue under it (internal links, review replies, schema, telehealth state pages, clinician bios). Check the previous
+social post across all platforms and do the other type. Blog posts cover the main topics and the bigger niche topics.
+Record it in front matter as `angle_type: big` or `angle_type: niche`.
+
 **No back-to-back angles (Kandy, 10-20-2026):** before writing, read every file in `content/social/` and list each post's
 angle. Don't reuse an angle within the same month across LinkedIn, Instagram and Facebook. Rewording counts: "repairs keep a
 site alive" is the same angle as "a site nobody updates". Reframing an older angle later is good, because a different wording

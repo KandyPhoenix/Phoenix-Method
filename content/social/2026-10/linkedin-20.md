@@ -2,6 +2,7 @@
 date: 2026-10-20
 platform: linkedin
 keyword: therapist website management
+angle_type: niche
 angle: internal links (blog posts wired to service pages); chosen to avoid repeating 10-09 one-page-per-service, 10-10 stale site, 10-15 Psychology Today
 blog_url: https://www.phoenixmethodseo.com/blog/therapist-website-management.html
 service: Content SEO (internal linking)
