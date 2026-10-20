@@ -17,13 +17,17 @@ post_to: Phoenix Method company page ONLY (linkedin.com/company/117924286), neve
 
 Therapist website management includes the links nobody sees.
 
-Most practice blogs are islands. A post on anxiety goes up, gets shared once, and links to nothing. The anxiety therapy page never hears about it.
+An autopsy finding that's easy to miss:
 
-Internal links are how Google learns which pages on your site matter for a topic. A blog post that links to your service page hands it context. A post that links nowhere is a dead end for Google's crawler and for the reader.
+A solid blog post on panic attacks. Written late at night by the clinician. Linking to nothing.
 
-We run this on our own site. Our mental health SEO page showed up 4,557 times in Google Search Console in the 90 days ending Oct 4, 2026, and every new post we publish links back to it. Same plan we use for practices.
+Not the anxiety therapy page. Not the booking page. Nothing.
 
-That's why content SEO in our monthly plan is more than writing posts. A small mental health practice needs every new article wired to the right service page, so the posts you pay for actually support the pages clients book from.
+That post is a dead end. Google reads internal links to work out which page on your site owns a topic. When the blog never points at the service page, the service page never gets the credit.
+
+We wire our own site this way. Every post we publish links back to our mental health SEO page, which pulled 4,557 impressions in Google Search Console in the 90 days ending Oct 4, 2026.
+
+Content SEO, the way we run it, is two jobs. Write the post. Then connect it to the page you want found. The second job is the one that gets skipped, and it's the one that makes the first one pay off.
 
 Who should run your practice website, and what they should do every month:
 https://www.phoenixmethodseo.com/blog/therapist-website-management.html
