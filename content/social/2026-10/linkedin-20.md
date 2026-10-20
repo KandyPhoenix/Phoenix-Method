@@ -6,7 +6,7 @@ angle: internal links (blog posts wired to service pages); chosen to avoid repea
 blog_url: https://www.phoenixmethodseo.com/blog/therapist-website-management.html
 service: Content SEO (internal linking)
 ticket: PM-345
-image: C:/Users/kandy/Work/sites/phoenixmethod/social/2026-10-20/therapist-website-management-monthly-content.jpg
+image: C:/Users/kandy/Work/sites/phoenixmethod/social/2026-10-20/internal-links-therapist-blog-dead-end.jpg (pending)
 image_note: NEEDS NEW IMAGE - rewritten 2026-10-20 per Kandy (first draft repeated the 10-10 stale-site angle); old repairs image no longer matches
 status: draft
 post_to: Phoenix Method company page ONLY (linkedin.com/company/117924286), never Lori Kimmerly
