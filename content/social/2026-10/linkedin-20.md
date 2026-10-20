@@ -2,34 +2,33 @@
 date: 2026-10-20
 platform: linkedin
 keyword: therapist website management
+angle: internal links (blog posts wired to service pages); chosen to avoid repeating 10-09 one-page-per-service, 10-10 stale site, 10-15 Psychology Today
 blog_url: https://www.phoenixmethodseo.com/blog/therapist-website-management.html
-service: Content SEO
+service: Content SEO (internal linking)
 ticket: PM-345
 image: C:/Users/kandy/Work/sites/phoenixmethod/social/2026-10-20/therapist-website-management-monthly-content.jpg
-image_note: ChatGPT Classic version supplied by Kandy 2026-10-20 (replaced the PIL placeholder), resized to 1200x627, metadata stripped
+image_note: NEEDS NEW IMAGE - rewritten 2026-10-20 per Kandy (first draft repeated the 10-10 stale-site angle); old repairs image no longer matches
 status: draft
 post_to: Phoenix Method company page ONLY (linkedin.com/company/117924286), never Lori Kimmerly
 ---
 
 ## Post (paste-ready)
 
-Therapist website management is more than fixing what breaks.
+Therapist website management includes the links nobody sees.
 
-Ask whoever runs your practice site one question: what happens every month if I ask for nothing?
+Most practice blogs are islands. A post on anxiety goes up, gets shared once, and links to nothing. The anxiety therapy page never hears about it.
 
-If the answer is "nothing," your site is getting repairs. Repairs keep a site alive. They do not make it rank.
+Internal links are how Google learns which pages on your site matter for a topic. A blog post that links to your service page hands it context. A post that links nowhere is a dead end for Google's crawler and for the reader.
 
-Google ranks pages that answer what people actually search. A practice with an insurance page, a telehealth page and one page per specialty gives Google something to match. A homepage and a contact form does not.
+We run this on our own site. Our mental health SEO page showed up 4,557 times in Google Search Console in the 90 days ending Oct 4, 2026, and every new post we publish links back to it. Same plan we use for practices.
 
-The searches exist. In the 90 days ending Oct 4, 2026, our own Google Search Console showed our site 208 times for "seo for mental health professionals." People are searching for this. The question is whose page they land on.
+That's why content SEO in our monthly plan is more than writing posts. A small mental health practice needs every new article wired to the right service page, so the posts you pay for actually support the pages clients book from.
 
-That's why content SEO is part of every month we run a practice website. A small mental health practice needs new pages aimed at real patient searches, because Google can only rank a practice for the questions its site answers.
-
-The four ways to run a practice website, and six questions to ask before you hire anyone:
+Who should run your practice website, and what they should do every month:
 https://www.phoenixmethodseo.com/blog/therapist-website-management.html
 
-#MentalHealthSEO #TherapistSEO #PrivatePractice #SEO #TherapistWebsite
+#MentalHealthSEO #TherapistSEO #PrivatePractice #SEO #ContentMarketing
 
 ## Image prompt (ChatGPT, 1200x627)
 
-Create a 1200x627 LinkedIn graphic. Dark charcoal background (#1A1A1A) with a gritty grunge texture, faint scratches and soft smoke. A low ember-orange (#FF4D00) glow rises from the bottom edge, like embers under ash. Centered, in a bold condensed sans-serif, white text: "REPAIRS KEEP A SITE ALIVE." and below it in ember orange #FF4D00: "THEY DO NOT MAKE IT RANK." Below that, smaller light-gray text: "Therapist website management, month after month". Bottom-right corner: a small, understated "Phoenix Method" wordmark in white. Minimal, high contrast, no people, no faces, no hands, no stock-photo elements, no extra text.
+Create a 1200x627 LinkedIn graphic. Dark charcoal background (#1A1A1A) with a gritty grunge texture, faint scratches and soft smoke. A low ember-orange (#FF4D00) glow rises from the bottom edge, like embers under ash. Centered, in a bold condensed sans-serif, white text: "A BLOG POST THAT LINKS NOWHERE" and below it in ember orange #FF4D00: "IS A DEAD END." Below that, smaller light-gray text: "Internal links: the part of content SEO nobody sees". Bottom-right corner: a small, understated "Phoenix Method" wordmark in white. Minimal, high contrast, no people, no faces, no hands, no stock-photo elements, no extra text.

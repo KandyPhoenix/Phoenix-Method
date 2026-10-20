@@ -195,6 +195,13 @@ Tone: authoritative practitioner. Length 900–1,300 characters. Structure:
 
 The 10th post introduces the month's blog post. The 20th post takes one section of it deeper or
 answers an objection ("we already have Psychology Today", "we can't afford an agency").
+**No repeats (Kandy, 10-20-2026):** before writing, read every file in `content/social/` and list each post's angle.
+Pick an angle and a service that no recent post has used. Rewording an old angle ("site nobody updates", "one page per
+service", "Psychology Today is not your website") counts as a repeat. Rotate across everything we sell so owners learn why
+each is worth paying for: GBP upkeep, review replies, LinkedIn and social posting, new content, internal links, technical
+SEO, schema, local SEO, AI Overviews, page speed. The audience stays small healthcare / mental health practices.
+Record the angle in the post's front matter as `angle:`.
+
 LinkedIn articles and public posts are indexed by Google, so the keyword should appear naturally
 in the first line.
 
