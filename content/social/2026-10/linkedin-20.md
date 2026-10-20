@@ -6,7 +6,7 @@ blog_url: https://www.phoenixmethodseo.com/blog/therapist-website-management.htm
 service: Content SEO
 ticket: PM-345
 image: C:/Users/kandy/Work/sites/phoenixmethod/social/2026-10-20/therapist-website-management-monthly-content.jpg
-image_note: PIL placeholder card (ChatGPT Classic access can't be approved during a scheduled run); regenerate in ChatGPT if Kandy wants the illustrated version
+image_note: ChatGPT Classic version supplied by Kandy 2026-10-20 (replaced the PIL placeholder), resized to 1200x627, metadata stripped
 status: draft
 post_to: Phoenix Method company page ONLY (linkedin.com/company/117924286), never Lori Kimmerly
 ---
