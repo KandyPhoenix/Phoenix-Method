@@ -9,7 +9,10 @@ service: Content SEO (internal linking)
 ticket: PM-345
 image: C:/Users/kandy/Work/sites/phoenixmethod/social/2026-10-20/internal-links-therapist-blog-dead-end.jpg
 image_note: ChatGPT Classic version supplied by Kandy 2026-10-20, resized to 1200x627, metadata stripped
-status: draft
+status: posted
+live_url: https://www.linkedin.com/feed/update/urn:li:activity:7518327685509500928/
+posted_as: Phoenix Method company page (Phoenix Method SEO, linkedin.com/company/117924286)
+posted_on: 2026-10-20
 post_to: Phoenix Method company page ONLY (linkedin.com/company/117924286), never Lori Kimmerly
 ---
 
