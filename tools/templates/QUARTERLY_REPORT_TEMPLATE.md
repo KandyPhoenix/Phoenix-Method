@@ -1,6 +1,6 @@
 # [CLIENT NAME] — Quarterly SEO Performance Report
 **Period:** [Month 1] – [Month 3, Year]
-**Prepared by:** Kandy Angel, Phoenix Method
+**Prepared by:** Kandy Phoenix, Phoenix Method
 **Delivered:** [Date]
 **Package:** [Package Name] — [Price]/mo
 
