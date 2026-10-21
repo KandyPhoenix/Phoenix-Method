@@ -2,6 +2,12 @@ node_modules/
 dist/
 build/
 .env
+
+# Client deliverables — never publish to the live site.
+# phoenixmethodseo.com is GitHub Pages: static, no auth, no way to set
+# X-Robots-Tag on PDFs. Anything committed here becomes publicly fetchable.
+# Keep audits/reports local or behind the Access-protected portal instead.
+audits/
 .vscode/
 .DS_Store
 _archive/
