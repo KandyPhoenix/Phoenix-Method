@@ -12,9 +12,11 @@ images:
   - C:/Users/kandy/Work/sites/phoenixmethod/social/2026-10-25/therapist-website-management-whose-job-is-it-2.jpg
   - C:/Users/kandy/Work/sites/phoenixmethod/social/2026-10-25/therapist-website-management-whose-job-is-it-3.jpg
 image_note: PIL cards (charcoal + ember); ChatGPT Classic access could not be approved in the scheduled session
-status: draft
-live_url:
-facebook_url:
+status: posted
+live_url: https://www.instagram.com/phoenixmethodseo/p/De9kvWVH3NS/
+facebook_url: https://www.facebook.com/61576693598720/posts/122135518886889786
+posted_on: 2026-10-26
+posted_via: Meta Business Suite composer in Brave (Instagram web was logged out; Kandy logged into Meta herself, no password typed); one publish with "Customize post for Facebook and Instagram"
 post_to: "@phoenixmethodseo + The Phoenix Method Facebook page (ID 61576693598720) ONLY; never PHW, Sunbright, or Lori Kimmerly"
 ---
 
