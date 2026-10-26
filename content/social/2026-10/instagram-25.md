@@ -66,7 +66,7 @@ Full breakdown on the blog: https://www.phoenixmethodseo.com/blog/therapist-webs
 
 1. "YOUR WEBSITE IS SOMEBODY'S JOB." / "WHOSE?" (ember) / "Four people can run it. Each one breaks somewhere."
 2. "FOUR PEOPLE RUN IT." / "EACH ONE BREAKS." (ember) / Office manager: pushed to next week / Agency: a ticket for a two-line change / Freelancer: paid per fix, silent in between / Nobody: dark two years after launch
-3. "PICK BY THE WORK," / "NOT THE TITLE." (ember) / A rebuild is a project. / Keeping a site current is a relationship. / "Full breakdown on the blog. Link in bio."
+3. "PICK BY THE WORK," / "NOT THE TITLE." (ember) / A rebuild is a project. Keeping a site current is a relationship. / "PHOENIX METHOD" / "IS THE FOURTH OPTION." (ember) / One practitioner you can text. / Website, SEO, GBP, social: one job. / You own every account. We work inside it. / "Full breakdown on the blog. Link in bio."
 
 ## Image prompts (ChatGPT, 1080x1350, 4:5, one per slide)
 
@@ -80,4 +80,4 @@ Create a 1080x1350 portrait (4:5) Instagram graphic in the same style as a dark 
 
 ### Slide 3 (CTA)
 
-Create a 1080x1350 portrait (4:5) Instagram graphic in the same style as a dark charcoal (#1A1A1A) grunge series: gritty texture, faint scratches, soft smoke, low ember-orange (#FF4D00) glow from the bottom edge. Centered, bold condensed white text in two lines: "PICK BY THE WORK," / "NOT THE TITLE." with "NOT THE TITLE." in ember orange #FF4D00. Below it, white text on two lines: "A rebuild is a project." / "Keeping a site current is a relationship." Below that, smaller light-gray text: "Full breakdown on the blog. Link in bio." Bottom-right corner: a small, understated "Phoenix Method" wordmark in white. Small "3/3" in light gray at the bottom-left. Minimal, high contrast, no people, no faces, no hands, no other text.
+Create a 1080x1350 portrait (4:5) Instagram graphic in the same style as a dark charcoal (#1A1A1A) grunge series: gritty texture, faint scratches, soft smoke, low ember-orange (#FF4D00) glow from the bottom edge. At the top, bold condensed white text in two lines: "PICK BY THE WORK," / "NOT THE TITLE." with "NOT THE TITLE." in ember orange #FF4D00. Below it, light-gray text on two lines: "A rebuild is a project." / "Keeping a site current is a relationship." Then a short ember-orange rule, then bold condensed text: "PHOENIX METHOD" in white / "IS THE FOURTH OPTION." in ember orange #FF4D00. Below that, white text on three lines: "One practitioner you can text." / "Website, SEO, GBP, social: one job." / "You own every account. We work inside it." Then smaller light-gray text: "Full breakdown on the blog. Link in bio." Bottom-right corner: a small, understated "Phoenix Method" wordmark in white. Small "3/3" in light gray at the bottom-left. Minimal, high contrast, no people, no faces, no hands, no other text.
