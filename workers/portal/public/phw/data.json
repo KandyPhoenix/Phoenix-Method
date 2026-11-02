@@ -1,25 +1,25 @@
 {
   "client": "Parish Health and Wellness",
   "short_name": "PHW",
-  "month": "October 2026",
+  "month": "November 2026",
   "plan": null,
-  "updated": "2026-10-01",
+  "updated": "2026-11-02",
   "stats": {
-    "sessions": 189,
-    "sessions_change": "+18",
-    "sessions_trend": "up",
-    "keywords": 1586,
-    "keywords_change": "-321",
-    "keywords_trend": "down",
-    "position": 19.3,
-    "position_change": "+3.7",
-    "position_trend": "up",
-    "impressions": 31846,
-    "impressions_change": "-22447",
-    "impressions_trend": "down",
+    "sessions": 212,
+    "sessions_change": "-3",
+    "sessions_trend": "down",
+    "keywords": 1840,
+    "keywords_change": "+176",
+    "keywords_trend": "up",
+    "position": 20.7,
+    "position_change": "-1.7",
+    "position_trend": "down",
+    "impressions": 36027,
+    "impressions_change": "+2199",
+    "impressions_trend": "up",
     "ctr": 0.59,
-    "ctr_change": "+0.3",
-    "ctr_trend": "up"
+    "ctr_change": "-0.1",
+    "ctr_trend": "down"
   },
   "deliverables": [
     {
@@ -67,11 +67,31 @@
       "status": "done"
     },
     {
-      "text": "Title + meta CTR pass — 7 pages (results review Oct 14)",
+      "text": "Title + meta CTR pass — 7 pages (results reviewed Oct 14)",
+      "status": "done"
+    },
+    {
+      "text": "Monthly blog post — Online Trauma Therapy in California (published Oct 6)",
+      "status": "done"
+    },
+    {
+      "text": "Image alt text — 17 images",
+      "status": "done"
+    },
+    {
+      "text": "Technical pass — MedicalClinic schema, 5 titles, 6 descriptions, social sharing image (Oct 20)",
+      "status": "done"
+    },
+    {
+      "text": "Title + meta refresh — counselors page + 2 blog posts (Oct 28)",
+      "status": "done"
+    },
+    {
+      "text": "Title + meta CTR pass — online counseling + faith-based therapy (rankings recheck Nov 3)",
       "status": "in_progress"
     },
     {
-      "text": "Monthly blog post — October",
+      "text": "Monthly blog post — November",
       "status": "todo"
     },
     {
@@ -94,45 +114,45 @@
   "keywords": [
     {
       "keyword": "parish health and wellness",
-      "position": 1.0,
+      "position": 1.1,
       "last_month": 1.0,
-      "clicks": 32
+      "clicks": 41
     },
     {
       "keyword": "online therapy",
-      "position": 17.5,
-      "last_month": 18.8,
-      "clicks": 0
+      "position": 22.9,
+      "last_month": 17.5,
+      "clicks": 1
     },
     {
       "keyword": "online therapy california",
-      "position": 12.6,
-      "last_month": 12.7,
+      "position": 13.9,
+      "last_month": 12.6,
       "clicks": 1
     },
     {
       "keyword": "online therapy in california",
-      "position": 12.3,
-      "last_month": 12.9,
+      "position": 13.5,
+      "last_month": 12.2,
       "clicks": 0
     },
     {
       "keyword": "couples therapy",
-      "position": 18.3,
-      "last_month": 18.2,
+      "position": 18.4,
+      "last_month": 18,
       "clicks": 0
     },
     {
       "keyword": "couples counseling",
-      "position": 12.6,
-      "last_month": 13.5,
+      "position": 15.2,
+      "last_month": 11.7,
       "clicks": 0
     },
     {
       "keyword": "online therapist",
-      "position": 20.2,
-      "last_month": 32.5,
-      "clicks": 0
+      "position": 20.4,
+      "last_month": 19.1,
+      "clicks": 1
     },
     {
       "keyword": "addiction counselor near me",
@@ -148,64 +168,64 @@
     },
     {
       "keyword": "christian counseling california",
-      "position": 14.5,
-      "last_month": 23.2,
+      "position": 8.2,
+      "last_month": 12,
       "clicks": 0
     },
     {
       "keyword": "relationship therapy california",
-      "position": 14.2,
-      "last_month": 14.8,
+      "position": 8.5,
+      "last_month": 13.8,
       "clicks": 0
     },
     {
       "keyword": "anger management counseling california",
-      "position": 8.9,
-      "last_month": 6.8,
+      "position": 12.2,
+      "last_month": 8.9,
       "clicks": 0
     },
     {
       "keyword": "affordable online therapy",
-      "position": 62.5,
-      "last_month": 65.3,
+      "position": 48.6,
+      "last_month": 62.5,
       "clicks": 0
     },
     {
       "keyword": "affordable counseling online",
-      "position": null,
-      "last_month": 60.3,
+      "position": 55.7,
+      "last_month": null,
       "clicks": 0
     },
     {
       "keyword": "affirming therapy pomona",
-      "position": 26.8,
-      "last_month": 20.4,
+      "position": 76,
+      "last_month": 26.8,
       "clicks": 0
     }
   ],
   "content_calendar": [
     {
-      "date": "Oct 14",
-      "title": "Title + meta CTR pass — results review (7 pages)",
+      "date": "Nov 3",
+      "title": "Rankings recheck — online counseling + faith-based therapy titles",
       "type": "deliverable"
     },
     {
-      "date": "Oct 2026",
+      "date": "Nov 2026",
       "title": "Monthly blog post",
       "type": "blog"
     },
     {
-      "date": "Oct 2026",
+      "date": "Nov 2026",
       "title": "Red Bluff hero H1 + step text fix (PHW-148)",
       "type": "fix"
     },
     {
-      "date": "Oct 2026",
+      "date": "Nov 2026",
       "title": "GBP optimization — photos, posts, services",
       "type": "deliverable"
     },
     {
-      "date": "Oct 2026",
+      "date": "Nov 2026",
       "title": "Service page expansion — anxiety, depression, trauma",
       "type": "page"
     }
@@ -235,6 +255,11 @@
       "title": "Online Depression Therapy in California: What to Expect",
       "keyword": "online depression therapy california",
       "status": "published"
+    },
+    {
+      "title": "Online Trauma Therapy in California: What to Expect",
+      "keyword": "online trauma therapy california",
+      "status": "published"
     }
   ],
   "reports": [
@@ -247,124 +272,124 @@
   ],
   "gsc_keywords": [
     {
-      "keyword": "telehealth therapy",
-      "position": 17.5,
+      "keyword": "relationship therapy",
+      "position": 21.6,
       "clicks": 0,
-      "impressions": 1410
+      "impressions": 1537
     },
     {
-      "keyword": "online therapy",
-      "position": 17.5,
+      "keyword": "couples therapy",
+      "position": 18.4,
       "clicks": 0,
-      "impressions": 1393
-    },
-    {
-      "keyword": "virtual counseling",
-      "position": 16.8,
-      "clicks": 0,
-      "impressions": 1000
+      "impressions": 1231
     },
     {
       "keyword": "virtual therapy",
-      "position": 26.9,
+      "position": 31.1,
       "clicks": 0,
-      "impressions": 961
+      "impressions": 1199
     },
     {
       "keyword": "online counseling",
-      "position": 20.8,
-      "clicks": 0,
-      "impressions": 943
+      "position": 21.6,
+      "clicks": 1,
+      "impressions": 865
     },
     {
-      "keyword": "therapy from home",
-      "position": 10.5,
+      "keyword": "telehealth therapy",
+      "position": 27.2,
       "clicks": 0,
-      "impressions": 766
+      "impressions": 855
+    },
+    {
+      "keyword": "anxiety therapy",
+      "position": 15.3,
+      "clicks": 0,
+      "impressions": 747
     },
     {
       "keyword": "online therapy california",
-      "position": 12.6,
+      "position": 13.9,
       "clicks": 1,
-      "impressions": 694
+      "impressions": 745
     },
     {
-      "keyword": "relationship therapy",
-      "position": 30.3,
+      "keyword": "virtual counseling",
+      "position": 23.3,
       "clicks": 0,
-      "impressions": 450
+      "impressions": 650
+    },
+    {
+      "keyword": "online therapy",
+      "position": 22.9,
+      "clicks": 1,
+      "impressions": 529
+    },
+    {
+      "keyword": "faith based therapist",
+      "position": 8.1,
+      "clicks": 0,
+      "impressions": 492
+    },
+    {
+      "keyword": "therapy for anxiety",
+      "position": 34.2,
+      "clicks": 0,
+      "impressions": 431
     },
     {
       "keyword": "online therapist",
-      "position": 20.2,
-      "clicks": 0,
-      "impressions": 378
+      "position": 20.4,
+      "clicks": 1,
+      "impressions": 405
     },
     {
-      "keyword": "telehealth counseling",
-      "position": 23.9,
+      "keyword": "telehealth therapist",
+      "position": 21.1,
       "clicks": 0,
       "impressions": 344
     },
     {
-      "keyword": "faith based therapist",
-      "position": 7.8,
-      "clicks": 1,
-      "impressions": 284
+      "keyword": "therapy online",
+      "position": 14.9,
+      "clicks": 0,
+      "impressions": 341
     },
     {
-      "keyword": "online therapy that takes insurance",
-      "position": 27.8,
+      "keyword": "online therapy los angeles",
+      "position": 22.0,
       "clicks": 0,
-      "impressions": 247
+      "impressions": 324
     },
     {
-      "keyword": "online therapy in california",
-      "position": 12.3,
+      "keyword": "parrish tv therapy",
+      "position": 1,
       "clicks": 0,
-      "impressions": 242
+      "impressions": 316
     },
     {
-      "keyword": "employers must provide access to their program no later than ________ after the request for access is received from an employee or designated representative.",
-      "position": 8.4,
+      "keyword": "online depression therapy california",
+      "position": 12.0,
       "clicks": 0,
-      "impressions": 241
+      "impressions": 300
     },
     {
       "keyword": "online anxiety therapy california",
-      "position": 11.3,
+      "position": 12.2,
       "clicks": 0,
-      "impressions": 233
+      "impressions": 295
     },
     {
-      "keyword": "telehealth therapist",
-      "position": 26.5,
+      "keyword": "online therapy in california",
+      "position": 13.5,
       "clicks": 0,
-      "impressions": 220
+      "impressions": 284
     },
     {
-      "keyword": "virtual therapy california",
-      "position": 15.9,
+      "keyword": "couple therapy",
+      "position": 20.1,
       "clicks": 0,
-      "impressions": 208
-    },
-    {
-      "keyword": "relationship counseling",
-      "position": 23.8,
-      "clicks": 0,
-      "impressions": 207
-    },
-    {
-      "keyword": "online therapist california",
-      "position": 14.7,
-      "clicks": 0,
-      "impressions": 206
-    },
-    {
-      "keyword": "virtual therapist",
-      "position": 25.9,
-      "clicks": 0,
-      "impressions": 192
+      "impressions": 255
     }
   ],
   "roadmap": [
@@ -567,6 +592,11 @@
       "from": "Kandy",
       "date": "October 1, 2026",
       "text": "October is active. September on the site: we published the monthly blog post, “Online Depression Therapy in California: What to Expect,” on September 28 (https://www.phwcare.com/mental-health-blog/online-depression-therapy-california) and moved all six blog posts onto a new layout with FAQ sections and FAQ schema. Nadia Pena and Rachel Gross now have bios on the team page, the footer was rebuilt as a native Squarespace footer that stacks cleanly on phones, both Red Bluff location pages now direct visitors to the 756 Rio Street office, and the About page header shows the Rio Street storefront with the updated sign. In Search Console for September 1–28, clicks rose to 189 from 171 over the same days in August, average position improved from 23.0 to 19.3, and click-through rate moved from 0.31% to 0.59%. Total impressions were lower (31,846 vs 54,293), so the appearances we earned sat higher on the page. On September 30 we refreshed the title and meta description on seven pages that rank well but earn few clicks, and we review those results on October 14. Also in October: the monthly blog post. Carried forward: the Google Business Profile optimization pass and the service page expansion for anxiety, depression, and trauma."
+    },
+    {
+      "from": "Kandy",
+      "date": "November 2, 2026",
+      "text": "November is active. In October we published the monthly blog post, “Online Trauma Therapy in California: What to Expect,” on October 6 (https://www.phwcare.com/mental-health-blog/online-trauma-therapy-california), added alt text to 17 images, linked two orphaned pages from the footer, and pointed the blog index straight at the live anxiety post. On October 20 we completed a technical pass covering a broken outbound link, the MedicalClinic schema type, five page titles, six meta descriptions and the social sharing image. On October 28 we refreshed the titles and meta descriptions on the counselors page and two blog posts, standardized the practice name on the anxiety page and its blog post, and corrected the analytics key-event setup. Google Business posts went out on October 20 and 27 and were shared to Facebook. In Search Console for October, impressions rose to 36,027 from 33,828 in September and the site appeared for 1,840 search queries, up from 1,664. Clicks held steady at 212 (215 in September) with an average position of 20.7. On November 3 we recheck rankings for the online counseling and faith-based therapy searches and tune those page titles. Also in November: the monthly blog post. Carried forward: the Google Business Profile optimization pass, the Red Bluff hero fix (PHW-148), and the service page expansion."
     }
   ],
   "site_links": [
@@ -736,6 +766,12 @@
       "category": "Blog Posts",
       "label": "Online Depression Therapy California",
       "url": "https://www.phwcare.com/mental-health-blog/online-depression-therapy-california",
+      "icon": "📄"
+    },
+    {
+      "category": "Blog Posts",
+      "label": "Online Trauma Therapy California",
+      "url": "https://www.phwcare.com/mental-health-blog/online-trauma-therapy-california",
       "icon": "📄"
     },
     {
@@ -947,15 +983,69 @@
       "ticket": "PHW-325"
     },
     {
+      "date": "October 1, 2026",
+      "type": "seo",
+      "title": "Orphan pages linked from the footer",
+      "ticket": "PHW-326"
+    },
+    {
+      "date": "October 2, 2026",
+      "type": "local",
+      "title": "Google Business Profile — updated sign photo added",
+      "ticket": "PHW-232"
+    },
+    {
+      "date": "October 6, 2026",
+      "type": "content",
+      "title": "Blog post published + optimized — online trauma therapy",
+      "ticket": "PHW-327"
+    },
+    {
+      "date": "October 8, 2026",
+      "type": "seo",
+      "title": "Blog index link fixed — no redirect hop",
+      "ticket": "PHW-328"
+    },
+    {
+      "date": "October 9, 2026",
+      "type": "seo",
+      "title": "Image alt text added — 17 images",
+      "ticket": "PHW-254"
+    },
+    {
       "date": "October 20, 2026",
       "type": "social",
       "title": "Google Business post: Trauma & PTSD therapy in Red Bluff + online CA + Facebook"
     },
     {
+      "date": "October 20, 2026",
+      "type": "seo",
+      "title": "Technical fixes — broken link, MedicalClinic schema, 5 titles, 6 descriptions, social sharing image",
+      "ticket": "PHW-329"
+    },
+    {
       "date": "October 27, 2026",
       "type": "social",
       "title": "Google Business post: Using Medi-Cal or Medicare for therapy in Red Bluff + online CA + Facebook"
+    },
+    {
+      "date": "October 28, 2026",
+      "type": "seo",
+      "title": "Title + meta refreshed — counselors page + 2 blog posts",
+      "ticket": "PHW-333"
+    },
+    {
+      "date": "October 28, 2026",
+      "type": "content",
+      "title": "Practice name wording standardized — anxiety page + blog post",
+      "ticket": "PHW-331"
+    },
+    {
+      "date": "October 28, 2026",
+      "type": "seo",
+      "title": "Analytics key-event setup corrected",
+      "ticket": "PHW-334"
     }
   ],
   "homepage": "https://www.phwcare.com"
-}
+}

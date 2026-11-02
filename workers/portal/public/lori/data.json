@@ -5,12 +5,12 @@
   "plan": "Custom",
   "plan_price": "$575/mo",
   "plan_hours": 1,
-  "hours_used": 1,
+  "hours_used": 0.5,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
   "updated": "2026-11-02",
   "next_invoice": {
-    "date": "October 1, 2026",
+    "date": "November 1, 2026",
     "amount": "$575.00"
   },
   "add_ons": [
@@ -23,30 +23,30 @@
     }
   ],
   "stats": {
-    "sessions": 492,
-    "sessions_change": "+125",
-    "sessions_trend": "up",
-    "keywords": 271,
-    "keywords_change": "+38",
+    "sessions": 496,
+    "sessions_change": "-54",
+    "sessions_trend": "down",
+    "keywords": 308,
+    "keywords_change": "+7",
     "keywords_trend": "up",
-    "position": 8.9,
-    "position_change": "+9.1",
-    "position_trend": "up",
-    "impressions": 6083,
-    "impressions_change": "-1348",
-    "impressions_trend": "down",
-    "ctr": 4.24,
-    "ctr_change": "+1.5",
-    "ctr_trend": "up"
+    "position": 9.1,
+    "position_change": "-0.2",
+    "position_trend": "down",
+    "impressions": 6661,
+    "impressions_change": "+83",
+    "impressions_trend": "up",
+    "ctr": 3.74,
+    "ctr_change": "-0.6",
+    "ctr_trend": "down"
   },
   "deliverables": [
     {
       "text": "SEO Monitoring — Tech, Rankings, Schema, Indexing, Content",
-      "status": "todo"
+      "status": "in_progress"
     },
     {
       "text": "Blog Post or SEO Op",
-      "status": "done"
+      "status": "todo"
     },
     {
       "text": "Social Media Posting — 2 LinkedIn + 2 Instagram",
@@ -59,13 +59,12 @@
     },
     {
       "text": "Quick-Fix Site Work — 30 Min",
-      "status": "done",
+      "status": "todo",
       "label": "Included"
     },
     {
       "text": "Quarterly Performance Report",
-      "status": "todo",
-      "due": "Oct 31"
+      "status": "in_progress"
     },
     {
       "text": "Discretionary Work — $50/hr (50% off)",
@@ -82,132 +81,132 @@
   },
   "gsc_keywords": [
     {
-      "keyword": "gate of grief",
-      "position": 6.6,
-      "clicks": 1,
-      "impressions": 124
+      "keyword": "natalie kim",
+      "position": 6.5,
+      "clicks": 0,
+      "impressions": 125
+    },
+    {
+      "keyword": "5 gates of grief",
+      "position": 3.2,
+      "clicks": 6,
+      "impressions": 104
     },
     {
       "keyword": "gates of grief",
-      "position": 5.0,
+      "position": 3.4,
       "clicks": 0,
-      "impressions": 92
+      "impressions": 102
     },
     {
-      "keyword": "5 gates of grief francis weller",
-      "position": 3.8,
-      "clicks": 12,
-      "impressions": 87
+      "keyword": "five gates of grief",
+      "position": 3.4,
+      "clicks": 2,
+      "impressions": 94
+    },
+    {
+      "keyword": "tokophobia",
+      "position": 25.1,
+      "clicks": 0,
+      "impressions": 90
     },
     {
       "keyword": "lori kimmerly therapy",
       "position": 1.1,
-      "clicks": 55,
-      "impressions": 87
+      "clicks": 51,
+      "impressions": 81
+    },
+    {
+      "keyword": "5 gates of grief francis weller",
+      "position": 3.5,
+      "clicks": 6,
+      "impressions": 81
     },
     {
       "keyword": "francis weller 5 gates of grief",
-      "position": 4.6,
-      "clicks": 7,
-      "impressions": 77
-    },
-    {
-      "keyword": "5 gates of grief",
-      "position": 3.7,
-      "clicks": 3,
-      "impressions": 75
-    },
-    {
-      "keyword": "five gates of grief",
-      "position": 3.5,
-      "clicks": 3,
-      "impressions": 73
-    },
-    {
-      "keyword": "tokophobia",
-      "position": 35.3,
-      "clicks": 0,
-      "impressions": 71
-    },
-    {
-      "keyword": "what is tokophobia",
-      "position": 10.9,
-      "clicks": 0,
-      "impressions": 55
-    },
-    {
-      "keyword": "caroline bacon",
-      "position": 2.8,
-      "clicks": 3,
-      "impressions": 51
+      "position": 3.3,
+      "clicks": 2,
+      "impressions": 67
     },
     {
       "keyword": "the five gates of grief",
       "position": 3.6,
-      "clicks": 1,
-      "impressions": 44
+      "clicks": 4,
+      "impressions": 64
     },
     {
-      "keyword": "the gates of grief",
-      "position": 5.8,
+      "keyword": "gate of grief",
+      "position": 4.9,
       "clicks": 0,
-      "impressions": 43
+      "impressions": 51
+    },
+    {
+      "keyword": "anxiety therapy renton",
+      "position": 5.9,
+      "clicks": 0,
+      "impressions": 45
+    },
+    {
+      "keyword": "caroline bacon",
+      "position": 3.0,
+      "clicks": 0,
+      "impressions": 41
     },
     {
       "keyword": "francis weller gates of grief",
-      "position": 6.3,
-      "clicks": 2,
-      "impressions": 40
-    },
-    {
-      "keyword": "alleger",
-      "position": 9.1,
-      "clicks": 0,
-      "impressions": 35
-    },
-    {
-      "keyword": "natalie kim",
-      "position": 12.4,
+      "position": 4.4,
       "clicks": 3,
-      "impressions": 34
-    },
-    {
-      "keyword": "gates of grief francis weller",
-      "position": 5.8,
-      "clicks": 0,
-      "impressions": 32
-    },
-    {
-      "keyword": "five gates of grief francis weller",
-      "position": 5.1,
-      "clicks": 5,
-      "impressions": 26
+      "impressions": 38
     },
     {
       "keyword": "what is internal family systems therapy",
-      "position": 69.3,
+      "position": 79.8,
       "clicks": 0,
-      "impressions": 26
+      "impressions": 37
     },
     {
-      "keyword": "the gate of grief",
-      "position": 6.8,
+      "keyword": "depression therapy renton",
+      "position": 10.2,
       "clicks": 0,
-      "impressions": 25
+      "impressions": 33
     },
     {
-      "keyword": "john hubbs",
-      "position": 3.0,
+      "keyword": "francis weller",
+      "position": 3.5,
+      "clicks": 0,
+      "impressions": 31
+    },
+    {
+      "keyword": "gates of grief francis weller",
+      "position": 4.5,
       "clicks": 3,
-      "impressions": 22
+      "impressions": 28
+    },
+    {
+      "keyword": "internal family systems therapy",
+      "position": 62.3,
+      "clicks": 0,
+      "impressions": 28
+    },
+    {
+      "keyword": "therapy for men renton",
+      "position": 4.6,
+      "clicks": 0,
+      "impressions": 28
+    },
+    {
+      "keyword": "the gates of grief",
+      "position": 4.1,
+      "clicks": 0,
+      "impressions": 27
     }
   ],
   "keywords": [
     {
       "keyword": "lori kimmerly therapy",
       "position": 1.1,
-      "last_month": 1,
-      "clicks": 55
+      "last_month": 1.1,
+      "clicks": 51
     },
     {
       "keyword": "therapist renton wa",
@@ -247,14 +246,14 @@
     },
     {
       "keyword": "couples therapy renton",
-      "position": 10.8,
-      "last_month": 9.8,
+      "position": 9.1,
+      "last_month": 10.2,
       "clicks": 0
     },
     {
       "keyword": "couples therapist renton",
       "position": null,
-      "last_month": 10,
+      "last_month": null,
       "clicks": 0
     },
     {
@@ -271,8 +270,8 @@
     },
     {
       "keyword": "anxiety therapist renton wa",
-      "position": 12,
-      "last_month": null,
+      "position": 13.1,
+      "last_month": 12,
       "clicks": 0
     },
     {
@@ -307,8 +306,8 @@
     },
     {
       "keyword": "life transitions therapy renton",
-      "position": null,
-      "last_month": 5.5,
+      "position": 12.9,
+      "last_month": null,
       "clicks": 0
     },
     {
@@ -326,55 +325,54 @@
   ],
   "content_calendar": [
     {
-      "date": "Oct 1",
+      "date": "Nov 2",
       "title": "Therapist Carousels + Featured Blog Posts Rotated",
       "type": "deliverable"
     },
     {
-      "date": "Oct 5",
-      "title": "Instagram Post Due",
-      "type": "social"
-    },
-    {
-      "date": "Oct 10",
+      "date": "Nov 10",
       "title": "Next Posting Cycle Begins — 2 LinkedIn + 2 Instagram",
       "type": "social"
     },
     {
-      "date": "Oct 15",
+      "date": "Nov 13",
+      "title": "Instagram Post Due",
+      "type": "social"
+    },
+    {
+      "date": "Nov 15",
       "title": "Blog Topic or Draft Due",
       "type": "client"
     },
     {
-      "date": "Oct 15",
-      "title": "Service Pages — Search Console Review",
-      "type": "deliverable"
+      "date": "Nov 22",
+      "title": "LinkedIn Post Due",
+      "type": "social"
     },
     {
-      "date": "Oct 22",
+      "date": "Nov 22",
       "title": "Blog Post or SEO Op — Live",
       "type": "deliverable"
     },
     {
-      "date": "Oct 31",
+      "date": "Nov 2026",
       "title": "Quarterly Performance Report",
       "type": "deliverable"
     }
   ],
   "content_choice": {
-    "chosen": "blog",
+    "chosen": null,
     "blog": {
-      "title": "Therapy for Men: Why So Many Wait — and What Actually Helps",
-      "keyword": "therapy for men renton",
-      "status": "live",
-      "url": "lorikimmerly.com/therapy-for-men-renton-wa/"
+      "title": null,
+      "keyword": null,
+      "status": "pending"
     },
     "page": {
-      "title": "Tokophobia post — SEO optimization",
-      "url": "lorikimmerly.com/tokophobia-fear-of-childbirth/",
-      "keyword": "what is tokophobia",
+      "title": "Depression Therapy page — SEO optimization",
+      "url": "lorikimmerly.com/depression-therapy/",
+      "keyword": "depression therapy renton",
       "status": "suggested",
-      "note": "Position 10.9 with 55 impressions and 0 clicks in Search Console for September 1–28 — top of page 2 and within reach of page 1."
+      "note": "Position 10.1 with 32 impressions and 0 clicks in Search Console for October 1–31 — top of page 2 and within reach of page 1."
     }
   },
   "blog_topics": [
@@ -847,6 +845,11 @@
       "from": "Kandy",
       "date": "October 4, 2026",
       "text": "We completed a full technical SEO audit of your site this week along with a phone and tablet display pass. All 37 pages are indexed in Google with a clean sitemap and structured data, and all eight new service pages are confirmed indexed. We refined how the site displays on phones and tablets, so the menu button, page headers, the homepage and shop headers, therapist bio pages and blog articles now sit cleanly at every screen size. We also refreshed the licensing resource link on your contact page and tightened the search title and description on Jennifer Kenworthy's profile. We will keep tuning the service page titles as Google builds up search data for them."
+    },
+    {
+      "from": "Kandy",
+      "date": "November 2, 2026",
+      "text": "November is here. In October we published your blog post “Therapy for Men: Why So Many Wait — and What Actually Helps” on the 19th, moved every blog post to short date-free URLs with permanent redirects from the old links, and repointed the service-page links to the new addresses. We added Reuben Szabo's profile to the team, launched the Graduate Therapists sliding scale page with links across the site, corrected structured-data validation on 17 pages, and fixed a duplicate heading on the shop page. All four October social posts went out on LinkedIn and Instagram. In Search Console for October, impressions rose to 6,661 from 6,578 in September and the site appeared for 308 search queries, up from 301, with average position holding on page one at 9.1. Clicks came in at 249 (285 in September) and Google Analytics recorded 496 organic sessions. This month's therapist carousel and featured blog rotations went live today. For your November blog post or SEO op, send a topic or draft by the 15th; otherwise we will optimize the Depression Therapy page for “depression therapy renton,” which sits at position 10.1 with 32 impressions, right at the edge of page one. Your quarterly performance report is being finalized, and the next social posting cycle starts on the 10th."
     }
   ],
   "site_links": [
@@ -879,6 +882,12 @@
       "label": "Shop",
       "url": "https://lorikimmerly.com/shop/",
       "icon": "🛍️"
+    },
+    {
+      "category": "Main Pages",
+      "label": "Graduate Therapists — Sliding Scale Therapy",
+      "url": "https://lorikimmerly.com/sliding-scale-therapy/",
+      "icon": "🏠"
     },
     {
       "category": "Therapist Bios",
@@ -971,6 +980,12 @@
       "icon": "👤"
     },
     {
+      "category": "Therapist Bios",
+      "label": "Reuben Szabo",
+      "url": "https://lorikimmerly.com/reuben-szabo/",
+      "icon": "👤"
+    },
+    {
       "category": "Blog Posts",
       "label": "Welcome — A Note From Our Therapists",
       "url": "https://lorikimmerly.com/welcome-to-our-blog-a-note-from-our-therapists/",
@@ -1016,6 +1031,12 @@
       "category": "Blog Posts",
       "label": "Building Resiliency in Your Kids",
       "url": "https://lorikimmerly.com/building-resiliency-in-children/",
+      "icon": "📄"
+    },
+    {
+      "category": "Blog Posts",
+      "label": "Therapy for Men",
+      "url": "https://lorikimmerly.com/therapy-for-men-renton-wa/",
       "icon": "📄"
     },
     {
@@ -1387,6 +1408,23 @@
       "title": "Contact page resource link updated"
     },
     {
+      "date": "October 7, 2026",
+      "type": "seo",
+      "title": "Duplicate H1 fixed — shop page",
+      "ticket": "LOR-433"
+    },
+    {
+      "date": "October 10, 2026",
+      "type": "social",
+      "title": "Instagram post published"
+    },
+    {
+      "date": "October 15, 2026",
+      "type": "content",
+      "title": "New therapist profile added — Reuben Szabo, MFT Intern",
+      "ticket": "LOR-434"
+    },
+    {
       "date": "October 19, 2026",
       "type": "content",
       "title": "New blog post published — Therapy for Men: Why So Many Wait",
@@ -1401,6 +1439,40 @@
       "ticket": "LOR-436"
     },
     {
+      "date": "October 19, 2026",
+      "type": "social",
+      "title": "LinkedIn post published",
+      "ticket": "LOR-437"
+    },
+    {
+      "date": "October 20, 2026",
+      "type": "seo",
+      "title": "Schema validation errors fixed — 17 pages",
+      "ticket": "LOR-438"
+    },
+    {
+      "date": "October 23, 2026",
+      "type": "social",
+      "title": "Instagram post published"
+    },
+    {
+      "date": "October 24, 2026",
+      "type": "content",
+      "title": "New page published — Graduate Therapists sliding scale therapy + site-wide links",
+      "ticket": "LOR-440"
+    },
+    {
+      "date": "October 28, 2026",
+      "type": "seo",
+      "title": "Internal links updated — 8 service pages to new blog URLs",
+      "ticket": "LOR-442"
+    },
+    {
+      "date": "October 29, 2026",
+      "type": "social",
+      "title": "LinkedIn post published"
+    },
+    {
       "date": "November 2, 2026",
       "type": "content",
       "title": "Therapist carousels rotated — homepage + team page"
@@ -1412,4 +1484,4 @@
     }
   ],
   "homepage": "https://lorikimmerly.com"
-}
+}
