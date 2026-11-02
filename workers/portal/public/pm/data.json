@@ -807,6 +807,13 @@
       "title": "Blog post drafted: 'Behavioral Health SEO for Group Practices and Clinics' (mental health SEO spoke, awaiting approval)",
       "detail": "Draft PR open. Will go live at https://www.phoenixmethodseo.com/blog/behavioral-health-seo.html once approved.",
       "ticket": "PM-350"
+    },
+    {
+      "date": "November 2, 2026",
+      "type": "content",
+      "title": "Free-audit wording fixed on the homepage FAQ and 3 blog CTAs to match what the free audit covers",
+      "detail": "Free audit = technical SEO, on-page SEO, and mobile speed grades. GBP, content, and backlinks are named as part of the paid audit.",
+      "ticket": "PM-351"
     }
   ],
   "homepage": "https://phoenixmethodseo.com",
