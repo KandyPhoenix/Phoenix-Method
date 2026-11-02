@@ -1,14 +1,14 @@
 {
   "client": "Sunbright Recovery Center",
   "short_name": "Sunbright",
-  "month": "October 2026",
+  "month": "November 2026",
   "plan": "Launch",
   "plan_price": "Full-Build Project",
   "plan_hours": null,
   "hours_used": 0,
   "rollover_enabled": false,
   "hours_rolled_over": 0,
-  "updated": "2026-10-01",
+  "updated": "2026-11-02",
   "next_invoice": null,
   "stats": {
     "sessions": null,
@@ -113,22 +113,22 @@
   ],
   "content_calendar": [
     {
-      "date": "Oct 2026",
+      "date": "Nov 2026",
       "title": "Nonprofit status update — social profiles + Google Business Profile",
       "type": "deliverable"
     },
     {
-      "date": "Oct 2026",
+      "date": "Nov 2026",
       "title": "Subpage header refinements — About, Events, Get Involved",
       "type": "deliverable"
     },
     {
-      "date": "Oct 2026",
+      "date": "Nov 2026",
       "title": "Homepage additions — aftercare planning, community partners, sponsors & supporters",
       "type": "page"
     },
     {
-      "date": "Oct 2026",
+      "date": "Nov 2026",
       "title": "Newsletter / email capture",
       "type": "deliverable"
     },
@@ -426,6 +426,11 @@
       "from": "Kandy",
       "date": "October 1, 2026",
       "text": "October update. The Sunbright community site has been live at www.sunbrightrecovery.org since June 27 with five pages — Home, About, Events, Get Involved and Contact — and the bare sunbrightrecovery.org address forwards to it. Since launch we added the approved 501(c)(3) nonprofit status and a viewable copy of the IRS determination letter (August 20), and on September 18 we replaced every phone number on the site with the new main line, (530) 513-4294. The clinical pages stay unpublished until state licensing is complete. On deck for October: carrying the nonprofit status through to the social profiles and Google Business Profile, refining the headers on the About, Events and Get Involved pages, and the next round of homepage additions."
+    },
+    {
+      "from": "Kandy",
+      "date": "November 2, 2026",
+      "text": "November update. The community site at www.sunbrightrecovery.org continues to serve Home, About, Events, Get Involved and Contact, and the clinical pages stay unpublished until state licensing is complete. On deck for November: the newsletter signup so supporters can stay in touch ahead of opening, the header refinements on the About, Events and Get Involved pages, carrying the nonprofit status through to the social profiles and Google Business Profile, and the next round of homepage additions."
     }
   ],
   "site_links": [
@@ -521,4 +526,4 @@
     }
   ],
   "homepage": "https://sunbrightrecovery.org"
-}
+}

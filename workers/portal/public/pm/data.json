@@ -1,35 +1,35 @@
 {
   "client": "Phoenix Method SEO",
   "short_name": "PM",
-  "month": "October 2026",
+  "month": "November 2026",
   "plan": "Internal",
   "plan_price": "Agency Site",
   "plan_hours": 0,
   "hours_used": 0,
   "rollover_enabled": false,
   "hours_rolled_over": 0,
-  "updated": "2026-10-01",
+  "updated": "2026-11-02",
   "next_invoice": {
     "date": "N/A",
     "amount": "Internal"
   },
   "stats": {
-    "sessions": 2,
-    "sessions_change": "-4",
-    "sessions_trend": "down",
-    "keywords": 160,
-    "keywords_change": "-41",
-    "keywords_trend": "down",
-    "position": 52.7,
-    "position_change": "+6.1",
+    "sessions": 6,
+    "sessions_change": "+4",
+    "sessions_trend": "up",
+    "keywords": 594,
+    "keywords_change": "+431",
+    "keywords_trend": "up",
+    "position": 40.4,
+    "position_change": "+11.9",
     "position_trend": "up",
-    "impressions": 2241,
-    "impressions_change": "-907",
-    "impressions_trend": "down",
-    "ctr": 0.09,
-    "ctr_change": "-0.1",
-    "ctr_trend": "down",
-    "clicks": 2
+    "impressions": 10226,
+    "impressions_change": "+7904",
+    "impressions_trend": "up",
+    "ctr": 0.06,
+    "ctr_change": "0",
+    "ctr_trend": "neutral",
+    "clicks": 6
   },
   "deliverables": [
     {
@@ -85,6 +85,22 @@
       "status": "done"
     },
     {
+      "text": "Monthly content routines — blog 1st + 16th, LinkedIn, Instagram (PM-341)",
+      "status": "done"
+    },
+    {
+      "text": "Mental health SEO pillar page — rewritten to 2,800+ words (PM-343)",
+      "status": "done"
+    },
+    {
+      "text": "Blog posts — SEO for Psychiatrists, Therapist Website Management, Behavioral Health SEO",
+      "status": "done"
+    },
+    {
+      "text": "Homepage repositioned — website management & SEO (PM-348)",
+      "status": "done"
+    },
+    {
       "text": "Google Business Profile — create and optimize GBP listing for Phoenix Method",
       "status": "todo"
     },
@@ -106,124 +122,124 @@
   },
   "gsc_keywords": [
     {
-      "keyword": "improve web page rankings",
-      "position": 28.0,
+      "keyword": "ai overview seo",
+      "position": 52.8,
       "clicks": 0,
-      "impressions": 225
+      "impressions": 484
     },
     {
-      "keyword": "squarespace vs wordpress seo",
-      "position": 33.3,
+      "keyword": "dental seo",
+      "position": 57.5,
       "clicks": 0,
-      "impressions": 114
+      "impressions": 300
     },
     {
-      "keyword": "mental health seo",
-      "position": 48.5,
+      "keyword": "ai overviews seo",
+      "position": 67.2,
       "clicks": 0,
-      "impressions": 106
+      "impressions": 297
+    },
+    {
+      "keyword": "ai overview optimization",
+      "position": 53.9,
+      "clicks": 0,
+      "impressions": 248
+    },
+    {
+      "keyword": "ai overviews optimization",
+      "position": 51.9,
+      "clicks": 0,
+      "impressions": 218
+    },
+    {
+      "keyword": "improve site ranking",
+      "position": 26.8,
+      "clicks": 0,
+      "impressions": 198
     },
     {
       "keyword": "psychiatrist seo",
-      "position": 78.6,
+      "position": 21.2,
       "clicks": 0,
-      "impressions": 83
+      "impressions": 198
     },
     {
-      "keyword": "seo for mental health",
-      "position": 71.2,
+      "keyword": "improve web page rankings",
+      "position": 27.2,
       "clicks": 0,
-      "impressions": 83
+      "impressions": 189
     },
     {
-      "keyword": "oil and gas seo",
-      "position": 25.6,
+      "keyword": "google ai overviews seo",
+      "position": 58.5,
       "clicks": 0,
-      "impressions": 81
+      "impressions": 187
     },
     {
-      "keyword": "improve your website rankings",
-      "position": 27.1,
+      "keyword": "seo ai overviews",
+      "position": 62.9,
       "clicks": 0,
-      "impressions": 77
+      "impressions": 158
     },
     {
       "keyword": "seo for psychiatrists",
-      "position": 81.3,
+      "position": 22.6,
       "clicks": 0,
-      "impressions": 70
+      "impressions": 158
     },
     {
-      "keyword": "how to get better website rankings",
-      "position": 25.7,
+      "keyword": "improve website ranking",
+      "position": 27.6,
       "clicks": 0,
-      "impressions": 61
+      "impressions": 148
+    },
+    {
+      "keyword": "seo for mental health",
+      "position": 54.1,
+      "clicks": 0,
+      "impressions": 142
+    },
+    {
+      "keyword": "dental seo services",
+      "position": 50.1,
+      "clicks": 0,
+      "impressions": 134
     },
     {
       "keyword": "seo for mental health professionals",
-      "position": 87.1,
+      "position": 65.1,
       "clicks": 0,
-      "impressions": 58
+      "impressions": 132
     },
     {
-      "keyword": "how to improve web page ranking",
-      "position": 30.4,
+      "keyword": "mental health seo",
+      "position": 40.4,
       "clicks": 0,
-      "impressions": 56
+      "impressions": 125
     },
     {
-      "keyword": "how to increase my site ranking",
-      "position": 36.5,
+      "keyword": "how to improve website ranking",
+      "position": 20.8,
       "clicks": 0,
-      "impressions": 56
-    },
-    {
-      "keyword": "seo psychology",
-      "position": 77.8,
-      "clicks": 0,
-      "impressions": 56
-    },
-    {
-      "keyword": "behavioral health seo",
-      "position": 85,
-      "clicks": 0,
-      "impressions": 44
-    },
-    {
-      "keyword": "how to improve my page rank",
-      "position": 27.1,
-      "clicks": 0,
-      "impressions": 44
-    },
-    {
-      "keyword": "phoenix search engine optimization",
-      "position": 81.8,
-      "clicks": 0,
-      "impressions": 39
-    },
-    {
-      "keyword": "how to increase page rank of my website",
-      "position": 29.6,
-      "clicks": 0,
-      "impressions": 36
+      "impressions": 124
     },
     {
       "keyword": "seo for psychiatrists in private practice",
-      "position": 87.9,
+      "position": 21.4,
       "clicks": 0,
-      "impressions": 35
+      "impressions": 124
     },
     {
-      "keyword": "seo for mental health therapists",
-      "position": 92.3,
+      "keyword": "phoenix ai seo",
+      "position": 18.7,
       "clicks": 0,
-      "impressions": 34
+      "impressions": 115
     },
     {
-      "keyword": "mental health seo services",
-      "position": 79.4,
+      "keyword": "increase website ranking",
+      "position": 21.6,
       "clicks": 0,
-      "impressions": 32
+      "impressions": 105
     }
   ],
   "keywords": [
@@ -259,14 +275,14 @@
     },
     {
       "keyword": "mental health seo",
-      "position": 48.5,
-      "last_month": 45.4,
+      "position": 40.4,
+      "last_month": 48.0,
       "clicks": 0
     },
     {
       "keyword": "behavioral health seo",
-      "position": 85,
-      "last_month": 96.0,
+      "position": 43.6,
+      "last_month": 83.1,
       "clicks": 0
     },
     {
@@ -278,33 +294,53 @@
   ],
   "content_calendar": [
     {
-      "date": "Oct 2026",
-      "title": "Second blog post — target 'seo for therapists' or 'mental health seo'",
-      "type": "deliverable"
+      "date": "Nov 1",
+      "title": "Blog post live — Behavioral Health SEO for Group Practices and Clinics",
+      "type": "blog"
     },
     {
-      "date": "Oct 2026",
+      "date": "Nov 10",
+      "title": "LinkedIn post",
+      "type": "social"
+    },
+    {
+      "date": "Nov 15",
+      "title": "Instagram post",
+      "type": "social"
+    },
+    {
+      "date": "Nov 16",
+      "title": "Second November blog post",
+      "type": "blog"
+    },
+    {
+      "date": "Nov 20",
+      "title": "LinkedIn post",
+      "type": "social"
+    },
+    {
+      "date": "Nov 25",
+      "title": "Instagram post",
+      "type": "social"
+    },
+    {
+      "date": "Nov 2026",
       "title": "Google Business Profile — create and optimize GBP listing",
       "type": "deliverable"
     },
     {
-      "date": "Oct 2026",
+      "date": "Nov 2026",
       "title": "FAQ page — /faq with FAQ schema (PM-147)",
       "type": "deliverable"
     },
     {
-      "date": "Oct 2026",
+      "date": "Nov 2026",
       "title": "Case studies page — Lori + PHW results as social proof",
       "type": "deliverable"
     },
     {
-      "date": "Oct 2026",
-      "title": "Backlink outreach — therapy-adjacent publications and niche citations",
-      "type": "deliverable"
-    },
-    {
-      "date": "Oct 2026",
-      "title": "Agency directory listings — Clutch, UpCity, GoodFirms",
+      "date": "Nov 2026",
+      "title": "Backlink outreach + agency directory listings (Clutch, UpCity, GoodFirms)",
       "type": "deliverable"
     }
   ],
@@ -507,6 +543,11 @@
       "from": "Kandy",
       "date": "October 1, 2026",
       "text": "October update. Search Console for September 1–28: 2,241 impressions and 2 clicks across 160 queries, with average position improving from 58.8 to 52.7 against the same days in August (3,148 impressions, 6 clicks, 201 queries). ‘mental health seo’ sits at position 48.5 with 106 impressions and ‘behavioral health seo’ moved from 96.0 to 85.0. The priority list carries forward unchanged: the second blog post targeting ‘seo for therapists’ or ‘mental health seo’, the Google Business Profile listing, the FAQ page with schema (PM-147), and the case studies page built on Lori and PHW results. Backlink outreach and the agency directory listings (Clutch, UpCity, GoodFirms) are now in their scheduled month. September's repo work went into the client portals: the first-of-month refresh process was documented and the portal admin dashboard's deliverable count was fixed (PM-328)."
+    },
+    {
+      "from": "Kandy",
+      "date": "November 2, 2026",
+      "text": "November update. Search Console for October: 10,226 impressions across 594 queries, up from 2,322 impressions and 163 queries in September, with average position improving from 52.3 to 40.4 and 6 clicks (2 in September). ‘mental health seo’ moved from 48.0 to 40.4 and ‘behavioral health seo’ from 83.1 to 43.6. October content: the SEO for Psychiatrists and Therapist Website Management posts, and the mental health SEO pillar page rewritten to 2,800+ words, with the monthly content routines now running (blog on the 1st and 16th, LinkedIn on the 10th and 20th, Instagram on the 15th and 25th). The homepage now leads with website management and SEO, the Dead Rankings Rise banner is the site's social share image, and the first November post, Behavioral Health SEO for Group Practices and Clinics, went live November 1. Carried forward: the Google Business Profile listing, the FAQ page (PM-147), the case studies page, backlink outreach and the agency directory listings."
     }
   ],
   "site_links": [
@@ -775,6 +816,12 @@
       "ticket": "PM-343"
     },
     {
+      "date": "October 9, 2026",
+      "type": "seo",
+      "title": "Social share image updated — 7 pages (Dead Rankings Rise banner)",
+      "ticket": "PM-344"
+    },
+    {
       "date": "October 12, 2026",
       "type": "social",
       "title": "Instagram post (Oct 9) reposted to The Phoenix Method Facebook page: 'One \"Services\" page cannot rank for six searches' (SEO for psychiatrists)",
@@ -793,6 +840,12 @@
       "title": "Blog post published: 'Therapist Website Management: Who Should Run Your Practice Website?' (practice website management spoke)",
       "detail": "Live: https://www.phoenixmethodseo.com/blog/therapist-website-management.html",
       "ticket": "PM-345"
+    },
+    {
+      "date": "October 19, 2026",
+      "type": "seo",
+      "title": "Homepage hero + meta repositioned — website management & SEO",
+      "ticket": "PM-348"
     },
     {
       "date": "October 26, 2026",
@@ -829,4 +882,4 @@
       "siteUrl": "https://phoenixmethodseo.com"
     }
   ]
-}
+}
