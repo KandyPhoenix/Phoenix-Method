@@ -1481,6 +1481,12 @@
       "type": "content",
       "title": "Starter IFS blog post retired — 301 redirect to IFS service page",
       "ticket": "LOR-446"
+    },
+    {
+      "date": "November 5, 2026",
+      "type": "seo",
+      "title": "301 redirect — retired provider-news post to team page",
+      "ticket": "LOR-447"
     }
   ],
   "homepage": "https://lorikimmerly.com"
