@@ -8,7 +8,7 @@
   "hours_used": 0.5,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-11-02",
+  "updated": "2026-11-05",
   "next_invoice": {
     "date": "November 1, 2026",
     "amount": "$575.00"
@@ -993,12 +993,6 @@
     },
     {
       "category": "Blog Posts",
-      "label": "What Is Internal Family Systems (IFS) Therapy?",
-      "url": "https://lorikimmerly.com/what-is-ifs-therapy-internal-family-systems/",
-      "icon": "📄"
-    },
-    {
-      "category": "Blog Posts",
       "label": "Does Insurance Cover Therapy in Washington State?",
       "url": "https://lorikimmerly.com/does-insurance-cover-therapy-washington-state/",
       "icon": "📄"
@@ -1481,6 +1475,12 @@
       "date": "November 2, 2026",
       "type": "content",
       "title": "Featured blog posts rotated"
+    },
+    {
+      "date": "November 5, 2026",
+      "type": "content",
+      "title": "Starter IFS blog post retired — 301 redirect to IFS service page",
+      "ticket": "LOR-446"
     }
   ],
   "homepage": "https://lorikimmerly.com"
