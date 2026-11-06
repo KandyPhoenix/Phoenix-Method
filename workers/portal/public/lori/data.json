@@ -8,7 +8,7 @@
   "hours_used": 0.5,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-11-05",
+  "updated": "2026-11-06",
   "next_invoice": {
     "date": "November 1, 2026",
     "amount": "$575.00"
@@ -64,7 +64,8 @@
     },
     {
       "text": "Quarterly Performance Report",
-      "status": "in_progress"
+      "status": "done",
+      "label": "Sent Nov 6"
     },
     {
       "text": "Discretionary Work — $50/hr (50% off)",
@@ -355,7 +356,7 @@
       "type": "deliverable"
     },
     {
-      "date": "Nov 2026",
+      "date": "Nov 6",
       "title": "Quarterly Performance Report",
       "type": "deliverable"
     }
@@ -501,6 +502,12 @@
       "date": "August 10, 2026",
       "icon": "📄",
       "url": "https://app.squareup.com/pay-invoice/estimate/invetmp:663df930-23df-4cde-8bb7-6a9ff4cb99d9"
+    },
+    {
+      "name": "Quarterly Performance Report — Aug–Oct 2026",
+      "date": "November 6, 2026",
+      "icon": "📊",
+      "url": "/lori/reports/quarterly-report-aug-oct-2026.pdf"
     }
   ],
   "roadmap": [
@@ -1487,6 +1494,12 @@
       "type": "seo",
       "title": "301 redirect — retired provider-news post to team page",
       "ticket": "LOR-447"
+    },
+    {
+      "date": "November 6, 2026",
+      "type": "audit",
+      "title": "Quarterly performance report sent — Aug 1 – Oct 31, 2026 (in your Reports section)",
+      "ticket": "LOR-439"
     }
   ],
   "homepage": "https://lorikimmerly.com"
