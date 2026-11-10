@@ -1056,6 +1056,13 @@
       "type": "content",
       "title": "Blog post published: Anger in Relationships: Signs, Causes and How Therapy Helps",
       "ticket": "PHW-342"
+    },
+    {
+      "date": "November 10, 2026",
+      "type": "technical",
+      "title": "Stopped the Our Team page from jumping while it loads on phones",
+      "detail": "The intro line \"We’re here to walk beside you on every step of your journey\" used Squarespace auto-scaled text, which resized after the page appeared and pushed everything below it down. Switched it to normal text (same wording and styling). Layout shift on phones went from 0.32 to 0.",
+      "ticket": "PHW-343"
     }
   ],
   "homepage": "https://www.phwcare.com"
