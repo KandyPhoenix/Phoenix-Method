@@ -1063,6 +1063,13 @@
       "title": "Stopped the Our Team page from jumping while it loads on phones",
       "detail": "The intro line \"We’re here to walk beside you on every step of your journey\" used Squarespace auto-scaled text, which resized after the page appeared and pushed everything below it down. Switched it to normal text (same wording and styling). Layout shift on phones went from 0.32 to 0.",
       "ticket": "PHW-343"
+    },
+    {
+      "date": "November 10, 2026",
+      "type": "seo",
+      "title": "Blog post titles are now the main heading (H1) Google reads on all 9 posts",
+      "detail": "Each post’s only H1 was hidden and the visible title was a smaller heading tag. Updated the site-wide blog header code so the visible title is the H1 and the hidden duplicate is no longer a heading. The titles look the same.",
+      "ticket": "PHW-344"
     }
   ],
   "homepage": "https://www.phwcare.com"
