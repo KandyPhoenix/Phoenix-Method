@@ -867,6 +867,13 @@
       "title": "Free-audit wording fixed on the homepage FAQ and 3 blog CTAs to match what the free audit covers",
       "detail": "Free audit = technical SEO, on-page SEO, and mobile speed grades. GBP, content, and backlinks are named as part of the paid audit.",
       "ticket": "PM-351"
+    },
+    {
+      "date": "November 10, 2026",
+      "type": "technical",
+      "title": "robots.txt now points Google at the www sitemap; stale non-www sitemap removed from Search Console",
+      "detail": "robots.txt listed the non-www sitemap address, which redirects, so Google reported no referring sitemap for www pages. Fixed the Sitemap line, resubmitted the www sitemap in Search Console and removed the old non-www entry from July.",
+      "ticket": "PM-354"
     }
   ],
   "homepage": "https://phoenixmethodseo.com",
