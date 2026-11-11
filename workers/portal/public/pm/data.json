@@ -874,6 +874,13 @@
       "title": "robots.txt now points Google at the www sitemap; stale non-www sitemap removed from Search Console",
       "detail": "robots.txt listed the non-www sitemap address, which redirects, so Google reported no referring sitemap for www pages. Fixed the Sitemap line, resubmitted the www sitemap in Search Console and removed the old non-www entry from July.",
       "ticket": "PM-354"
+    },
+    {
+      "date": "November 11, 2026",
+      "type": "social",
+      "title": "LinkedIn post: duplicate location pages, behavioral health SEO (Phoenix Method SEO page)",
+      "detail": "Posted the November 10 LinkedIn post (one day late) from the Phoenix Method SEO company page, introducing the 'Behavioral Health SEO for Group Practices' blog post through the copy-pasted location and telehealth-state pages section and tying it to local SEO. Branded 1200x627 image. Live: https://www.linkedin.com/feed/update/urn:li:activity:7526322595860963328/",
+      "link": "https://www.linkedin.com/feed/update/urn:li:activity:7526322595860963328/"
     }
   ],
   "homepage": "https://phoenixmethodseo.com",
