@@ -10,7 +10,10 @@ stat: GSC via portal data.json (October 2026 refresh, updated 2026-11-02): "seo 
 ticket: PM-350
 image: C:/Users/kandy/Work/sites/phoenixmethod/social/2026-11-10/behavioral-health-seo-duplicate-location-pages.jpg
 image_note: ChatGPT Classic image supplied by Kandy 2026-11-11, resized to 1200x627, metadata stripped
-status: draft
+status: posted
+live_url: https://www.linkedin.com/feed/update/urn:li:activity:7526322595860963328/
+posted_as: Phoenix Method company page (Phoenix Method SEO, linkedin.com/company/117924286)
+posted_on: 2026-11-11
 post_to: Phoenix Method company page ONLY (linkedin.com/company/117924286), never Lori Kimmerly
 ---
 
