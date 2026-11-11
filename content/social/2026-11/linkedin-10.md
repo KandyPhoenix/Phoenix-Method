@@ -6,6 +6,7 @@ angle_type: niche
 angle: copy-pasted location + telehealth-state pages read as duplicates (Google shows one); avoids 10-09 one-page-per-service, 10-10 stale site, 10-15 Psychology Today, 10-20 internal links, 10-25 whose job is the website, 11-02 GBP ghost-clinician pages/redirects
 blog_url: https://www.phoenixmethodseo.com/blog/behavioral-health-seo.html
 service: Local SEO (one real page per office and telehealth state)
+stat: GSC via portal data.json (October 2026 refresh, updated 2026-11-02): "seo for psychiatrists" avg position 22.6, vs 84 in the 90 days ending 2026-10-04 (playbook table). First use; the blog's 223/75 figure deliberately not reused.
 ticket: PM-350
 image: C:/Users/kandy/Work/sites/phoenixmethod/social/2026-11-10/behavioral-health-seo-duplicate-location-pages.jpg
 status: draft
@@ -22,7 +23,7 @@ Google reads near-duplicates as one page and picks which one to show. Usually th
 
 Different facts make different pages. Each office gets its own address, hours, parking notes, and the clinicians who actually sit there. Each telehealth state gets a page naming the clinicians licensed in it. That is the whole fix, and almost nobody does it.
 
-The searches are there. In the 90 days ending Oct 4, 2026, our own Google Search Console showed our site 223 times for "behavioral health seo" at an average position of 75, with no page built for it. When Google digs that deep, page one is thin.
+Specific pages get found. We published one page aimed at "seo for psychiatrists" on Oct 6. For October, our own Google Search Console had us at an average position of 22.6 for that search, up from 84 across the 90 days before it. One page, one set of facts, one search.
 
 That's why local SEO is part of every month we run a group practice site. A small behavioral health practice needs a real page for every office and every telehealth state, because Google can only show a location it can tell apart from the others.
 
