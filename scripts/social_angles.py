@@ -191,6 +191,8 @@ def cmd_add(a):
 def cmd_check(a):
     logged = read_log()
     rows = logged + [r for r in external_rows() if key(r) not in {key(x) for x in logged}]
+    if a.ignore_date:
+        rows = [r for r in rows if r["date"][:10] != a.ignore_date]
     today = dt.date.today()
     fail = False
 
@@ -250,6 +252,7 @@ def main():
     c.add_argument("text", help="the candidate angle in plain words")
     c.add_argument("--stat", help="the number(s) the post will cite, e.g. '223 impressions position 75'")
     c.add_argument("--days", type=int, default=90)
+    c.add_argument("--ignore-date", help="skip rows with this date (re-checking a draft you already saved)")
     c.set_defaults(fn=cmd_check)
     d = sub.add_parser("add")
     for f in ("date", "platform", "angle"):
