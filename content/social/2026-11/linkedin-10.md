@@ -9,6 +9,7 @@ service: Local SEO (one real page per office and telehealth state)
 stat: GSC via portal data.json (October 2026 refresh, updated 2026-11-02): "seo for psychiatrists" avg position 22.6, vs 84 in the 90 days ending 2026-10-04 (playbook table). First use; the blog's 223/75 figure deliberately not reused.
 ticket: PM-350
 image: C:/Users/kandy/Work/sites/phoenixmethod/social/2026-11-10/behavioral-health-seo-duplicate-location-pages.jpg
+image_note: ChatGPT Classic image supplied by Kandy 2026-11-11, resized to 1200x627, metadata stripped
 status: draft
 post_to: Phoenix Method company page ONLY (linkedin.com/company/117924286), never Lori Kimmerly
 ---
