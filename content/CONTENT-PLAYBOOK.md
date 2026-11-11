@@ -201,7 +201,10 @@ a NICHE issue under it (internal links, review replies, schema, telehealth state
 social post across all platforms and do the other type. Blog posts cover the main topics and the bigger niche topics.
 Record it in front matter as `angle_type: big` or `angle_type: niche`.
 
-**No back-to-back angles (Kandy, 10-20-2026):** before writing, read every file in `content/social/` and list each post's
+**No back-to-back angles (Kandy, 10-20-2026):** before writing, run `py -3.14 scripts/social_angles.py list` and
+`check "<candidate angle>" --stat "<number>"` against `content/social/ANGLE-LOG.md`, the one log of every post on every
+channel (LinkedIn, Instagram, Facebook, GBP). Exit 1 means the angle or the statistic was already used: pick another.
+Added 11-11-2026 after a LinkedIn draft repeated a GBP angle nobody had cross-checked. List each post's
 angle. Don't reuse an angle within the same month across LinkedIn, Instagram and Facebook. Rewording counts: "repairs keep a
 site alive" is the same angle as "a site nobody updates". Reframing an older angle later is good, because a different wording
 lands with a different reader, so check `content/social/ANGLE-BANK.md` for saved reframes once enough time has passed.
@@ -259,6 +262,7 @@ Save to `content/social/YYYY-MM/instagram-DD.md` with both versions. Email Kandy
    posts, posts them from Kandy's signed-in browser session
    **to the Phoenix Method SEO LinkedIn page ONLY.** Never Lori Kimmerly's account or any client's. Confirm the
    posting identity reads Phoenix Method SEO before clicking Post; if it doesn't, stop and ask Kandy (hard rule, 2026-10-09)
-5. Live link gets commented on the Jira ticket and a worklog entry lands in the PM portal
+5. Live link gets commented on the Jira ticket, a worklog entry lands in the PM portal, and the post is added to
+   `content/social/ANGLE-LOG.md` with `scripts/social_angles.py add` (angle + the statistic it cited). GBP posts too.
 
 Nothing publishes without step 3. That is the human review Google's unreviewed-AI-content rule requires.
