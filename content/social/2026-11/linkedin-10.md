@@ -21,7 +21,7 @@ Two offices. Two location pages. Same paragraph with the city swapped.
 
 Google reads near-duplicates as one page and picks which one to show. Usually the wrong one. Your second office, and every telehealth state you added the same way, drops out of the results.
 
-Different facts make different pages. Each office gets its own address, hours, parking notes, and the clinicians who actually sit there. Each telehealth state gets a page naming the clinicians licensed in it. That is the whole fix, and almost nobody does it.
+Different facts make different pages. Each office gets its own address, hours, and the clinicians who actually sit there. Each telehealth state gets a page naming the clinicians licensed in it. That is the whole fix, and almost nobody does it.
 
 Specific pages get found. We published one page aimed at "seo for psychiatrists" on Oct 6. For October, our own Google Search Console had us at an average position of 22.6 for that search, up from 84 across the 90 days before it. One page, one set of facts, one search.
 
