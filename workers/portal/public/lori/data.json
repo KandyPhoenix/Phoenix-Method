@@ -8,7 +8,7 @@
   "hours_used": 0.5,
   "rollover_enabled": true,
   "hours_rolled_over": 0,
-  "updated": "2026-11-06",
+  "updated": "2026-11-12",
   "next_invoice": {
     "date": "November 1, 2026",
     "amount": "$575.00"
@@ -75,7 +75,7 @@
   ],
   "package_details": {
     "monthly_audit": "Weekly scan for broken links, slow pages, missing meta tags, indexing issues, duplicate content, and schema errors. Issues flagged and prioritized for repair.",
-    "blog_or_seo": "One blog post OR one full page SEO treatment per month. Your choice — send us your topic or a written draft by the 15th. If we don't hear from you by the 15th, we'll choose based on your best keyword opportunities. Deliverable live by the 22nd.",
+    "blog_or_seo": "One blog post OR one full page SEO treatment per month. You've chosen to write your own blog post each month. Send it over whenever it's ready and we'll optimize it and publish it. There's no deadline to meet: your monthly post is always yours, and a post that arrives after the month has ended still counts for the month it was meant for.",
     "site_hour": "One included hour of site work each month, split in two. The first 30 minutes covers your monthly rotations: every therapist gets time at the front of the homepage carousel and the top of the team cards, and the featured blog posts rotate on every page outside the blog itself. The other 30 minutes is yours for quick fixes you ask for, so small changes don't need to be billed. Unused quick-fix time rolls over and banks up month to month. It never expires.",
     "quarterly_report": "Every three months you'll receive a full performance report covering keyword rankings, traffic trends, what we've done, and what's coming next.",
     "overage": "Additional work beyond your banked hours is billed at $50/hr (our standard rate is $100/hr — you receive a 50% discount for the life of your package)."
@@ -341,18 +341,13 @@
       "type": "social"
     },
     {
-      "date": "Nov 15",
-      "title": "Blog Topic or Draft Due",
-      "type": "client"
-    },
-    {
       "date": "Nov 22",
       "title": "LinkedIn Post Due",
       "type": "social"
     },
     {
-      "date": "Nov 22",
-      "title": "Blog Post or SEO Op — Live",
+      "date": "Nov 30",
+      "title": "Month-End Blog Check-In — We Publish Whenever Your Post Arrives",
       "type": "deliverable"
     },
     {
