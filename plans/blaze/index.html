@@ -76,7 +76,35 @@
         .btn-ghost:hover { background: rgba(255,140,0,0.1); color: var(--fire-end); }
         .upgrade-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-top: 28px; }
         .upgrade-box h3 { margin-top: 0; }
-                                                </style>
+
+        .plan-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; background: var(--bg-card); }
+        .plan-table { width: 100%; border-collapse: collapse; min-width: 560px; }
+        .plan-table th, .plan-table td { text-align: left; padding: 14px 18px; border-bottom: 1px solid var(--border); vertical-align: top; }
+        .plan-table tr:last-child td { border-bottom: 0; }
+        .plan-table th { font-family: var(--font-accent); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); }
+        .plan-table td { color: var(--text-secondary); }
+        .plan-table td:first-child { color: var(--text-primary); font-weight: 500; }
+        .plan-table td.freq { font-family: var(--font-accent); font-weight: 700; color: var(--fire-end); white-space: nowrap; }
+        .table-note { color: var(--text-muted); font-size: 0.92rem; margin-top: 14px; }
+        .fit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 8px; }
+        .fit-grid > div { min-width: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 22px 24px; }
+        .fit-grid h3 { margin-top: 0; color: var(--fire-end); }
+        .fit-grid .wont h3 { color: var(--text-secondary); }
+        .fit-grid ul { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 8px; color: var(--text-secondary); }
+        .fit-grid .fits li::before { content: '\2713'; color: var(--fire-mid); margin-right: 10px; font-weight: 700; }
+        .fit-grid .wont li::before { content: '\00D7'; color: var(--text-muted); margin-right: 10px; font-weight: 700; }
+        .box-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .box-row .upgrade-box p { margin-bottom: 0; }
+        @media (max-width: 760px) { .fit-grid, .box-row { grid-template-columns: 1fr; } }
+        @media (max-width: 640px) {
+            .plan-table { min-width: 0; }
+            .plan-table thead { display: none; }
+            .plan-table tr { display: block; padding: 14px 18px; border-bottom: 1px solid var(--border); }
+            .plan-table tbody tr:last-child { border-bottom: 0; }
+            .plan-table td { display: block; padding: 0; border: 0; }
+            .plan-table td.freq { margin: 2px 0 6px; white-space: normal; }
+        }
+    </style>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Blaze SEO Retainer","serviceType":"Monthly SEO Services","provider":{"@type":"ProfessionalService","name":"Phoenix Method","url":"https://phoenixmethodseo.com/"},"description":"Blaze is a $900/month small business SEO retainer for sites of up to 25 pages, including all Spark deliverables plus 6 hours of fixes and updates to existing site content, competitor surveillance, and client portal dashboard access.","offers":{"@type":"Offer","price":"900","priceCurrency":"USD","priceSpecification":{"@type":"UnitPriceSpecification","referenceQuantity":{"@type":"QuantitativeValue","value":"1","unitCode":"MON"}}}}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://phoenixmethodseo.com/"},{"@type":"ListItem","position":2,"name":"Plans","item":"https://phoenixmethodseo.com/small-business-seo-pricing/"},{"@type":"ListItem","position":3,"name":"Blaze","item":"https://phoenixmethodseo.com/plans/blaze/"}]}</script>
 <link rel="stylesheet" href="/assets/site-chrome.css">
@@ -96,91 +124,70 @@
     </div></header>
 
     <section class="content-section"><div class="container">
-        <span class="section-tag">Who It's For</span>
-        <h2>Is Blaze the Right Fit?</h2>
-        <p>Blaze is the plan most of our small business clients live on. It's the right fit if:</p>
-        <ul class="check-list">
-            <li>Your site has 11 to 25 pages</li>
-            <li>You want every one of those pages audited every week, not just the homepage</li>
-            <li>You need more than a couple of hours of fixes and updates a month to keep it all current</li>
-            <li>You value seeing what your top competitors are doing as it happens</li>
-            <li>You want a <a href="/client-portal">client portal</a> where you can check rankings, work done, and progress anytime</li>
-        </ul>
-        <p>Most healthcare practices, dental offices, mental health groups, trades businesses, and local service providers land here. Site bigger than 25 pages? Look at <a href="/plans/inferno/">Inferno ($1,500/mo)</a>, which covers up to 50.</p>
-    </div></section>
-
-    <section class="content-section"><div class="container">
         <span class="section-tag">What's Included</span>
-        <h2>Monthly Deliverables</h2>
-        <div class="deliverable">
-            <h3>Everything in Spark</h3>
-            <p>Weekly technical SEO audit, monthly keyword rank tracking (checked during every weekly audit), and a quarterly report.</p>
+        <h2>What $900 a Month <span class="fire-text">Covers</span></h2>
+        <div class="plan-table-wrap">
+            <table class="plan-table">
+                <thead><tr><th>What we do</th><th>How often</th><th>What it does for you</th></tr></thead>
+                <tbody>
+                    <tr><td>Technical SEO audit</td><td class="freq">Weekly</td><td>Every page crawled for broken links, slow pages and indexing problems, before they cost you rankings.</td></tr>
+                    <tr><td>Keyword rank tracking</td><td class="freq">Monthly</td><td>Tracked every month and checked during each weekly audit, so you know what is climbing and what is slipping.</td></tr>
+                    <tr><td>Site fixes and updates</td><td class="freq">6 hrs / month</td><td>Audit fixes first, then the changes you ask for on the pages you already have.</td></tr>
+                    <tr><td>Competitor surveillance</td><td class="freq">Monthly</td><td>What your top competitors publish and which keywords they are gaining on.</td></tr>
+                    <tr><td>Client portal</td><td class="freq">Always on</td><td>Rankings, the month's work, reports and billing in one place. <a href="/client-portal.html">See what it looks like &rarr;</a></td></tr>
+                    <tr><td>Progress report</td><td class="freq">Quarterly</td><td>What we fixed, what moved and what comes next.</td></tr>
+                </tbody>
+            </table>
         </div>
-        <div class="deliverable">
-            <h3>6 Hours Site Fixes &amp; Updates</h3>
-            <p>Technical fixes, content updates, and changes you ask for on the pages you already have. <strong>Audit-found SEO fixes pull from these hours too</strong> — when the weekly crawl flags issues, we prioritize the highest-impact ones first. You choose the priority, we execute.</p>
-        </div>
-        <div class="deliverable">
-            <h3>Competitor Surveillance &amp; Analysis</h3>
-            <p>We monitor what your top competitors are publishing, which keywords they're gaining ground on, and where they're building links. When they make a move, you know about it before they earn the advantage.</p>
-        </div>
-        <div class="deliverable">
-            <h3>Client Portal Dashboard</h3>
-            <p>Your personalized Notion dashboard — real-time rankings, the current month's work and its status, your quarterly reports, competitor intelligence, billing, and direct messaging with us — all in one place. Updated every month. You always know exactly where your SEO stands and what's coming next.</p>
-            <a href="/client-portal" class="portal-link">See what your portal looks like →</a>
-        </div>
+        <p class="table-note">For sites of up to 25 pages.</p>
     </div></section>
 
     <section class="content-section"><div class="container">
-        <span class="section-tag">In Practice</span>
-        <h2>What Blaze Looks Like Month-to-Month</h2>
-        <p>A typical Blaze month:</p>
-        <ul class="check-list">
-            <li><strong>Every week:</strong> Technical crawl runs across the whole site, your keywords get checked, and any new issues are flagged.</li>
-            <li><strong>Week 1:</strong> Competitor check — anything they published or gained in the last 30 days. Fix and update priorities for the month confirmed with you.</li>
-            <li><strong>Through the month:</strong> Your 6 hours go to the highest-impact fixes and updates. <a href="/client-portal">Client portal</a> updated with progress.</li>
-            <li><strong>Month end:</strong> Keyword rankings recorded for the month. Any leftover hours used on schema, meta tags, or other site optimization.</li>
-            <li><strong>Every quarter:</strong> Your report lands — what we fixed, what moved, and what comes next.</li>
-        </ul>
-        <p>The extra hours are where Blaze earns its keep. A 25-page site throws off more issues and needs more upkeep than a 10-page one. Six hours a month keeps all of it current.</p>
-    </div></section>
-
-    <section class="content-section"><div class="container">
-        <span class="section-tag">Realistic Expectations</span>
-        <h2>What Blaze Will and Won't Do</h2>
-        <p><strong>Will:</strong> Keep a mid-size site technically healthy and current, every week. Catch regressions before they cost you rankings. Give you competitor intelligence most agencies never provide at this price point. Show you where things stand in your portal, anytime.</p>
-        <p><strong>Won't:</strong> Dominate a major metropolitan area against $10k/mo competitors. Outrank a national chain for their branded terms. Replace the need for a strong foundation (most clients start with a one-time setup before going into Blaze).</p>
-        <div class="upgrade-box">
-            <h3>Want new content too?</h3>
-            <p>Blog posts, new pages, social posts, and Google Business Profile work are add-ons. Plan clients get 25% off every one of them. Have hours to spare? You can put them toward new content instead: a blog post counts as 2 hours, a new page as 3. <a href="/order.html">See add-ons &rarr;</a></p>
+        <span class="section-tag">Who It's For</span>
+        <h2>Is Blaze <span class="fire-text">the Right Fit?</span></h2>
+        <div class="fit-grid">
+            <div class="fits">
+                <h3>Right for you if</h3>
+                <ul>
+                    <li>Your site has 11 to 25 pages</li>
+                    <li>You need more than a couple of hours of upkeep a month</li>
+                    <li>You want to see what your competitors are doing</li>
+                    <li>You want a portal to check rankings and progress anytime</li>
+                </ul>
+            </div>
+            <div class="wont">
+                <h3>It won't</h3>
+                <ul>
+                    <li>Outrank a national chain for its own brand name</li>
+                    <li>Win a major metro against far bigger budgets on its own</li>
+                    <li>Replace foundation work on a site that has none</li>
+                </ul>
+            </div>
         </div>
-        <div class="upgrade-box">
-            <h3>When to upgrade to Inferno</h3>
-            <p>Upgrade when: your site grows past 25 pages, you need more than 6 hours of fixes and updates a month, you want rich-result schema and AI Overview work built in, or you need same-day priority response for urgent site changes. <a href="/plans/inferno/">See Inferno details &rarr;</a></p>
-        </div>
-        <div class="upgrade-box">
-            <h3>When to downgrade to Spark</h3>
-            <p>Downgrade when: your site is 10 pages or fewer and a couple of hours of upkeep a month is enough. Downgrading takes one email. <a href="/plans/spark/">See Spark details &rarr;</a></p>
+        <div class="box-row">
+            <div class="upgrade-box">
+                <h3>Want new content too?</h3>
+                <p>Blog posts, new pages, social posts, and Google Business Profile work are add-ons, 25% off for plan clients. Have hours to spare? Put them toward new content: a blog post counts as 2 hours, a new page as 3. <a href="/order.html">See add-ons &rarr;</a></p>
+            </div>
+            <div class="upgrade-box">
+                <h3>Bigger or smaller site?</h3>
+                <p><a href="/plans/inferno/">Inferno</a> ($1,500/mo) covers up to 50 pages. <a href="/plans/spark/">Spark</a> ($500/mo) covers up to 10. Switching takes one email.</p>
+            </div>
         </div>
     </div></section>
 
     <section class="content-section faq"><div class="container">
         <span class="section-tag">Frequently Asked</span>
-        <h2>Blaze Plan Questions</h2>
-        <details><summary>What do the 6 hours cover?</summary><p>Technical fixes from the weekly audit, updates to existing page content, schema and meta tag work, and changes you ask for on the pages you already have. We plan the priorities with you at the start of each month.</p></details>
-        <details><summary>What if I use all 6 hours?</summary><p>Extra work is $75/hr for plan clients (25% off the standard $100/hr rate), and we confirm the cost with you before any of it is billed.</p></details>
-        <details><summary>What if my site is bigger than 25 pages?</summary><p><a href="/plans/inferno/">Inferno</a> covers sites of up to 50 pages. Above that, we quote it first.</p></details>
-        <details><summary>Is the competitor surveillance actually useful?</summary><p>Depends on your market. In competitive niches (dental, mental health, legal, trades), knowing what your top 3 competitors are publishing and ranking for is tactical gold. In low-competition markets, it's more informational. Either way, it takes us roughly an hour a month and produces a report you can see in your portal.</p></details>
-        <details><summary>What is the <a href="/client-portal">client portal</a> exactly?</summary><p>A personalized Notion page (or equivalent) showing current rankings for your tracked keywords, the current month's work with status, links to reports, billing status, and a direct messaging section. Updated monthly, accessible 24/7.</p></details>
-        <details><summary>Can I choose where the hours go?</summary><p>Yes. Some months it's all audit fixes. Other months you may want page copy refreshed, schema added, or a list of changes you've been saving up. We plan monthly with you.</p></details>
+        <h2>Blaze Plan <span class="fire-text">Questions</span></h2>
+        <details><summary>What do the 6 hours cover?</summary><p>Technical fixes from the weekly audit, updates to existing pages, schema and meta tag work, and changes you ask for. Audit fixes come first, and you choose the rest.</p></details>
         <details><summary>Can I use my hours for new content?</summary><p>Yes, when you ask for it. Audit fixes come out of the hours first. After that, a new blog post counts as 2 hours and a new service or landing page counts as 3. Unused hours don't carry over to the next month.</p></details>
-        <details><summary>Can I cancel anytime?</summary><p>Yes. Month-to-month. Cancel anytime and it stops at the next billing cycle.</p></details>
-        <details><summary>Does Blaze include ad management or paid media?</summary><p>No — the Blaze retainer is organic SEO only. Paid media is available as a separately scoped custom engagement if you want coordinated paid and organic work.</p></details>
+        <details><summary>What if I use all 6 hours?</summary><p>Extra work is $75/hr for plan clients (25% off the standard $100/hr rate), and we confirm the cost with you before any of it is billed.</p></details>
+        <details><summary>Can I change plans or cancel?</summary><p>Yes. Month to month, no contract. Change plans or cancel with one email, and it takes effect at the next billing cycle.</p></details>
     </div></section>
 
     <section class="content-section"><div class="container"><div class="cta-panel">
         <h2>Ready to <span class="fire-text">Hold More Ground?</span></h2>
-        <p>Blaze keeps a site of up to 25 pages audited every week, fixed, and current. Six hours a month, competitor intelligence, portal visibility, no contract.</p>
+        <p>Up to 25 pages audited every week, fixed, and current. No contract, cancel anytime.</p>
         <a href="https://square.link/u/LDSg7Eo0" class="btn btn-primary btn-lg" target="_blank" rel="noopener">Start Blaze — $900/mo</a>
         <a href="/contact/" class="btn btn-ghost">Talk First</a>
     </div></div></section>
