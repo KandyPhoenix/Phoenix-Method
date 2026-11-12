@@ -25,15 +25,15 @@
 ### One-Time Setups
 | Service | Price | Includes |
 |---------|-------|----------|
-| SEO Foundation Setup | $1,200 | Tech audit + fixes, on-page SEO (10 pages), GA4/GSC setup, sitemap, robots.txt, basic schema, baseline report |
+| SEO Foundation Setup | $800 | Website only, up to 10 pages ($50 per extra page; over 25 pages quoted first). Tech audit + fixes, on-page SEO, GA4/GSC setup, sitemap, robots.txt, basic schema, baseline report |
 | Local SEO Setup | $800 | GBP optimization, NAP audit, 10 citations, local schema, 3 GBP posts, review templates |
 
 ### Monthly Retainers
 | Tier | Price | Includes |
 |------|-------|----------|
-| Spark | $500/mo | Weekly GBP check, monthly tech audit, 1 page optimization, rank tracking (Wincher), monthly report |
-| Blaze | $900/mo | Everything in Spark + 2 content pieces, competitor surveillance, link building & backlink domination |
-| Inferno | $1,500/mo | Everything in Blaze + 4 content pieces, advanced schema & rich result domination, citation blitz & local authority domination, AI Overview conquest |
+| Spark | $500/mo | Sites up to 10 pages. Weekly tech audit, monthly rank tracking, 2 hrs fixes and updates on existing items, quarterly report |
+| Blaze | $900/mo | Sites up to 25 pages. Everything in Spark + 6 hrs fixes and updates, competitor surveillance, client portal |
+| Inferno | $1,500/mo | Sites up to 50 pages. Everything in Blaze + 12 hrs fixes and updates, rich-result schema, AI Overview work, priority support |
 
 ### A La Carte Services
 | Service | Price |
@@ -268,9 +268,9 @@ SUMMARY & NEXT STEPS
 
 ---
 
-## MONTHLY REPORT TEMPLATE
+## REPORT TEMPLATE
 
-### What to include each month (for retainer clients)
+### What to include (for retainer clients)
 1. **Traffic overview** — GA4: sessions, users, new users (vs last month + vs baseline)
 2. **Keyword rankings** — Wincher: positions moved up/down, new rankings, lost rankings
 3. **Top performing pages** — Which pages are driving the most traffic
@@ -319,8 +319,8 @@ Search for EDIT: to find specific editable items
 ### Update the website:
 "Open the Phoenix Method website and [describe change]"
 
-### Generate a monthly report:
-"Create a monthly SEO report for [client name] — pull data from [tools available]"
+### Generate a report:
+"Create an SEO report for [client name] — pull data from [tools available]"
 
 ### Check algorithm updates:
 "What are the latest Google algorithm updates and how do they affect my clients?"

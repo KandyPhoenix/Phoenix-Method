@@ -895,6 +895,13 @@
       "title": "New Website Management page: three steps for the client, then everything we do on the Spark plan",
       "detail": "New page at /website-management/ targeting small business website management. Three client steps, a timeline of our work, the Spark plan line by line, a click-to-open question on whether the site has had SEO before, add-on prices with the 25% plan discount, and sign-up links. Added to the sitemap and linked from the homepage and the Spark plan page.",
       "ticket": "PM-359"
+    },
+    {
+      "date": "November 12, 2026",
+      "type": "content",
+      "title": "Report wording cleaned up across the site and portals; contact page sign-up label made clearer",
+      "detail": "Removed 'monthly report' wording from the therapist website management post, the client portal page and the portal plan lists, so reports are no longer tied to a monthly cadence. The contact page's 'Blog Updates' label now reads 'Sign Up for Blog Updates' with a line explaining what it does.",
+      "ticket": "PM-360"
     }
   ],
   "homepage": "https://phoenixmethodseo.com",
