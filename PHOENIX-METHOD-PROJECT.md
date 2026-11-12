@@ -32,8 +32,8 @@
 | Tier | Price | Includes |
 |------|-------|----------|
 | Spark | $500/mo | Sites up to 10 pages. Weekly tech audit, monthly rank tracking, 2 hrs fixes and updates on existing items, quarterly report |
-| Blaze | $900/mo | Sites up to 25 pages. Everything in Spark + 6 hrs fixes and updates, competitor surveillance, client portal |
-| Inferno | $1,500/mo | Sites up to 50 pages. Everything in Blaze + 12 hrs fixes and updates, rich-result schema, AI Overview work, priority support |
+| Blaze | $900/mo | Sites up to 25 pages. Everything in Spark + 6 hrs fixes and updates, competitor surveillance, client portal. Spare hours can go toward new content on request (blog post = 2 hrs, new page = 3 hrs; fixes first; no carry over) |
+| Inferno | $1,500/mo | Sites up to 50 pages. Everything in Blaze + 12 hrs fixes and updates, rich-result schema, AI Overview work, priority support. Same hours-for-content swap as Blaze |
 
 ### A La Carte Services
 | Service | Price |

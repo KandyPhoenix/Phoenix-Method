@@ -909,6 +909,13 @@
       "title": "Portal Plan Options and remaining site wording brought in line with the current plans",
       "detail": "The Plan Options comparison in all four portals now lists the current Spark, Blaze and Inferno plans (site size limits, weekly technical audits, monthly rank tracking, fix and update hours, quarterly report, 25% off add-ons). On the site: the five industry pages describe plans by site size, payment wording no longer names the processor, the sample portal deliverables match the Blaze plan, and the blog post price on the Content SEO page matches the order page ($150 to $200).",
       "ticket": "PM-361"
+    },
+    {
+      "date": "November 12, 2026",
+      "type": "content",
+      "title": "Blaze and Inferno: plan hours can now go toward new content on request",
+      "detail": "Added to the Blaze and Inferno pages, the pricing FAQ, the Content SEO page and the mental health page: audit fixes come out of the hours first, then a new blog post counts as 2 hours and a new service or landing page as 3. Unused hours do not carry over. Spark stays fixes and updates only.",
+      "ticket": "PM-362"
     }
   ],
   "homepage": "https://phoenixmethodseo.com",
