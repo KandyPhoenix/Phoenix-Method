@@ -888,6 +888,13 @@
       "title": "Plans rewritten as upkeep tiers by site size; SEO setup now $800 for up to 10 pages",
       "detail": "Spark covers sites up to 10 pages, Blaze up to 25, Inferno up to 50. Each plan is weekly technical audits, monthly rank tracking, fix and update hours (2, 6, 12) and a quarterly report. New content, Google Business Profile work and social posting are add-ons at 25% off for plan clients. SEO Foundation Setup is $800 for up to 10 pages, $50 for each extra page, and sites over 25 pages are quoted first. Updated on 18 pages.",
       "ticket": "PM-358"
+    },
+    {
+      "date": "November 12, 2026",
+      "type": "launch",
+      "title": "New Website Management page: three steps for the client, then everything we do on the Spark plan",
+      "detail": "New page at /website-management/ targeting small business website management. Three client steps, a timeline of our work, the Spark plan line by line, a click-to-open question on whether the site has had SEO before, add-on prices with the 25% plan discount, and sign-up links. Added to the sitemap and linked from the homepage and the Spark plan page.",
+      "ticket": "PM-359"
     }
   ],
   "homepage": "https://phoenixmethodseo.com",
