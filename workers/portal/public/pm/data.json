@@ -902,6 +902,13 @@
       "title": "Report wording cleaned up across the site and portals; contact page sign-up label made clearer",
       "detail": "Removed 'monthly report' wording from the therapist website management post, the client portal page and the portal plan lists, so reports are no longer tied to a monthly cadence. The contact page's 'Blog Updates' label now reads 'Sign Up for Blog Updates' with a line explaining what it does.",
       "ticket": "PM-360"
+    },
+    {
+      "date": "November 12, 2026",
+      "type": "content",
+      "title": "Portal Plan Options and remaining site wording brought in line with the current plans",
+      "detail": "The Plan Options comparison in all four portals now lists the current Spark, Blaze and Inferno plans (site size limits, weekly technical audits, monthly rank tracking, fix and update hours, quarterly report, 25% off add-ons). On the site: the five industry pages describe plans by site size, payment wording no longer names the processor, the sample portal deliverables match the Blaze plan, and the blog post price on the Content SEO page matches the order page ($150 to $200).",
+      "ticket": "PM-361"
     }
   ],
   "homepage": "https://phoenixmethodseo.com",
