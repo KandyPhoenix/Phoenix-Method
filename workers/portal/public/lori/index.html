@@ -748,7 +748,7 @@ function buildPortal(d) {
     const choiceCardsHtml = `
         <div class="choice-card${chosenType === 'blog' ? ' chosen' : ''}">
             <div class="choice-type">Blog Post${blogSourceBadge}</div>
-            <div class="choice-title${blogInfo.title ? '' : ' tbd'}">${blogInfo.title || 'Awaiting topic — due the 15th'}</div>
+            <div class="choice-title${blogInfo.title ? '' : ' tbd'}">${blogInfo.title || 'Awaiting your post — send it whenever it is ready'}</div>
             ${blogInfo.author ? `<div class="choice-kw">By ${blogInfo.author}</div>` : ''}
             ${blogInfo.keyword ? `<div class="choice-kw">Target keyword: ${blogInfo.keyword}</div>` : ''}
             ${chosenType === 'blog' ? `<div class="choice-badge">${(d.month || 'This Month').split(' ')[0]}</div>` : ''}
