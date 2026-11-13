@@ -73,7 +73,16 @@
         .related a:hover { border-color: var(--fire-mid); }
         .related .tag { font-family: var(--font-accent); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fire-mid); display: block; margin-bottom: 6px; }
         .related .title { font-weight: 600; }
-                                                </style>
+
+        details.more { margin: 4px 0 16px; }
+        details.more > summary { cursor: pointer; list-style: none; display: inline-block; font-family: var(--font-accent); font-weight: 600; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fire-mid); }
+        details.more > summary::-webkit-details-marker { display: none; }
+        details.more > summary::before { content: '+'; margin-right: 8px; }
+        details.more[open] > summary::before { content: '\2212'; }
+        details.more[open] > summary { margin-bottom: 14px; }
+        .faq details.more { background: none; border: 0; padding: 0; margin-top: 18px; }
+        .faq details.more[open] details:not([open]) > summary::before { content: '+'; }
+    </style>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Oil and Gas SEO Services","serviceType":"Search Engine Optimization for Oil and Gas Industry","provider":{"@type":"ProfessionalService","name":"Phoenix Method","url":"https://phoenixmethodseo.com/","priceRange":"$$"},"audience":{"@type":"BusinessAudience","audienceType":"Oilfield services, crude haulers, drilling support, fabrication shops, and oil and gas suppliers"},"description":"SEO for oil and gas services: oilfield transportation, drilling support, fabrication, equipment rental, and field services. Basin-specific targeting, B2B procurement search, and service-area content."}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://phoenixmethodseo.com/"},{"@type":"ListItem","position":2,"name":"Industries","item":"https://phoenixmethodseo.com/industries/"},{"@type":"ListItem","position":3,"name":"Oil and Gas SEO","item":"https://phoenixmethodseo.com/industries/oil-gas-seo/"}]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How is oil and gas SEO different from other local SEO?","acceptedAnswer":{"@type":"Answer","text":"Oil and gas is almost entirely B2B. Procurement managers and field supervisors search very differently from consumers — they search by basin, by capability, by certification status, and by specific service type (crude hauling, frac support, water transport, rig moves, fabrication, etc.). Keyword strategy that treats oil and gas like retail local SEO will miss the searches that actually bring contracts."}},{"@type":"Question","name":"Do you have oil and gas experience?","acceptedAnswer":{"@type":"Answer","text":"Yes — we've built and maintained websites for oil and gas service companies. We know the basic structure an oilfield-services site needs: service pages by capability, basin/region coverage pages, equipment and fleet overviews, and content that signals operational capability to procurement buyers."}},{"@type":"Question","name":"What keywords work for oilfield services?","acceptedAnswer":{"@type":"Answer","text":"Service-plus-basin combinations are the bread and butter: 'crude hauler Permian Basin,' 'frac water transport Eagle Ford,' 'rig moves Bakken,' 'roustabout services [county]'. Equipment and fleet queries matter for some services ('vacuum truck services,' 'winch truck hire'). Safety and capability queries also rank well for procurement research."}},{"@type":"Question","name":"How does the B2B sales cycle affect SEO strategy?","acceptedAnswer":{"@type":"Answer","text":"Procurement researchers visit your site multiple times over weeks before reaching out. The site has to answer their qualifying questions on its own — what services, what basins, what equipment, what certifications do you claim. Content depth matters more than it does for consumer-focused local SEO."}}]}</script>
@@ -91,7 +100,9 @@
         <span class="section-tag">Why Oil &amp; Gas Is Different</span>
         <h2>Procurement Search Is <span class="fire-text">Its Own Game</span></h2>
         <p>A consumer searching "plumber near me" clicks the first map pack result. A field supervisor searching "crude hauler Permian" has a procurement checklist in his head — basin experience, fleet size, safety history, turnaround time, pricing model — and he's comparing three or four shops before anyone gets a call. By the time you get the phone ringing, he's already read your site top to bottom.</p>
-        <p>That changes what an oil &amp; gas site needs to do. It's not a lead-generation funnel — it's an <strong>operational qualification document</strong>. Service pages describing exactly what you do. Basin coverage maps making your reach obvious. Fleet and equipment pages that demonstrate capability. Company pages that answer the implicit qualifying questions procurement always asks. When that's in place, the calls that come in are already half-closed.</p>
+        <details class="more"><summary>Read more</summary>
+            <p>That changes what an oil &amp; gas site needs to do. It's not a lead-generation funnel — it's an <strong>operational qualification document</strong>. Service pages describing exactly what you do. Basin coverage maps making your reach obvious. Fleet and equipment pages that demonstrate capability. Company pages that answer the implicit qualifying questions procurement always asks. When that's in place, the calls that come in are already half-closed.</p>
+        </details>
     </div></section>
 
     <section class="content-section"><div class="container">
@@ -133,10 +144,14 @@
             <li><strong>Service-by-capability architecture</strong> — dedicated pages for each service line (crude hauling, water transport, rig moves, fabrication, etc.) with clear operational details. Procurement qualifies you page-by-page, not from a homepage summary.</li>
             <li><strong>Fleet and equipment visibility</strong> — real photos of real equipment, fleet counts where appropriate, equipment specifications. Procurement wants to see you have the right gear before they call.</li>
             <li><strong>Company-capability content</strong> — years operating, basins served, customer types (operators, midstream, majors, independents), and the implicit qualifications your site should answer before a buyer has to ask.</li>
-            <li><strong>Local SEO for shop/yard locations</strong> — GBP for each physical location, NAP consistency across oilfield directories, review generation from operations partners where that applies.</li>
-            <li><strong>Technical SEO for a site that's often been neglected</strong> — oil and gas sites are frequently older builds with indexing issues, missing schema, and weak mobile performance. Foundation work pays outsized returns.</li>
-            <li><strong>Content that respects the audience</strong> — no fluff, no generic filler. The audience is field supervisors and procurement staff; the tone has to match. Industry-accurate language, real detail.</li>
         </ul>
+        <details class="more"><summary>Show 3 more</summary>
+            <ul class="check-list">
+                <li><strong>Local SEO for shop/yard locations</strong> — GBP for each physical location, NAP consistency across oilfield directories, review generation from operations partners where that applies.</li>
+                <li><strong>Technical SEO for a site that's often been neglected</strong> — oil and gas sites are frequently older builds with indexing issues, missing schema, and weak mobile performance. Foundation work pays outsized returns.</li>
+                <li><strong>Content that respects the audience</strong> — no fluff, no generic filler. The audience is field supervisors and procurement staff; the tone has to match. Industry-accurate language, real detail.</li>
+            </ul>
+        </details>
     </div></section>
 
     <section class="content-section"><div class="container">
@@ -154,8 +169,10 @@
         <details><summary>Do you have oil and gas experience?</summary><p>Yes — we've built and maintained websites for oil and gas service companies. We know the basic structure an oilfield-services site needs: service pages by capability, basin/region coverage pages, equipment and fleet overviews, and content that signals operational capability to procurement buyers.</p></details>
         <details><summary>What keywords work for oilfield services?</summary><p>Service-plus-basin combinations are the bread and butter: "crude hauler Permian Basin," "frac water transport Eagle Ford," "rig moves Bakken," "roustabout services [county]". Equipment and fleet queries matter for some services ("vacuum truck services," "winch truck hire"). Safety and capability queries also rank well for procurement research.</p></details>
         <details><summary>How does the B2B sales cycle affect SEO strategy?</summary><p>Procurement researchers visit your site multiple times over weeks before reaching out. The site has to answer their qualifying questions on its own — what services, what basins, what equipment, what certifications do you claim. Content depth matters more than it does for consumer-focused local SEO.</p></details>
-        <details><summary>Can you handle multi-location, multi-basin sites?</summary><p>Yes. We build out location-specific pages for each yard or shop, basin-coverage pages for each operating area, and a clean architecture that doesn't cannibalize itself. Multi-location oil &amp; gas sites are where the Inferno retainer earns its keep.</p></details>
-        <details><summary>How long until I see contract inquiries from SEO?</summary><p>Oil and gas SEO timelines vary by basin competition and starting state. Map pack and local service queries tend to move first with aggressive GBP and citation work; service-plus-basin organic rankings are a longer build; full authority for competitive oilfield-services terms is a long game. Oil and gas SEO compounds — stick with it and you outcompete operators who never invested.</p></details>
+        <details class="more"><summary>More questions (2)</summary>
+            <details><summary>Can you handle multi-location, multi-basin sites?</summary><p>Yes. We build out location-specific pages for each yard or shop, basin-coverage pages for each operating area, and a clean architecture that doesn't cannibalize itself. Multi-location oil &amp; gas sites are where the Inferno retainer earns its keep.</p></details>
+            <details><summary>How long until I see contract inquiries from SEO?</summary><p>Oil and gas SEO timelines vary by basin competition and starting state. Map pack and local service queries tend to move first with aggressive GBP and citation work; service-plus-basin organic rankings are a longer build; full authority for competitive oilfield-services terms is a long game. Oil and gas SEO compounds — stick with it and you outcompete operators who never invested.</p></details>
+        </details>
     </div></section>
 
     <section class="content-section"><div class="container">

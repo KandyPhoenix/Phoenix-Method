@@ -242,6 +242,18 @@
           .done-line::before, .done-line::after { display: none; }
           .btn { width: 100%; text-align: center; }
         }
+        @media (max-width: 640px) {
+          table { min-width: 0; }
+          thead { display: none; }
+          tbody tr { display: block; padding: 14px 18px; border-bottom: 1px solid var(--border); }
+          tbody tr:last-child { border-bottom: 0; }
+          td { display: block; padding: 0; border: 0; }
+          td.freq { margin: 2px 0 6px; white-space: normal; }
+          td.none { margin-top: 6px; }
+          td.none::before { content: 'Your effort: '; color: var(--text-muted); }
+          td.was, td.price { display: inline-block; text-align: left; margin-top: 8px; }
+          td.was { margin-right: 12px; }
+        }
     </style>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Small Business Website Management","serviceType":"Website Management and SEO","url":"https://www.phoenixmethodseo.com/website-management/","provider":{"@type":"ProfessionalService","name":"Phoenix Method","url":"https://www.phoenixmethodseo.com/"},"areaServed":{"@type":"Country","name":"United States"},"description":"Website management and SEO upkeep for small business sites of up to 10 pages on the Spark plan: weekly technical SEO audits, monthly keyword rank tracking, 2 hours of site fixes and page updates a month, and a quarterly report.","offers":{"@type":"Offer","price":"500","priceCurrency":"USD","url":"https://www.phoenixmethodseo.com/get-started.html?plan=spark","priceSpecification":{"@type":"UnitPriceSpecification","price":"500","priceCurrency":"USD","referenceQuantity":{"@type":"QuantitativeValue","value":"1","unitCode":"MON"}}}}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.phoenixmethodseo.com/"},{"@type":"ListItem","position":2,"name":"Website Management","item":"https://www.phoenixmethodseo.com/website-management/"}]}</script>

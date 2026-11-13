@@ -1268,6 +1268,12 @@
         font-size: 0.95rem;
         line-height: 1.8;
     }
+    .faq-more { margin-top: 22px; }
+    .faq-more > summary { cursor: pointer; list-style: none; font-family: var(--font-accent); font-weight: 600; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fire-mid); }
+    .faq-more > summary::-webkit-details-marker { display: none; }
+    .faq-more > summary::before { content: '+'; margin-right: 8px; }
+    .faq-more[open] > summary::before { content: '2'; }
+    .faq-more[open] details:not([open]) .faq-question::after { content: '+'; }
 
     /* ========== INSIGHTS/BLOG ========== */
     .insights { padding: var(--section-padding) 0; background: var(--bg-surface); }
@@ -1916,23 +1922,25 @@
                         <p>We work across a wide range of industries. Our portfolio includes dental practices, mental health providers, rehab centers, medical offices, oil and gas companies, agriculture and farming equipment suppliers, goods suppliers, creative professionals like painters and artists, and more. Healthcare is where we started, but the Phoenix Method works in any competitive market.</p>
                     </div>
                 </details>
-                <details class="faq-item">
-                    <summary class="faq-question">What is included in the free SEO audit?</summary>
-                    <div class="faq-answer">
-                        <p>Our free audit grades three things on your website: technical SEO (sitemap, robots.txt, HTTPS), on-page SEO (title tag, meta description, headings), and mobile speed. You get a short report with a letter grade for each and a plain-language list of what is broken and why it is costing you traffic. Local SEO, content, backlinks, and a full fix plan are part of the paid audit. No obligation, no sales pressure.</p>
-                    </div>
-                </details>
-                <details class="faq-item">
-                    <summary class="faq-question">How does Google's AI Overview affect SEO in 2026?</summary>
-                    <div class="faq-answer">
-                        <p>Google's AI Overviews generate summary answers at the top of search results. To appear in these, your content needs strong E-E-A-T signals, clear structure with proper schema markup, and comprehensive answers to specific questions. Phoenix Method optimizes content for AI Overview visibility alongside traditional organic rankings.</p>
-                    </div>
-                </details>
-                <details class="faq-item">
-                    <summary class="faq-question">Do you offer one-off services without a monthly plan?</summary>
-                    <div class="faq-answer">
-                        <p>Yes. We offer à la carte services including content updates ($100/hr), individual blog posts ($150-200 each), new service pages ($250), schema markup implementation ($100 per type), Google Business Profile setup ($300), and quick technical audits ($150). These are perfect for businesses that need targeted help without a full retainer commitment.</p>
-                    </div>
+                <details class="faq-more"><summary>More questions (3)</summary>
+                    <details class="faq-item">
+                        <summary class="faq-question">What is included in the free SEO audit?</summary>
+                        <div class="faq-answer">
+                            <p>Our free audit grades three things on your website: technical SEO (sitemap, robots.txt, HTTPS), on-page SEO (title tag, meta description, headings), and mobile speed. You get a short report with a letter grade for each and a plain-language list of what is broken and why it is costing you traffic. Local SEO, content, backlinks, and a full fix plan are part of the paid audit. No obligation, no sales pressure.</p>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">How does Google's AI Overview affect SEO in 2026?</summary>
+                        <div class="faq-answer">
+                            <p>Google's AI Overviews generate summary answers at the top of search results. To appear in these, your content needs strong E-E-A-T signals, clear structure with proper schema markup, and comprehensive answers to specific questions. Phoenix Method optimizes content for AI Overview visibility alongside traditional organic rankings.</p>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">Do you offer one-off services without a monthly plan?</summary>
+                        <div class="faq-answer">
+                            <p>Yes. We offer à la carte services including content updates ($100/hr), individual blog posts ($150-200 each), new service pages ($250), schema markup implementation ($100 per type), Google Business Profile setup ($300), and quick technical audits ($150). These are perfect for businesses that need targeted help without a full retainer commitment.</p>
+                        </div>
+                    </details>
                 </details>
             </div>
         </div>

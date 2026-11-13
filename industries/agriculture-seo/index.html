@@ -73,7 +73,16 @@
         .related a:hover { border-color: var(--fire-mid); }
         .related .tag { font-family: var(--font-accent); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fire-mid); display: block; margin-bottom: 6px; }
         .related .title { font-weight: 600; }
-                                                </style>
+
+        details.more { margin: 4px 0 16px; }
+        details.more > summary { cursor: pointer; list-style: none; display: inline-block; font-family: var(--font-accent); font-weight: 600; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fire-mid); }
+        details.more > summary::-webkit-details-marker { display: none; }
+        details.more > summary::before { content: '+'; margin-right: 8px; }
+        details.more[open] > summary::before { content: '\2212'; }
+        details.more[open] > summary { margin-bottom: 14px; }
+        .faq details.more { background: none; border: 0; padding: 0; margin-top: 18px; }
+        .faq details.more[open] details:not([open]) > summary::before { content: '+'; }
+    </style>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Agriculture SEO Services","serviceType":"Search Engine Optimization for Agriculture and Farm Equipment","provider":{"@type":"ProfessionalService","name":"Phoenix Method","url":"https://phoenixmethodseo.com/","priceRange":"$$"},"audience":{"@type":"BusinessAudience","audienceType":"John Deere dealers, farm equipment sellers, agricultural suppliers, agribusiness, and rural service providers"},"description":"SEO for farm equipment dealers, agricultural suppliers, and agribusiness. Local dealer search, seasonal targeting, equipment-specific content, and long-cycle B2B sales positioning."}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://phoenixmethodseo.com/"},{"@type":"ListItem","position":2,"name":"Industries","item":"https://phoenixmethodseo.com/industries/"},{"@type":"ListItem","position":3,"name":"Agriculture SEO","item":"https://phoenixmethodseo.com/industries/agriculture-seo/"}]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How is agriculture SEO different from regular local SEO?","acceptedAnswer":{"@type":"Answer","text":"Ag search is heavily local (customers drive to dealerships), seasonal (planting season, harvest, off-season each change search behavior), and equipment-specific (customers search by model number, implement type, brand). Content strategy that ignores those patterns wastes budget. We build content and local presence around how farmers and ag buyers actually search — not a generic local SEO template."}},{"@type":"Question","name":"Have you worked with farm equipment dealers before?","acceptedAnswer":{"@type":"Answer","text":"Yes — we've built and maintained websites for farm equipment dealers including John Deere dealers. We know what an ag dealership site needs: location pages for service areas, equipment category structure, parts pages, service scheduling, and content that respects that farmers research for months before purchase."}},{"@type":"Question","name":"What keywords actually matter for ag equipment?","acceptedAnswer":{"@type":"Answer","text":"Three big categories: equipment-specific searches (model numbers, implement types, 'used tractor [model]'), location-based searches ('John Deere dealer near me,' '[city] farm equipment'), and problem-specific searches ('tractor hydraulic repair,' 'combine won't start'). All three need dedicated content strategies and site architecture."}},{"@type":"Question","name":"Does seasonality really change SEO strategy?","acceptedAnswer":{"@type":"Answer","text":"Absolutely. Parts and service searches spike before planting and harvest. Used equipment browsing peaks in winter. New equipment inquiries follow farm commodity prices. Publishing schedules and content calendars should match those waves — we build that rhythm into retainer plans for ag clients."}}]}</script>
@@ -91,7 +100,9 @@
         <span class="section-tag">Why Ag Is Different</span>
         <h2>Farmers Don't Search Like <span class="fire-text">City Customers</span></h2>
         <p>A dentist's patient searches "dentist near me" at 10 PM and books the first decent option in the morning. An ag equipment buyer spends three months researching a single tractor, compares dealerships across two states, asks at the co-op, reads every online review, and finally drives an hour to the one with the right parts availability. Different search behavior. Different content needs. Different ranking signals that matter.</p>
-        <p>Generic local SEO templates miss most of what actually drives ag conversions. The winning formula blends heavy <strong>geographic targeting</strong> (service areas, not just one pin on a map), <strong>equipment-specific content</strong> (model-level pages that rank for model-number searches), <strong>seasonal publishing rhythm</strong> (pre-planting parts content, off-season used equipment inventory), and <strong>trust-building authority</strong> (real dealer photos, actual staff bios, service records).</p>
+        <details class="more"><summary>Read more</summary>
+            <p>Generic local SEO templates miss most of what actually drives ag conversions. The winning formula blends heavy <strong>geographic targeting</strong> (service areas, not just one pin on a map), <strong>equipment-specific content</strong> (model-level pages that rank for model-number searches), <strong>seasonal publishing rhythm</strong> (pre-planting parts content, off-season used equipment inventory), and <strong>trust-building authority</strong> (real dealer photos, actual staff bios, service records).</p>
+        </details>
     </div></section>
 
     <section class="content-section"><div class="container">
@@ -133,10 +144,14 @@
             <li><strong>Equipment-specific pages</strong> — dedicated pages for each equipment category and major model family. Real specs, real photos, real reviews, real pricing transparency where possible. Ranks for model-number searches that convert at 10x the rate of generic terms.</li>
             <li><strong>Parts &amp; service SEO</strong> — often the highest-converting pages on an ag dealer site. Parts-specific landing pages, service scheduling with clear capabilities, and content targeting the repair searches that bring first-time customers who later buy equipment.</li>
             <li><strong>Seasonal content calendar</strong> — pre-planting parts content (Feb–Mar), pre-harvest maintenance (July–Aug), used equipment season (Nov–Feb), financing and tax-season content (year-end). The calendar matches the ag year, not a generic publishing template.</li>
-            <li><strong>Trust and authority signals</strong> — dealer photos (the real building, the real staff, the real shop), staff bios with actual service years, community sponsorship mentions, FFA/4-H involvement. Rural buyers reward authenticity.</li>
-            <li><strong>Review generation tuned for ag</strong> — farmers are loyal but slow to review. A patient, systematic approach to review requests via text after service (our experience: texts beat emails 3-to-1 for rural clients).</li>
-            <li><strong>Manufacturer-relationship content</strong> — for authorized dealers, clear signaling of brand relationships without running afoul of manufacturer brand guidelines. We've navigated John Deere brand compliance before.</li>
         </ul>
+        <details class="more"><summary>Show 3 more</summary>
+            <ul class="check-list">
+                <li><strong>Trust and authority signals</strong> — dealer photos (the real building, the real staff, the real shop), staff bios with actual service years, community sponsorship mentions, FFA/4-H involvement. Rural buyers reward authenticity.</li>
+                <li><strong>Review generation tuned for ag</strong> — farmers are loyal but slow to review. A patient, systematic approach to review requests via text after service (our experience: texts beat emails 3-to-1 for rural clients).</li>
+                <li><strong>Manufacturer-relationship content</strong> — for authorized dealers, clear signaling of brand relationships without running afoul of manufacturer brand guidelines. We've navigated John Deere brand compliance before.</li>
+            </ul>
+        </details>
     </div></section>
 
     <section class="content-section"><div class="container">
@@ -154,8 +169,10 @@
         <details><summary>Have you worked with farm equipment dealers before?</summary><p>Yes — we've built and maintained websites for farm equipment dealers including John Deere dealers. We know what an ag dealership site needs: location pages for service areas, equipment category structure, parts pages, service scheduling, and content that respects that farmers research for months before purchase.</p></details>
         <details><summary>What keywords actually matter for ag equipment?</summary><p>Three big categories: equipment-specific searches (model numbers, implement types, "used tractor [model]"), location-based searches ("John Deere dealer near me," "[city] farm equipment"), and problem-specific searches ("tractor hydraulic repair," "combine won't start"). All three need dedicated content strategies and site architecture.</p></details>
         <details><summary>Does seasonality really change SEO strategy?</summary><p>Absolutely. Parts and service searches spike before planting and harvest. Used equipment browsing peaks in winter. New equipment inquiries follow farm commodity prices. Publishing schedules and content calendars should match those waves — we build that rhythm into retainer plans for ag clients.</p></details>
-        <details><summary>Can you help with manufacturer brand compliance?</summary><p>We've built dealership sites that respect manufacturer brand guidelines (John Deere, for example, has specific rules about logos, trade dress, and wording). We write content that signals authorized-dealer status without triggering brand-compliance issues.</p></details>
-        <details><summary>How long until a dealership site starts pulling new customers?</summary><p>Ag SEO timelines vary by regional competition and starting state. Map pack and local levers tend to move first with aggressive GBP and citation work; equipment-page organic rankings build over a longer horizon; full authority for competitive ag terms is a long game. Ag SEO compounds — dealerships that stay the course consistently outperform competitors who never invested.</p></details>
+        <details class="more"><summary>More questions (2)</summary>
+            <details><summary>Can you help with manufacturer brand compliance?</summary><p>We've built dealership sites that respect manufacturer brand guidelines (John Deere, for example, has specific rules about logos, trade dress, and wording). We write content that signals authorized-dealer status without triggering brand-compliance issues.</p></details>
+            <details><summary>How long until a dealership site starts pulling new customers?</summary><p>Ag SEO timelines vary by regional competition and starting state. Map pack and local levers tend to move first with aggressive GBP and citation work; equipment-page organic rankings build over a longer horizon; full authority for competitive ag terms is a long game. Ag SEO compounds — dealerships that stay the course consistently outperform competitors who never invested.</p></details>
+        </details>
     </div></section>
 
     <section class="content-section"><div class="container">

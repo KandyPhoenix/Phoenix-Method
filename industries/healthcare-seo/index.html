@@ -104,7 +104,15 @@
         .related .tag { font-family: var(--font-accent); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fire-mid); display: block; margin-bottom: 6px; }
         .related .title { font-weight: 600; }
 
-                                                </style>
+        details.more { margin: 4px 0 16px; }
+        details.more > summary { cursor: pointer; list-style: none; display: inline-block; font-family: var(--font-accent); font-weight: 600; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fire-mid); }
+        details.more > summary::-webkit-details-marker { display: none; }
+        details.more > summary::before { content: '+'; margin-right: 8px; }
+        details.more[open] > summary::before { content: '\2212'; }
+        details.more[open] > summary { margin-bottom: 14px; }
+        .faq details.more { background: none; border: 0; padding: 0; margin-top: 18px; }
+        .faq details.more[open] details:not([open]) > summary::before { content: '+'; }
+    </style>
 
     <script type="application/ld+json">
     {
@@ -171,7 +179,9 @@
             <span class="section-tag">Why Healthcare Is Different</span>
             <h2>Healthcare SEO Plays on <span class="fire-text">Hard Mode</span></h2>
             <p>Google classifies healthcare content as <strong>YMYL — Your Money or Your Life</strong>. That means pages about medical conditions, treatments, mental health, or anything that could materially affect a reader's wellbeing are held to a higher evidentiary standard than almost anything else on the web. Generic "write more blog posts with keywords" advice isn't just ineffective here — it actively undermines your rankings.</p>
-            <p>On top of that, healthcare practices face regulatory layers most SEO agencies never think about — patient testimonials, tracking pixels on appointment forms, and analytics configurations are all regulatory territory. We stay entirely focused on SEO and never make decisions outside that scope.</p>
+            <details class="more"><summary>Read more</summary>
+                <p>On top of that, healthcare practices face regulatory layers most SEO agencies never think about — patient testimonials, tracking pixels on appointment forms, and analytics configurations are all regulatory territory. We stay entirely focused on SEO and never make decisions outside that scope.</p>
+            </details>
             <div class="callout">
                 <p><strong>The short version:</strong> healthcare needs an SEO partner who understands YMYL and stays carefully out of compliance territory. We write, optimize, and rank. We don't touch patient data and don't make regulatory decisions.</p>
             </div>
@@ -299,17 +309,19 @@
                 <summary>Can you help with Google Ads / PPC restrictions for treatment centers?</summary>
                 <p>Our focus is organic SEO. Paid media is available as a custom-scoped engagement if you want coordinated paid and organic. Healthcare ad eligibility, certification, and restricted-category regulatory questions stay outside our scope — we don't make regulatory decisions.</p>
             </details>
-            <details>
-                <summary>Which practice types do you have experience with?</summary>
-                <p>Mental health and therapy practices, dental and orthodontic offices, primary care and specialty medical clinics, rehab and addiction treatment centers, chiropractic, and healthcare-adjacent services. We bring a background in healthcare operations to every engagement and stay strictly in our SEO lane.</p>
-            </details>
-            <details>
-                <summary>Do I need local SEO for my practice?</summary>
-                <p>Yes — for almost every healthcare practice, local SEO is the foundation. Patients search "therapist near me", "dentist in [city]", "urgent care open now". If you're not in the map pack, you're losing intent-heavy searchers to competitors before they ever see your site. Healthcare SEO and <a href="/services/local-seo/">local SEO</a> work together; treat them as layers of the same strategy.</p>
-            </details>
-            <details>
-                <summary>How long until I see results?</summary>
-                <p>Healthcare SEO timelines vary by local competition, YMYL scrutiny, and starting state. Map pack and local levers tend to move first; organic rankings for competitive medical queries are a longer game because ranking signals compound. Patience matters in healthcare SEO — practices that stick with a coherent E-E-A-T strategy routinely outcompete larger networks that never invested.</p>
+            <details class="more"><summary>More questions (3)</summary>
+                <details>
+                    <summary>Which practice types do you have experience with?</summary>
+                    <p>Mental health and therapy practices, dental and orthodontic offices, primary care and specialty medical clinics, rehab and addiction treatment centers, chiropractic, and healthcare-adjacent services. We bring a background in healthcare operations to every engagement and stay strictly in our SEO lane.</p>
+                </details>
+                <details>
+                    <summary>Do I need local SEO for my practice?</summary>
+                    <p>Yes — for almost every healthcare practice, local SEO is the foundation. Patients search "therapist near me", "dentist in [city]", "urgent care open now". If you're not in the map pack, you're losing intent-heavy searchers to competitors before they ever see your site. Healthcare SEO and <a href="/services/local-seo/">local SEO</a> work together; treat them as layers of the same strategy.</p>
+                </details>
+                <details>
+                    <summary>How long until I see results?</summary>
+                    <p>Healthcare SEO timelines vary by local competition, YMYL scrutiny, and starting state. Map pack and local levers tend to move first; organic rankings for competitive medical queries are a longer game because ranking signals compound. Patience matters in healthcare SEO — practices that stick with a coherent E-E-A-T strategy routinely outcompete larger networks that never invested.</p>
+                </details>
             </details>
         </div>
     </section>

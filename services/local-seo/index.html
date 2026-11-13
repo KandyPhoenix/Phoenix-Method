@@ -105,7 +105,15 @@
         .related .tag { font-family: var(--font-accent); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fire-mid); display: block; margin-bottom: 6px; }
         .related .title { font-weight: 600; }
 
-                                                </style>
+        details.more { margin: 4px 0 16px; }
+        details.more > summary { cursor: pointer; list-style: none; display: inline-block; font-family: var(--font-accent); font-weight: 600; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fire-mid); }
+        details.more > summary::-webkit-details-marker { display: none; }
+        details.more > summary::before { content: '+'; margin-right: 8px; }
+        details.more[open] > summary::before { content: '\2212'; }
+        details.more[open] > summary { margin-bottom: 14px; }
+        .faq details.more { background: none; border: 0; padding: 0; margin-top: 18px; }
+        .faq details.more[open] details:not([open]) > summary::before { content: '+'; }
+    </style>
 
     <script type="application/ld+json">
     {
@@ -173,8 +181,10 @@
             <span class="section-tag">What Local SEO Actually Is</span>
             <h2>Local SEO Is How You Win the <span class="fire-text">Moment of Intent</span></h2>
             <p>When someone searches <em>"therapist near me"</em>, <em>"plumber in Red Bluff"</em>, or <em>"dental office open now"</em>, Google runs a different ranking calculation than it does for general searches. Instead of weighing domain authority and backlinks as heavily, it asks: <strong>which businesses does this searcher trust, and which ones are actually close?</strong></p>
-            <p>That answer is driven by three layers of signals: your Google Business Profile, the consistency of your business information across the web, and the local relevance signals on your own site. Get all three right and you show up in the map pack — the three business listings that appear above the blue-link organic results. Get them wrong and you may as well not exist.</p>
-            <p>Local SEO is how you earn the map pack. It's measurable, it's concrete, and when it's done right it produces the highest-intent leads your business can generate from search.</p>
+            <details class="more"><summary>Read more</summary>
+                <p>That answer is driven by three layers of signals: your Google Business Profile, the consistency of your business information across the web, and the local relevance signals on your own site. Get all three right and you show up in the map pack — the three business listings that appear above the blue-link organic results. Get them wrong and you may as well not exist.</p>
+                <p>Local SEO is how you earn the map pack. It's measurable, it's concrete, and when it's done right it produces the highest-intent leads your business can generate from search.</p>
+            </details>
         </div>
     </section>
 
@@ -325,17 +335,19 @@
                 <summary>Do I need local SEO if I serve clients nationally?</summary>
                 <p>Only if you have physical locations or service areas where walk-in or regional clients matter. Pure national e-commerce or remote SaaS businesses focus on different signals — we cover those under Technical SEO and Content SEO. If you have any brick-and-mortar presence, local SEO is non-negotiable.</p>
             </details>
-            <details>
-                <summary>How many citations do I actually need?</summary>
-                <p>Ten high-authority, manually-verified Tier 1 citations drive 80% of the authority signal. Beyond that, citation building has strongly diminishing returns. Agencies that sell "200+ citations" are usually submitting to directories Google stopped indexing years ago — it's theater, not results. Quality over volume, always.</p>
-            </details>
-            <details>
-                <summary>What about reviews — how do those factor in?</summary>
-                <p>Review velocity (how often you get new reviews) and review quality (star rating, review length, keywords within reviews) are major direct ranking factors for local search. A practice getting 3–5 thoughtful reviews per month will beat a stagnant competitor with a higher star rating but no recent activity. We install systematic review generation so this happens consistently.</p>
-            </details>
-            <details>
-                <summary>How is Phoenix Method's local SEO different from agencies?</summary>
-                <p>Agencies typically run citation volume plays on directories Google doesn't crawl anymore, submit GBP posts written by interns, and report on vanity metrics. We audit what's actually indexed, fix NAP drift at the source, build manually-verified Tier 1 citations, schedule posts written with your keywords, and back every recommendation with data you can see in your portal. You'll know what we did, why, and what moved.</p>
+            <details class="more"><summary>More questions (3)</summary>
+                <details>
+                    <summary>How many citations do I actually need?</summary>
+                    <p>Ten high-authority, manually-verified Tier 1 citations drive 80% of the authority signal. Beyond that, citation building has strongly diminishing returns. Agencies that sell "200+ citations" are usually submitting to directories Google stopped indexing years ago — it's theater, not results. Quality over volume, always.</p>
+                </details>
+                <details>
+                    <summary>What about reviews — how do those factor in?</summary>
+                    <p>Review velocity (how often you get new reviews) and review quality (star rating, review length, keywords within reviews) are major direct ranking factors for local search. A practice getting 3–5 thoughtful reviews per month will beat a stagnant competitor with a higher star rating but no recent activity. We install systematic review generation so this happens consistently.</p>
+                </details>
+                <details>
+                    <summary>How is Phoenix Method's local SEO different from agencies?</summary>
+                    <p>Agencies typically run citation volume plays on directories Google doesn't crawl anymore, submit GBP posts written by interns, and report on vanity metrics. We audit what's actually indexed, fix NAP drift at the source, build manually-verified Tier 1 citations, schedule posts written with your keywords, and back every recommendation with data you can see in your portal. You'll know what we did, why, and what moved.</p>
+                </details>
             </details>
         </div>
     </section>
