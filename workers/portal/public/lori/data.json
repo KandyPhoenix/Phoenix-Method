@@ -448,35 +448,35 @@
   "posting_plan": [
     {
       "platform": "instagram",
-      "title": "World Mental Health Day: How Are You, Really?",
-      "status": "posted",
-      "due": "Oct 10",
-      "date": "October 10, 2026",
-      "url": "https://www.instagram.com/p/DeUdnzsCZM0/"
+      "title": null,
+      "status": "pending",
+      "due": "Nov 13",
+      "date": null,
+      "url": null
     },
     {
       "platform": "linkedin",
-      "title": "Struggling Doesn't Always Look Like Sadness (Therapy for Men)",
-      "status": "posted",
-      "due": "Oct 17",
-      "date": "October 19, 2026",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7518047267539283968/"
+      "title": null,
+      "status": "pending",
+      "due": "Nov 22",
+      "date": null,
+      "url": null
     },
     {
       "platform": "instagram",
-      "title": "Struggling Doesn't Always Look Like Sadness (Therapy for Men)",
-      "status": "posted",
-      "due": "Oct 22",
-      "date": "October 23, 2026",
-      "url": "https://www.instagram.com/p/De1oHIboEK5/"
+      "title": null,
+      "status": "pending",
+      "due": "Dec 1",
+      "date": null,
+      "url": null
     },
     {
       "platform": "linkedin",
-      "title": "Healing Trauma Through Connection: Why Relationships Matter",
-      "status": "posted",
-      "due": "Oct 29",
-      "date": "October 29, 2026",
-      "url": "https://www.linkedin.com/feed/update/urn:li:activity:7521571238667026432/"
+      "title": null,
+      "status": "pending",
+      "due": "Dec 5",
+      "date": null,
+      "url": null
     }
   ],
   "reports": [
