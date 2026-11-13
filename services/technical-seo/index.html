@@ -73,7 +73,16 @@
         .related a:hover { border-color: var(--fire-mid); }
         .related .tag { font-family: var(--font-accent); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fire-mid); display: block; margin-bottom: 6px; }
         .related .title { font-weight: 600; }
-                                                </style>
+
+        details.more { margin: 4px 0 16px; }
+        details.more > summary { cursor: pointer; list-style: none; display: inline-block; font-family: var(--font-accent); font-weight: 600; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fire-mid); }
+        details.more > summary::-webkit-details-marker { display: none; }
+        details.more > summary::before { content: '+'; margin-right: 8px; }
+        details.more[open] > summary::before { content: '\2212'; }
+        details.more[open] > summary { margin-bottom: 14px; }
+        .faq details.more { background: none; border: 0; padding: 0; margin-top: 18px; }
+        .faq details.more[open] details:not([open]) > summary::before { content: '+'; }
+    </style>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Technical SEO Services","serviceType":"Technical Search Engine Optimization","provider":{"@type":"ProfessionalService","name":"Phoenix Method","url":"https://phoenixmethodseo.com/","priceRange":"$$"},"description":"Technical SEO audit and implementation including crawlability, indexability, Core Web Vitals, schema markup, site architecture, and log file analysis.","offers":[{"@type":"Offer","name":"Quick Technical SEO Audit","price":"150","priceCurrency":"USD"},{"@type":"Offer","name":"SEO Foundation Setup","price":"800","priceCurrency":"USD"}]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://phoenixmethodseo.com/"},{"@type":"ListItem","position":2,"name":"Services","item":"https://phoenixmethodseo.com/services/"},{"@type":"ListItem","position":3,"name":"Technical SEO","item":"https://phoenixmethodseo.com/services/technical-seo/"}]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What's included in a technical SEO audit?","acceptedAnswer":{"@type":"Answer","text":"Crawl coverage analysis, indexability issues, broken links and redirects, Core Web Vitals performance, mobile usability, schema markup validation, XML sitemap and robots.txt review, canonical tag logic, internal linking structure, and site architecture. Deliverable is a prioritized action list — not a 100-page PDF nobody reads."}},{"@type":"Question","name":"How often do I need a technical SEO audit?","acceptedAnswer":{"@type":"Answer","text":"A full audit at engagement start, then monthly crawl monitoring via your retainer catches regressions before they compound. Google's algorithm updates can break what was working — ongoing monitoring is how you stay ahead."}},{"@type":"Question","name":"What's the difference between on-page SEO and technical SEO?","acceptedAnswer":{"@type":"Answer","text":"On-page SEO is about what's on a page — titles, meta descriptions, headers, internal links, keyword usage. Technical SEO is about whether Google can reach, crawl, index, and rank those pages at all. Broken technical foundations make perfect on-page work invisible."}},{"@type":"Question","name":"Will fixing technical SEO actually improve rankings?","acceptedAnswer":{"@type":"Answer","text":"For sites with real technical issues — indexing problems, slow pages, broken schema — yes, often dramatically. For sites that are already technically clean, the gains come from content and authority. Part of our job is telling you honestly which bucket you're in."}}]}</script>
@@ -91,7 +100,9 @@
         <span class="section-tag">What It Is</span>
         <h2>Technical SEO Is How Google Actually <span class="fire-text">Reaches Your Pages</span></h2>
         <p>Before Google can rank a page, it has to crawl it, render it, index it, and understand it. Break any step in that chain and the rest of your SEO investment — content, backlinks, local citations — is wasted effort on pages Google can't even see properly. Most competitive gaps come from technical debt, not content gaps.</p>
-        <p>Technical SEO covers the invisible layer: whether your server responds quickly, whether your robots.txt accidentally blocks what matters, whether your Core Web Vitals keep users (and Google) engaged, whether your schema helps or confuses search engines, whether your internal linking funnels authority to the pages that sell. We find what's broken, prioritize by impact, and fix in order.</p>
+        <details class="more"><summary>Read more</summary>
+            <p>Technical SEO covers the invisible layer: whether your server responds quickly, whether your robots.txt accidentally blocks what matters, whether your Core Web Vitals keep users (and Google) engaged, whether your schema helps or confuses search engines, whether your internal linking funnels authority to the pages that sell. We find what's broken, prioritize by impact, and fix in order.</p>
+        </details>
     </div></section>
 
     <section class="content-section"><div class="container">
@@ -136,8 +147,10 @@
         <details><summary>How often do I need a technical SEO audit?</summary><p>A full audit at engagement start, then monthly crawl monitoring via your retainer catches regressions before they compound. Google's algorithm updates can break what was working — ongoing monitoring is how you stay ahead.</p></details>
         <details><summary>What's the difference between on-page SEO and technical SEO?</summary><p>On-page SEO is about what's on a page — titles, meta descriptions, headers, internal links, keyword usage. Technical SEO is about whether Google can reach, crawl, index, and rank those pages at all. Broken technical foundations make perfect on-page work invisible.</p></details>
         <details><summary>Will fixing technical SEO actually improve rankings?</summary><p>For sites with real technical issues — indexing problems, slow pages, broken schema — yes, often dramatically. For sites that are already technically clean, the gains come from content and authority. Part of our job is telling you honestly which bucket you're in.</p></details>
-        <details><summary>Can you work with my platform?</summary><p>WordPress, Squarespace, and static HTML are covered at our standard retainer rates. Shopify, Webflow, Wix, custom stacks, and custom builds are available as custom-scoped engagements — <a href="/services/seo-development/">tell us what you need</a>.</p></details>
-        <details><summary>How long do technical fixes take to impact rankings?</summary><p>Technical-fix ranking impact varies by the issue and Google's re-crawl cadence. Indexing unblocks and schema deployments tend to reflect faster in the data; Core Web Vitals and architectural changes compound over a longer horizon as Google re-crawls and re-evaluates. Expect a mix of fast-moving wins and slow-compounding gains — visible as soon as the data supports it.</p></details>
+        <details class="more"><summary>More questions (2)</summary>
+            <details><summary>Can you work with my platform?</summary><p>WordPress, Squarespace, and static HTML are covered at our standard retainer rates. Shopify, Webflow, Wix, custom stacks, and custom builds are available as custom-scoped engagements — <a href="/services/seo-development/">tell us what you need</a>.</p></details>
+            <details><summary>How long do technical fixes take to impact rankings?</summary><p>Technical-fix ranking impact varies by the issue and Google's re-crawl cadence. Indexing unblocks and schema deployments tend to reflect faster in the data; Core Web Vitals and architectural changes compound over a longer horizon as Google re-crawls and re-evaluates. Expect a mix of fast-moving wins and slow-compounding gains — visible as soon as the data supports it.</p></details>
+        </details>
     </div></section>
 
     <section class="content-section"><div class="container">

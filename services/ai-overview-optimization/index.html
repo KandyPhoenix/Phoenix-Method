@@ -76,7 +76,16 @@
         .related a:hover { border-color: var(--fire-mid); }
         .related .tag { font-family: var(--font-accent); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fire-mid); display: block; margin-bottom: 6px; }
         .related .title { font-weight: 600; }
-                                                </style>
+
+        details.more { margin: 4px 0 16px; }
+        details.more > summary { cursor: pointer; list-style: none; display: inline-block; font-family: var(--font-accent); font-weight: 600; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fire-mid); }
+        details.more > summary::-webkit-details-marker { display: none; }
+        details.more > summary::before { content: '+'; margin-right: 8px; }
+        details.more[open] > summary::before { content: '\2212'; }
+        details.more[open] > summary { margin-bottom: 14px; }
+        .faq details.more { background: none; border: 0; padding: 0; margin-top: 18px; }
+        .faq details.more[open] details:not([open]) > summary::before { content: '+'; }
+    </style>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"AI Overview Optimization","serviceType":"AI Search Optimization","provider":{"@type":"ProfessionalService","name":"Phoenix Method","url":"https://phoenixmethodseo.com/","priceRange":"$$"},"description":"Content optimization for Google AI Overview citations: E-E-A-T signal building, quotable content structure, advanced schema markup, and authority-signal reinforcement.","offers":[{"@type":"Offer","name":"AI Overview Content Optimization","price":"125","priceCurrency":"USD","description":"Per-page optimization"}]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://phoenixmethodseo.com/"},{"@type":"ListItem","position":2,"name":"Services","item":"https://phoenixmethodseo.com/services/"},{"@type":"ListItem","position":3,"name":"AI Overview Optimization","item":"https://phoenixmethodseo.com/services/ai-overview-optimization/"}]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is an AI Overview?","acceptedAnswer":{"@type":"Answer","text":"AI Overviews are Google's AI-generated answer boxes that appear at the top of many search results. They synthesize information from multiple cited sources into a direct answer. The cited sources — and the pages linked from the overview — receive significant visibility, even on queries where they don't rank #1 in traditional blue-link results."}},{"@type":"Question","name":"Why does AI Overview optimization matter?","acceptedAnswer":{"@type":"Answer","text":"Because AI Overviews are redirecting click patterns. For informational queries, the AI Overview increasingly captures the attention that used to go to position 1. Being cited in the AI Overview is the new top spot — and it's won with different signals than traditional SEO."}},{"@type":"Question","name":"How is AI Overview optimization different from regular SEO?","acceptedAnswer":{"@type":"Answer","text":"AI Overviews favor content that's structured to be quoted — short, direct answers to specific questions, supported by data or citations. E-E-A-T signals matter even more than for traditional rankings because the AI is evaluating source quality aggressively. Schema markup (especially FAQPage, HowTo, MedicalCondition, and article types) helps the AI understand and cite your content."}},{"@type":"Question","name":"Can every page be optimized for AI Overviews?","acceptedAnswer":{"@type":"Answer","text":"Some pages are more AI-eligible than others. Informational content — guides, explainers, FAQ-style pages — is where AI Overview optimization pays off most. Commercial landing pages and product pages get less AI Overview traffic but still benefit from the structured data signals."}}]}</script>
@@ -94,7 +103,9 @@
         <span class="section-tag">What's Changing</span>
         <h2>The Click Pattern Just <span class="fire-text">Shifted Under You</span></h2>
         <p>Google's AI Overviews synthesize information from multiple sources into a direct answer at the top of search results. For informational queries — "what is X," "how do I Y," "why does Z happen" — the AI Overview is increasingly the first thing searchers see. Three sources typically get cited. Those three sources capture outsized visibility, including the kind that compounds into backlinks, brand recognition, and downstream conversions.</p>
-        <p>The businesses getting cited aren't always the ones that rank #1 in traditional SEO. They're the ones whose content is <em>quotable</em> — structured in ways the AI can confidently extract and attribute. This is new terrain. Most SEO agencies haven't caught up. Most corporate marketing teams are still optimizing for 2022 patterns. The window to claim AI Overview real estate before the competitive field figures it out is open right now.</p>
+        <details class="more"><summary>Read more</summary>
+            <p>The businesses getting cited aren't always the ones that rank #1 in traditional SEO. They're the ones whose content is <em>quotable</em> — structured in ways the AI can confidently extract and attribute. This is new terrain. Most SEO agencies haven't caught up. Most corporate marketing teams are still optimizing for 2022 patterns. The window to claim AI Overview real estate before the competitive field figures it out is open right now.</p>
+        </details>
         <div class="callout">
             <p><strong>The short version:</strong> the AI Overview is the new position #1 for a growing share of search queries. Earning citations requires structure, E-E-A-T, and schema signals that most sites aren't deploying yet.</p>
         </div>
@@ -121,9 +132,13 @@
             <li><strong>Restructure for citation</strong> — direct answers moved above the fold, supporting evidence underneath; scannable, not conversational wall-of-text</li>
             <li><strong>E-E-A-T infrastructure</strong> — visible author bio with credentials, editorial/medical review signals, institutional authority markers, outbound links to authoritative sources</li>
             <li><strong>Schema deployment</strong> — FAQPage, HowTo, or domain-specific schema (MedicalCondition, Product, Service, Article) added and validated</li>
-            <li><strong>Citation-worthy reinforcement</strong> — original stats, specific numbers, named sources, recent dates. AI Overviews prefer citing content that cites other authorities.</li>
-            <li><strong>Meta signal tuning</strong> — title, description, canonical, modified date, and Open Graph optimized for how the AI reads the page</li>
         </ul>
+        <details class="more"><summary>Show 2 more</summary>
+            <ul class="check-list">
+                <li><strong>Citation-worthy reinforcement</strong> — original stats, specific numbers, named sources, recent dates. AI Overviews prefer citing content that cites other authorities.</li>
+                <li><strong>Meta signal tuning</strong> — title, description, canonical, modified date, and Open Graph optimized for how the AI reads the page</li>
+            </ul>
+        </details>
     </div></section>
 
     <section class="content-section"><div class="container">
@@ -142,8 +157,10 @@
         <details><summary>Why does AI Overview optimization matter?</summary><p>Because AI Overviews are redirecting click patterns. For informational queries, the AI Overview increasingly captures the attention that used to go to position 1. Being cited in the AI Overview is the new top spot — and it's won with different signals than traditional SEO.</p></details>
         <details><summary>How is AI Overview optimization different from regular SEO?</summary><p>AI Overviews favor content that's structured to be quoted — short, direct answers to specific questions, supported by data or citations. E-E-A-T signals matter even more than for traditional rankings because the AI is evaluating source quality aggressively. Schema markup (especially FAQPage, HowTo, MedicalCondition, and article types) helps the AI understand and cite your content.</p></details>
         <details><summary>Can every page be optimized for AI Overviews?</summary><p>Some pages are more AI-eligible than others. Informational content — guides, explainers, FAQ-style pages — is where AI Overview optimization pays off most. Commercial landing pages and product pages get less AI Overview traffic but still benefit from the structured data signals.</p></details>
-        <details><summary>Do AI Overviews hurt my organic click-through?</summary><p>For some queries, yes — the AI Overview can satisfy the searcher without a click. For others, the overview drives clicks to cited sources. The strategic move is to BE one of the cited sources on queries where the overview does drive clicks, and to focus traditional SEO on queries where the overview doesn't dominate.</p></details>
-        <details><summary>Will AI Overviews replace search results entirely?</summary><p>No — blue-link results aren't going away. But the attention split is shifting. Sites that adapt now will dominate the hybrid search landscape. Sites that treat AI Overviews as a temporary trend will watch their click volume quietly erode over the next two years.</p></details>
+        <details class="more"><summary>More questions (2)</summary>
+            <details><summary>Do AI Overviews hurt my organic click-through?</summary><p>For some queries, yes — the AI Overview can satisfy the searcher without a click. For others, the overview drives clicks to cited sources. The strategic move is to BE one of the cited sources on queries where the overview does drive clicks, and to focus traditional SEO on queries where the overview doesn't dominate.</p></details>
+            <details><summary>Will AI Overviews replace search results entirely?</summary><p>No — blue-link results aren't going away. But the attention split is shifting. Sites that adapt now will dominate the hybrid search landscape. Sites that treat AI Overviews as a temporary trend will watch their click volume quietly erode over the next two years.</p></details>
+        </details>
     </div></section>
 
     <section class="content-section"><div class="container">

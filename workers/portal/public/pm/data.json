@@ -916,6 +916,13 @@
       "title": "Blaze and Inferno: plan hours can now go toward new content on request",
       "detail": "Added to the Blaze and Inferno pages, the pricing FAQ, the Content SEO page and the mental health page: audit fixes come out of the hours first, then a new blog post counts as 2 hours and a new service or landing page as 3. Unused hours do not carry over. Spark stays fixes and updates only.",
       "ticket": "PM-362"
+    },
+    {
+      "date": "November 12, 2026",
+      "type": "content",
+      "title": "Pages trimmed so each one shows what a client needs first",
+      "detail": "Spark, Blaze and Inferno pages cut to about half their length: one table for what the plan covers, one right-fit block, four or five questions. On the homepage, pricing page, small business SEO page, five service pages and five industry pages, secondary detail now sits behind Read more and More questions toggles; nothing was deleted from those pages. Website Management page tables now stack on phones.",
+      "ticket": "PM-363"
     }
   ],
   "homepage": "https://phoenixmethodseo.com",

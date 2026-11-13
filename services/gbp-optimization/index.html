@@ -73,7 +73,16 @@
         .related a:hover { border-color: var(--fire-mid); }
         .related .tag { font-family: var(--font-accent); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fire-mid); display: block; margin-bottom: 6px; }
         .related .title { font-weight: 600; }
-                                                </style>
+
+        details.more { margin: 4px 0 16px; }
+        details.more > summary { cursor: pointer; list-style: none; display: inline-block; font-family: var(--font-accent); font-weight: 600; font-size: 0.85rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fire-mid); }
+        details.more > summary::-webkit-details-marker { display: none; }
+        details.more > summary::before { content: '+'; margin-right: 8px; }
+        details.more[open] > summary::before { content: '\2212'; }
+        details.more[open] > summary { margin-bottom: 14px; }
+        .faq details.more { background: none; border: 0; padding: 0; margin-top: 18px; }
+        .faq details.more[open] details:not([open]) > summary::before { content: '+'; }
+    </style>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Google Business Profile Optimization","serviceType":"Google Business Profile Management","provider":{"@type":"ProfessionalService","name":"Phoenix Method","url":"https://phoenixmethodseo.com/","priceRange":"$$"},"description":"Google Business Profile optimization including category tuning, description rewriting, photo uploads, Q&A seeding, GBP posts, and ongoing profile management.","offers":[{"@type":"Offer","name":"GBP Post","price":"35","priceCurrency":"USD"},{"@type":"Offer","name":"Local SEO Setup","price":"800","priceCurrency":"USD"}]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://phoenixmethodseo.com/"},{"@type":"ListItem","position":2,"name":"Services","item":"https://phoenixmethodseo.com/services/"},{"@type":"ListItem","position":3,"name":"GBP Optimization","item":"https://phoenixmethodseo.com/services/gbp-optimization/"}]}</script>
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Google Business Profile the same as Google My Business?","acceptedAnswer":{"@type":"Answer","text":"Yes. Google renamed Google My Business (GMB) to Google Business Profile (GBP) in 2022. Same product, different name. Most old articles still say GMB — it's the same thing."}},{"@type":"Question","name":"Why does GBP matter so much for local rankings?","acceptedAnswer":{"@type":"Answer","text":"GBP is how Google decides which businesses to show in the map pack — the three local results that appear above blue links. For local searches, the map pack receives the majority of clicks. If you're not in the map pack, you're invisible to most of your local searchers."}},{"@type":"Question","name":"How often should I post on my GBP?","acceptedAnswer":{"@type":"Answer","text":"At least twice a month to stay active. Ideally weekly. Posts expire after 7 days (except offers and events), so consistent publishing signals an active business. Dormant profiles quietly lose map pack position to more active competitors."}},{"@type":"Question","name":"What's the fastest thing I can do to improve my GBP?","acceptedAnswer":{"@type":"Answer","text":"Three moves, in order: (1) verify all your categories are correct — wrong primary category is the single most common local ranking killer; (2) add geo-tagged, properly-named photos — not stock images; (3) seed your Q&A with 5-10 common questions real customers ask. Those three alone often move map pack position as soon as the data supports it."}}]}</script>
@@ -91,7 +100,9 @@
         <span class="section-tag">Why GBP Matters</span>
         <h2>The 3-Pack Is Where Local <span class="fire-text">Searches Convert</span></h2>
         <p>When someone searches <em>"therapist near me"</em>, <em>"dentist in [city]"</em>, or <em>"urgent care open now"</em>, Google returns three boxes at the top of the results page — the local pack, or "3-pack." These three listings capture the vast majority of clicks for local intent queries. Every business below the 3-pack is competing for the scraps.</p>
-        <p>Your position in the 3-pack is largely decided by three signals: <strong>relevance</strong> (how well your GBP matches the search), <strong>distance</strong> (proximity to the searcher), and <strong>prominence</strong> (how well-established and well-reviewed your business appears). Distance we can't change. Relevance and prominence we absolutely can — and that's what GBP optimization is.</p>
+        <details class="more"><summary>Read more</summary>
+            <p>Your position in the 3-pack is largely decided by three signals: <strong>relevance</strong> (how well your GBP matches the search), <strong>distance</strong> (proximity to the searcher), and <strong>prominence</strong> (how well-established and well-reviewed your business appears). Distance we can't change. Relevance and prominence we absolutely can — and that's what GBP optimization is.</p>
+        </details>
     </div></section>
 
     <section class="content-section"><div class="container">
@@ -117,10 +128,14 @@
             <li><strong>Missing or inconsistent NAP</strong> — Name/Address/Phone mismatches between GBP and your site, citations, or directory listings</li>
             <li><strong>No posts, no photos, no activity</strong> — profiles that Google reads as abandoned get downranked even if the business is very much alive</li>
             <li><strong>Empty Q&amp;A section</strong> — competitors' Q&amp;A sections full of keyword-rich answers while yours is blank</li>
-            <li><strong>Unanswered reviews</strong> — 30%+ response rate is an active ranking factor; most businesses are well below</li>
-            <li><strong>No service or product listings</strong> — rich details populate your listing; missing them shrinks your footprint in the SERP</li>
-            <li><strong>Photos that are clearly stock or old</strong> — Google detects image patterns; authentic, recent imagery is favored</li>
         </ul>
+        <details class="more"><summary>Show 3 more</summary>
+            <ul class="check-list">
+                <li><strong>Unanswered reviews</strong> — 30%+ response rate is an active ranking factor; most businesses are well below</li>
+                <li><strong>No service or product listings</strong> — rich details populate your listing; missing them shrinks your footprint in the SERP</li>
+                <li><strong>Photos that are clearly stock or old</strong> — Google detects image patterns; authentic, recent imagery is favored</li>
+            </ul>
+        </details>
     </div></section>
 
     <section class="content-section"><div class="container">
@@ -139,8 +154,10 @@
         <details><summary>Why does GBP matter so much for local rankings?</summary><p>GBP is how Google decides which businesses to show in the map pack — the three local results that appear above blue links. For local searches, the map pack receives the majority of clicks. If you're not in the map pack, you're invisible to most of your local searchers.</p></details>
         <details><summary>How often should I post on my GBP?</summary><p>At least twice a month to stay active. Ideally weekly. Posts expire after 7 days (except offers and events), so consistent publishing signals an active business. Dormant profiles quietly lose map pack position to more active competitors.</p></details>
         <details><summary>What's the fastest thing I can do to improve my GBP?</summary><p>Three moves, in order: (1) verify all your categories are correct — wrong primary category is the single most common local ranking killer; (2) add geo-tagged, properly-named photos — not stock images; (3) seed your Q&amp;A with 5-10 common questions real customers ask. Those three alone often move map pack position as soon as the data supports it.</p></details>
-        <details><summary>Do I need separate GBPs for each location?</summary><p>Yes — one GBP per physical location. Service-area businesses (plumbers, cleaning services) without a storefront can have one GBP with defined service areas instead.</p></details>
-        <details><summary>Can you handle negative reviews?</summary><p>We provide response templates for negative reviews in your voice and can flag the genuinely fake ones for removal. We don't buy fake positive reviews or try to game the system — it backfires every time and Google is very good at detecting it now.</p></details>
+        <details class="more"><summary>More questions (2)</summary>
+            <details><summary>Do I need separate GBPs for each location?</summary><p>Yes — one GBP per physical location. Service-area businesses (plumbers, cleaning services) without a storefront can have one GBP with defined service areas instead.</p></details>
+            <details><summary>Can you handle negative reviews?</summary><p>We provide response templates for negative reviews in your voice and can flag the genuinely fake ones for removal. We don't buy fake positive reviews or try to game the system — it backfires every time and Google is very good at detecting it now.</p></details>
+        </details>
     </div></section>
 
     <section class="content-section"><div class="container">
