@@ -12,7 +12,11 @@ ticket: PM-350
 images:
   - C:/Users/kandy/Work/sites/phoenixmethod/social/2026-11-15/behavioral-health-seo-referral-sources-check-website.jpg
 image_note: ChatGPT image supplied by Kandy 2026-11-16 (ChatGPT Classic blocked in scheduled run), resized to 1080x1350, metadata stripped
-status: draft
+status: posted
+live_url: https://www.instagram.com/p/DfzuujZo5CC/
+facebook_url: https://www.facebook.com/61576693598720/posts/122137806512889786
+posted_on: 2026-11-16 (approved by Kandy 11-16; one day late because the image needed a live session)
+posted_via: Meta Business Suite in Brave (Instagram web signed out), one crossposted post with custom per-platform captions
 ---
 
 ## Instagram caption (paste-ready)
