@@ -9,7 +9,9 @@ blog_section: "Why a Group Practice Site Plays by Different Rules" (referral sou
 service: Website management (clinician specialties, panels and openings kept current)
 stat: none cited (no fresh figure fits this angle; nothing reused)
 ticket: PM-350
-images: pending (ChatGPT Classic access needs a live reply from Kandy; target C:/Users/kandy/Work/sites/phoenixmethod/social/2026-11-15/behavioral-health-seo-referral-sources-check-website.jpg)
+images:
+  - C:/Users/kandy/Work/sites/phoenixmethod/social/2026-11-15/behavioral-health-seo-referral-sources-check-website.jpg
+image_note: ChatGPT image supplied by Kandy 2026-11-16 (ChatGPT Classic blocked in scheduled run), resized to 1080x1350, metadata stripped
 status: draft
 ---
 
