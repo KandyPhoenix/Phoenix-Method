@@ -25,7 +25,7 @@ They have one question: who here treats what? Teens or adults. Trauma, ADHD, eat
 
 A wall of headshots with two-sentence bios doesn't answer it. So the referral goes to the practice whose site does.
 
-Put every clinician's specialties, ages and openings on your site, and keep them current. Then the people who refer to you can say yes in one visit, and the family calls you, not the practice down the road.
+Every clinician's specialties, ages and openings should be kept current on your site. Then the people who refer to you can say yes in one visit, and the family calls you, not the practice down the road.
 
 Full breakdown on the blog. Link in bio.
 
@@ -41,7 +41,7 @@ They have one question: who here treats what? Teens or adults. Trauma, ADHD, eat
 
 A wall of headshots with two-sentence bios doesn't answer it. So the referral goes to the practice whose site does.
 
-Put every clinician's specialties, ages and openings on your site, and keep them current. Then the people who refer to you can say yes in one visit, and the family calls you, not the practice down the road.
+Every clinician's specialties, ages and openings should be kept current on your site. Then the people who refer to you can say yes in one visit, and the family calls you, not the practice down the road.
 
 Full breakdown on the blog: https://www.phoenixmethodseo.com/blog/behavioral-health-seo.html
 
