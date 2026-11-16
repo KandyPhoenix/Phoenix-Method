@@ -930,6 +930,13 @@
       "title": "Pages trimmed so each one shows what a client needs first",
       "detail": "Spark, Blaze and Inferno pages cut to about half their length: one table for what the plan covers, one right-fit block, four or five questions. On the homepage, pricing page, small business SEO page, five service pages and five industry pages, secondary detail now sits behind Read more and More questions toggles; nothing was deleted from those pages. Website Management page tables now stack on phones.",
       "ticket": "PM-363"
+    },
+    {
+      "date": "November 16, 2026",
+      "type": "content",
+      "title": "Blog post drafted: 'Social Media for Private Practice: What Helps You Get Found, and What Is Noise' (website management spoke)",
+      "detail": "Draft in PR, awaiting Kandy's approval. Will be live at https://www.phoenixmethodseo.com/blog/social-media-for-private-practice.html after merge.",
+      "ticket": "PM-364"
     }
   ],
   "homepage": "https://phoenixmethodseo.com",
