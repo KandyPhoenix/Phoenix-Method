@@ -1070,6 +1070,11 @@
       "title": "Blog post titles are now the main heading (H1) Google reads on all 9 posts",
       "detail": "Each post’s only H1 was hidden and the visible title was a smaller heading tag. Updated the site-wide blog header code so the visible title is the H1 and the hidden duplicate is no longer a heading. The titles look the same.",
       "ticket": "PHW-344"
+    },
+    {
+      "date": "November 17, 2026",
+      "type": "social",
+      "title": "Google Business post: Online therapy by telehealth across California + Facebook"
     }
   ],
   "homepage": "https://www.phwcare.com"
