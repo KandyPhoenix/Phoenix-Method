@@ -731,8 +731,9 @@ function buildPortal(d) {
                         : scheduled
                             ? `<div class="topic-kw">Scheduled ${p.due || p.date}</div>`
                             : (p.due ? `<div class="topic-kw">Due ${p.due}</div>` : '')}
+                    ${p.note ? `<div class="topic-kw" style="color:#3bafbf">🎁 ${p.note}</div>` : ''}
                 </div>
-                <span class="posting-status ${posted ? 'status-published' : 'status-planned'}">${posted ? 'Posted' : scheduled ? 'Scheduled' : 'Pending'}</span>
+                <span class="posting-status ${posted ? 'status-published' : 'status-planned'}">${p.bonus ? 'Bonus · ' : ''}${posted ? 'Posted' : scheduled ? 'Scheduled' : 'Pending'}</span>
             </div>`;
         }).join('')
         : '<p style="color:#9A95A8;font-size:13px;padding:10px 0">Posting plan will be added monthly.</p>';
@@ -762,7 +763,7 @@ function buildPortal(d) {
             const scheduled = p.status === 'scheduled';
             return `<div class="social-square${posted ? ' done' : ''}">
                 <div class="social-square-icon">${pm.icon}</div>
-                <div class="social-square-platform">${pm.label}</div>
+                <div class="social-square-platform">${pm.label}${p.bonus ? ' 🎁' : ''}</div>
                 <div class="social-square-date">${posted ? 'Posted ' + p.date : scheduled ? 'Scheduled ' + (p.due || p.date) : (p.due ? 'Due ' + p.due : 'TBD')}</div>
             </div>`;
         }).join('')
